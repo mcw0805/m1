@@ -11,7 +11,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Controller.HomeActivity" />
         <activity android:name=".Controller.RegistrationActivity" />
-        <activity android:name=".LogInActivity"></activity>
+        <activity android:name=".Controller.LogInActivity" />
+        <activity android:name=".Controller.ProfileActivity"></activity>
     </application>
 
 </manifest>
