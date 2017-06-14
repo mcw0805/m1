@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mcw0805.wheres_my_stuff.Controller.RegistrationActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:text="Register"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        tools:layout_editor_absoluteX="162dp"
+        tools:layout_editor_absoluteY="16dp" />
+
+    <TextView
+        android:id="@+id/registrationEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="67dp"
+        android:text="Email"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="14sp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/registrationConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:text="Confirm"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_below="@+id/registrationPassword"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/registrationPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="43dp"
+        android:text="Password"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_below="@+id/registrationEmail"
+        android:layout_alignParentStart="true" />
+
+    <Switch
+        android:id="@+id/registrationAdmin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/registrationConfirm"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Admin?    " />
+
+    <Button
+        android:id="@+id/registrationCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/registrationAdmin"
+        android:layout_marginTop="45dp"
+        android:layout_toStartOf="@+id/registrationAdmin"
+        android:text="Cancel" />
+
+    <Button
+        android:id="@+id/registrationSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignTop="@+id/registrationCancel"
+        android:layout_marginStart="53dp"
+        android:text="Submit" />
+
+</RelativeLayout>
