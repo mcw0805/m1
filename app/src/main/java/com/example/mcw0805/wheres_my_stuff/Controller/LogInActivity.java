@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.example.mcw0805.wheres_my_stuff.R;
@@ -52,7 +53,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             String hardUsername = "user";
             String hardPassword = "pass";
             if (username.equals(hardUsername) && password.equals(hardPassword)) {
-                //GOTO application
+                //GOTO application1
+                Toast.makeText(this, "Successful login",
+                        Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(LogInActivity.this, ProfileActivity.class);
                 LogInActivity.this.startActivity(intent);
             } else {
