@@ -10,8 +10,33 @@
         android:id="@+id/sign_up_nav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="69dp"
+        android:text="Welcome to Where's My Stuff!"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="42dp"
+        android:text="Login"
+        android:layout_below="@+id/sign_up_nav"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="32dp"
-        android:text="Hello world" />
+        android:layout_centerVertical="true" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:layout_alignBottom="@+id/textView4"
+        android:layout_alignStart="@+id/button3" />
 
 </RelativeLayout>
