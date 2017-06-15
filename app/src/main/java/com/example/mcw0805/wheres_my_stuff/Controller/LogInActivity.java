@@ -1,6 +1,8 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +57,30 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 LogInActivity.this.startActivity(intent);
             } else {
                 // Inform user of bad login attempt
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setMessage("Invalid Username/Password Combination");
+                builder1.setCancelable(true);
+
+                builder1.setPositiveButton(
+                        "Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                builder1.setNegativeButton(
+                        "Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog alert11 = builder1.create();
+                alert11.show();
+
+
             }
         }
         if (v == back) {
