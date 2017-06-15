@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,45 +7,58 @@
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.LogInActivity">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/login_username_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="Username"
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="122dp" />
+        tools:layout_editor_absoluteY="122dp"
+        android:layout_marginTop="59dp"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/login_pw_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
         android:ems="10"
+        android:hint="Password"
         android:inputType="textPassword"
-        android:text="Enter Password"
         tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="202dp" />
+        tools:layout_editor_absoluteY="202dp"
+        android:layout_below="@+id/login_username_edit"
+        android:layout_alignStart="@+id/login_username_edit" />
 
-    <TextView
-        android:id="@+id/textView2"
+    <Button
+        android:id="@+id/login_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username:"
-        tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="105dp" />
+        android:text="Log In"
+        tools:layout_editor_absoluteX="113dp"
+        tools:layout_editor_absoluteY="261dp"
+        android:layout_marginTop="49dp"
+        android:layout_below="@+id/login_pw_edit"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"
-        tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="185dp" />
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:textSize="25dp"
+        android:text="Login" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/login_back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Log In"
-        tools:layout_editor_absoluteX="113dp"
-        tools:layout_editor_absoluteY="261dp" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/login_btn"
+        android:layout_marginBottom="47dp"
+        android:text="Back" />
+</RelativeLayout>
