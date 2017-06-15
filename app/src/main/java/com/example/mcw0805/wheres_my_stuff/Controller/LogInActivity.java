@@ -1,7 +1,6 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +8,8 @@ import android.view.View;
 
 
 import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * @Author Ted Shang
@@ -18,16 +19,16 @@ public class LogInActivity extends AppCompatActivity  {
 
     //We will be getting information from the following widgets:
 
-    private EditText LoginUsername;
-    private EditText LoginPassword;
+    private EditText loginUsername;
+    private EditText loginPassword;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
-        LoginUsername =(EditText) findViewById(R.id.login_username_edit);
-        LoginPassword =(EditText) findViewById(R.id.login_pw_edit);
+        loginUsername =(EditText) findViewById(R.id.login_username_edit);
+        loginPassword =(EditText) findViewById(R.id.login_pw_edit);
 
         //Create the buttons
         Button logIn = (Button) findViewById(R.id.login_btn);
@@ -37,8 +38,8 @@ public class LogInActivity extends AppCompatActivity  {
             //Gets the information from the EditTexts and checks it against a username/password
             //database. Either displays incorrect password or advances the scene
             public void onClick(View v) {
-                String username = LoginUsername.getText().toString();
-                String password = LoginPassword.getText().toString();
+                String username = loginUsername.getText().toString();
+                String password = loginPassword.getText().toString();
                 //Temporary hardcode
                 String hardUsername = "user";
                 String hardPassword = "pass";

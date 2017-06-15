@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.LogInActivity">
 
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="45dp"
+        android:textSize="25dp"
+        android:text="Login" />
+
     <EditText
         android:id="@+id/login_username_edit"
         android:layout_width="wrap_content"
@@ -43,15 +54,6 @@
         android:layout_below="@+id/login_pw_edit"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
-        android:textSize="25dp"
-        android:text="Login" />
 
     <Button
         android:id="@+id/login_back_btn"
@@ -61,4 +63,13 @@
         android:layout_alignStart="@+id/login_btn"
         android:layout_marginBottom="47dp"
         android:text="Back" />
+
+    <TextView
+        android:id="@+id/login_to_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:text="Don't have an account? Sign up here." />
 </RelativeLayout>

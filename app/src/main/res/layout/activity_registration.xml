@@ -22,31 +22,19 @@
         android:id="@+id/registrationEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView"
-        android:layout_marginTop="67dp"
+        android:layout_marginTop="40dp"
         android:hint="Email"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/registrationConfirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/registrationPassword"
-        android:layout_marginTop="45dp"
-        android:hint="Confirm Password"
-        android:inputType="textPassword"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textSize="14sp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:id="@+id/registrationPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="35dp"
         android:hint="Password"
         android:inputType="textPassword"
         android:textAlignment="center"
@@ -54,11 +42,23 @@
         android:layout_below="@+id/registrationEmail"
         android:layout_alignParentStart="true" />
 
+    <EditText
+        android:id="@+id/registrationConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/registrationPassword"
+        android:layout_marginTop="35dp"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
     <Switch
         android:id="@+id/registrationAdmin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="41dp"
+        android:layout_marginTop="35dp"
         android:text="Admin?    "
         android:layout_below="@+id/registrationConfirm"
         android:layout_centerHorizontal="true" />
@@ -67,10 +67,10 @@
         android:id="@+id/registrationCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/registrationAdmin"
-        android:layout_marginTop="45dp"
+        android:text="Cancel"
+        android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/registrationAdmin"
-        android:text="Cancel" />
+        android:layout_marginBottom="48dp" />
 
     <Button
         android:id="@+id/registrationSubmit"
@@ -80,5 +80,14 @@
         android:layout_alignBaseline="@+id/registrationCancel"
         android:layout_alignBottom="@+id/registrationCancel"
         android:layout_toEndOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/register_to_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/registrationAdmin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="Already have an account? Login here." />
 
 </RelativeLayout>
