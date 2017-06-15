@@ -1,7 +1,9 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.example.mcw0805.wheres_my_stuff.R;
@@ -19,6 +21,13 @@ public class HomeActivity extends AppCompatActivity {
 
         loginHome = (Button) findViewById(R.id.loginHome);
         registerHome = (Button) findViewById(R.id.registerHome);
+
+        loginHome.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View V) {
+                Intent intent = new Intent (HomeActivity.this, LogInActivity.class);
+                HomeActivity.this.startActivity(intent);
+            }
+        });
 
     }
 
