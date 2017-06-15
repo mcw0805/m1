@@ -23,12 +23,18 @@ public class HomeActivity extends AppCompatActivity {
         registerHome = (Button) findViewById(R.id.registerHome);
 
         loginHome.setOnClickListener(new View.OnClickListener() {
+            //navigates to the LogInActivity page
             public void onClick(View V) {
                 Intent intent = new Intent (HomeActivity.this, LogInActivity.class);
                 HomeActivity.this.startActivity(intent);
             }
         });
-
+        registerHome.setOnClickListener(new View.OnClickListener() {
+            //navigates user to the RegisterActivity page
+            public void onClick(View v) {
+                Intent intent = new Intent (HomeActivity.this, RegistrationActivity.class);
+                HomeActivity.this.startActivity(intent);
+            }
+        });
     }
-
 }
