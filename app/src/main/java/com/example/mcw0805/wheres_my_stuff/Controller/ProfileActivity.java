@@ -9,6 +9,10 @@ import android.view.View.OnClickListener;
 
 import com.example.mcw0805.wheres_my_stuff.R;
 
+/**
+ * Author Melanie Hall
+ */
+
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener  {
 
     //Log out button.
