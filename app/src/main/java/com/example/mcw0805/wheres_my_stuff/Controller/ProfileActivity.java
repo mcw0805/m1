@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import com.example.mcw0805.wheres_my_stuff.R;
 
 /**
- * Author Melanie Hall
+ * @author Melanie Hall
  */
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener  {
@@ -30,7 +30,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        if (view == logoutProfile) {
+        if (view.equals(logoutProfile)) {
             Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
             ProfileActivity.this.startActivity(intent);
         }
