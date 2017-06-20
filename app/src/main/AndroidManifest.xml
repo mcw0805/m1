@@ -21,7 +21,8 @@
         <activity android:name=".Controller.RegistrationActivity" />
         <activity android:name=".Controller.LogInActivity" />
         <activity android:name=".Controller.ProfileActivity" />
-        <activity android:name=".Controller.Dashboard"></activity>
+        <activity android:name=".Controller.Dashboard"/>
+        <activity android:name=".Controller.LostItemFormActivity"/>
     </application>
 
 </manifest>

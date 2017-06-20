@@ -39,7 +39,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v == newLost) {
-            Intent intent = new Intent(Dashboard.this, LostItemFormActivity.class);
+            Intent intent = new Intent(this, LostItemFormActivity.class);
             Dashboard.this.startActivity(intent);
         }
     }

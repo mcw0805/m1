@@ -56,7 +56,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 //GOTO application1
                 Toast.makeText(this, "Successful login",
                         Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(LogInActivity.this, ProfileActivity.class);
+                Intent intent = new Intent(LogInActivity.this, Dashboard.class);
                 LogInActivity.this.startActivity(intent);
             } else {
                 // Inform user of bad login attempt
