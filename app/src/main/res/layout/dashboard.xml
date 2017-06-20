@@ -14,8 +14,8 @@
         android:id="@+id/lost_txt"
         android:text= "Lost Items Near Me"
         android:textSize="28sp"
-        android:textStyle= "1"
-        android:gravity="CENTER_VERTICAL"
+        android:textStyle= "bold"
+        android:gravity="center_vertical"
         />
     </LinearLayout>
     <LinearLayout
@@ -28,8 +28,8 @@
             android:id="@+id/found_txt"
             android:text= "Found Items Near Me"
             android:textSize="28sp"
-            android:textStyle= "1"
-            android:gravity="CENTER_VERTICAL"
+            android:textStyle= "bold"
+            android:gravity="center_vertical"
             />
     </LinearLayout>
     <LinearLayout
@@ -39,11 +39,39 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/report_txt"
+            android:id="@+id/reportFound_txt"
             android:text= "Report New Found Item"
             android:textSize="28sp"
-            android:textStyle= "1"
-            android:gravity="CENTER_VERTICAL"
+            android:textStyle= "bold"
+            android:gravity="center_vertical"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/reportLost_txt"
+            android:text= "Report New Lost Item"
+            android:textSize="28sp"
+            android:textStyle= "bold"
+            android:gravity="center_vertical"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/request_txt"
+            android:text= "Request Item"
+            android:textSize="28sp"
+            android:textStyle= "bold"
+            android:gravity="center_vertical"
             />
     </LinearLayout>
 
