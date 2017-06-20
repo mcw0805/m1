@@ -10,8 +10,8 @@ public class LostItem extends Item {
     private static int count;
     private int reward;
     public LostItem(String name, String description, Date date, double longitude,
-                    double latitude, ItemCategory category, User user, int reward) {
-        super(name, description, date, longitude, latitude, category, user);
+                    double latitude, ItemCategory category, User user, boolean status, int reward) {
+        super(name, description, date, longitude, latitude, category, user, status);
         this.reward = reward;
         count++;
     }

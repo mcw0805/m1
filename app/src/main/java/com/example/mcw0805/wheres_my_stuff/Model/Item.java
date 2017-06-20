@@ -10,6 +10,15 @@ public abstract class Item {
     protected double longitude, latitude;
     protected ItemCategory category;
     protected User user;
+    protected boolean status;
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
     public String getName() {
         return name;
@@ -68,7 +77,7 @@ public abstract class Item {
     }
 
     public Item(String name, String description, Date date, double longitude,
-                double latitude, ItemCategory category, User user) {
+                double latitude, ItemCategory category, User user, boolean status) {
         this.name = name;
         this.description = description;
         this.date = date;
@@ -76,5 +85,6 @@ public abstract class Item {
         this.latitude = latitude;
         this.category = category;
         this.user = user;
+        this.status = status;
     }
 }
