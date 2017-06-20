@@ -1,4 +1,4 @@
-package model;
+package com.example.mcw0805.wheres_my_stuff.Model;
 
 /**
  * Created by Ted on 6/14/2017.
