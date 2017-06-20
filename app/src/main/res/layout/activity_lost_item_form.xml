@@ -170,4 +170,14 @@
         android:layout_alignBottom="@+id/editText5"
         android:layout_alignStart="@+id/spinner3" />
 
+    <EditText
+        android:id="@+id/editText8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView6"
+        android:layout_alignTop="@+id/textView6"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:visibility="visible" />
+
 </RelativeLayout>
