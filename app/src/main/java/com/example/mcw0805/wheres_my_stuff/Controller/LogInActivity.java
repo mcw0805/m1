@@ -88,6 +88,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         }
         if (v == back) {
             //Goes back to the main splash screen
+            finish();
             Intent intent = new Intent (LogInActivity.this, HomeActivity.class);
             LogInActivity.this.startActivity(intent);
         }
