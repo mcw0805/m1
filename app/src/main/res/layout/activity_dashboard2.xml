@@ -8,15 +8,15 @@
         android:layout_width="fill_parent"
         android:layout_height="60dp"
         android:orientation="horizontal">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:id="@+id/lost_txt"
-        android:text= "Lost Items Near Me"
-        android:textSize="28sp"
-        android:textStyle= "bold"
-        android:gravity="center_vertical"
-        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/lost_txt"
+            android:text= "Lost Items Near Me"
+            android:textSize="28sp"
+            android:textStyle= "bold"
+            android:gravity="center_vertical"
+            />
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -68,11 +68,25 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:id="@+id/request_txt"
-            android:text= "Request Item"
+            android:text= "Request Items"
+            android:textSize="28sp"
+            android:textStyle= "bold"
+            android:gravity="center_vertical"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/donate_txt"
+            android:text= "Donate Items"
             android:textSize="28sp"
             android:textStyle= "bold"
             android:gravity="center_vertical"
             />
     </LinearLayout>
 
-    </LinearLayout>
+</LinearLayout>

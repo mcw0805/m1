@@ -21,6 +21,7 @@
         <activity android:name=".Controller.RegistrationActivity" />
         <activity android:name=".Controller.LogInActivity" />
         <activity android:name=".Controller.ProfileActivity" />
+        <activity android:name=".Controller.Dashboard"></activity>
     </application>
 
 </manifest>
