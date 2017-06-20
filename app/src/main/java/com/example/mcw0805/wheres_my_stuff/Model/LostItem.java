@@ -9,8 +9,9 @@ import java.util.Date;
 public class LostItem extends Item {
     private static int count;
     private int reward;
-    public LostItem(String name, String description, Date date, double longitude, double latitude, ItemCategory category, int reward) {
-        super(name, description, date, longitude, latitude, category);
+    public LostItem(String name, String description, Date date, double longitude,
+                    double latitude, ItemCategory category, User user, int reward) {
+        super(name, description, date, longitude, latitude, category, user);
         this.reward = reward;
         count++;
     }
@@ -20,7 +21,7 @@ public class LostItem extends Item {
     public void setReward(int reward) {
         this.reward = reward;
     }
-    public int count() {
+    public int getCount() {
         return count;
     }
 }
