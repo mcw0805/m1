@@ -20,7 +20,7 @@
         </activity>
         <activity android:name=".Controller.RegistrationActivity" />
         <activity android:name=".Controller.LogInActivity" />
-        <activity android:name=".Controller.ProfileActivity"></activity>
+        <activity android:name=".Controller.ProfileActivity" />
     </application>
 
 </manifest>
