@@ -26,7 +26,6 @@
         android:layout_marginTop="19dp"
         android:inputType="textMultiLine"
         android:maxLines="10"
-        android:scrollHorizonally="false"
         android:text="Description" />
 
     <EditText
