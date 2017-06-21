@@ -8,7 +8,7 @@
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.LostItemFormActivity">
 
     <EditText
-        android:id="@+id/editText9"
+        android:id="@+id/title_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -20,66 +20,65 @@
         android:text="Title" />
 
     <EditText
-        android:id="@+id/editText10"
+        android:id="@+id/description_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText9"
-        android:layout_below="@+id/editText9"
-        android:layout_marginTop="14dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Description" />
+        android:text="Description"
+        android:layout_below="@+id/title_L"
+        android:layout_alignStart="@+id/title_L" />
 
     <TextView
-        android:id="@+id/textView18"
+        android:id="@+id/status_Lost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/editText9"
-        android:layout_marginStart="54dp"
-        android:layout_toEndOf="@+id/editText9"
+        android:layout_marginStart="50dp"
         android:text="Status"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:layout_alignTop="@+id/title_L"
+        android:layout_toEndOf="@+id/postButton_L" />
 
     <Spinner
-        android:id="@+id/spinner5"
+        android:id="@+id/status_Lspinner"
         android:layout_width="70dip"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView18"
-        android:layout_alignStart="@+id/textView18" />
+        android:layout_below="@+id/status_Lost"
+        android:layout_alignStart="@+id/status_Lost" />
 
     <TextView
-        android:id="@+id/textView19"
+        android:id="@+id/category_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText10"
-        android:layout_below="@+id/editText10"
+        android:layout_alignStart="@+id/description_L"
+        android:layout_below="@+id/description_L"
         android:layout_marginTop="18dp"
         android:text="Category"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <Spinner
-        android:id="@+id/spinner6"
+        android:id="@+id/category_Lspinner"
         android:layout_width="90dip"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView19"
-        android:layout_below="@+id/textView19" />
+        android:layout_alignStart="@+id/category_L"
+        android:layout_below="@+id/category_L" />
 
     <TextView
-        android:id="@+id/textView20"
+        android:id="@+id/location_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/spinner6"
-        android:layout_below="@+id/spinner6"
+        android:layout_alignStart="@+id/category_Lspinner"
+        android:layout_below="@+id/category_Lspinner"
         android:layout_marginTop="14dp"
         android:text="Location"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <EditText
-        android:id="@+id/editText11"
+        android:id="@+id/city_L"
         android:layout_width="100dip"
         android:layout_height="40dip"
-        android:layout_alignStart="@+id/textView20"
-        android:layout_below="@+id/textView20"
+        android:layout_alignStart="@+id/location_L"
+        android:layout_below="@+id/location_L"
         android:layout_marginTop="5dp"
         android:ems="15"
         android:inputType="textPersonName"
@@ -87,78 +86,78 @@
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <TextView
-        android:id="@+id/textView22"
+        android:id="@+id/state_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView20"
+        android:layout_below="@+id/location_L"
         android:layout_marginStart="37dp"
-        android:layout_toEndOf="@+id/editText11"
+        android:layout_toEndOf="@+id/city_L"
         android:text="State"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <Spinner
-        android:id="@+id/spinner7"
+        android:id="@+id/state_Lspinner"
         android:layout_width="70dip"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView22"
-        android:layout_alignStart="@+id/textView22" />
+        android:layout_below="@+id/state_L"
+        android:layout_alignStart="@+id/state_L" />
 
     <EditText
-        android:id="@+id/editText12"
+        android:id="@+id/zipcode_L"
         android:layout_width="100dip"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/city_L"
+        android:layout_alignEnd="@+id/status_Lspinner"
         android:ems="10"
         android:inputType="number"
         android:text="Zip Code"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:layout_alignBottom="@+id/editText11"
-        android:layout_alignEnd="@+id/spinner5" />
+        android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <TextView
-        android:id="@+id/textView24"
+        android:id="@+id/type_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/editText11"
-        android:layout_below="@+id/editText11"
+        android:layout_alignStart="@+id/city_L"
+        android:layout_below="@+id/city_L"
         android:layout_marginTop="29dp"
         android:text="Type"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <Spinner
-        android:id="@+id/spinner8"
+        android:id="@+id/type_Lspinner"
         android:layout_width="70dip"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView24"
-        android:layout_below="@+id/textView24" />
+        android:layout_alignStart="@+id/type_L"
+        android:layout_below="@+id/type_L" />
 
     <TextView
-        android:id="@+id/textView25"
+        android:id="@+id/dollar_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/spinner8"
-        android:layout_below="@+id/spinner8"
+        android:layout_alignStart="@+id/type_Lspinner"
+        android:layout_below="@+id/type_Lspinner"
         android:layout_marginTop="40dp"
         android:text="$"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <EditText
-        android:id="@+id/editText13"
+        android:id="@+id/reward_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Reward"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:layout_alignBaseline="@+id/textView25"
-        android:layout_alignBottom="@+id/textView25"
-        android:layout_toEndOf="@+id/textView25" />
+        android:layout_alignBaseline="@+id/dollar_L"
+        android:layout_alignBottom="@+id/dollar_L"
+        android:layout_toEndOf="@+id/dollar_L" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/postButton_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/spinner7"
-        android:layout_below="@+id/editText13"
+        android:layout_alignStart="@+id/state_Lspinner"
+        android:layout_below="@+id/reward_L"
         android:layout_marginTop="25dp"
         android:text="Post" />
 
