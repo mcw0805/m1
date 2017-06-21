@@ -1,12 +1,15 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.mcw0805.wheres_my_stuff.R;
 
@@ -15,7 +18,7 @@ import model.States;
 import model.Type;
 import model.Status;
 
-public class LostItemFormActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class LostItemFormActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private EditText titleField;
     private EditText descriptField;
@@ -26,6 +29,7 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
     private Spinner categorySpinner;
     private Spinner stateSpinner;
     private Spinner typeSpinner;
+    private Button postButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         categorySpinner = (Spinner) findViewById(R.id.category_Lspinner);
         stateSpinner = (Spinner) findViewById(R.id.state_Lspinner);
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
+        postButton = (Button) findViewById(R.id.postButton_L);
 
         ArrayAdapter<States> state_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, States.values());
         state_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -57,6 +62,8 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         ArrayAdapter<Status> status_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Status.values());
         status_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statSpinner.setAdapter(status_Adapter);
+
+        postButton.setOnClickListener(this);
     }
 
     @Override
@@ -67,5 +74,15 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.equals(postButton)) {
+            Toast.makeText(this, "Post Added!", Toast.LENGTH_LONG).show();
+            finish();
+            Intent intent = new Intent(LostItemFormActivity.this, Dashboard.class);
+            LostItemFormActivity.this.startActivity(intent);
+        }
     }
 }
