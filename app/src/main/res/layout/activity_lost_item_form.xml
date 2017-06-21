@@ -33,15 +33,15 @@
         android:id="@+id/status_Lost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="13dp"
         android:text="Status"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:layout_alignTop="@+id/title_L"
-        android:layout_toEndOf="@+id/postButton_L" />
+        android:layout_toEndOf="@+id/state_Lspinner" />
 
     <Spinner
         android:id="@+id/status_Lspinner"
-        android:layout_width="70dip"
+        android:layout_width="125dip"
         android:layout_height="wrap_content"
         android:layout_below="@+id/status_Lost"
         android:layout_alignStart="@+id/status_Lost" />
@@ -106,12 +106,12 @@
         android:id="@+id/zipcode_L"
         android:layout_width="100dip"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/city_L"
-        android:layout_alignEnd="@+id/status_Lspinner"
         android:ems="10"
         android:inputType="number"
         android:text="Zip Code"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:layout_alignBottom="@+id/city_L"
+        android:layout_alignStart="@+id/status_Lspinner" />
 
     <TextView
         android:id="@+id/type_L"
@@ -125,7 +125,7 @@
 
     <Spinner
         android:id="@+id/type_Lspinner"
-        android:layout_width="70dip"
+        android:layout_width="155dip"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/type_L"
         android:layout_below="@+id/type_L" />
@@ -156,9 +156,9 @@
         android:id="@+id/postButton_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/state_Lspinner"
+        android:layout_marginTop="43dp"
+        android:text="Post"
         android:layout_below="@+id/reward_L"
-        android:layout_marginTop="25dp"
-        android:text="Post" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
