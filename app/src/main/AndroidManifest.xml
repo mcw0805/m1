@@ -24,7 +24,7 @@
         <activity android:name=".Controller.Dashboard" />
         <activity android:name=".Controller.LostItemFormActivity" />
         <activity android:name=".Controller.ResetPasswordActivity" />
-        <activity android:name=".Controller.LostItemList" />
+        <activity android:name=".Controller.LostItemListActivity"></activity>
     </application>
 
 </manifest>

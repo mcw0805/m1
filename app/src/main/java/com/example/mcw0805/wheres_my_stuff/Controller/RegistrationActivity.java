@@ -1,10 +1,13 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +15,14 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * @Author Jordan Taylor
@@ -25,6 +35,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private Switch admin;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private ProgressDialog progressDialog;
 
 
 
@@ -43,6 +54,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         email = (EditText) findViewById(R.id.registrationEmail);
         password = (EditText) findViewById(R.id.registrationPassword);
         admin = (Switch) findViewById(R.id.registrationAdmin);
+        progressDialog = new ProgressDialog(this);
     }
 
     @Override
@@ -72,8 +84,79 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 alert.show();
                 return;
             }
+            progressDialog.setMessage("Signing in...");
+            progressDialog.show();
+            mAuth.createUserWithEmailAndPassword(inputEmail, inputPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    progressDialog.dismiss();
+
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
+                        RegistrationActivity.this.startActivity(intent);
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Exception e = task.getException();
+                        if (e instanceof FirebaseAuthWeakPasswordException) {
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(RegistrationActivity.this);
+                            builder1.setMessage(((FirebaseAuthWeakPasswordException)e).getReason());
+                            builder1.setCancelable(true);
+                            builder1.setPositiveButton(
+                                    "Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alert = builder1.create();
+                            alert.show();
+                        } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(RegistrationActivity.this);
+                            builder1.setMessage("Please enter a valid email");
+                            builder1.setCancelable(true);
+                            builder1.setPositiveButton(
+                                    "Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alert = builder1.create();
+                            alert.show();
+                        } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(RegistrationActivity.this);
+                            builder1.setMessage("Oops!\nIt looks like there is already an account associated with"
+                                    + "that email.");
+                            builder1.setCancelable(true);
+                            builder1.setPositiveButton(
+                                    "Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alert = builder1.create();
+                            alert.show();
+                        } else {
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(RegistrationActivity.this);
+                            builder1.setMessage("Registration Failed. Try again later.");
+                            builder1.setCancelable(true);
+                            builder1.setPositiveButton(
+                                    "Ok",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                            AlertDialog alert = builder1.create();
+                            alert.show();
+                        }
+                    }
+                }
+            });
             finish();
-            startActivity(new Intent(this, HomeActivity.class));
         }
 
         if (v == cancelButton) {
@@ -81,5 +164,78 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
             startActivity(new Intent(this, HomeActivity.class));
         }
     }
-
+//    public void register(String user, String password) {
+//        progressDialog.setMessage("Signing in...");
+//        progressDialog.show();
+//            mAuth.createUserWithEmailAndPassword(user, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                @Override
+//                public void onComplete(@NonNull Task<AuthResult> task) {
+//                    progressDialog.dismiss();
+//
+//                    if (task.isSuccessful()) {
+//                        // Sign in success, update UI with the signed-in user's information
+//                        FirebaseUser user = mAuth.getCurrentUser();
+//                        Intent intent = new Intent(LogInActivity.this, Dashboard.class);
+//                        LogInActivity.this.startActivity(intent);
+//                    } else {
+//                        // If sign in fails, display a message to the user.
+//                        Exception e = task.getException();
+//                        if (e.equals(FirebaseAuthWeakPasswordException)) {
+//                            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+//                            builder1.setMessage(e.getReason());
+//                            builder1.setCancelable(true);
+//                            builder1.setPositiveButton(
+//                                    "Ok",
+//                                    new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int id) {
+//                                            dialog.cancel();
+//                                        }
+//                                    });
+//                            AlertDialog alert = builder1.create();
+//                            alert.show();
+//                        } else if (e.equals(FirebaseAuthInvalidCredentialsException)) {
+//                            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+//                            builder1.setMessage("Please enter a valid email");
+//                            builder1.setCancelable(true);
+//                            builder1.setPositiveButton(
+//                                    "Ok",
+//                                    new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int id) {
+//                                            dialog.cancel();
+//                                        }
+//                                    });
+//                            AlertDialog alert = builder1.create();
+//                            alert.show();
+//                        } else if (e.equals(FirebaseAuthInvalidCredentialsException)) {
+//                            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+//                            builder1.setMessage("Oops!\nIt looks like there is already an account associated with"
+//                                    + "that email.");
+//                            builder1.setCancelable(true);
+//                            builder1.setPositiveButton(
+//                                    "Ok",
+//                                    new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int id) {
+//                                            dialog.cancel();
+//                                        }
+//                                    });
+//                            AlertDialog alert = builder1.create();
+//                            alert.show();
+//                        } else {
+//                            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+//                            builder1.setMessage("Registration Failed. Try again later.");
+//                            builder1.setCancelable(true);
+//                            builder1.setPositiveButton(
+//                                    "Ok",
+//                                    new DialogInterface.OnClickListener() {
+//                                        public void onClick(DialogInterface dialog, int id) {
+//                                            dialog.cancel();
+//                                        }
+//                                    });
+//                            AlertDialog alert = builder1.create();
+//                            alert.show();
+//                        }
+//                    }
+//                }
+//            });
+//    }
 }

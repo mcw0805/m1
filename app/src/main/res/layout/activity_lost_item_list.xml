@@ -5,11 +5,14 @@
     android:layout_width="fill_parent"
     android:layout_height="72dip"
     android:clickable="true"
-    tools:context="com.example.mcw0805.wheres_my_stuff.Controller.LostItemList">
+    tools:context="com.example.mcw0805.wheres_my_stuff.Controller.LostItemListActivity">
 
     <ListView
-        android:id="@+id/textView3"
+        android:id="@+id/lost_List"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        android:divider="@colorAccent"
+        android:dividerHeight="1dp"
+        android:listSelector="#F8F8FF"
     </ListView>
 </RelativeLayout>
