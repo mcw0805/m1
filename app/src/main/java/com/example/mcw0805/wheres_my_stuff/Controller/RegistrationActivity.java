@@ -105,11 +105,12 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         FirebaseUser user = mAuth.getCurrentUser();
                         String id = user.getUid();
                         User u = new User(inputName, inputEmail, id);
+                        User u2 = new User(inputName, inputEmail, id, false, false);
                         Log.d("AUTHENTICATION", id);
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference userRef = database.getReference("users");
                         DatabaseReference childRef = userRef.child(id);
-                        childRef.push().setValue(u);
+                        childRef.push();
                         Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
                         intent.putExtra("currentUserId", id);
                         intent.putExtra("name", inputName);

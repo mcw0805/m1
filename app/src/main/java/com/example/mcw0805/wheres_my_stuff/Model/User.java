@@ -1,4 +1,5 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
+
 import java.util.LinkedList;
 
 /**
@@ -8,6 +9,44 @@ import java.util.LinkedList;
 
 public class User {
     private String _name;
+    private String _email;
+    private boolean _isLocked;
+    private boolean _isBanned;
+    private String _id;
+
+
+    /**
+     * Constructor provided with entered information from user
+     *
+     * @param name  name of user
+     * @param email email of user
+     */
+    public User(String name, String email, String id) {
+        _name = name;
+        _email = email;
+        _id = id;
+        _isLocked = false;
+        _isBanned = false;
+
+
+    }
+
+    public User(String name, String email, String id, boolean isLocked, boolean isBanned) {
+        _name = name;
+        _email = email;
+        _id = id;
+        _isLocked = isLocked;
+        _isBanned = isBanned;
+
+    }
+
+    public String get_name() {
+        return _name;
+    }
+
+    public void set_name(String _name) {
+        this._name = _name;
+    }
 
     public String get_email() {
         return _email;
@@ -21,8 +60,16 @@ public class User {
         return _isLocked;
     }
 
+    public void set_isLocked(boolean _isLocked) {
+        this._isLocked = _isLocked;
+    }
+
     public boolean is_isBanned() {
         return _isBanned;
+    }
+
+    public void set_isBanned(boolean _isBanned) {
+        this._isBanned = _isBanned;
     }
 
     public String get_id() {
@@ -33,36 +80,5 @@ public class User {
         this._id = _id;
     }
 
-    private String _email;
-    private boolean _isLocked = false;
-    private boolean _isBanned = false;
-    private String _id;
-    private static int foundCount;
-    private static int lostCount;
-
-
-    /**
-     *Constructor provided with entered information from user
-     * @param name name of user
-     * @param email email of user
-     */
-    public User(String name, String email, String id) {
-        _name = name;
-        _email = email;
-        _id = id;
-
-    }
-    //add method for new items
-
-    //Getters and Setters
-    public String get_name() {
-        return _name;
-    }
-    public boolean get_isLocked() {return _isLocked;}
-    public void set_isLocked(boolean k) {_isLocked = k;}
-    public void set_name(String name) {
-        _name = name;
-    }
-    public void set_isBanned(boolean bool) { _isBanned = bool;}
 
 }
