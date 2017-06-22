@@ -16,24 +16,23 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="17dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Title" />
+        android:hint="Title"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/description_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Description"
+        android:layout_alignStart="@+id/title_L"
         android:layout_below="@+id/title_L"
-        android:layout_alignStart="@+id/title_L" />
+        android:ems="10"
+        android:hint="Description"
+        android:inputType="textPersonName" />
 
     <TextView
         android:id="@+id/status_Lost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
         android:text="Status"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:layout_alignTop="@+id/title_L"
@@ -53,8 +52,8 @@
         android:id="@+id/category_Lspinner"
         android:layout_width="155dip"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/category_L"
-        android:layout_below="@+id/category_L" />
+        android:layout_below="@+id/category_L"
+        android:layout_alignStart="@+id/category_L" />
 
     <TextView
         android:id="@+id/location_L"
@@ -74,20 +73,20 @@
         android:layout_below="@+id/location_L"
         android:layout_marginTop="5dp"
         android:ems="15"
-        android:inputType="numberDecimal|numberSigned"
-        android:text="Latitude"
+        android:hint="Latitude"
+        android:inputType="number|numberSigned|numberDecimal"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <EditText
         android:id="@+id/longitude_L"
         android:layout_width="100dip"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberDecimal|numberSigned"
-        android:text="Longitude"
-        android:textAppearance="@style/TextAppearance.AppCompat"
         android:layout_alignBottom="@+id/latitude_L"
-        android:layout_alignEnd="@+id/description_L" />
+        android:layout_alignEnd="@+id/description_L"
+        android:ems="10"
+        android:hint="Longitude"
+        android:inputType="number|numberSigned|numberDecimal"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <TextView
         android:id="@+id/type_L"
@@ -120,21 +119,29 @@
         android:id="@+id/reward_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:text="Reward"
-        android:textAppearance="@style/TextAppearance.AppCompat"
         android:layout_alignBaseline="@+id/dollar_L"
         android:layout_alignBottom="@+id/dollar_L"
-        android:layout_toEndOf="@+id/dollar_L" />
+        android:layout_toEndOf="@+id/dollar_L"
+        android:ems="10"
+        android:hint="Reward"
+        android:inputType="number|numberDecimal"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <Button
         android:id="@+id/postButton_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="44dp"
         android:text="Post"
         android:layout_below="@+id/reward_L"
-        android:layout_centerHorizontal="true" />
+        android:layout_toEndOf="@+id/longitude_L" />
+
+    <Button
+        android:id="@+id/backButton_L"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/postButton_L"
+        android:layout_toStartOf="@+id/longitude_L"
+        android:text="Back" />
 
 </RelativeLayout>

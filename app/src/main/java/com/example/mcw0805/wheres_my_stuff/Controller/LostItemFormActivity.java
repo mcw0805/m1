@@ -27,6 +27,7 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
     private Spinner categorySpinner;
     //private Spinner stateSpinner;
     private Spinner typeSpinner;
+    private Button backButton;
     private Button postButton;
 
     @Override
@@ -43,6 +44,7 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         //stateSpinner = (Spinner) findViewById(R.id.state_Lspinner);
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
         postButton = (Button) findViewById(R.id.postButton_L);
+        backButton = (Button) findViewById(R.id.backButton_L);
 
 //        ArrayAdapter<States> state_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, States.values());
 //        state_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -57,6 +59,7 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         typeSpinner.setAdapter(type_Adapter);
 
         postButton.setOnClickListener(this);
+        backButton.setOnClickListener(this);
     }
 
     @Override
@@ -71,11 +74,15 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onClick(View v) {
-        if (v.equals(postButton)) {
+        if (v == postButton) {
             Toast.makeText(this, "Post Added!", Toast.LENGTH_LONG).show();
             finish();
             Intent intent = new Intent(LostItemFormActivity.this, Dashboard.class);
             LostItemFormActivity.this.startActivity(intent);
+        }
+
+        if (v == backButton) {
+            startActivity(new Intent(this, Dashboard.class));
         }
     }
 }
