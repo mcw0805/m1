@@ -5,5 +5,21 @@ package com.example.mcw0805.wheres_my_stuff.Model;
  */
 
 public enum ItemCategory {
-    MISC, KEEPSAKE, HEIRLOOM
+    MISC ("Misc"),
+    KEEPSAKE ("Keepsake"),
+    HEIRLOOM ("Heirloom");
+
+    private final String itemCategory;
+
+    ItemCategory(String itemCategory) {
+        this.itemCategory = itemCategory;
+
+    }
+
+    public String toString() {
+        return itemCategory;
+    }
+
+
+
 }
