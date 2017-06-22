@@ -11,16 +11,21 @@ public class User {
     private String _email;
     private boolean _isLocked = false;
     private boolean _isBanned = false;
+    private String _id;
     private LinkedList<Item> itemList = new LinkedList<>();
+    private static int foundCount;
+    private static int lostCount;
+
 
     /**
      *Constructor provided with entered information from user
      * @param name name of user
      * @param email email of user
      */
-    public User(String name, String email) {
+    public User(String name, String email, String id) {
         _name = name;
         _email = email;
+        _id = id;
 
     }
     //add method for new items
