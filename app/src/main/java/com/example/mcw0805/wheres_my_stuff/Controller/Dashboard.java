@@ -16,6 +16,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private TextView newLost;
     private TextView request;
     private TextView donate;
+    private TextView profile_page;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         newLost = (TextView) findViewById(R.id.reportLost_txt);
         request = (TextView) findViewById(R.id.request_txt);
         donate = (TextView) findViewById(R.id.donate_txt);
+        profile_page = (TextView) findViewById(R.id.profile_txt);
 
         lostNearMe.setOnClickListener(this);
         foundNearMe.setOnClickListener(this);
@@ -34,12 +37,19 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         newLost.setOnClickListener(this);
         request.setOnClickListener(this);
         donate.setOnClickListener(this);
+        profile_page.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == newLost) {
+        if (v.equals(newLost)) {
             Intent intent = new Intent(this, LostItemFormActivity.class);
+            Dashboard.this.startActivity(intent);
+        } else if (v.equals(lostNearMe)) {
+            Intent intent = new Intent(this, LostItemList.class);
+            Dashboard.this.startActivity(intent);
+        } else if (v.equals(profile_page)) {
+            Intent intent = new Intent(this, ProfileActivity.class);
             Dashboard.this.startActivity(intent);
         }
     }
