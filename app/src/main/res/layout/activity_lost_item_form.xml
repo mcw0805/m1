@@ -39,13 +39,6 @@
         android:layout_alignTop="@+id/title_L"
         android:layout_toEndOf="@+id/postButton_L" />
 
-    <Spinner
-        android:id="@+id/status_Lspinner"
-        android:layout_width="125dip"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/status_Lost"
-        android:layout_alignStart="@+id/status_Lost" />
-
     <TextView
         android:id="@+id/category_L"
         android:layout_width="wrap_content"

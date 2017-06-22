@@ -16,7 +16,6 @@ import com.example.mcw0805.wheres_my_stuff.R;
 import model.Categories;
 //import model.States;
 import model.Type;
-import model.Status;
 
 public class LostItemFormActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
@@ -25,7 +24,6 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
     private EditText latField;
     private EditText longField;
     private EditText rewardField;
-    private Spinner statSpinner;
     private Spinner categorySpinner;
     //private Spinner stateSpinner;
     private Spinner typeSpinner;
@@ -41,7 +39,6 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         latField = (EditText) findViewById(R.id.latitude_L);
         longField = (EditText) findViewById(R.id.longitude_L);
         rewardField = (EditText) findViewById(R.id.reward_L);
-        statSpinner = (Spinner) findViewById(R.id.status_Lspinner);
         categorySpinner = (Spinner) findViewById(R.id.category_Lspinner);
         //stateSpinner = (Spinner) findViewById(R.id.state_Lspinner);
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
@@ -58,10 +55,6 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         ArrayAdapter<Type> type_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Type.values());
         type_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(type_Adapter);
-
-        ArrayAdapter<Status> status_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Status.values());
-        status_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        statSpinner.setAdapter(status_Adapter);
 
         postButton.setOnClickListener(this);
     }
