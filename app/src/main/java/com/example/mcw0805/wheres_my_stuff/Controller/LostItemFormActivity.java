@@ -92,7 +92,7 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
             String itemType = typeSpinner.getSelectedItem().toString();
             String itemCat =categorySpinner.getSelectedItem().toString();
             Date date = new Date();
-            User user = new User("test", "email");
+            User user = new User("test", "email", "lkjfhglksjdfhg");
             boolean status = false;
             Item k = new LostItem(name, description, date, longit, lat, itemCat, user, status, reward);
             FirebaseDatabase database = FirebaseDatabase.getInstance();

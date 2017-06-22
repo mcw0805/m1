@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +24,14 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author Jordan Taylor
@@ -60,8 +69,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        String inputName = name.getText().toString();
-        String inputEmail = email.getText().toString();
+        final String inputName = name.getText().toString();
+        final String inputEmail = email.getText().toString();
         String inputPassword = password.getText().toString();
         boolean inputAdmin = admin.isChecked();
 
@@ -95,8 +104,27 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         // Sign in success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
                         String id = user.getUid();
+                        User u = new User(inputName, inputEmail, id);
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference userRef = database.getReference("users");
+                        Map<String, JSONObject> userMap= new HashMap<String, JSONObject>();
+                        JSONObject tempObject = new JSONObject();
+                        try {
+                            tempObject.put("Name","inputName");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            tempObject.put("Email","inputEmail");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        userMap.put("UID", tempObject);
+                        userRef.setValue(userMap);
                         Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
                         intent.putExtra("currentUserId", id);
+                        intent.putExtra("name", inputName);
+                        intent.putExtra("email", inputEmail);
                         RegistrationActivity.this.startActivity(intent);
                     } else {
                         // If sign in fails, display a message to the user.
