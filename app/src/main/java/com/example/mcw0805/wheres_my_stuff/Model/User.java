@@ -39,6 +39,6 @@ public class User {
     public void set_name(String name) {
         _name = name;
     }
-    public void set_isBanned(boolean bool) { _isBanned = bool};
+    public void set_isBanned(boolean bool) { _isBanned = bool;}
 
 }

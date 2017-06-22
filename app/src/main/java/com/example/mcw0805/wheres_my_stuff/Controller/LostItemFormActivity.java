@@ -12,7 +12,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
+import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
+import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
+import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
 
@@ -79,21 +84,21 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
     public void onClick(View v) {
         if (v == postButton) {
             //Create the item
-            String name = titleField.getText().toString();
+            /*String name = titleField.getText().toString();
             String description = descriptField.getText().toString();
             double lat = Double.parseDouble(latField.getText().toString());
             double longit = Double.parseDouble(longField.getText().toString());
-            String reward = rewardField.getText().toString();
+            int reward = Integer.parseInt(rewardField.getText().toString());
             String itemType = typeSpinner.getSelectedItem().toString();
-            String itemCat = categorySpinner.getSelectedItem().toString();
+            ItemCategory itemCat = new ItemCategory(categorySpinner.getSelectedItem().toString());
             Date date = new Date();
-            Item k = new Item(name, description, )
-
-
-
-
-
-
+            User user = new User("test", "email");
+            boolean status = false;
+            Item k = new LostItem(name, description, date, longit, lat, itemCat, user, status, reward);
+            // Write a message to the database
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("lost-items");
+            myRef.setValue(k);*/
             Toast.makeText(this, "Post Added!", Toast.LENGTH_LONG).show();
             finish();
             Intent intent = new Intent(LostItemFormActivity.this, Dashboard.class);
