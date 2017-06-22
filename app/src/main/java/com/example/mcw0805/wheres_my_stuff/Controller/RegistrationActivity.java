@@ -110,7 +110,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference userRef = database.getReference("users");
                         DatabaseReference childRef = userRef.child(id);
-                        childRef.push();
+                        childRef.setValue(u2);
                         Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
                         intent.putExtra("currentUserId", id);
                         intent.putExtra("name", inputName);
