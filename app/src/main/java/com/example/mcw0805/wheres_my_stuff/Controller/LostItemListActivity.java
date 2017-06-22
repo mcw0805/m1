@@ -14,11 +14,12 @@ public class LostItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lost_item_list);
 
-//        ListView lost;
-//        String[] lostItems = {"Dog", "Cat", "Mouse", "Bird"};
-//
-//        lost = (ListView) findViewById(R.id.lost_List);
-//        ArrayAdapter<String> lost_List = new ArrayAdapter<>(this, R.layout.activity_lost_item_list, lostItems);
-//        lost.setAdapter(lost_List);
+        ListView lost;
+        //Used for testing purposes.
+        String[] lostItems = {"Dog", "Cat", "Mouse", "Bird", "Elephant", "Doggo", "Giraffe", "Dolphin", "Tiger", "Lion", "Kitten"};
+
+        lost = (ListView) findViewById(R.id.lost_List);
+        ArrayAdapter<String> lost_List = new ArrayAdapter<>(this, R.layout.activity_list_view, R.id.textView, lostItems);
+        lost.setAdapter(lost_List);
     }
 }
