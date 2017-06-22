@@ -140,8 +140,9 @@
         android:id="@+id/backButton_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/postButton_L"
-        android:layout_toStartOf="@+id/longitude_L"
-        android:text="Back" />
+        android:text="Back"
+        android:layout_alignBaseline="@+id/postButton_L"
+        android:layout_alignBottom="@+id/postButton_L"
+        android:layout_toEndOf="@+id/location_L" />
 
 </RelativeLayout>
