@@ -8,11 +8,35 @@ import java.util.LinkedList;
 
 public class User {
     private String _name;
+
+    public String get_email() {
+        return _email;
+    }
+
+    public void set_email(String _email) {
+        this._email = _email;
+    }
+
+    public boolean is_isLocked() {
+        return _isLocked;
+    }
+
+    public boolean is_isBanned() {
+        return _isBanned;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
     private String _email;
     private boolean _isLocked = false;
     private boolean _isBanned = false;
     private String _id;
-    private LinkedList<Item> itemList = new LinkedList<>();
     private static int foundCount;
     private static int lostCount;
 

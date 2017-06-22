@@ -110,22 +110,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         DatabaseReference userRef = database.getReference("users");
                         DatabaseReference childRef = userRef.child(id);
                         childRef.push().setValue(u);
-
-//                        Map<String, JSONObject> userMap= new HashMap<String, JSONObject>();
-//                        JSONObject tempObject = new JSONObject();
-//                        try {
-//                            tempObject.put("Name","inputName");
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                        try {
-//                            tempObject.put("Email","inputEmail");
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                        userMap.put(id, tempObject);
-//                        userRef.setValue(userMap);
-
                         Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
                         intent.putExtra("currentUserId", id);
                         intent.putExtra("name", inputName);
