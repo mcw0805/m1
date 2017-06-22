@@ -54,16 +54,11 @@ public class User {
     }
     //add method for new items
 
-    public void addItem(Item item) {
-        itemList.add(item);
-    }
-
     //Getters and Setters
     public String get_name() {
         return _name;
     }
     public boolean get_isLocked() {return _isLocked;}
-    public LinkedList<Item> getItemList() {return itemList;}
     public void set_isLocked(boolean k) {_isLocked = k;}
     public void set_name(String name) {
         _name = name;
