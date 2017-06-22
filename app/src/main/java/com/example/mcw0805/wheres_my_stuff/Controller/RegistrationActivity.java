@@ -125,6 +125,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                     });
                             AlertDialog alert = builder1.create();
                             alert.show();
+                            Log.d("Invalid Credentials","Bad Email");
                         } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(RegistrationActivity.this);
                             builder1.setMessage("Oops!\nIt looks like there is already an account associated with"
@@ -156,7 +157,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     }
                 }
             });
-            finish();
         }
 
         if (v == cancelButton) {
