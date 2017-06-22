@@ -93,7 +93,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 alert.show();
                 return;
             }
-            progressDialog.setMessage("Signing in...");
+            progressDialog.setMessage("Registering...");
             progressDialog.show();
             mAuth.createUserWithEmailAndPassword(inputEmail, inputPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
@@ -105,22 +105,27 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         FirebaseUser user = mAuth.getCurrentUser();
                         String id = user.getUid();
                         User u = new User(inputName, inputEmail, id);
+                        Log.d("AUTHENTICATION", id);
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference userRef = database.getReference("users");
-                        Map<String, JSONObject> userMap= new HashMap<String, JSONObject>();
-                        JSONObject tempObject = new JSONObject();
-                        try {
-                            tempObject.put("Name","inputName");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        try {
-                            tempObject.put("Email","inputEmail");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        userMap.put("UID", tempObject);
-                        userRef.setValue(userMap);
+                        DatabaseReference childRef = userRef.child(id);
+                        childRef.push().setValue(u);
+
+//                        Map<String, JSONObject> userMap= new HashMap<String, JSONObject>();
+//                        JSONObject tempObject = new JSONObject();
+//                        try {
+//                            tempObject.put("Name","inputName");
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        try {
+//                            tempObject.put("Email","inputEmail");
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        userMap.put(id, tempObject);
+//                        userRef.setValue(userMap);
+
                         Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
                         intent.putExtra("currentUserId", id);
                         intent.putExtra("name", inputName);
