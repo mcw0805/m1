@@ -65,11 +65,11 @@
         android:text="Back" />
 
     <TextView
-        android:id="@+id/login_to_register"
+        android:id="@+id/forgot_pw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_btn"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="17dp"
-        android:text="Don't have an account? Sign up here." />
+        android:text="Forgot password?" />
 </RelativeLayout>

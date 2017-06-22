@@ -1,14 +1,18 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
+
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -32,6 +36,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private EditText loginPassword;
     private Button login;
     private Button back;
+    private TextView forgotPassword;
+    private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "LoginActivity";
@@ -57,19 +63,24 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         loginUsername = (EditText) findViewById(R.id.login_username_edit);
         loginPassword = (EditText) findViewById(R.id.login_pw_edit);
+        forgotPassword = (TextView) findViewById(R.id.forgot_pw);
 
         //set the buttons
         login = (Button) findViewById(R.id.login_btn);
         back = (Button) findViewById(R.id.login_back_btn);
         login.setOnClickListener(this);
         back.setOnClickListener(this);
+        forgotPassword.setOnClickListener(this);
 
+        progressDialog = new ProgressDialog(this);
     }
+
     @Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -78,20 +89,24 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
     @Override
     public void onClick(View v) {
 
         if (v == login) {
-           login();
+            login();
 
         }
 
         if (v == back) {
             //Goes back to the main splash screen
             finish();
-            Intent intent = new Intent (LogInActivity.this, HomeActivity.class);
+            Intent intent = new Intent(LogInActivity.this, HomeActivity.class);
             LogInActivity.this.startActivity(intent);
+        }
+
+        if (v == forgotPassword) {
+            startActivity(new Intent(this, ResetPasswordActivity.class));
+            finish();
         }
 
     }
@@ -101,36 +116,56 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         //database. Either displays incorrect password or advances the scene
         String username = loginUsername.getText().toString();
         String password = loginPassword.getText().toString();
-        //check to see if fields are valid first;
-        if (username.length() == 0 || password.length() == 0) {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-            builder1.setMessage("Please fill out both required fields.");
-            builder1.setCancelable(true);
 
-            builder1.setPositiveButton(
-                    "Cancel",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
+        if (TextUtils.isEmpty(username)) {
+            //email is empty
 
-            builder1.setNegativeButton(
-                    "Ok",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
+            Toast.makeText(this, "Please enter an email address", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (TextUtils.isEmpty(password)) {
+            //password is empty
+            Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //check to see if fields are valid first;
+//        if (username.length() == 0 || password.length() == 0) {
+//            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+//            builder1.setMessage("Please fill out both required fields.");
+//            builder1.setCancelable(true);
+//
+//            builder1.setPositiveButton(
+//                    "Cancel",
+//                    new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
+//                            dialog.cancel();
+//                        }
+//                    });
+//
+//            builder1.setNegativeButton(
+//                    "Ok",
+//                    new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int id) {
+//                            dialog.cancel();
+//                        }
+//                    });
+//
+//            AlertDialog alert11 = builder1.create();
+//            alert11.show();
+//            return;
+//        }
+
+        progressDialog.setMessage("Signing in...");
+        progressDialog.show();
+
         mAuth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
@@ -158,6 +193,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             // ...*/
                     }
                 });
+
             /*//Temporary hardcode
             String hardUsername = "user";
             String hardPassword = "pass";
