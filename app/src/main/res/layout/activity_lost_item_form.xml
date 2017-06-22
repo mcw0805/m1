@@ -29,14 +29,14 @@
         android:hint="Description"
         android:inputType="textPersonName" />
 
-    <TextView
-        android:id="@+id/status_Lost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:layout_alignTop="@+id/title_L"
-        android:layout_toEndOf="@+id/postButton_L" />
+    <!--<TextView-->
+        <!--android:id="@+id/status_Lost"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Status"-->
+        <!--android:textAppearance="@style/TextAppearance.AppCompat"-->
+        <!--android:layout_alignTop="@+id/title_L"-->
+        <!--android:layout_toEndOf="@+id/postButton_L" />-->
 
     <TextView
         android:id="@+id/category_L"

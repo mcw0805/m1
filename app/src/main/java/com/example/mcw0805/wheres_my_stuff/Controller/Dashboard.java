@@ -49,7 +49,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             Intent intent = new Intent(this, LostItemFormActivity.class);
             Dashboard.this.startActivity(intent);
         } else if (v.equals(lostNearMe)) {
-            Intent intent = new Intent(this, LostItemList.class);
+            Intent intent = new Intent(this, LostItemListActivity.class);
             Dashboard.this.startActivity(intent);
         } else if (v.equals(profile_page)) {
             Intent intent = new Intent(this, ProfileActivity.class);
