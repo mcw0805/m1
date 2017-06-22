@@ -84,21 +84,22 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
     public void onClick(View v) {
         if (v == postButton) {
             //Create the item
-            /*String name = titleField.getText().toString();
+            String name = titleField.getText().toString();
             String description = descriptField.getText().toString();
             double lat = Double.parseDouble(latField.getText().toString());
             double longit = Double.parseDouble(longField.getText().toString());
             int reward = Integer.parseInt(rewardField.getText().toString());
             String itemType = typeSpinner.getSelectedItem().toString();
-            ItemCategory itemCat = new ItemCategory(categorySpinner.getSelectedItem().toString());
+            String itemCat =categorySpinner.getSelectedItem().toString();
             Date date = new Date();
             User user = new User("test", "email");
             boolean status = false;
             Item k = new LostItem(name, description, date, longit, lat, itemCat, user, status, reward);
-            // Write a message to the database
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("lost-items");
-            myRef.setValue(k);*/
+            //traverse through database here
+            DatabaseReference myRef = database.getReference("posts/lost-items/123456789");
+            //add to k object to database
+            myRef.setValue(k);
             Toast.makeText(this, "Post Added!", Toast.LENGTH_LONG).show();
             finish();
             Intent intent = new Intent(LostItemFormActivity.this, Dashboard.class);

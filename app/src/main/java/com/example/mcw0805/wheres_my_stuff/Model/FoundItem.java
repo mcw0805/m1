@@ -5,13 +5,13 @@ import java.util.Date;
 /**
  * Created by jordan on 6/20/17.
  */
-
+//6/22/17 Changed cateogry to string for testing purposes
 public class FoundItem extends Item {
 
     private static int count;
 
     public FoundItem(String name, String description, Date date, double longitude,
-                    double latitude, ItemCategory category, User user, boolean status) {
+                    double latitude, String category, User user, boolean status) {
         super(name, description, date, longitude, latitude, category, user, status);
         count++;
     }

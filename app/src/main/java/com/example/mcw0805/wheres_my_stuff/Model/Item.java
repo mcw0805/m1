@@ -3,12 +3,13 @@ import java.util.Date;
 /**
  * Created by jordan on 6/20/17.
  */
+//6/22/17 Changed cateogry to string for testing purposes
 
 public abstract class Item {
     protected String name, description;
     protected Date date;
     protected double longitude, latitude;
-    protected ItemCategory category;
+    protected String category;
     protected User user;
     protected boolean status;
 
@@ -60,11 +61,11 @@ public abstract class Item {
         this.latitude = latitude;
     }
 
-    public ItemCategory getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(ItemCategory category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -77,7 +78,7 @@ public abstract class Item {
     }
 
     public Item(String name, String description, Date date, double longitude,
-                double latitude, ItemCategory category, User user, boolean status) {
+                double latitude, String category, User user, boolean status) {
         this.name = name;
         this.description = description;
         this.date = date;
