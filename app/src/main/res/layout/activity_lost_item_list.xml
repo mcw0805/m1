@@ -7,4 +7,9 @@
     android:clickable="true"
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.LostItemList">
 
+    <ListView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
 </RelativeLayout>
