@@ -97,9 +97,11 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
             Item k = new LostItem(name, description, date, longit, lat, itemCat, user, status, reward);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             //traverse through database here
-            DatabaseReference myRef = database.getReference("posts/lost-items/123456789");
+            DatabaseReference myRef = database.getReference("posts/lost-items/");
             //add to k object to database
-            myRef.setValue(k);
+            String key = myRef.push().getKey();
+            DatabaseReference childRef = myRef.child(key);
+            childRef.setValue(k);
             Toast.makeText(this, "Post Added!", Toast.LENGTH_LONG).show();
             finish();
             Intent intent = new Intent(LostItemFormActivity.this, Dashboard.class);
