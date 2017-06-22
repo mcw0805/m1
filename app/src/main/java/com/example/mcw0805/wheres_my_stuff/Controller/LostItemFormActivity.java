@@ -11,7 +11,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.R;
+
+import java.util.Date;
 
 import model.Categories;
 //import model.States;
@@ -75,6 +78,22 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
     @Override
     public void onClick(View v) {
         if (v == postButton) {
+            //Create the item
+            String name = titleField.getText().toString();
+            String description = descriptField.getText().toString();
+            double lat = Double.parseDouble(latField.getText().toString());
+            double longit = Double.parseDouble(longField.getText().toString());
+            String reward = rewardField.getText().toString();
+            String itemType = typeSpinner.getSelectedItem().toString();
+            String itemCat = categorySpinner.getSelectedItem().toString();
+            Date date = new Date();
+            Item k = new Item(name, description, )
+
+
+
+
+
+
             Toast.makeText(this, "Post Added!", Toast.LENGTH_LONG).show();
             finish();
             Intent intent = new Intent(LostItemFormActivity.this, Dashboard.class);
