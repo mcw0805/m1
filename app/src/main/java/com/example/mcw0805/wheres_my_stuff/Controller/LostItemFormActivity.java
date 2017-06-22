@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.example.mcw0805.wheres_my_stuff.R;
 
 import model.Categories;
-import model.States;
+//import model.States;
 import model.Type;
 import model.Status;
 
@@ -22,12 +22,12 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
 
     private EditText titleField;
     private EditText descriptField;
-    private EditText cityField;
-    private EditText zipField;
+    private EditText latField;
+    private EditText longField;
     private EditText rewardField;
     private Spinner statSpinner;
     private Spinner categorySpinner;
-    private Spinner stateSpinner;
+    //private Spinner stateSpinner;
     private Spinner typeSpinner;
     private Button postButton;
 
@@ -38,18 +38,18 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
 
         titleField = (EditText) findViewById(R.id.title_L);
         descriptField = (EditText) findViewById(R.id.description_L);
-        cityField = (EditText) findViewById(R.id.city_L);
-        zipField = (EditText) findViewById(R.id.zipcode_L);
+        latField = (EditText) findViewById(R.id.latitude_L);
+        longField = (EditText) findViewById(R.id.longitude_L);
         rewardField = (EditText) findViewById(R.id.reward_L);
         statSpinner = (Spinner) findViewById(R.id.status_Lspinner);
         categorySpinner = (Spinner) findViewById(R.id.category_Lspinner);
-        stateSpinner = (Spinner) findViewById(R.id.state_Lspinner);
+        //stateSpinner = (Spinner) findViewById(R.id.state_Lspinner);
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
         postButton = (Button) findViewById(R.id.postButton_L);
 
-        ArrayAdapter<States> state_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, States.values());
-        state_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        stateSpinner.setAdapter(state_Adapter);
+//        ArrayAdapter<States> state_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, States.values());
+//        state_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        stateSpinner.setAdapter(state_Adapter);
 
         ArrayAdapter<Categories> category_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Categories.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

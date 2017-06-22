@@ -33,11 +33,11 @@
         android:id="@+id/status_Lost"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
+        android:layout_marginStart="26dp"
         android:text="Status"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:layout_alignTop="@+id/title_L"
-        android:layout_toEndOf="@+id/state_Lspinner" />
+        android:layout_toEndOf="@+id/postButton_L" />
 
     <Spinner
         android:id="@+id/status_Lspinner"
@@ -74,51 +74,34 @@
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <EditText
-        android:id="@+id/city_L"
+        android:id="@+id/latitude_L"
         android:layout_width="100dip"
         android:layout_height="40dip"
         android:layout_alignStart="@+id/location_L"
         android:layout_below="@+id/location_L"
         android:layout_marginTop="5dp"
         android:ems="15"
-        android:inputType="textPersonName"
-        android:text="City"
+        android:inputType="numberDecimal|numberSigned"
+        android:text="Latitude"
         android:textAppearance="@style/TextAppearance.AppCompat" />
-
-    <TextView
-        android:id="@+id/state_L"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/location_L"
-        android:layout_marginStart="37dp"
-        android:layout_toEndOf="@+id/city_L"
-        android:text="State"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
-
-    <Spinner
-        android:id="@+id/state_Lspinner"
-        android:layout_width="90dip"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/state_L"
-        android:layout_alignStart="@+id/state_L" />
 
     <EditText
-        android:id="@+id/zipcode_L"
+        android:id="@+id/longitude_L"
         android:layout_width="100dip"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="number"
-        android:text="Zip Code"
+        android:inputType="numberDecimal|numberSigned"
+        android:text="Longitude"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:layout_alignBottom="@+id/city_L"
-        android:layout_alignStart="@+id/status_Lspinner" />
+        android:layout_alignBottom="@+id/latitude_L"
+        android:layout_alignEnd="@+id/description_L" />
 
     <TextView
         android:id="@+id/type_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/city_L"
-        android:layout_below="@+id/city_L"
+        android:layout_alignStart="@+id/latitude_L"
+        android:layout_below="@+id/latitude_L"
         android:layout_marginTop="29dp"
         android:text="Type"
         android:textAppearance="@style/TextAppearance.AppCompat" />
