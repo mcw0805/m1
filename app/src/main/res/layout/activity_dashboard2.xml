@@ -12,7 +12,7 @@
             android:layout_height="30dp"
             android:id="@+id/welcome"
             android:textSize="13sp"
-            android:gravity="center_vertical"
+            android:gravity="right"
             />
     </LinearLayout>
     <LinearLayout
