@@ -16,6 +16,8 @@ import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -25,6 +27,11 @@ import model.Categories;
 //import model.States;
 import model.Type;
 
+/**
+ * Controller for submitting the lost item.
+ *
+ * @author Melanie Hall, Chaewon Min, Ted Shang
+ */
 public class LostItemFormActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private EditText titleField;
@@ -37,6 +44,17 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
     private Spinner typeSpinner;
     private Button backButton;
     private Button postButton;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser firebaseUser;
+
+    String inputName;
+    String inputDescription;
+    String uid;
+    double inputLatitude;
+    double inputLongitude;
+    int reward;
+    ItemCategory inputItemCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +76,21 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
 //        state_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 //        stateSpinner.setAdapter(state_Adapter);
 
-        ArrayAdapter<Categories> category_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Categories.values());
+        ArrayAdapter<Categories> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(category_Adapter);
 
-        ArrayAdapter<Type> type_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Type.values());
+        ArrayAdapter<Type> type_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Type.values());
         type_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(type_Adapter);
 
         postButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        firebaseUser = mAuth.getCurrentUser();
+        assert firebaseUser != null;
+
     }
 
     @Override
@@ -83,25 +106,7 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
     @Override
     public void onClick(View v) {
         if (v == postButton) {
-            //Create the item
-            String name = titleField.getText().toString();
-            String description = descriptField.getText().toString();
-            double lat = Double.parseDouble(latField.getText().toString());
-            double longit = Double.parseDouble(longField.getText().toString());
-            int reward = Integer.parseInt(rewardField.getText().toString());
-            String itemType = typeSpinner.getSelectedItem().toString();
-            String itemCat =categorySpinner.getSelectedItem().toString();
-            Date date = new Date();
-            User user = new User("test", "email", "lkjfhglksjdfhg");
-            boolean status = false;
-            Item k = new LostItem(name, description, date, longit, lat, itemCat, user, status, reward);
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            //traverse through database here
-            DatabaseReference myRef = database.getReference("posts/lost-items/");
-            //add to k object to database
-            String key = myRef.push().getKey();
-            DatabaseReference childRef = myRef.child(key);
-            childRef.setValue(k);
+            submitLostItem();
             Toast.makeText(this, "Post Added!", Toast.LENGTH_LONG).show();
             finish();
             Intent intent = new Intent(LostItemFormActivity.this, Dashboard.class);
@@ -111,5 +116,43 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         if (v == backButton) {
             startActivity(new Intent(this, Dashboard.class));
         }
+    }
+
+    private void submitLostItem() {
+
+        inputName = titleField.getText().toString();
+        inputDescription = descriptField.getText().toString();
+
+
+        try {
+            inputLatitude = Double.parseDouble(latField.getText().toString());
+            inputLongitude = Double.parseDouble(longField.getText().toString());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Enter Valid latitude and longitude");
+        }
+
+        reward = Integer.parseInt(rewardField.getText().toString());
+
+        String itemType = typeSpinner.getSelectedItem().toString();
+        inputItemCategory = (ItemCategory) categorySpinner.getSelectedItem();
+
+        long currentTime = System.currentTimeMillis();
+        Date date = new Date(currentTime);
+
+        uid = firebaseUser.getUid();
+
+        LostItem newLostItem = new LostItem(inputName, inputDescription, date,
+                inputLongitude, inputLatitude, inputItemCategory, uid, reward);
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //traverse through database here
+        DatabaseReference lostItemsRef = database.getReference("posts/lost-items/");
+
+        //String key = lostItemsRef.push().getKey();
+        DatabaseReference childRef = lostItemsRef.child(uid + "--" + newLostItem.getCount());
+        childRef.setValue(newLostItem);
+
     }
 }

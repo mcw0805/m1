@@ -1,5 +1,7 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
+
 import java.util.Date;
+
 /**
  * Created by jordan on 6/20/17.
  */
@@ -9,23 +11,33 @@ public abstract class Item {
     protected String name, description;
     protected Date date;
     protected double longitude, latitude;
-    protected String category;
-    protected User user;
-    protected boolean status;
+    protected ItemCategory category;
+    protected String uid;
+    protected boolean isOpen;
 
-    public boolean isStatus() {
-        return status;
+    public String getUid() {
+        return uid;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public boolean isOpen()
+    {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        this.isOpen = open;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name)
+    {
         this.name = name;
     }
 
@@ -61,31 +73,24 @@ public abstract class Item {
         this.latitude = latitude;
     }
 
-    public String getCategory() {
+    public ItemCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(ItemCategory category) {
         this.category = category;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public Item(String name, String description, Date date, double longitude,
-                double latitude, String category, User user, boolean status) {
+                double latitude, ItemCategory category, String uid) {
         this.name = name;
         this.description = description;
         this.date = date;
         this.longitude = longitude;
         this.latitude = latitude;
         this.category = category;
-        this.user = user;
-        this.status = status;
+        this.uid = uid;
+        this.isOpen = true;
     }
 }

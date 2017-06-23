@@ -10,8 +10,8 @@ public class DonationItem extends Item {
     private static int count;
 
     public DonationItem(String name, String description, Date date, double longitude,
-                     double latitude, String category, User user, boolean status) {
-        super(name, description, date, longitude, latitude, category, user, status);
+                     double latitude, ItemCategory category, String uid) {
+        super(name, description, date, longitude, latitude, category, uid);
         count++;
     }
 
