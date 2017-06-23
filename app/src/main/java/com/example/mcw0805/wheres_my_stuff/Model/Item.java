@@ -15,6 +15,9 @@ public abstract class Item {
     protected String uid;
     protected boolean isOpen;
 
+    protected Item() {
+    }
+
     public String getUid() {
         return uid;
     }

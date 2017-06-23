@@ -25,7 +25,8 @@
         <activity android:name=".Controller.LostItemFormActivity" />
         <activity android:name=".Controller.ResetPasswordActivity" />
         <activity android:name=".Controller.LostItemListActivity" />
-        <activity android:name=".Controller.ListView"></activity>
+        <activity android:name=".Controller.ListView" />
+        <activity android:name=".Controller.ItemViewerActivity"></activity>
     </application>
 
 </manifest>

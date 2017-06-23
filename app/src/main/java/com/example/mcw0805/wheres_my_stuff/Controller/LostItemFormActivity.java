@@ -3,6 +3,7 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -109,8 +110,7 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
             submitLostItem();
             Toast.makeText(this, "Post Added!", Toast.LENGTH_LONG).show();
             finish();
-            Intent intent = new Intent(LostItemFormActivity.this, Dashboard.class);
-            LostItemFormActivity.this.startActivity(intent);
+
         }
 
         if (v == backButton) {
@@ -150,9 +150,16 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         //traverse through database here
         DatabaseReference lostItemsRef = database.getReference("posts/lost-items/");
 
-        //String key = lostItemsRef.push().getKey();
-        DatabaseReference childRef = lostItemsRef.child(uid + "--" + newLostItem.getCount());
+        String key = lostItemsRef.push().getKey();
+        //DatabaseReference childRef = lostItemsRef.child(uid + "--" + newLostItem.getCount());
+        DatabaseReference childRef = lostItemsRef.child(key);
         childRef.setValue(newLostItem);
+
+        Intent submitPostIntent = new Intent(LostItemFormActivity.this, Dashboard.class);
+        submitPostIntent.putExtra("UID", uid);
+        submitPostIntent.putExtra("itemKey", childRef.getKey());
+
+        startActivity(submitPostIntent);
 
     }
 }

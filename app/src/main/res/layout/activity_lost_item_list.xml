@@ -9,7 +9,7 @@
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.LostItemListActivity">
 
     <ListView
-        android:id="@+id/lost_List"
+        android:id="@+id/lost_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:divider="#E30B5D"
