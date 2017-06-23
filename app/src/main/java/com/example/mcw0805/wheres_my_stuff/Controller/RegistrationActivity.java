@@ -114,6 +114,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
 
                         Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
                         intent.putExtra("currentUserId", id);
+                        intent.putExtra("name", inputName);
 
                         RegistrationActivity.this.startActivity(intent);
                     } else {
