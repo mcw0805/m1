@@ -16,6 +16,11 @@ public enum ItemCategory {
 
     }
 
+    public String getType() {
+        return itemCategory;
+    }
+
+    @Override
     public String toString() {
         return itemCategory;
     }
