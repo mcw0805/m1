@@ -27,7 +27,7 @@
         <activity android:name=".Controller.LostItemListActivity" />
         <activity android:name=".Controller.ListView" />
         <activity android:name=".Controller.ItemViewerActivity" />
-        <activity android:name=".Controller.lost_item_description"></activity>
+        <activity android:name=".Controller.LostItemDescriptionActivity"></activity>
     </application>
 
 </manifest>
