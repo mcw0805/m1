@@ -1,22 +1,89 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * Created by jordan on 6/20/17.
  */
 //6/22/17 Changed cateogry to string for testing purposes
+//6/25/17 category is back to enum
 
-public abstract class Item {
-    protected String name, description;
+public  class Item implements Parcelable {
+    protected String name;
+    protected String description;
     protected Date date;
-    protected double longitude, latitude;
+    protected double longitude;
+    protected double latitude;
     protected ItemCategory category;
     protected String uid;
     protected boolean isOpen;
 
-    protected Item() {
+    public Item(String name, String description, Date date, double longitude,
+                double latitude, ItemCategory category, String uid, boolean isOpen) {
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.category = category;
+        this.uid = uid;
+        this.isOpen = isOpen;
     }
+
+    public Item(String name, String description, Date date, double longitude,
+                double latitude, ItemCategory category, String uid) {
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.category = category;
+        this.uid = uid;
+        this.isOpen = true;
+    }
+
+    protected Item(Parcel in) {
+        name = in.readString();
+        description = in.readString();
+        date = new Date(in.readLong());
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        category = ItemCategory.valueOf(in.readString().toString());
+        uid = in.readString();
+        isOpen = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeLong(date.getTime());
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeString(category.getType());
+        dest.writeString(uid);
+        dest.writeByte((byte) (isOpen ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Item> CREATOR = new Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 
     public String getUid() {
         return uid;
@@ -26,12 +93,12 @@ public abstract class Item {
         this.uid = uid;
     }
 
-    public boolean isOpen()
+    public boolean getIsOpen()
     {
         return isOpen;
     }
 
-    public void setOpen(boolean open) {
+    public void setIsOpen(boolean open) {
         this.isOpen = open;
     }
 
@@ -85,15 +152,4 @@ public abstract class Item {
     }
 
 
-    public Item(String name, String description, Date date, double longitude,
-                double latitude, ItemCategory category, String uid) {
-        this.name = name;
-        this.description = description;
-        this.date = date;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.category = category;
-        this.uid = uid;
-        this.isOpen = true;
-    }
 }

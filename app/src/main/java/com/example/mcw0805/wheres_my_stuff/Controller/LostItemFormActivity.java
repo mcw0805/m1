@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import model.Categories;
@@ -45,6 +46,8 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
     private Spinner typeSpinner;
     private Button backButton;
     private Button postButton;
+
+    private LostItem newLostItem;
 
     private FirebaseAuth mAuth;
     private FirebaseUser firebaseUser;
@@ -141,23 +144,12 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
 
         uid = firebaseUser.getUid();
 
-        LostItem newLostItem = new LostItem(inputName, inputDescription, date,
+        newLostItem = new LostItem(inputName, inputDescription, date,
                 inputLongitude, inputLatitude, inputItemCategory, uid, reward);
 
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        //traverse through database here
-        DatabaseReference lostItemsRef = database.getReference("posts/lost-items/");
-
-        String key = lostItemsRef.push().getKey();
-        //DatabaseReference childRef = lostItemsRef.child(uid + "--" + newLostItem.getCount());
-        DatabaseReference childRef = lostItemsRef.child(key);
-        childRef.setValue(newLostItem);
+        newLostItem.writeToDatabase();
 
         Intent submitPostIntent = new Intent(LostItemFormActivity.this, Dashboard.class);
-        submitPostIntent.putExtra("UID", uid);
-        submitPostIntent.putExtra("itemKey", childRef.getKey());
 
         startActivity(submitPostIntent);
 

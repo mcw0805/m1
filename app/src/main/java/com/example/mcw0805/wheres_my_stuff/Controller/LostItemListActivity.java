@@ -20,8 +20,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -35,10 +35,11 @@ public class LostItemListActivity extends AppCompatActivity {
     private DatabaseReference mItemRef;
     private List<String> lostItemList;
     private List<String> lostItemKeys;
+    private List<LostItem> lostItemObjectList;
     private Map<String, Object> lostMap;
-    private String uid;
     private String itemKey;
     private int pos;
+
 
     private final String TAG = "LostItemListActivity";
 
@@ -54,6 +55,7 @@ public class LostItemListActivity extends AppCompatActivity {
 
         lostMap = new LinkedHashMap<>();
         lostItemKeys = new ArrayList<>();
+        lostItemObjectList = new ArrayList<>();
 //        ListView lost;
 //        //Used for testing purposes.
 //        String[] lostItems = {"Dog", "Cat", "Mouse", "Bird", "Elephant", "Doggo", "Giraffe", "Dolphin", "Tiger", "Lion", "Kitten"};
@@ -75,15 +77,24 @@ public class LostItemListActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map<String, Object> item = (Map<String, Object>) dataSnapshot.getValue();
-                Log.d("map obj", item.toString());
+
+                //name of the item name
                 String name = (String) item.get("name");
 
+                //builds the LostItem object
+                LostItem lostItem = LostItem.buildLostItem(dataSnapshot);
+
+                //adds the built object to the list
+                lostItemObjectList.add(lostItem);
+
                 lostMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
-                Log.d("global hash map", lostMap.toString());
+
+                //List of string that would be displayed on the screen
                 lostItemList.add("(LOST) " + name);
+
                 lostItemKeys.add(dataSnapshot.getKey());
 
-                lostItemAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                lostItemAdapter = new ArrayAdapter<>(getApplicationContext(),
                         R.layout.activity_list_view, R.id.textView, lostItemList);
                 lostItemLv.setAdapter(lostItemAdapter);
                 lostItemAdapter.notifyDataSetChanged();
@@ -119,19 +130,13 @@ public class LostItemListActivity extends AppCompatActivity {
                 lostItemAdapter.notifyDataSetChanged();
 
                 Intent intent = new Intent(getApplicationContext(), ItemViewerActivity.class);
-                intent.putExtra("position", pos);
-                intent.putExtra("itemKey", lostItemKeys.get(position));
-                ArrayList<Object> obj = new ArrayList<Object>(lostMap.values());
 
-                intent.putExtra("map", (Serializable) lostMap);
+                //passes the selected object to the next screen
+                intent.putExtra("selectedLostItem", lostItemObjectList.get(position));
 
                 startActivity(intent);
             }
         });
-
-
-
-
 
     }
 }

@@ -11,6 +11,7 @@ import com.example.mcw0805.wheres_my_stuff.R;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,11 +22,11 @@ import java.util.Set;
  */
 public class ItemViewerActivity extends AppCompatActivity {
 
-    private Map<String, Object> map;
     private int pos;
     private String itemKey;
 
     private TextView description;
+    private LostItem li;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,21 +36,15 @@ public class ItemViewerActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.test_desc);
 
         Intent intent = getIntent();
-        map = (Map <String, Object>) intent.getSerializableExtra("map");
+
+        li = intent.getParcelableExtra("selectedLostItem");
+
         pos = intent.getIntExtra("position", 0);
         itemKey = intent.getStringExtra("itemKey");
+        Boolean x = li == null;
+        Log.d("lostobj", "bool -> want false " + x.toString());
 
-        Log.d("arraylist", map.values().toString());
-        Log.d("value", map.get(itemKey).toString());
-        Log.d("itemKey", itemKey);
-        Log.d("passed map", map.toString());
-        Log.d("passed int", ((Integer) pos).toString());
-
-
-
-
-
-
+        description.setText(li.getDescription());
 
 
     }

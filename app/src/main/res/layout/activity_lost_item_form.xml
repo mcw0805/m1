@@ -17,7 +17,7 @@
         android:layout_marginTop="17dp"
         android:ems="10"
         android:hint="Title"
-        android:inputType="textPersonName" />
+        android:inputType="text|textLongMessage" />
 
     <EditText
         android:id="@+id/description_L"
@@ -27,7 +27,7 @@
         android:layout_below="@+id/title_L"
         android:ems="10"
         android:hint="Description"
-        android:inputType="textPersonName" />
+        android:inputType="text|textLongMessage" />
 
     <!--<TextView-->
         <!--android:id="@+id/status_Lost"-->
