@@ -76,24 +76,6 @@ public class LostItem extends Item {
         return getName() + " " + "UID: " + getUid();
     }
 
-    public static LostItem buildLostItem(DataSnapshot dataSnap) {
-        Map<String, Object> map = (Map<String, Object>) dataSnap.getValue();
-
-        String itemName = (String) map.get("name").toString();
-        String itemDesc = (String) map.get("description").toString();
-        double itemLat = (Double) Double.parseDouble(map.get("latitude").toString());
-        double itemLong = (Double) Double.parseDouble(map.get("longitude").toString());
-        boolean itemOpenStat = (Boolean) Boolean.parseBoolean(map.get("isOpen").toString());
-        int itemReward = (Integer) Integer.parseInt(map.get("reward").toString());
-        String itemOwner = (String) map.get("uid").toString();
-        ItemCategory itemCat = ItemCategory.valueOf((String) map.get("category").toString());
-        Date dateTime = new Date((Long) Long.parseLong(map.get("date-time").toString()));
-
-        return new LostItem(itemName, itemDesc, dateTime, itemLong, itemLat, itemCat,
-                itemOwner, itemReward, itemOpenStat);
-
-    }
-
     public void writeToDatabase() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference lostItemsRef = database.getReference("posts/lost-items/");
@@ -129,30 +111,79 @@ public class LostItem extends Item {
 
     }
 
-//    public static LostItem buildLostItemObject(DataSnapshot dataSnap) {
-//        DataSnapshot name = dataSnap.child("name");
-//        DataSnapshot description = dataSnap.child("description");
-//        DataSnapshot latitude = dataSnap.child("latitude");
-//        DataSnapshot longitude = dataSnap.child("longitude");
-//        DataSnapshot isOpen = dataSnap.child("isOpen");
-//        DataSnapshot reward = dataSnap.child("reward");
-//        DataSnapshot uid = dataSnap.child("uid");
-//        DataSnapshot category = dataSnap.child("category");
-//        DataSnapshot date = dataSnap.child("date");
+    public static LostItem buildLostItemObject(DataSnapshot dataSnap) {
+        DataSnapshot name = dataSnap.child("name");
+        DataSnapshot description = dataSnap.child("description");
+        DataSnapshot latitude = dataSnap.child("latitude");
+        DataSnapshot longitude = dataSnap.child("longitude");
+        DataSnapshot isOpen = dataSnap.child("isOpen");
+        DataSnapshot reward = dataSnap.child("reward");
+        DataSnapshot uid = dataSnap.child("uid");
+        DataSnapshot category = dataSnap.child("category");
+        DataSnapshot date = dataSnap.child("date-time");
+
+        String itemName = (String) name.getValue();
+        String itemDesc = (String) description.getValue();
+        double itemLat = convertDouble(latitude.getValue());
+        double itemLong = convertDouble(longitude.getValue());
+        boolean itemOpenStat = (Boolean) isOpen.getValue();
+        int itemReward = convertInteger(reward.getValue());
+        String itemOwner = (String) uid.getValue();
+        ItemCategory itemCat = ItemCategory.valueOf((String) category.getValue());
+        Date dateTime = new Date((long) date.getValue());
+
+        return new LostItem(itemName, itemDesc, dateTime, itemLong, itemLat, itemCat,
+                itemOwner, itemReward, itemOpenStat);
+
+    }
+
 //
-//        String itemName = (String) name.getValue();
-//        String itemDesc = (String) description.getValue();
-//        double itemLat = (Double) latitude.getValue();
-//        double itemLong = (Double) longitude.getValue();
-//        boolean itemOpenStat = (Boolean) isOpen.getValue();
-//        int itemReward = (Integer) reward.getValue();
-//        String itemOwner = (String) uid.getValue();
-//        ItemCategory itemCat = ItemCategory.valueOf((String) category.getValue());
-//        Date dateTime = new Date((long) date.getValue());
+//    public static LostItem buildLostItem(DataSnapshot dataSnap) {
+//        Map<String, Object> map = (Map<String, Object>) dataSnap.getValue();
+//
+//        String itemName = (String) map.get("name");
+//        String itemDesc = (String) map.get("description");
+//        double itemLat = (Double) Double.parseDouble(map.get("latitude").toString());
+//        double itemLong = (Double) Double.parseDouble(map.get("longitude").toString());
+//        boolean itemOpenStat = (Boolean) Boolean.parseBoolean(map.get("isOpen").toString());
+//        int itemReward = (Integer) Integer.parseInt(map.get("reward").toString());
+//        String itemOwner = (String) map.get("uid");
+//        ItemCategory itemCat = ItemCategory.valueOf((String) map.get("category").toString());
+//        Date dateTime = new Date((Long) Long.parseLong(map.get("date-time").toString()));
 //
 //        return new LostItem(itemName, itemDesc, dateTime, itemLong, itemLat, itemCat,
 //                itemOwner, itemReward, itemOpenStat);
 //
 //    }
+
+    public static double convertDouble(Object longValue) {
+        double result; // return value
+
+        if (longValue instanceof Long) { // Necessary due to the way Firebase stores data
+            result = ((Long) longValue).doubleValue();
+        } else if (longValue instanceof Double) {
+            result = (double) longValue;
+        } else {
+            throw new IllegalArgumentException(
+                    "Object passed in must be either a double or a long");
+        }
+
+        return result;
+    }
+
+    public static int convertInteger(Object longValue) {
+        int result; // return value
+
+        if (longValue instanceof Long) { // Necessary due to the way Firebase stores data
+            result = ((Long) longValue).intValue();
+        } else if (longValue instanceof Integer) {
+            result = (int) longValue;
+        } else {
+            throw new IllegalArgumentException(
+                    "Object passed in must be either a integer or a long");
+        }
+
+        return result;
+    }
 
 }

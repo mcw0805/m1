@@ -81,8 +81,13 @@ public class LostItemListActivity extends AppCompatActivity {
                 //name of the item name
                 String name = (String) item.get("name");
 
-                //builds the LostItem object
-                LostItem lostItem = LostItem.buildLostItem(dataSnapshot);
+                LostItem lostItem = null;
+                try {
+                    lostItem = LostItem.buildLostItemObject(dataSnapshot);
+                } catch (NullPointerException e) {
+                    Log.d(TAG, "lost item null pointer");
+                    e.printStackTrace();
+                }
 
                 //adds the built object to the list
                 lostItemObjectList.add(lostItem);
