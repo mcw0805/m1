@@ -9,9 +9,9 @@ import java.util.Date;
  * Created by jordan on 6/20/17.
  */
 //6/22/17 Changed cateogry to string for testing purposes
-//6/25/17 category is back to enum
+//6/25/17 category is back to enum, temporarily made it Item not abstract
 
-public  class Item implements Parcelable {
+public class Item implements Parcelable {
     protected String name;
     protected String description;
     protected Date date;
