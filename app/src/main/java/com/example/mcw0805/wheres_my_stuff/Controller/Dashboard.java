@@ -101,6 +101,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         } else if (v.equals(profile_page)) {
             Intent intent = new Intent(this, ProfileActivity.class);
             Dashboard.this.startActivity(intent);
+        } else if (v.equals(foundNearMe)) {
+            Intent intent = new Intent(this, FoundItemListActivity.class);
+            Dashboard.this.startActivity(intent);
         }
     }
 
