@@ -94,6 +94,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
+
                         Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
                         RegistrationActivity.this.startActivity(intent);
                     } else {

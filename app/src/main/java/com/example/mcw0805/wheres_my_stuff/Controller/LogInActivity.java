@@ -42,6 +42,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "LoginActivity";
 
+    /**
+     * Creates the activity and instantiates widgets
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
@@ -57,7 +61,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                // ...
             }
         };
 
@@ -111,6 +114,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /**
+     * The method that verifies user logins and checks for valid inforation. Valid username/pass
+     * combinations will lead to the next activity
+     */
     private void login() {
         //Gets the information from the EditTexts and checks it against a username/password
         //database. Either displays incorrect password or advances the scene
@@ -129,34 +136,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        //check to see if fields are valid first;
-//        if (username.length() == 0 || password.length() == 0) {
-//            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-//            builder1.setMessage("Please fill out both required fields.");
-//            builder1.setCancelable(true);
-//
-//            builder1.setPositiveButton(
-//                    "Cancel",
-//                    new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            dialog.cancel();
-//                        }
-//                    });
-//
-//            builder1.setNegativeButton(
-//                    "Ok",
-//                    new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int id) {
-//                            dialog.cancel();
-//                        }
-//                    });
-//
-//            AlertDialog alert11 = builder1.create();
-//            alert11.show();
-//            return;
-//        }
-
         progressDialog.setMessage("Signing in...");
         progressDialog.show();
 
@@ -178,56 +157,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             Toast.makeText(LogInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
-                            /*Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                            // If sign in fails, display a message to the user. If sign in succeeds
-                            // the auth state listener will be notified and logic to handle the
-                            // signed in user can be handled in the listener.
-                            if (!task.isSuccessful()) {
-                                Log.w(TAG, "signInWithEmail:failed", task.getException());
-                                Toast.makeText(LogInActivity.this,"Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                            Intent intent = new Intent(LogInActivity.this, Dashboard.class);
-                            LogInActivity.this.startActivity(intent);
-
-                            // ...*/
                     }
                 });
-
-            /*//Temporary hardcode
-            String hardUsername = "user";
-            String hardPassword = "pass";
-            if (username.equals(hardUsername) && password.equals(hardPassword)) {
-                //GOTO application1
-                Toast.makeText(this, "Successful login",
-                        Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(LogInActivity.this, Dashboard.class);
-                LogInActivity.this.startActivity(intent);*/
-            /*} else {
-                // Inform user of bad login attempt
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-                builder1.setMessage("Invalid Username/Password Combination");
-                builder1.setCancelable(true);
-
-                builder1.setPositiveButton(
-                        "Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                builder1.setNegativeButton(
-                        "Ok",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-
-                AlertDialog alert11 = builder1.create();
-                alert11.show();*/
-
 
     }
 }
