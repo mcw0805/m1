@@ -17,6 +17,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Dashboard extends AppCompatActivity implements View.OnClickListener {
 
+/*
+*
+ */
     private TextView welcome;
     private TextView lostNearMe;
     private TextView foundNearMe;
@@ -68,7 +71,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             email = user.getEmail();
         }
 
-        welcome.setText("Welcome " + email);
+        //welcome.setText("Welcome " + email);
+        welcome.setText("Welcome " + name);
 
 
     }

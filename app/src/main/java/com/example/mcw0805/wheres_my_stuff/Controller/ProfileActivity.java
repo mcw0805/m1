@@ -16,21 +16,21 @@ import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
+ * Controller for showing a user's profile page.
+ *
  * @author Melanie Hall
  */
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener  {
 
-    //Log out button.
+    /*
+      Instance variables for log out button/allowing user to log out.
+    */
     private Button signOutProfileButton;
-
     private ProgressDialog progressDialog;
-
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
-
-
     private static final String TAG = "ProfileActivity";
 
     @Override
@@ -60,6 +60,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         };
     }
 
+    /**
+     * Finds user and starts application.
+     */
     @Override
     protected void onStart() {
         super.onStart();
@@ -69,6 +72,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * Stops application and returns to login screen.
+     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -78,10 +84,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /**
+     * onClick event that checks if user signs out.
+     * @param view checks if user signs out
+     */
     @Override
     public void onClick(View view) {
         if (view == signOutProfileButton) {
-
             signOut();
             Toast.makeText(getApplicationContext(),
                     "Successfully signed out.", Toast.LENGTH_SHORT).show();
@@ -90,14 +99,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
-
         }
-
     }
 
+    /**
+     * Method that signs a user out.
+     */
     private void signOut() {
         mAuth.signOut();
-
         Log.d(TAG, "signed out");
     }
 }

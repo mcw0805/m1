@@ -13,7 +13,6 @@
         android:textSize="20sp"
         android:gravity="center_vertical"
         android:textStyle= "bold"
-        android:text="Obj name will go here"
         />
     </LinearLayout>
     <LinearLayout
@@ -25,7 +24,6 @@
         android:layout_height="80dp"
         android:id="@+id/item_description"
         android:textSize="12sp"
-        android:text="Obj description will go here"
         />
     </LinearLayout>
 
@@ -49,7 +47,7 @@
             android:layout_height="20dp"
             android:layout_toRightOf="@+id/item_cat"
             android:gravity="left"
-            android:text="temp" />
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -70,7 +68,6 @@
             android:layout_height="20dp"
             android:id="@+id/item_location"
             android:gravity="left"
-            android:text="temp"
             android:layout_toRightOf= "@+id/item_loc"
             />
     </LinearLayout>
