@@ -34,13 +34,4 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
-
-
-
-
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 86f565e8bd2d779c1dab37ebc23a82f3cc2205ac
 apply plugin: 'com.google.gms.google-services'
