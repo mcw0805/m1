@@ -33,7 +33,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
     private Button backBtn;
 
     /*
-        Progress dialog indicating the action taken
+        Progress dialog indicating the action taken.
      */
     private ProgressDialog progressDialog;
 

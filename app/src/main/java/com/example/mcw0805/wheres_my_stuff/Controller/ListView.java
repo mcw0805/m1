@@ -5,6 +5,12 @@ import android.os.Bundle;
 
 import com.example.mcw0805.wheres_my_stuff.R;
 
+/**
+ * Controller for putting information into a ListView.
+ *
+ * @author Melanie Hall
+ */
+
 public class ListView extends AppCompatActivity {
 
     @Override
