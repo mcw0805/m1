@@ -166,7 +166,7 @@ public class LostItemListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 lostItemAdapter.notifyDataSetChanged();
 
-                Intent intent = new Intent(getApplicationContext(), ItemViewerActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LostItemDescriptionActivity.class);
 
                 //passes the selected object to the next screen
                 intent.putExtra("selectedLostItem", lostItemObjectList.get(position));
