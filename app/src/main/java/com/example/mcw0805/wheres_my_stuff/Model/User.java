@@ -1,79 +1,82 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
-import java.util.LinkedList;
 
 /**
+ * Created by Ted on 6/14/2017.
  * Creating the user model
- * @Author Ted Shang
- * @Version 1.2
  */
 
 public class User {
-    private String _name;
-    private String _email;
-    private boolean _isLocked = false;
-    private boolean _isBanned = false;
-    private LinkedList<Item> itemList = new LinkedList<>();
+    private String name;
+    private String email;
+    private boolean isLocked;
+    private boolean isBanned;
+    private String uid;
+
 
     /**
-     *Constructor provided with entered information from user
-     * @param name name of user
+     * Constructor provided with entered information from user
+     *
+     * @param name  name of user
      * @param email email of user
      */
-    public User(String name, String email) {
-        _name = name;
-        _email = email;
+    public User(String name, String email, String id) {
+        this.name = name;
+        this.email = email;
+        this.uid = id;
+        this.isLocked = false;
+        this.isBanned = false;
+
 
     }
-    //add method for new items
 
-    /**
-     * Adds an item to the user's list
-     * @param item
-     */
-    public void addItem(Item item) {
-        itemList.add(item);
+    public User(String name, String email, String id, boolean isLocked, boolean isBanned) {
+        this.name = name;
+        this.email = email;
+        this.uid = id;
+        this.isLocked = isLocked;
+        this.isBanned = isBanned;
+
     }
 
-    //Getters and Setters
-
-    /**
-     * Gets the name of the user
-     * @return name of user
-     */
-    public String get_name() {
-        return _name;
+    public String getName() {
+        return name;
     }
 
-    /**
-     * gets the locked status of the user
-     * @return boolean representing the status
-     */
-    public boolean get_isLocked() {return _isLocked;}
-
-    /**
-     * Gets the itemlist of the user
-     * @return the LinkedList of items
-     */
-    public LinkedList<Item> getItemList() {return itemList;}
-
-    /**
-     * Sets the locked status of the user
-     * @param k boolean true or false
-     */
-    public void set_isLocked(boolean k) {_isLocked = k;}
-
-    /**
-     * Set the name of the user
-     * @param name of the user
-     */
-    public void set_name(String name) {
-        _name = name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    /**
-     * Sets the banened or not status of the user
-     * @param boolean true or false
-     */
-    public void set_isBanned(boolean bool) { _isBanned = bool;}
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.isLocked = locked;
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.isBanned = banned;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
 
 }

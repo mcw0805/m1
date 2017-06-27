@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +24,14 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author Jordan Taylor
@@ -36,7 +45,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private ProgressDialog progressDialog;
-
 
 
     @Override
@@ -60,8 +68,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View v) {
 
-        String inputName = name.getText().toString();
-        String inputEmail = email.getText().toString();
+        final String inputName = name.getText().toString();
+        final String inputEmail = email.getText().toString();
         String inputPassword = password.getText().toString();
         boolean inputAdmin = admin.isChecked();
 
@@ -84,7 +92,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                 alert.show();
                 return;
             }
-            progressDialog.setMessage("Signing in...");
+            progressDialog.setMessage("Registering...");
             progressDialog.show();
             mAuth.createUserWithEmailAndPassword(inputEmail, inputPassword).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
@@ -94,15 +102,27 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
+                        String id = user.getUid(); //authenticated UID from Firebase
+
+
+                        User u = new User(inputName, inputEmail, id); //instantiate regular user
+                        Log.d("AUTHENTICATION", id);
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference userRef = database.getReference("users");
+                        DatabaseReference childRef = userRef.child(id);
+                        childRef.setValue(u);
 
                         Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
+                        intent.putExtra("currentUserId", id);
+                        intent.putExtra("name", inputName);
+
                         RegistrationActivity.this.startActivity(intent);
                     } else {
                         // If sign in fails, display a message to the user.
                         Exception e = task.getException();
                         if (e instanceof FirebaseAuthWeakPasswordException) {
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(RegistrationActivity.this);
-                            builder1.setMessage(((FirebaseAuthWeakPasswordException)e).getReason());
+                            builder1.setMessage(((FirebaseAuthWeakPasswordException) e).getReason());
                             builder1.setCancelable(true);
                             builder1.setPositiveButton(
                                     "Ok",
@@ -126,7 +146,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                                     });
                             AlertDialog alert = builder1.create();
                             alert.show();
-                            Log.d("Invalid Credentials","Bad Email");
+                            Log.d("Invalid Credentials", "Bad Email");
                         } else if (e instanceof FirebaseAuthInvalidCredentialsException) {
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(RegistrationActivity.this);
                             builder1.setMessage("Oops!\nIt looks like there is already an account associated with"

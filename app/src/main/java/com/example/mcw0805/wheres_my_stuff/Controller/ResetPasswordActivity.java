@@ -25,11 +25,21 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class ResetPasswordActivity extends AppCompatActivity implements View.OnClickListener {
 
+    /*
+        Widgets that require listeners
+     */
     private EditText enteredEmail;
     private Button resetPasswordBtn;
     private Button backBtn;
 
+    /*
+        Progress dialog indicating the action taken
+     */
     private ProgressDialog progressDialog;
+
+    /*
+        Firebase authorization
+     */
     private FirebaseAuth mAuth;
 
     private static final String TAG = "ResetPasswordActivity";
@@ -62,10 +72,16 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    /**
+     * Called when the user clicks reset password button.
+     * Pulls the user's email from the EditText widget and uses that email for password reset
+     * verification.
+     */
     private void resetPassword() {
 
         String email = enteredEmail.getText().toString().trim();
 
+        //empty text
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Please enter your email id.", Toast.LENGTH_SHORT).show();
             return;
@@ -73,19 +89,16 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
 
         progressDialog.setMessage("Email sending for password reset instructions");
         progressDialog.show();
+
         mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-//                    Toast.makeText(getApplicationContext(),
-//                            "Email sent for password reset instructions", Toast.LENGTH_SHORT).show();
-
-
                     Log.d(TAG, "User password updated.");
                     startActivity(new Intent(getApplicationContext(), LogInActivity.class));
                     progressDialog.dismiss();
 
-                } else {
+                } else { //task is unsuccessful
                     Toast.makeText(getApplicationContext(),
                             "This email does not exist. Failed to send email.", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "User password not updated.");
