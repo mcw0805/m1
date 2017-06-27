@@ -12,6 +12,9 @@ public class LostItemDescriptionActivity extends AppCompatActivity {
 
     private TextView name;
     private TextView description;
+    private TextView category;
+    private TextView location;
+    private TextView type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,5 +27,11 @@ public class LostItemDescriptionActivity extends AppCompatActivity {
         name.setText("" + k.getName());
         description = (TextView) findViewById(R.id.item_description);
         description.setText("" + k.getDescription());
+        category = (TextView) findViewById(R.id.item_category);
+        category.setText("" + k.getCategory());
+        location = (TextView) findViewById(R.id.item_location);
+        location.setText("temp");
+        type = (TextView) findViewById(R.id.item_type);
+        type.setText("Lost");
     }
 }
