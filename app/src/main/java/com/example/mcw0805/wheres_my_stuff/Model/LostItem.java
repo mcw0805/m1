@@ -135,10 +135,13 @@ public class LostItem extends Item {
 
         String itemName = (String) name.getValue();
         String itemDesc = (String) description.getValue();
-        double itemLat = convertDouble(latitude.getValue());
-        double itemLong = convertDouble(longitude.getValue());
+        //double itemLat = convertDouble(latitude.getValue());
+        double itemLat = Double.parseDouble(String.valueOf(latitude.getValue()));
+        //double itemLong = convertDouble(longitude.getValue());
+        double itemLong = Double.parseDouble(String.valueOf(longitude.getValue()));
         boolean itemOpenStat = (Boolean) isOpen.getValue();
-        int itemReward = convertInteger(reward.getValue());
+        int itemReward = Integer.parseInt(String.valueOf(reward.getValue()));
+        //int itemReward = convertInteger(reward.getValue());
         String itemOwner = (String) uid.getValue();
         ItemCategory itemCat = ItemCategory.valueOf((String) category.getValue());
         Date dateTime = new Date((long) date.getValue());

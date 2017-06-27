@@ -18,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Dashboard extends AppCompatActivity implements View.OnClickListener {
 
 /*
-*
+* textviews for the various textfields on the dashboard
  */
     private TextView welcome;
     private TextView lostNearMe;
@@ -28,6 +28,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private TextView request;
     private TextView donate;
     private TextView profile_page;
+
+    /*
+    * variables that will belong to each particular object
+     */
     private String currentUserId;
     private String name;
     private String email;
@@ -38,7 +42,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard2);
-
+        /*
+        * sets all textviews in the view to the instances in the controller
+         */
         lostNearMe = (TextView) findViewById(R.id.lost_txt);
         foundNearMe = (TextView) findViewById(R.id.found_txt);
         newFound = (TextView) findViewById(R.id.reportFound_txt);
@@ -49,6 +55,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         welcome = (TextView) findViewById(R.id.welcome);
         //welcome.setText("Welcome " + name);
 
+        /*
+        * tells the clickListener that an action will occur in this class
+         */
         lostNearMe.setOnClickListener(this);
         foundNearMe.setOnClickListener(this);
         newFound.setOnClickListener(this);
@@ -77,6 +86,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    /*
+    * navigates the user to the next page depending on which item they select
+     */
+
     @Override
     public void onClick(View v) {
         if (v.equals(newLost)) {
@@ -87,6 +100,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             Dashboard.this.startActivity(intent);
         } else if (v.equals(profile_page)) {
             Intent intent = new Intent(this, ProfileActivity.class);
+            Dashboard.this.startActivity(intent);
+        } else if (v.equals(foundNearMe)) {
+            Intent intent = new Intent(this, FoundItemListActivity.class);
             Dashboard.this.startActivity(intent);
         } else if (v.equals(request)) {
             Intent intent = new Intent(this, RequestItemFormActivity.class);
