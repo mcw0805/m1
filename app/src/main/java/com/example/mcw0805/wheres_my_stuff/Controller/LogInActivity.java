@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 /**
+ * Controller for the login. Uses Firebase email password authentication.
+ *
  * @Author Ted Shang
  * @Version 1.0
  */

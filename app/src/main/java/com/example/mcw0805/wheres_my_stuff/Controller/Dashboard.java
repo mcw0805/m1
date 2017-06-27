@@ -68,4 +68,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             Dashboard.this.startActivity(intent);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }

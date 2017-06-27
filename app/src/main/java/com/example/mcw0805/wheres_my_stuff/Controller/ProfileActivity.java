@@ -1,5 +1,6 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -22,9 +24,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     //Log out button.
     private Button signOutProfileButton;
 
+    private ProgressDialog progressDialog;
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
+
+
     private static final String TAG = "ProfileActivity";
 
     @Override
@@ -35,6 +41,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         signOutProfileButton = (Button) findViewById(R.id.profile_logout_btn);
 
         signOutProfileButton.setOnClickListener(this);
+
+        progressDialog = new ProgressDialog(this);
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -73,10 +81,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if (view == signOutProfileButton) {
-            finish();
+
             signOut();
+            Toast.makeText(getApplicationContext(),
+                    "Successfully signed out.", Toast.LENGTH_SHORT).show();
+
             Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
-            ProfileActivity.this.startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
 
         }
 
@@ -84,6 +97,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private void signOut() {
         mAuth.signOut();
+
         Log.d(TAG, "signed out");
     }
 }
