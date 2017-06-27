@@ -108,7 +108,7 @@ public class FoundItemListActivity extends AppCompatActivity {
                 foundMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
 
                 //List of string that would be displayed on the screen
-                foundItemList.add("(LOST) " + name);
+                foundItemList.add("(Found) " + name);
 
                 foundItemKeys.add(dataSnapshot.getKey());
 
