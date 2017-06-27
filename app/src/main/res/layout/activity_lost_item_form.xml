@@ -21,13 +21,19 @@
 
     <EditText
         android:id="@+id/description_L"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/title_L"
-        android:layout_below="@+id/title_L"
+        android:layout_width="350dp"
+        android:layout_height="60dp"
         android:ems="10"
         android:hint="Description"
-        android:inputType="text|textLongMessage" />
+        android:inputType="textMultiLine"
+        android:minHeight="45dp"
+        android:scrollHorizontally="false"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        android:overScrollMode="always"
+        android:layout_below="@+id/title_L"
+        android:layout_alignStart="@+id/title_L" />
 
     <!--<TextView-->
         <!--android:id="@+id/status_Lost"-->
@@ -81,12 +87,13 @@
         android:id="@+id/longitude_L"
         android:layout_width="100dip"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/latitude_L"
-        android:layout_alignEnd="@+id/description_L"
         android:ems="10"
         android:hint="Longitude"
         android:inputType="number|numberSigned|numberDecimal"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:layout_alignBaseline="@+id/latitude_L"
+        android:layout_alignBottom="@+id/latitude_L"
+        android:layout_alignEnd="@+id/title_L" />
 
     <TextView
         android:id="@+id/type_L"
@@ -131,18 +138,19 @@
         android:id="@+id/postButton_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
         android:text="Post"
+        android:layout_marginTop="28dp"
         android:layout_below="@+id/reward_L"
-        android:layout_toEndOf="@+id/longitude_L" />
+        android:layout_alignEnd="@+id/type_Lspinner" />
 
     <Button
         android:id="@+id/backButton_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
+        android:layout_marginStart="28dp"
         android:layout_alignBaseline="@+id/postButton_L"
         android:layout_alignBottom="@+id/postButton_L"
-        android:layout_toEndOf="@+id/location_L" />
+        android:layout_toEndOf="@+id/reward_L" />
 
 </RelativeLayout>
