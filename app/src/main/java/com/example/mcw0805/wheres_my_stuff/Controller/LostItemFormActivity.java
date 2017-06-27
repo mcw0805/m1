@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
@@ -44,6 +45,7 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
     private EditText latField;
     private EditText longField;
     private EditText rewardField;
+    private TextView dollar;
     private Spinner categorySpinner;
     //private Spinner stateSpinner;
     private Spinner typeSpinner;
@@ -73,6 +75,7 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         latField = (EditText) findViewById(R.id.latitude_L);
         longField = (EditText) findViewById(R.id.longitude_L);
         rewardField = (EditText) findViewById(R.id.reward_L);
+        dollar = (TextView) findViewById(R.id.dollar_L);
         categorySpinner = (Spinner) findViewById(R.id.category_Lspinner);
         //stateSpinner = (Spinner) findViewById(R.id.state_Lspinner);
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
@@ -98,16 +101,22 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         firebaseUser = mAuth.getCurrentUser();
         assert firebaseUser != null;
 
-    }
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected (AdapterView < ? > parent, View view,int position, long id){
+                if (parent.getItemAtPosition(position).equals(Type.FOUND) || parent.getItemAtPosition(position).equals(Type.NEED)) {
+                    rewardField.setVisibility(View.INVISIBLE);
+                    dollar.setVisibility(View.INVISIBLE);
+                } else if (parent.getItemAtPosition(position).equals(Type.LOST)) {
+                    rewardField.setVisibility(View.VISIBLE);
+                    dollar.setVisibility(View.VISIBLE);
+                }
+            }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+            @Override
+            public void onNothingSelected (AdapterView<?> parent){
+            }
+        });
     }
 
     /**
@@ -157,5 +166,15 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         newLostItem.writeToDatabase();
         Intent submitPostIntent = new Intent(LostItemFormActivity.this, Dashboard.class);
         startActivity(submitPostIntent);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
