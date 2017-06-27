@@ -36,6 +36,9 @@ import model.Type;
  */
 public class LostItemFormActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
+    /*
+       Instance variables for the lost item form page.
+     */
     private EditText titleField;
     private EditText descriptField;
     private EditText latField;
@@ -107,13 +110,18 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
 
     }
 
+    /**
+     * onClick method that notifies user of submission/if
+     * they wish to cancel submission.
+     *
+     * @param v checks if user submits/cancels submission
+     */
     @Override
     public void onClick(View v) {
         if (v == postButton) {
             submitLostItem();
             Toast.makeText(this, "Post Added!", Toast.LENGTH_LONG).show();
             finish();
-
         }
 
         if (v == backButton) {
@@ -121,11 +129,12 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         }
     }
 
+    /**
+     * Method that submits lost item information to the database.
+     */
     private void submitLostItem() {
-
         inputName = titleField.getText().toString();
         inputDescription = descriptField.getText().toString();
-
 
         try {
             inputLatitude = Double.parseDouble(latField.getText().toString());
@@ -135,7 +144,6 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
         }
 
         reward = Integer.parseInt(rewardField.getText().toString());
-
         String itemType = typeSpinner.getSelectedItem().toString();
         inputItemCategory = (ItemCategory) categorySpinner.getSelectedItem();
 
@@ -146,12 +154,8 @@ public class LostItemFormActivity extends AppCompatActivity implements AdapterVi
 
         newLostItem = new LostItem(inputName, inputDescription, date,
                 inputLongitude, inputLatitude, inputItemCategory, uid, reward);
-
         newLostItem.writeToDatabase();
-
         Intent submitPostIntent = new Intent(LostItemFormActivity.this, Dashboard.class);
-
         startActivity(submitPostIntent);
-
     }
 }
