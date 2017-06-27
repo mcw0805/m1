@@ -1,5 +1,8 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * Created by Ted on 6/14/2017.
  * Creating the user model
@@ -11,6 +14,7 @@ public class User {
     private boolean isLocked;
     private boolean isBanned;
     private String uid;
+    private int count = 0;
 
 
     /**
@@ -128,5 +132,20 @@ public class User {
         this.uid = uid;
     }
 
+    /**
+     * Writes the user to the database
+     */
+    public void writeToDatabase() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference userRef = database.getReference("users/" + this.getUid());
+        userRef.setValue(this);
+    }
+
+    /**
+     * increments user's count when the user creates a new item.
+     */
+    public void addCount() {
+        this.count++;
+    }
 
 }

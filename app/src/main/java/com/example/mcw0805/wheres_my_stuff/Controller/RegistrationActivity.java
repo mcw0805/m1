@@ -105,12 +105,17 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         String id = user.getUid(); //authenticated UID from Firebase
 
 
-                        User u = new User(inputName, inputEmail, id); //instantiate regular user
+                        User u = new User(inputName, inputEmail, id, false, false); //instantiate regular user
                         Log.d("AUTHENTICATION", id);
+
+                        /*
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference userRef = database.getReference("users");
                         DatabaseReference childRef = userRef.child(id);
-                        childRef.setValue(u);
+                        childRef.setValue(u);*/
+
+                        //above replace with writeToDatabase method 6/27/2017
+                        u.writeToDatabase();
 
                         Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
                         intent.putExtra("currentUserId", id);
