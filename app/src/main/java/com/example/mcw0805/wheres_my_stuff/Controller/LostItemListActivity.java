@@ -47,7 +47,7 @@ public class LostItemListActivity extends AppCompatActivity {
     private List<String> lostItemList;
 
     /*
-        List of databse reference keys of lost items
+        List of database reference keys of lost items
      */
     private List<String> lostItemKeys;
 
@@ -84,15 +84,6 @@ public class LostItemListActivity extends AppCompatActivity {
         lostMap = new LinkedHashMap<>();
         lostItemKeys = new ArrayList<>();
         lostItemObjectList = new ArrayList<>();
-
-//        ListView lost;
-//        //Used for testing purposes.
-//        String[] lostItems = {"Dog", "Cat", "Mouse", "Bird", "Elephant", "Doggo", "Giraffe", "Dolphin", "Tiger", "Lion", "Kitten"};
-//
-//        lost = (ListView) findViewById(R.id.lost_List);
-//        ArrayAdapter<String> lost_List = new ArrayAdapter<>(this, R.layout.activity_list_view, R.id.textView, lostItems);
-//        lost.setAdapter(lost_List);
-
 
         lostItemLv = (ListView) findViewById(R.id.lost_list);
         lostItemList = new ArrayList<>();
