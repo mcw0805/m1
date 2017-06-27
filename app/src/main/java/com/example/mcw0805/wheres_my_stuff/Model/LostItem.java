@@ -76,6 +76,11 @@ public class LostItem extends Item {
         return getName() + " " + "UID: " + getUid();
     }
 
+    /**
+     * When the user wishes to post an item, this method is called,
+     * and the necessary information is pushed into Firebase database.
+     *
+     */
     public void writeToDatabase() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference lostItemsRef = database.getReference("posts/lost-items/");
@@ -111,6 +116,12 @@ public class LostItem extends Item {
 
     }
 
+    /**
+     * Creates a new LostItem object using the data from Firebase database.
+     *
+     * @param dataSnap Firebase DataSnapshot which we build the LostItem object from
+     * @return LostItem built from the the data snapshot
+     */
     public static LostItem buildLostItemObject(DataSnapshot dataSnap) {
         DataSnapshot name = dataSnap.child("name");
         DataSnapshot description = dataSnap.child("description");
@@ -156,7 +167,7 @@ public class LostItem extends Item {
 //
 //    }
 
-    public static double convertDouble(Object longValue) {
+    private static double convertDouble(Object longValue) {
         double result; // return value
 
         if (longValue instanceof Long) { // Necessary due to the way Firebase stores data
@@ -171,7 +182,7 @@ public class LostItem extends Item {
         return result;
     }
 
-    public static int convertInteger(Object longValue) {
+    private static int convertInteger(Object longValue) {
         int result; // return value
 
         if (longValue instanceof Long) { // Necessary due to the way Firebase stores data

@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 /* Created by Chianne Connelly
 * version 1.0
  */
@@ -25,6 +29,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private String name;
     private String email;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +44,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         donate = (TextView) findViewById(R.id.donate_txt);
         profile_page = (TextView) findViewById(R.id.profile_txt);
         welcome = (TextView) findViewById(R.id.welcome);
-        welcome.setText("Welcome " + name);
+        //welcome.setText("Welcome " + name);
 
         lostNearMe.setOnClickListener(this);
         foundNearMe.setOnClickListener(this);
@@ -53,6 +59,18 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         currentUserId = intent.getStringExtra("currentUserId");
         name = intent.getStringExtra("name");
         email = intent.getStringExtra("email");
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        String email = null;
+        if (user != null) {
+            email = user.getEmail();
+        }
+
+        welcome.setText("Welcome " + email);
+
+
     }
 
     @Override
