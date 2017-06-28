@@ -1,6 +1,5 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
 
-import android.provider.ContactsContract;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
