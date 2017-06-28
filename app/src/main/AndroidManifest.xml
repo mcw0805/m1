@@ -28,7 +28,10 @@
         <activity android:name=".Controller.ListView" />
         <activity android:name=".Controller.ItemViewerActivity" />
         <activity android:name=".Controller.LostItemDescriptionActivity" />
-        <activity android:name=".Controller.FoundItemListActivity"></activity>
+        <activity android:name=".Controller.FoundItemListActivity" />
+        <activity android:name=".Controller.FoundItemDescription"></activity>
+        <activity android:name=".Controller.RequestItemFormActivity"></activity>
+
     </application>
 
 </manifest>

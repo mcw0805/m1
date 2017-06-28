@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent" android:layout_height="fill_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/item_name"
+            android:textSize="20sp"
+            android:gravity="center_vertical"
+            android:textStyle= "bold"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:id="@+id/item_description"
+            android:textSize="12sp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/item_cat"
+            android:layout_width="85dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:text="Category:  "
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/item_category"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/item_cat"
+            android:gravity="left"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="85dp"
+            android:layout_height="20dp"
+            android:id="@+id/item_loc"
+            android:textSize="15sp"
+            android:gravity="right"
+            android:text="Location:  "
+            android:layout_alignParentLeft= "true"
+            />
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:id="@+id/item_location"
+            android:gravity="left"
+            android:layout_toRightOf= "@+id/item_loc"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="85dp"
+            android:layout_height="20dp"
+            android:id="@+id/item_ty"
+            android:textSize="15sp"
+            android:gravity="right"
+            android:text="Type:  "
+            android:layout_alignParentLeft= "true"
+            />
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:id="@+id/item_type"
+            android:gravity="left"
+            android:text="temp"
+            android:layout_toRightOf= "@+id/item_ty"
+            />
+    </LinearLayout>
+</LinearLayout>

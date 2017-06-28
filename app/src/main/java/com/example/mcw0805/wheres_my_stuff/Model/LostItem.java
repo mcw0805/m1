@@ -17,6 +17,10 @@ import java.util.Map;
 //6/22/17 Changed cateogry to string for testing purposes
 
 public class LostItem extends Item {
+
+    /**
+     *
+     */
     private static int count;
     private int reward;
 

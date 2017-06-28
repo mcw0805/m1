@@ -108,7 +108,7 @@ public class FoundItemListActivity extends AppCompatActivity {
                 foundMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
 
                 //List of string that would be displayed on the screen
-                foundItemList.add("(LOST) " + name);
+                foundItemList.add("(FOUND) " + name);
 
                 foundItemKeys.add(dataSnapshot.getKey());
 
@@ -138,14 +138,13 @@ public class FoundItemListActivity extends AppCompatActivity {
             }
         });
 
-        /*
         //when some found item in the list view is clicked
         foundItemLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 foundItemAdapter.notifyDataSetChanged();
 
-                Intent intent = new Intent(getApplicationContext(), FoundItemDescriptionActivity.class);
+                Intent intent = new Intent(getApplicationContext(), FoundItemDescription.class);
 
                 //passes the selected object to the next screen
                 intent.putExtra("selectedFoundItem", foundItemObjectList.get(position));
@@ -154,6 +153,5 @@ public class FoundItemListActivity extends AppCompatActivity {
                 finish();
             }
         });
-        */
     }
 }

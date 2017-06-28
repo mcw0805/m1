@@ -5,34 +5,35 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
-
 /*
- * *Class that controls the description of the lost items that the user
+ * *Class that controls the description of the found items that the user
  * selected from the list
  *
  * @author Chianne Connelly
  */
-public class LostItemDescriptionActivity extends AppCompatActivity {
+
+public class FoundItemDescription extends AppCompatActivity {
 
     /*
-    * textviews for the various textfields in the lostItemDescription view
-    */
+   * textviews for the various textfields in the lostItemDescription view
+   */
     private TextView name;
     private TextView description;
     private TextView category;
     private TextView location;
     private TextView type;
-    private TextView reward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lost_item_description);
+        setContentView(R.layout.activity_found_item_description);
+
         Intent intent = getIntent();
-        //get lost item that was passed to this class from the LostItemListActivity
-        LostItem k =intent.getParcelableExtra("selectedLostItem");
+        //get found item that was passed to this class from the FoundItemListActivity
+        FoundItem k =intent.getParcelableExtra("selectedLostItem");
         /*
         * sets all of the textViews that are specific to each object
          */
@@ -45,8 +46,6 @@ public class LostItemDescriptionActivity extends AppCompatActivity {
         location = (TextView) findViewById(R.id.item_location);
         location.setText("temp");
         type = (TextView) findViewById(R.id.item_type);
-        type.setText("Lost");
-        reward = (TextView) findViewById(R.id.item_reward);
-        reward.setText("" + k.getReward());
+        type.setText("Found");
     }
 }

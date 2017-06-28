@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mcw0805.wheres_my_stuff.Controller.RequestItemFormActivity">
+
+    <EditText
+        android:id="@+id/title_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="17dp"
+        android:ems="10"
+        android:hint="Title"
+        android:inputType="text|textLongMessage" />
+
+    <EditText
+        android:id="@+id/description_R"
+        android:layout_width="350dp"
+        android:layout_height="100dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:minHeight="120dp"
+        android:layout_below="@+id/description_text"
+        android:layout_alignStart="@+id/description_text"
+        android:scrollHorizontally="false"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        android:overScrollMode="always"
+        android:minLines="10" />
+
+    <Button
+        android:id="@+id/post_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Post"
+        android:layout_marginTop="103dp"
+        android:layout_below="@+id/description_R"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/cancel_R"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_alignTop="@+id/post_R"
+        android:layout_alignStart="@+id/post_R"
+        android:layout_marginTop="61dp" />
+
+    <TextView
+        android:id="@+id/description_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/title_R"
+        android:layout_below="@+id/title_R"
+        android:layout_marginTop="47dp"
+        android:text="Description"
+        android:textSize="18sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+</RelativeLayout>
