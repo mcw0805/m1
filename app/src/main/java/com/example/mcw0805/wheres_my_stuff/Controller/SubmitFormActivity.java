@@ -1,0 +1,225 @@
+package com.example.mcw0805.wheres_my_stuff.Controller;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
+import com.example.mcw0805.wheres_my_stuff.Model.Item;
+import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
+import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
+import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Date;
+
+import model.Categories;
+//import model.States;
+import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
+
+/**
+ * Controller for submitting the lost item.
+ *
+ * @author Melanie Hall, Chaewon Min, Ted Shang
+ */
+public class SubmitFormActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+
+    /*
+        Widgets for the item form page.
+     */
+    private EditText titleField;
+    private EditText descriptField;
+    private EditText latField;
+    private EditText longField;
+    private EditText rewardField;
+    private TextView dollar;
+    private Spinner categorySpinner;
+    //private Spinner stateSpinner;
+    private Spinner typeSpinner;
+    private Button backButton;
+    private Button postButton;
+
+    /*
+        Item object that would be created from the form.
+     */
+    private Item newItem;
+
+    /*
+        Firebase authorization, user
+     */
+    private FirebaseAuth mAuth;
+    private FirebaseUser firebaseUser;
+
+    /*
+        Field data that is retrived from the form.
+     */
+    private String inputName;
+    private String inputDescription;
+    private String uid;
+    private double inputLatitude;
+    private double inputLongitude;
+    private ItemCategory inputItemCategory;
+    private ItemType inputItemType;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lost_item_form);
+
+        //instantiate widgets
+        titleField = (EditText) findViewById(R.id.title_L);
+        descriptField = (EditText) findViewById(R.id.description_L);
+        latField = (EditText) findViewById(R.id.latitude_L);
+        longField = (EditText) findViewById(R.id.longitude_L);
+        rewardField = (EditText) findViewById(R.id.reward_L);
+        dollar = (TextView) findViewById(R.id.dollar_L);
+        categorySpinner = (Spinner) findViewById(R.id.category_Lspinner);
+        //stateSpinner = (Spinner) findViewById(R.id.state_Lspinner);
+        typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
+        postButton = (Button) findViewById(R.id.postButton_L);
+        backButton = (Button) findViewById(R.id.backButton_L);
+
+//        ArrayAdapter<States> state_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, States.values());
+//        state_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        stateSpinner.setAdapter(state_Adapter);
+
+        ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
+        category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(category_Adapter);
+
+        ArrayAdapter<ItemType> type_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemType.values());
+        type_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(type_Adapter);
+
+
+        //reward field is visible only if LOST is selected from the typeSpinner
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (parent.getItemAtPosition(position).equals(ItemType.FOUND) || parent.getItemAtPosition(position).equals(ItemType.NEED)) {
+                    rewardField.setVisibility(View.INVISIBLE);
+                    dollar.setVisibility(View.INVISIBLE);
+                } else if (parent.getItemAtPosition(position).equals(ItemType.LOST)) {
+                    rewardField.setVisibility(View.VISIBLE);
+                    dollar.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        //set listener for the buttons
+        postButton.setOnClickListener(this);
+        backButton.setOnClickListener(this);
+
+        //set Firebase authorization and get current user who is logged in
+        mAuth = FirebaseAuth.getInstance();
+        firebaseUser = mAuth.getCurrentUser();
+        assert firebaseUser != null;
+
+    }
+
+    /**
+     * onClick method that notifies user of submission/if
+     * they wish to cancel submission.
+     *
+     * @param v checks if user submits/cancels submission
+     */
+    @Override
+    public void onClick(View v) {
+        if (v == postButton) {
+
+            //initializes the fields in the form as private instance variables
+            setFieldVars();
+
+            //get current time
+            long currentTime = System.currentTimeMillis();
+            Date dateTime = new Date(currentTime);
+
+            if (inputItemType == ItemType.LOST) {
+                submitLostItem(dateTime);
+            } else if (inputItemType == ItemType.FOUND) {
+                submitFoundItem(dateTime);
+            }
+
+            Toast.makeText(this, "Post Added!", Toast.LENGTH_LONG).show();
+            Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
+
+            startActivity(submitPostIntent);
+            finish();
+        }
+
+        if (v == backButton) {
+            startActivity(new Intent(this, Dashboard.class));
+        }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    /**
+     * Method that submits lost item information to the database.
+     *
+     * @param dateTime current date-time
+     */
+    private void submitLostItem(Date dateTime) {
+
+        int reward = Integer.parseInt(rewardField.getText().toString());
+
+        newItem = new LostItem(inputName, inputDescription, dateTime,
+                inputLongitude, inputLatitude, inputItemCategory, uid, reward);
+        newItem.writeToDatabase(LostItem.getChildRef());
+
+    }
+
+    /**
+     * Method that submits found item information to the database.
+     *
+     * @param dateTime current date-time
+     */
+    private void submitFoundItem(Date dateTime) {
+        newItem = new FoundItem(inputName, inputDescription, dateTime,
+                inputLongitude, inputLatitude, inputItemCategory, uid);
+        newItem.writeToDatabase(FoundItem.getChildRef());
+
+    }
+
+    /**
+     * Initializes the various texts/numbers from the form as instance data
+     * to be used to create Item objects.
+     */
+    private void setFieldVars() {
+        inputName = titleField.getText().toString();
+        inputDescription = descriptField.getText().toString();
+
+        try {
+            inputLatitude = Double.parseDouble(latField.getText().toString());
+            inputLongitude = Double.parseDouble(longField.getText().toString());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Enter Valid latitude and longitude");
+        }
+
+        inputItemCategory = (ItemCategory) categorySpinner.getSelectedItem();
+        inputItemType = (ItemType) typeSpinner.getSelectedItem();
+
+        uid = firebaseUser.getUid();
+    }
+}
