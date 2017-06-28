@@ -15,6 +15,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.mcw0805.wheres_my_stuff.Model.User;
+import com.example.mcw0805.wheres_my_stuff.Model.Admin;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -71,7 +72,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         final String inputName = name.getText().toString();
         final String inputEmail = email.getText().toString();
         String inputPassword = password.getText().toString();
-        boolean inputAdmin = admin.isChecked();
+        final boolean inputAdmin = admin.isChecked();
 
         if (v == loginButton) {
             if (inputEmail.length() == 0 || inputName.length() == 0 ||
@@ -103,9 +104,23 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         // Sign in success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
                         String id = user.getUid(); //authenticated UID from Firebase
+                        if (!inputAdmin) {
+                            User u = new User(inputName, inputEmail, id, false, false, 0, 0); //instantiate regular user
+                            //above replace with writeToDatabase method 6/27/2017
+                            u.writeToDatabase();
+                            Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
+                            intent.putExtra("currentUserId", id);
+                            intent.putExtra("name", inputName);
+                            RegistrationActivity.this.startActivity(intent);
+                        } else {
+                            Admin a = new Admin(inputName, inputEmail, id);
+                            a.writeToDatabase();
+                            Intent intent = new Intent(RegistrationActivity.this, AdminDashboard.class);
+                            intent.putExtra("currentUserId", id);
+                            intent.putExtra("name", inputName);
+                            RegistrationActivity.this.startActivity(intent);
+                        }
 
-
-                        User u = new User(inputName, inputEmail, id, false, false, 0, 0); //instantiate regular user
                         Log.d("AUTHENTICATION", id);
 
                         /*
@@ -114,14 +129,6 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         DatabaseReference childRef = userRef.child(id);
                         childRef.setValue(u);*/
 
-                        //above replace with writeToDatabase method 6/27/2017
-                        u.writeToDatabase();
-
-                        Intent intent = new Intent(RegistrationActivity.this, Dashboard.class);
-                        intent.putExtra("currentUserId", id);
-                        intent.putExtra("name", inputName);
-
-                        RegistrationActivity.this.startActivity(intent);
                     } else {
                         // If sign in fails, display a message to the user.
                         Exception e = task.getException();
