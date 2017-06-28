@@ -9,8 +9,6 @@ import android.widget.TextView;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 /* Created by Chianne Connelly
 * version 1.0
  */
@@ -93,7 +91,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v.equals(newLost)) {
-            Intent intent = new Intent(this, LostItemFormActivity.class);
+            Intent intent = new Intent(this, SubmitFormActivity.class);
             Dashboard.this.startActivity(intent);
         } else if (v.equals(lostNearMe)) {
             Intent intent = new Intent(this, LostItemListActivity.class);

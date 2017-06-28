@@ -1,6 +1,7 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
 
 import android.os.Parcel;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -23,6 +24,11 @@ public class LostItem extends Item {
      */
     private static int count;
     private int reward;
+    private static final ItemType type = ItemType.LOST;
+
+    private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static final DatabaseReference lostItemsRef = database.getReference("posts/lost-items/");
+    private static final DatabaseReference childRef = lostItemsRef.child(lostItemsRef.push().getKey());
 
     public LostItem(String name, String description, Date date, double longitude,
                     double latitude, ItemCategory category, String uid, int reward) {
@@ -75,48 +81,26 @@ public class LostItem extends Item {
         return count;
     }
 
+    public static ItemType getItemType() {
+        return type;
+    }
+
+    public static DatabaseReference getChildRef() {
+        return childRef;
+    }
+
     @Override
     public String toString() {
         return getName() + " " + "UID: " + getUid();
     }
 
-    /**
-     * When the user wishes to post an item, this method is called,
-     * and the necessary information is pushed into Firebase database.
-     *
-     */
-    public void writeToDatabase() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference lostItemsRef = database.getReference("posts/lost-items/");
-        String key = lostItemsRef.push().getKey();
-        final DatabaseReference childRef = lostItemsRef.child(key);
-
-        DatabaseReference dateChild = childRef.child("date-time");
-        dateChild.setValue(getDate().getTime());
-
-        DatabaseReference nameChild = childRef.child("name");
-        nameChild.setValue(getName());
-
-        DatabaseReference descriptionChild = childRef.child("description");
-        descriptionChild.setValue(getDescription());
-
-        DatabaseReference latitudeChild = childRef.child("latitude");
-        latitudeChild.setValue(getLatitude());
-
-        DatabaseReference longitudeChild = childRef.child("longitude");
-        longitudeChild.setValue(getLongitude());
-
-        DatabaseReference categoryChild = childRef.child("category");
-        categoryChild.setValue(getCategory());
-
-        DatabaseReference uidChild = childRef.child("uid");
-        uidChild.setValue(getUid());
-
-        DatabaseReference isOpenChild = childRef.child("isOpen");
-        isOpenChild.setValue(getIsOpen());
+    @Override
+    public void writeToDatabase(DatabaseReference childRef) {
+        super.writeToDatabase(childRef);
 
         DatabaseReference rewardChild = childRef.child("reward");
         rewardChild.setValue(getReward());
+
 
     }
 
@@ -145,7 +129,6 @@ public class LostItem extends Item {
         double itemLong = Double.parseDouble(String.valueOf(longitude.getValue()));
         boolean itemOpenStat = (Boolean) isOpen.getValue();
         int itemReward = Integer.parseInt(String.valueOf(reward.getValue()));
-        //int itemReward = convertInteger(reward.getValue());
         String itemOwner = (String) uid.getValue();
         ItemCategory itemCat = ItemCategory.valueOf((String) category.getValue());
         Date dateTime = new Date((long) date.getValue());
@@ -173,35 +156,35 @@ public class LostItem extends Item {
 //                itemOwner, itemReward, itemOpenStat);
 //
 //    }
-
-    private static double convertDouble(Object longValue) {
-        double result; // return value
-
-        if (longValue instanceof Long) { // Necessary due to the way Firebase stores data
-            result = ((Long) longValue).doubleValue();
-        } else if (longValue instanceof Double) {
-            result = (double) longValue;
-        } else {
-            throw new IllegalArgumentException(
-                    "Object passed in must be either a double or a long");
-        }
-
-        return result;
-    }
-
-    private static int convertInteger(Object longValue) {
-        int result; // return value
-
-        if (longValue instanceof Long) { // Necessary due to the way Firebase stores data
-            result = ((Long) longValue).intValue();
-        } else if (longValue instanceof Integer) {
-            result = (int) longValue;
-        } else {
-            throw new IllegalArgumentException(
-                    "Object passed in must be either a integer or a long");
-        }
-
-        return result;
-    }
+//
+//    private static double convertDouble(Object longValue) {
+//        double result; // return value
+//
+//        if (longValue instanceof Long) { // Necessary due to the way Firebase stores data
+//            result = ((Long) longValue).doubleValue();
+//        } else if (longValue instanceof Double) {
+//            result = (double) longValue;
+//        } else {
+//            throw new IllegalArgumentException(
+//                    "Object passed in must be either a double or a long");
+//        }
+//
+//        return result;
+//    }
+//
+//    private static int convertInteger(Object longValue) {
+//        int result; // return value
+//
+//        if (longValue instanceof Long) { // Necessary due to the way Firebase stores data
+//            result = ((Long) longValue).intValue();
+//        } else if (longValue instanceof Integer) {
+//            result = (int) longValue;
+//        } else {
+//            throw new IllegalArgumentException(
+//                    "Object passed in must be either a integer or a long");
+//        }
+//
+//        return result;
+//    }
 
 }

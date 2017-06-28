@@ -22,7 +22,7 @@
         <activity android:name=".Controller.LogInActivity" />
         <activity android:name=".Controller.ProfileActivity" />
         <activity android:name=".Controller.Dashboard" />
-        <activity android:name=".Controller.LostItemFormActivity" />
+        <activity android:name=".Controller.SubmitFormActivity" />
         <activity android:name=".Controller.ResetPasswordActivity" />
         <activity android:name=".Controller.LostItemListActivity" />
         <activity android:name=".Controller.ListView" />
