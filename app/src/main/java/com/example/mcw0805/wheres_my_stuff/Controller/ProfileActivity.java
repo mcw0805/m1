@@ -1,6 +1,5 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +7,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+import android.widget.ViewSwitcher;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -27,11 +31,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
       Instance variables for log out button/allowing user to log out.
     */
     private Button signOutProfileButton;
-    private ProgressDialog progressDialog;
+    private ToggleButton editToggleBtn;
+    private EditText nicknameEdit;
+    private TextView nicknameTextView;
+    private ViewSwitcher nicknameViewSwitcher;
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
     private static final String TAG = "ProfileActivity";
+
+    private String nickname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +49,49 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_profile);
 
         signOutProfileButton = (Button) findViewById(R.id.profile_logout_btn);
+        editToggleBtn = (ToggleButton) findViewById(R.id.editToggleBtn);
+
+        nicknameEdit = (EditText) findViewById(R.id.nicknameEdit);
+        nicknameTextView = (TextView) findViewById(R.id.nicknameText);
+        nicknameEdit.setText(nicknameTextView.getText().toString());
+
+        nickname = nicknameTextView.getText().toString();
+
+        nicknameViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcherNickname);
+
+//        CompoundButton.OnCheckedChangeListener listener =
+//                new CompoundButton.OnCheckedChangeListener() {
+//
+//                    @Override
+//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//                    }
+//                };
 
         signOutProfileButton.setOnClickListener(this);
+        //editToggleBtn.setOnCheckedChangeListener(listener);
 
-        progressDialog = new ProgressDialog(this);
+
+
+
+        editToggleBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String newNickname = nicknameEdit.getText().toString();
+                if (isChecked) { //edit is clicked (i.e. button is "on")
+                        nicknameViewSwitcher.showPrevious(); //shows EditText
+
+                        nicknameTextView.setText(newNickname);
+
+                } else { //back to TextView
+                    nicknameViewSwitcher.showNext();
+                    nicknameTextView.setText(newNickname);
+
+                }
+            }
+        });
+
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -100,7 +149,18 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             startActivity(intent);
             finish();
         }
+
+
     }
+
+    private void makeEditable() {
+        if (nicknameViewSwitcher.getCurrentView() != nicknameTextView) {
+            nicknameViewSwitcher.showPrevious();
+        }
+
+    }
+
+
 
     /**
      * Method that signs a user out.
