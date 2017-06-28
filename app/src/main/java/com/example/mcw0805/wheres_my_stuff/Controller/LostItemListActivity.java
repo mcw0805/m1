@@ -67,7 +67,6 @@ public class LostItemListActivity extends AppCompatActivity {
         Database reference for the lost items in Firebase
      */
     private DatabaseReference mLostItemsRef;
-    private DatabaseReference mItemRef;
 
     private final String TAG = "LostItemListActivity";
 
@@ -89,11 +88,7 @@ public class LostItemListActivity extends AppCompatActivity {
         lostItemList = new ArrayList<>();
 
         //References the list of lost items in Firebase
-        mLostItemsRef = FirebaseDatabase.getInstance().getReference("posts/lost-items/");
-
-        String itemKey = mLostItemsRef.getKey(); //each item is associated with a key
-        mItemRef = mLostItemsRef.child(itemKey);
-
+        mLostItemsRef = LostItem.getLostItemsRef();
 
         mLostItemsRef.addChildEventListener(new ChildEventListener() {
             @Override

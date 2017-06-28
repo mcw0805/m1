@@ -8,18 +8,18 @@ import android.widget.TextView;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
-/*
- * *Class that controls the description of the found items that the user
+
+/**
+ * Class that controls the description of the found items that the user
  * selected from the list
  *
  * @author Chianne Connelly
  */
-
 public class FoundItemDescription extends AppCompatActivity {
-
+    
     /*
-   * textviews for the various textfields in the lostItemDescription view
-   */
+        TextViews for the various textfields in the foundItemDescription view
+    */
     private TextView name;
     private TextView description;
     private TextView category;
@@ -33,16 +33,16 @@ public class FoundItemDescription extends AppCompatActivity {
 
         Intent intent = getIntent();
         //get found item that was passed to this class from the FoundItemListActivity
-        FoundItem k =intent.getParcelableExtra("selectedLostItem");
+        FoundItem selected =intent.getParcelableExtra("selectedFoundItem");
         /*
         * sets all of the textViews that are specific to each object
          */
         name = (TextView) findViewById(R.id.item_name);
-        name.setText("" + k.getName());
+        name.setText("" + selected.getName());
         description = (TextView) findViewById(R.id.item_description);
-        description.setText("" + k.getDescription());
+        description.setText("" + selected.getDescription());
         category = (TextView) findViewById(R.id.item_category);
-        category.setText("" + k.getCategory());
+        category.setText("" + selected.getCategory());
         location = (TextView) findViewById(R.id.item_location);
         location.setText("temp");
         type = (TextView) findViewById(R.id.item_type);

@@ -15,19 +15,32 @@ import java.util.Date;
 public class FoundItem extends Item {
 
     private static int count;
+    private static final ItemType type = ItemType.FOUND;
+
+    private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static final DatabaseReference foundItemsRef = database.getReference("posts/found-items/");
+    private static final DatabaseReference childRef = foundItemsRef.child(foundItemsRef.push().getKey());
 
     public FoundItem(String name, String description, Date date, double longitude,
                     double latitude, ItemCategory category, String uid) {
         super(name, description, date, longitude, latitude, category, uid);
         count++;
     }
+
+    public FoundItem(String name, String description, Date date, double longitude,
+                 double latitude, ItemCategory category, String uid, boolean isOpen) {
+        super(name, description, date, longitude, latitude, category, uid, isOpen);
+    }
+
     protected FoundItem(Parcel in) {
         super(in);
     }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
     }
+
     public static final Creator<FoundItem> CREATOR = new Creator<FoundItem>() {
         @Override
         public FoundItem createFromParcel(Parcel in) {
@@ -40,49 +53,25 @@ public class FoundItem extends Item {
         }
     };
 
-
     public int getCount() {
         return count;
     }
+
+    public static ItemType getType() {
+        return type;
+    }
+
+    public static DatabaseReference getFoundItemsRef() {
+        return foundItemsRef;
+    }
+
+    public static DatabaseReference getChildRef() {
+        return childRef;
+    }
+
     @Override
     public String toString() {
         return getName() + " " + "UID: " + getUid();
-    }
-
-    /**
-     * When the user wishes to post an item, this method is called,
-     * and the necessary information is pushed into Firebase database.
-     *
-     */
-    public void writeToDatabase() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference foundItemsRef = database.getReference("posts/found-items/");
-        String key = foundItemsRef.push().getKey();
-        final DatabaseReference childRef = foundItemsRef.child(key);
-
-        DatabaseReference dateChild = childRef.child("date-time");
-        dateChild.setValue(getDate().getTime());
-
-        DatabaseReference nameChild = childRef.child("name");
-        nameChild.setValue(getName());
-
-        DatabaseReference descriptionChild = childRef.child("description");
-        descriptionChild.setValue(getDescription());
-
-        DatabaseReference latitudeChild = childRef.child("latitude");
-        latitudeChild.setValue(getLatitude());
-
-        DatabaseReference longitudeChild = childRef.child("longitude");
-        longitudeChild.setValue(getLongitude());
-
-        DatabaseReference categoryChild = childRef.child("category");
-        categoryChild.setValue(getCategory());
-
-        DatabaseReference uidChild = childRef.child("uid");
-        uidChild.setValue(getUid());
-
-        DatabaseReference isOpenChild = childRef.child("isOpen");
-        isOpenChild.setValue(getIsOpen());
     }
 
     /**
@@ -103,17 +92,19 @@ public class FoundItem extends Item {
 
         String itemName = (String) name.getValue();
         String itemDesc = (String) description.getValue();
-        double itemLat = convertDouble(latitude.getValue());
-        double itemLong = convertDouble(longitude.getValue());
+        double itemLat = Double.parseDouble(String.valueOf(latitude.getValue()));
+        //double itemLat = convertDouble(latitude.getValue());
+        double itemLong = Double.parseDouble(String.valueOf(longitude.getValue()));
         boolean itemOpenStat = (Boolean) isOpen.getValue();
         String itemOwner = (String) uid.getValue();
         ItemCategory itemCat = ItemCategory.valueOf((String) category.getValue());
         Date dateTime = new Date((long) date.getValue());
 
         return new FoundItem(itemName, itemDesc, dateTime, itemLong, itemLat, itemCat,
-                itemOwner);
+                itemOwner, itemOpenStat);
 
     }
+
     private static double convertDouble(Object longValue) {
         double result; // return value
 

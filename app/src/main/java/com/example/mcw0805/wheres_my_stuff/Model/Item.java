@@ -3,6 +3,9 @@ package com.example.mcw0805.wheres_my_stuff.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Date;
 
 /**
@@ -20,6 +23,7 @@ public class Item implements Parcelable {
     protected ItemCategory category;
     protected String uid;
     protected boolean isOpen;
+
 
     public Item(String name, String description, Date date, double longitude,
                 double latitude, ItemCategory category, String uid, boolean isOpen) {
@@ -149,6 +153,35 @@ public class Item implements Parcelable {
 
     public void setCategory(ItemCategory category) {
         this.category = category;
+    }
+
+    public void writeToDatabase(DatabaseReference childRef) {
+
+        DatabaseReference dateChild = childRef.child("date-time");
+        dateChild.setValue(getDate().getTime());
+
+        DatabaseReference nameChild = childRef.child("name");
+        nameChild.setValue(getName());
+
+        DatabaseReference descriptionChild = childRef.child("description");
+        descriptionChild.setValue(getDescription());
+
+        DatabaseReference latitudeChild = childRef.child("latitude");
+        latitudeChild.setValue(getLatitude());
+
+        DatabaseReference longitudeChild = childRef.child("longitude");
+        longitudeChild.setValue(getLongitude());
+
+        DatabaseReference categoryChild = childRef.child("category");
+        categoryChild.setValue(getCategory());
+
+        DatabaseReference uidChild = childRef.child("uid");
+        uidChild.setValue(getUid());
+
+        DatabaseReference isOpenChild = childRef.child("isOpen");
+        isOpenChild.setValue(getIsOpen());
+
+
     }
 
 
