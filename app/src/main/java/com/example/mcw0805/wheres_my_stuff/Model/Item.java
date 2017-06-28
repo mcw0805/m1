@@ -156,24 +156,6 @@ public class Item implements Parcelable {
     }
 
     public void writeToDatabase(DatabaseReference childRef) {
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        DatabaseReference itemsRef = null;
-//
-//        switch (type) {
-//            case LOST:
-//                itemsRef = database.getReference("posts/lost-items/");
-//                break;
-//            case FOUND:
-//                itemsRef = database.getReference("posts/found-items/");
-//                break;
-//            case NEED:
-//                itemsRef = database.getReference("posts/needed-items/");
-//                break;
-//
-//        }
-//
-//        String key = itemsRef.push().getKey();
-//        final DatabaseReference childRef = itemsRef.child(key);
 
         DatabaseReference dateChild = childRef.child("date-time");
         dateChild.setValue(getDate().getTime());

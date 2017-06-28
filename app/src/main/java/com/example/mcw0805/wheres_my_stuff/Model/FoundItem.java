@@ -61,6 +61,10 @@ public class FoundItem extends Item {
         return type;
     }
 
+    public static DatabaseReference getFoundItemsRef() {
+        return foundItemsRef;
+    }
+
     public static DatabaseReference getChildRef() {
         return childRef;
     }
@@ -89,6 +93,7 @@ public class FoundItem extends Item {
         String itemName = (String) name.getValue();
         String itemDesc = (String) description.getValue();
         double itemLat = Double.parseDouble(String.valueOf(latitude.getValue()));
+        //double itemLat = convertDouble(latitude.getValue());
         double itemLong = Double.parseDouble(String.valueOf(longitude.getValue()));
         boolean itemOpenStat = (Boolean) isOpen.getValue();
         String itemOwner = (String) uid.getValue();
@@ -99,6 +104,7 @@ public class FoundItem extends Item {
                 itemOwner, itemOpenStat);
 
     }
+
     private static double convertDouble(Object longValue) {
         double result; // return value
 

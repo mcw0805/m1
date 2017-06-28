@@ -19,17 +19,21 @@ import java.util.Map;
 
 public class LostItem extends Item {
 
-    /**
-     *
+    /*
+        Instance data specific to LostItem
      */
     private static int count;
     private int reward;
     private static final ItemType type = ItemType.LOST;
 
+    //Firebase database references
     private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private static final DatabaseReference lostItemsRef = database.getReference("posts/lost-items/");
     private static final DatabaseReference childRef = lostItemsRef.child(lostItemsRef.push().getKey());
 
+    /**
+     * Creates the LostItem object and increments the count.
+     */
     public LostItem(String name, String description, Date date, double longitude,
                     double latitude, ItemCategory category, String uid, int reward) {
         super(name, description, date, longitude, latitude, category, uid);
@@ -37,13 +41,20 @@ public class LostItem extends Item {
         count++;
     }
 
-
+    /**
+     * Creates the LostItem object. Used for building objects from the database
+     */
     public LostItem(String name, String description, Date date, double longitude,
                     double latitude, ItemCategory category, String uid, int reward, boolean isOpen) {
         super(name, description, date, longitude, latitude, category, uid, isOpen);
         this.reward = reward;
     }
 
+    /**
+     * Creates the LostItem object from a Parcel.
+     *
+     * @param in parcel to create the LostItem from
+     */
     protected LostItem(Parcel in) {
         super(in);
         reward = in.readInt();
@@ -69,22 +80,55 @@ public class LostItem extends Item {
         }
     };
 
+    /**
+     * Gets the reward amount that would be given for finding the lost item.
+     *
+     * @return reward of the LostItem
+     */
     public int getReward() {
         return reward;
     }
 
+    /**
+     * Sets the reward amount that would be given for finding the lost item.
+     * @param reward amount for the LostItem
+     */
     public void setReward(int reward) {
         this.reward = reward;
     }
 
+    /**
+     * Gets the total count of LostItem
+     *
+     * @return count of the LostItem
+     */
     public int getCount() {
         return count;
     }
 
+    /**
+     * Gets the ItemType of this object, which is permanently set to be LOST.
+     *
+     * @return type of the item
+     */
     public static ItemType getItemType() {
         return type;
     }
 
+    /**
+     * Gets the database reference to the lost-items root in Firebase.
+     *
+     * @return lostItemsRef the Firebase reference to lost items
+     */
+    public static DatabaseReference getLostItemsRef() {
+        return lostItemsRef;
+    }
+
+    /**
+     * Gets the database reference to the child root of the lost-items in Firebase.
+     *
+     * @return childRef the Firebase reference to child of lost items
+     */
     public static DatabaseReference getChildRef() {
         return childRef;
     }
@@ -100,7 +144,6 @@ public class LostItem extends Item {
 
         DatabaseReference rewardChild = childRef.child("reward");
         rewardChild.setValue(getReward());
-
 
     }
 

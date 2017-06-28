@@ -8,8 +8,8 @@ import android.widget.TextView;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 
-/*
- * *Class that controls the description of the lost items that the user
+/**
+ * Class that controls the description of the lost items that the user
  * selected from the list
  *
  * @author Chianne Connelly
@@ -17,7 +17,7 @@ import com.example.mcw0805.wheres_my_stuff.R;
 public class LostItemDescriptionActivity extends AppCompatActivity {
 
     /*
-    * textviews for the various textfields in the lostItemDescription view
+        TextViews for the various textfields in the lostItemDescription view
     */
     private TextView name;
     private TextView description;
@@ -30,23 +30,24 @@ public class LostItemDescriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lost_item_description);
+
         Intent intent = getIntent();
         //get lost item that was passed to this class from the LostItemListActivity
-        LostItem k =intent.getParcelableExtra("selectedLostItem");
+        LostItem selected = intent.getParcelableExtra("selectedLostItem");
         /*
         * sets all of the textViews that are specific to each object
          */
         name = (TextView) findViewById(R.id.item_name);
-        name.setText("" + k.getName());
+        name.setText("" + selected.getName());
         description = (TextView) findViewById(R.id.item_description);
-        description.setText("" + k.getDescription());
+        description.setText("" + selected.getDescription());
         category = (TextView) findViewById(R.id.item_category);
-        category.setText("" + k.getCategory());
+        category.setText("" + selected.getCategory());
         location = (TextView) findViewById(R.id.item_location);
         location.setText("temp");
         type = (TextView) findViewById(R.id.item_type);
         type.setText("Lost");
         reward = (TextView) findViewById(R.id.item_reward);
-        reward.setText("" + k.getReward());
+        reward.setText("" + selected.getReward());
     }
 }

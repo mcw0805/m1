@@ -22,7 +22,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Date;
 
-import model.Categories;
 //import model.States;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 
@@ -73,7 +72,7 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lost_item_form);
+        setContentView(R.layout.item_submission_form);
 
         //instantiate widgets
         titleField = (EditText) findViewById(R.id.title_L);
