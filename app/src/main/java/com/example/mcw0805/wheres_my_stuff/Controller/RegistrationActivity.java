@@ -105,7 +105,7 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
                         String id = user.getUid(); //authenticated UID from Firebase
 
 
-                        User u = new User(inputName, inputEmail, id, false, false); //instantiate regular user
+                        User u = new User(inputName, inputEmail, id, false, false, 0, 0); //instantiate regular user
                         Log.d("AUTHENTICATION", id);
 
                         /*

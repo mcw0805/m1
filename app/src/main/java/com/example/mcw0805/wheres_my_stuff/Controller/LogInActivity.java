@@ -16,12 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Controller for the login. Uses Firebase email password authentication.
@@ -43,6 +49,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "LoginActivity";
+    private DatabaseReference mUserRef;
+    private DatabaseReference mUserRef2;
 
     /**
      * Creates the activity and instantiates widgets
@@ -117,13 +125,13 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     * The method that verifies user logins and checks for valid inforation. Valid username/pass
+     * The method that verifies user logins and checks for valid information. Valid username/pass
      * combinations will lead to the next activity
      */
     private void login() {
         //Gets the information from the EditTexts and checks it against a username/password
         //database. Either displays incorrect password or advances the scene
-        String username = loginUsername.getText().toString();
+        final String username = loginUsername.getText().toString();
         String password = loginPassword.getText().toString();
 
         if (TextUtils.isEmpty(username)) {
@@ -151,13 +159,188 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(LogInActivity.this, Dashboard.class);
-                            LogInActivity.this.startActivity(intent);
+                            String uid = user.getUid();
+                            mUserRef = FirebaseDatabase.getInstance().getReference("users");
+                            mUserRef2= mUserRef.child(uid);
+                            mUserRef2.addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                    User u = null;
+                                    try {
+                                        u = User.buildUserObject(dataSnapshot);
+                                    } catch (NullPointerException e) {
+                                    Log.d(TAG, "NullPointerException is caught.");
+                                    e.printStackTrace();
+                                    }
+
+                                    //checks if user isBanned
+                                    if (false/*u.getUid()*/) {
+                                        //If banned ALERT
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(LogInActivity.this);
+                                        builder1.setMessage("Your account has been BANNED for violating ToS. Please contact support ");
+                                        builder1.setCancelable(true);
+
+                                        builder1.setPositiveButton(
+                                                "Cancel",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.cancel();
+                                                        finish();
+                                                        startActivity(getIntent());
+                                                    }
+                                                });
+
+                                        builder1.setNegativeButton(
+                                                "Ok",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.cancel();
+                                                        finish();
+                                                        startActivity(getIntent());
+                                                    }
+                                                });
+
+                                        AlertDialog alert11 = builder1.create();
+                                        alert11.show();
+                                    }
+                                    //Checks if user is locked out
+                                    else if (false/*u.getLockAttempts() > 2*/) {
+                                        //if locked out ALERT
+                                        //If banned ALERT
+                                        AlertDialog.Builder builder1 = new AlertDialog.Builder(LogInActivity.this);
+                                        builder1.setMessage("Your account has been locked from too many incorrect logins. Please try later");
+                                        builder1.setCancelable(true);
+
+                                        builder1.setPositiveButton(
+                                                "Cancel",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.cancel();
+                                                        finish();
+                                                        startActivity(getIntent());
+                                                    }
+                                                });
+
+                                        builder1.setNegativeButton(
+                                                "Ok",
+                                                new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        dialog.cancel();
+                                                        finish();
+                                                        startActivity(getIntent());
+                                                    }
+                                                });
+
+                                        AlertDialog alert11 = builder1.create();
+                                        alert11.show();
+                                    } else {
+                                        //Everything is fine
+                                        //Reset login attempts
+                                        DatabaseReference mLoginAttempts = mUserRef.child("lockAttempts");
+                                        mLoginAttempts.setValue(Integer.valueOf(0));
+                                        //advance to next screen
+                                        Intent intent = new Intent(LogInActivity.this, Dashboard.class);
+                                        LogInActivity.this.startActivity(intent);
+                                    }
+                                }
+
+                                @Override
+                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(LogInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                            //If user exists, add an incorrect login attempt
+                            DatabaseReference allUsers = FirebaseDatabase.getInstance().getReference("users");
+                            allUsers.addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                    for (DataSnapshot datasnap : dataSnapshot.getChildren()) {
+                                        User u = null;
+                                        try {
+                                            u = User.buildUserObject(dataSnapshot);
+                                        } catch (NullPointerException e) {
+                                            Log.d(TAG, "NullPointerException is caught.");
+                                            e.printStackTrace();
+                                        }
+                                        if (u.getEmail().equals(username)) {
+                                            u.addLockAttempts();
+                                            u.writeToDatabase();
+                                        }
+                                        if (u.getLockAttempts() > 2) {
+                                            //if locked out ALERT
+                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(LogInActivity.this);
+                                            builder1.setMessage("Your account has been locked from too many incorrect logins. Please try later");
+                                            builder1.setCancelable(true);
+
+                                            builder1.setPositiveButton(
+                                                    "Cancel",
+                                                    new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int id) {
+                                                            dialog.cancel();
+                                                            finish();
+                                                            startActivity(getIntent());
+                                                        }
+                                                    });
+
+                                            builder1.setNegativeButton(
+                                                    "Ok",
+                                                    new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int id) {
+                                                            dialog.cancel();
+                                                            finish();
+                                                            startActivity(getIntent());
+                                                        }
+                                                    });
+
+                                            AlertDialog alert11 = builder1.create();
+                                            alert11.show();
+                                        }
+
+                                    }
+                                }
+
+                                @Override
+                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
                         }
                     }
                 });

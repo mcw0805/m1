@@ -29,9 +29,14 @@
         <activity android:name=".Controller.ItemViewerActivity" />
         <activity android:name=".Controller.LostItemDescriptionActivity" />
         <activity android:name=".Controller.FoundItemListActivity" />
-        <activity android:name=".Controller.FoundItemDescription"></activity>
-        <activity android:name=".Controller.RequestItemFormActivity"></activity>
-
+        <activity android:name=".Controller.FoundItemDescription" />
+        <activity android:name=".Controller.RequestItemFormActivity" />
+        <activity android:name=".Controller.AdminDashboard" />
+        <activity android:name=".Controller.PendingItemListActivity" />
+        <activity android:name=".Controller.ApprovedItemListActivity" />
+        <activity android:name=".Controller.ActiveUserListActivity" />
+        <activity android:name=".Controller.LockedUserListActivity" />
+        <activity android:name=".Controller.BannedUserListActivity"></activity>
     </application>
 
 </manifest>

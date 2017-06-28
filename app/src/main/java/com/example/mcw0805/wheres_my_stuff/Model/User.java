@@ -1,5 +1,8 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
 
+import android.provider.ContactsContract;
+
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -14,7 +17,12 @@ public class User {
     private boolean isLocked;
     private boolean isBanned;
     private String uid;
-    private int count = 0;
+    private int itemCount = 0;
+    private int lockAttempts = 0;
+
+    public User(){
+
+    }
 
 
     /**
@@ -43,15 +51,16 @@ public class User {
      * @param isBanned banned status of user
      */
 
-    public User(String name, String email, String id, boolean isLocked, boolean isBanned) {
+    public User(String name, String email, String id, boolean isLocked, boolean isBanned, int itemCount, int lockAttempts) {
         this.name = name;
         this.email = email;
         this.uid = id;
         this.isLocked = isLocked;
         this.isBanned = isBanned;
+        this.itemCount = itemCount;
+        this.lockAttempts = lockAttempts;
 
     }
-
     /**
      * gets name
      * @return name
@@ -131,21 +140,69 @@ public class User {
     public void setUid(String uid) {
         this.uid = uid;
     }
+    public void setItemCount(int k) {
+        itemCount = k;
+    }
+    public int getItemCount() {
+        return itemCount;
+    }
+    public int getLockAttempts() {
+        return lockAttempts;
+    }
+    public void setLockAttempts(int k) {
+        lockAttempts = k;
+    }
+    public void addLockAttempts() {
+        lockAttempts++;
+    }
 
     /**
      * Writes the user to the database
      */
     public void writeToDatabase() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference userRef = database.getReference("users/" + this.getUid());
-        userRef.setValue(this);
+        final DatabaseReference userRef = database.getReference("users/" + this.uid + "/");
+        DatabaseReference nameChild = userRef.child("name");
+        nameChild.setValue(getName());
+        DatabaseReference emailChild = userRef.child("email");
+        emailChild.setValue(getEmail());
+        DatabaseReference lockedChild = userRef.child("locked");
+        lockedChild.setValue(isLocked());
+        DatabaseReference bannedChild = userRef.child("banned");
+        bannedChild.setValue(isBanned());
+        DatabaseReference uidChild = userRef.child("uid");
+        uidChild.setValue(getUid());
+        DatabaseReference itemCountChild = userRef.child("itemCount");
+        itemCountChild.setValue(getItemCount());
+        DatabaseReference lockAttemptsChild = userRef.child("lockAttempts");
+        lockAttemptsChild.setValue(getLockAttempts());
+
+    }
+
+    public static User buildUserObject(DataSnapshot dataSnap) {
+        DataSnapshot name = dataSnap.child("name");
+        DataSnapshot email = dataSnap.child("email");
+        DataSnapshot locked = dataSnap.child("locked");
+        DataSnapshot banned = dataSnap.child("banned");
+        DataSnapshot uid = dataSnap.child("uid");
+        DataSnapshot itemCount = dataSnap.child("itemCount");
+        DataSnapshot lockAttempts = dataSnap.child("lockAttempts");
+
+        String _name = (String) name.getValue();
+        String _email = (String) email.getValue();
+        boolean _isLocked = (Boolean) locked.getValue();
+        boolean _isBanned =  (Boolean) banned.getValue();
+        String _uid = (String) uid.getValue();
+        int _itemCount = Integer.parseInt(String.valueOf(itemCount.getValue()));
+        int _lockAttempts = Integer.parseInt(String.valueOf(lockAttempts.getValue()));
+        return new User(_name, _email, _uid, _isLocked, _isBanned, _itemCount, _lockAttempts );
     }
 
     /**
      * increments user's count when the user creates a new item.
      */
     public void addCount() {
-        this.count++;
+        this.itemCount++;
     }
 
 }

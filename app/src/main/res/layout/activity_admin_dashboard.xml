@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mcw0805.wheres_my_stuff.Controller.AdminDashboard"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <TextView
+            android:id="@+id/activeusers"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textSize="28sp"
+            android:textStyle= "bold"
+            android:gravity="center_vertical"
+            android:text="Active Users" />
+
+        <TextView
+            android:id="@+id/bannedusers"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textSize="28sp"
+            android:textStyle= "bold"
+            android:gravity="center_vertical"
+            android:text="Banned Users" />
+
+        <TextView
+            android:id="@+id/lockedusers"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textSize="28sp"
+            android:textStyle= "bold"
+            android:gravity="center_vertical"
+            android:text="Locked Users" />
+
+        <TextView
+            android:id="@+id/approveditems"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textSize="28sp"
+            android:textStyle= "bold"
+            android:gravity="center_vertical"
+            android:text="Approved Items" />
+
+        <TextView
+            android:id="@+id/pendingitems"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:text="Pending Items"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/profileadmin"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:textSize="28sp"
+            android:textStyle= "bold"
+            android:gravity="center_vertical"
+            android:text="Profile" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
