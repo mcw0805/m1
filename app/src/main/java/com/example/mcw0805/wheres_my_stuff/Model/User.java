@@ -31,8 +31,8 @@ public class User implements Parcelable {
     private int lockAttempts = 0;
 
     private static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private final DatabaseReference userRef = database.getReference("users/" + this.uid);
-    private static final DatabaseReference dataUserRef = database.getReference("users/");
+//    private DatabaseReference userRef = database.getReference("users/" + this.uid);
+    private static final DatabaseReference userRef = database.getReference("users/");
 
     public User() {
 
@@ -213,25 +213,25 @@ public class User implements Parcelable {
      * Writes the user to the database
      */
     public void writeToDatabase() {
-
-        DatabaseReference nameChild = userRef.child("name");
+        DatabaseReference realRef = userRef.child(uid);
+        DatabaseReference nameChild = realRef.child("name");
         nameChild.setValue(getName());
-        DatabaseReference emailChild = userRef.child("email");
+        DatabaseReference emailChild = realRef.child("email");
         emailChild.setValue(getEmail());
-        DatabaseReference lockedChild = userRef.child("locked");
+        DatabaseReference lockedChild = realRef.child("locked");
         lockedChild.setValue(getIsLocked());
-        DatabaseReference bannedChild = userRef.child("banned");
+        DatabaseReference bannedChild = realRef.child("banned");
         bannedChild.setValue(getIsBanned());
-        DatabaseReference uidChild = userRef.child("uid");
+        DatabaseReference uidChild = realRef.child("uid");
         uidChild.setValue(getUid());
-        DatabaseReference itemCountChild = userRef.child("itemCount");
+        DatabaseReference itemCountChild = realRef.child("itemCount");
         itemCountChild.setValue(getItemCount());
-        DatabaseReference lockAttemptsChild = userRef.child("lockAttempts");
+        DatabaseReference lockAttemptsChild = realRef.child("lockAttempts");
         lockAttemptsChild.setValue(getLockAttempts());
 
     }
 
-    public static DatabaseReference getUserRef() {return dataUserRef;}
+    public static DatabaseReference getUserRef() {return userRef;}
 
     public static User buildUserObject(DataSnapshot dataSnap) {
         DataSnapshot name = dataSnap.child("name");

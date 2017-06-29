@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.mcw0805.wheres_my_stuff.R;
@@ -115,6 +116,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         } else if (v.equals(newFound)) { //My Submitted Items
             Intent intent = new Intent(this, MyListActivity.class);
             Dashboard.this.startActivity(intent);
+        }
+
+        if (v == newFound) {
+            startActivity(new Intent(this, MyListActivity.class));
         }
     }
 

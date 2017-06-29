@@ -20,15 +20,17 @@
         </activity>
         <activity android:name=".Controller.RegistrationActivity" />
         <activity android:name=".Controller.LogInActivity" />
-        <activity android:name=".Controller.ProfileActivity"
-            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:name=".Controller.ProfileActivity"
+            android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".Controller.Dashboard" />
         <activity android:name=".Controller.SubmitFormActivity" />
         <activity android:name=".Controller.ResetPasswordActivity" />
         <activity android:name=".Controller.LostItemListActivity" />
         <activity android:name=".Controller.ListView" />
         <activity android:name=".Controller.LostItemDescriptionActivity" />
-        <activity android:name=".Controller.FoundItemListActivity" />
+        <activity android:name=".Controller.FoundItemListActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Controller.FoundItemDescription" />
         <activity android:name=".Controller.RequestItemFormActivity" />
         <activity android:name=".Controller.AdminDashboard" />
@@ -36,7 +38,8 @@
         <activity android:name=".Controller.ApprovedItemListActivity" />
         <activity android:name=".Controller.ActiveUserListActivity" />
         <activity android:name=".Controller.LockedUserListActivity" />
-        <activity android:name=".Controller.BannedUserListActivity"></activity>
+        <activity android:name=".Controller.BannedUserListActivity" />
+        <activity android:name=".Controller.MyListActivity"></activity>
     </application>
 
 </manifest>

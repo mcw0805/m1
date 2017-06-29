@@ -1,33 +1,33 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.app.ProgressDialog;
+        import android.content.DialogInterface;
+        import android.content.Intent;
+        import android.os.Bundle;
+        import android.support.annotation.NonNull;
+        import android.support.v7.app.AlertDialog;
+        import android.support.v7.app.AppCompatActivity;
+        import android.text.TextUtils;
+        import android.util.Log;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.view.View;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
 
-import com.example.mcw0805.wheres_my_stuff.Model.User;
-import com.example.mcw0805.wheres_my_stuff.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+        import com.example.mcw0805.wheres_my_stuff.Model.User;
+        import com.example.mcw0805.wheres_my_stuff.R;
+        import com.google.android.gms.tasks.OnCompleteListener;
+        import com.google.android.gms.tasks.Task;
+        import com.google.firebase.auth.AuthResult;
+        import com.google.firebase.auth.FirebaseAuth;
+        import com.google.firebase.auth.FirebaseUser;
+        import com.google.firebase.database.ChildEventListener;
+        import com.google.firebase.database.DataSnapshot;
+        import com.google.firebase.database.DatabaseError;
+        import com.google.firebase.database.DatabaseReference;
+        import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Controller for the login. Uses Firebase email password authentication.
@@ -51,7 +51,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private static final String TAG = "LoginActivity";
     private DatabaseReference mUserRef;
     private DatabaseReference mUserRef2;
-    private DatabaseReference mAdminRef;
 
     /**
      * Creates the activity and instantiates widgets
@@ -161,44 +160,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             final String uid = user.getUid();
-                            //check if admin first
-                            mAdminRef = FirebaseDatabase.getInstance().getReference("admin");
-                            mAdminRef.addChildEventListener(new ChildEventListener() {
-                                @Override
-                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                                    if (dataSnapshot.getKey().equals(uid)) {
-                                        //valid admin, go to admin dashboard
-                                        Intent intent = new Intent (LogInActivity.this, AdminDashboard.class);
-                                        LogInActivity.this.startActivity(intent);
-
-                                    }
-
-                                }
-
-                                @Override
-                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                                }
-
-                                @Override
-                                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                                }
-
-                                @Override
-                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-
-                                }
-                            });
-
-
-
-                            //else proceed to user
                             mUserRef = FirebaseDatabase.getInstance().getReference("users");
                             mUserRef2 = mUserRef.child(uid);
                             mUserRef.addChildEventListener(new ChildEventListener() {
@@ -213,7 +174,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                             e.printStackTrace();
                                         }
 
-                                        //checks if user getIsBanned
+                                        //checks if user isBanned
                                         if (u.getIsBanned()) {
                                             //If banned ALERT
                                             AlertDialog.Builder builder1 = new AlertDialog.Builder(LogInActivity.this);
@@ -226,7 +187,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             dialog.cancel();
                                                             finish();
-                                                            //startActivity(getIntent());
+                                                            startActivity(getIntent());
                                                         }
                                                     });
 
@@ -236,13 +197,12 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             dialog.cancel();
                                                             finish();
-                                                            //startActivity(getIntent());
+                                                            startActivity(getIntent());
                                                         }
                                                     });
 
                                             AlertDialog alert11 = builder1.create();
                                             alert11.show();
-                                            return;
                                         }
                                         //Checks if user is locked out
                                         else if (u.getLockAttempts() > 2) {
@@ -260,7 +220,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             dialog.cancel();
                                                             finish();
-                                                            //startActivity(getIntent());
+                                                            startActivity(getIntent());
                                                         }
                                                     });
 
@@ -270,13 +230,12 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             dialog.cancel();
                                                             finish();
-                                                            //startActivity(getIntent());
+                                                            startActivity(getIntent());
                                                         }
                                                     });
 
                                             AlertDialog alert11 = builder1.create();
                                             alert11.show();
-                                            return;
                                         } else {
                                             //Everything is fine
                                             //Reset login attempts
@@ -346,7 +305,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                             public void onClick(DialogInterface dialog, int id) {
                                                                 dialog.cancel();
                                                                 finish();
-                                                                //startActivity(getIntent());
+                                                                startActivity(getIntent());
                                                             }
                                                         });
 
@@ -356,7 +315,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                             public void onClick(DialogInterface dialog, int id) {
                                                                 dialog.cancel();
                                                                 finish();
-                                                                //startActivity(getIntent());
+                                                                startActivity(getIntent());
                                                             }
                                                         });
 

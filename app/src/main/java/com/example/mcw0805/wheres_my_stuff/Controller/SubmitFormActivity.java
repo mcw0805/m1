@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-//import model.States;
+//import com.example.mcw0805.wheres_my_stuff.Model.States;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -203,8 +203,9 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         newItem = new LostItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory, uid, reward);
         incrementSubmissionCount();
-        newItem.writeToDatabase(LostItem.getChildRef());
-
+        DatabaseReference child = LostItem.getLostItemsRef().child(uid + "--" + LostItem.getLostItemsRef().push().getKey());
+        //newItem.writeToDatabase(LostItem.getChildRef());
+        newItem.writeToDatabase(child);
 
     }
 
@@ -222,7 +223,9 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         Boolean x = users.isEmpty();         //delete this
         Log.d("SUBMIT", x.toString());        //delete this
 
-        newItem.writeToDatabase(FoundItem.getChildRef());
+        DatabaseReference child = FoundItem.getFoundItemsRef().child(uid + "--" + FoundItem.getFoundItemsRef().push().getKey());
+        //newItem.writeToDatabase(FoundItem.getChildRef());
+        newItem.writeToDatabase(child);
     }
 
     /**
@@ -296,38 +299,6 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
 
             }
 
-        });
-
-        ///ERASE HERE
-        final DatabaseReference uref = FirebaseDatabase.getInstance().getReference("users/");
-
-        uref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnap, String s) {
-                User user = User.buildUserObject(dataSnap);
-                users.add(user);
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
         });
 
 
