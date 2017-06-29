@@ -13,19 +13,22 @@
         android:layout_height="35dp"
         android:orientation="horizontal">
 
+        <EditText
+            android:id="@+id/searchBarEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/filter_spinner"
+            android:hint="Search Found Items"
+            android:icon="@drawable/ic_action_search"
+            android:paddingLeft="10dp"
+            android:paddingTop="0dp"
+            android:gravity="center"/>
         <Spinner
             android:id="@+id/filter_spinner"
             android:layout_width="110dp"
             android:layout_height="35dp"
             android:gravity="end" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/filter_spinner"
-            android:id="@+id/searchBarEdit"
-            android:hint="Search Found Items"
-            />
     </LinearLayout>
 
     <LinearLayout
