@@ -194,8 +194,9 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
 
         newItem = new LostItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory, uid, reward);
-        newItem.writeToDatabase(LostItem.getChildRef());
         incrementSubmissionCount();
+        newItem.writeToDatabase(LostItem.getChildRef());
+
 
     }
 
@@ -207,10 +208,8 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
     private void submitFoundItem(Date dateTime) {
         newItem = new FoundItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory, uid);
-        //newItem.writeToDatabase(uid, FoundItem.getFoundItemsRef());
-        newItem.writeToDatabase(FoundItem.getChildRef());
         incrementSubmissionCount();
-
+        newItem.writeToDatabase(FoundItem.getChildRef());
     }
 
     /**
@@ -242,6 +241,8 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid );
         final DatabaseReference itemCountRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid + "/itemCount");
 
+        //final int[] uniqueNumber = {0};
+
         userRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -256,6 +257,7 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
                     Log.d(TAG, "After incrementing- " + key + ": " + count);
 
                     itemCountRef.setValue(count);
+
                 }
             }
 
@@ -280,5 +282,8 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
             }
         });
 
+
     }
+
+
 }

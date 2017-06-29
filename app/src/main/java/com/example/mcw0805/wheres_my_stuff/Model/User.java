@@ -1,16 +1,26 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by Ted on 6/14/2017.
  * Creating the user model
  */
 
-public class User {
+public class User implements Parcelable {
     private String name;
     private String email;
     private boolean isLocked;
@@ -19,7 +29,10 @@ public class User {
     private int itemCount = 0;
     private int lockAttempts = 0;
 
-    public User(){
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final DatabaseReference userRef = database.getReference("users/" + this.uid);
+
+    public User() {
 
     }
 
@@ -60,6 +73,45 @@ public class User {
         this.lockAttempts = lockAttempts;
 
     }
+
+    protected User(Parcel in) {
+        name = in.readString();
+        email = in.readString();
+        isLocked = in.readByte() != 0;
+        isBanned = in.readByte() != 0;
+        uid = in.readString();
+        itemCount = in.readInt();
+        lockAttempts = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(email);
+        dest.writeByte((byte) (isLocked ? 1 : 0));
+        dest.writeByte((byte) (isBanned ? 1 : 0));
+        dest.writeString(uid);
+        dest.writeInt(itemCount);
+        dest.writeInt(lockAttempts);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     /**
      * gets name
      * @return name
@@ -96,7 +148,7 @@ public class User {
      * gets the locked status of the yser
      * @return bool true or false
      */
-    public boolean isLocked() {
+    public boolean getIsLocked() {
         return isLocked;
     }
 
@@ -112,7 +164,7 @@ public class User {
      * gets the banned status of the user
      * @return bool t/f
      */
-    public boolean isBanned() {
+    public boolean getIsBanned() {
         return isBanned;
     }
 
@@ -159,16 +211,15 @@ public class User {
      * Writes the user to the database
      */
     public void writeToDatabase() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference userRef = database.getReference("users/" + this.uid + "/");
+
         DatabaseReference nameChild = userRef.child("name");
         nameChild.setValue(getName());
         DatabaseReference emailChild = userRef.child("email");
         emailChild.setValue(getEmail());
         DatabaseReference lockedChild = userRef.child("locked");
-        lockedChild.setValue(isLocked());
+        lockedChild.setValue(getIsLocked());
         DatabaseReference bannedChild = userRef.child("banned");
-        bannedChild.setValue(isBanned());
+        bannedChild.setValue(getIsBanned());
         DatabaseReference uidChild = userRef.child("uid");
         uidChild.setValue(getUid());
         DatabaseReference itemCountChild = userRef.child("itemCount");
@@ -194,6 +245,7 @@ public class User {
         String _uid = (String) uid.getValue();
         int _itemCount = Integer.parseInt(String.valueOf(itemCount.getValue()));
         int _lockAttempts = Integer.parseInt(String.valueOf(lockAttempts.getValue()));
+
         return new User(_name, _email, _uid, _isLocked, _isBanned, _itemCount, _lockAttempts );
     }
 

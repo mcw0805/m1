@@ -213,8 +213,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                             e.printStackTrace();
                                         }
 
-                                        //checks if user isBanned
-                                        if (u.isBanned()) {
+                                        //checks if user getIsBanned
+                                        if (u.getIsBanned()) {
                                             //If banned ALERT
                                             AlertDialog.Builder builder1 = new AlertDialog.Builder(LogInActivity.this);
                                             builder1.setMessage("Your account has been BANNED for violating ToS. Please contact support ");

@@ -1,7 +1,6 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
 import java.util.ArrayList;
-import java.util.Collections;
-import com.example.mcw0805.wheres_my_stuff.Model.User;
+
 /**
  * Created by Jordan on 6/28/2017.
  */
@@ -15,7 +14,7 @@ public class UserListController {
     public static ArrayList<User> filterByBanned(ArrayList<User> inArr) {
         ArrayList<User> outArr = new ArrayList<>();
         for (User u : inArr) {
-            if (u.isBanned()) {
+            if (u.getIsBanned()) {
                 outArr.add(u);
             }
         }
@@ -30,7 +29,7 @@ public class UserListController {
     public static ArrayList<User> filterByActive(ArrayList<User> inArr) {
         ArrayList<User> outArr = new ArrayList<>();
         for (User u : inArr) {
-            if (!(u.isBanned())) {
+            if (!(u.getIsBanned())) {
                 outArr.add(u);
             }
         }
