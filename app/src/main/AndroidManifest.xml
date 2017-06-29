@@ -29,7 +29,8 @@
         <activity android:name=".Controller.LostItemListActivity" />
         <activity android:name=".Controller.ListView" />
         <activity android:name=".Controller.LostItemDescriptionActivity" />
-        <activity android:name=".Controller.FoundItemListActivity" />
+        <activity android:name=".Controller.FoundItemListActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Controller.FoundItemDescription" />
         <activity android:name=".Controller.RequestItemFormActivity" />
         <activity android:name=".Controller.AdminDashboard" />

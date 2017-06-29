@@ -3,6 +3,8 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -35,8 +37,10 @@ public class FoundItemListActivity extends AppCompatActivity {
     /*
         ListView widget and its adapter
      */
-    private android.widget.ListView foundItemLv;
+    private ListView foundItemLv;
     private ArrayAdapter<String> foundItemAdapter;
+
+    private EditText searchBarEdit;
 
     /*
         Places list of text that would be shown in the ListView
@@ -90,6 +94,24 @@ public class FoundItemListActivity extends AppCompatActivity {
         ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(category_Adapter);
+
+        searchBarEdit = (EditText) findViewById(R.id.searchBarEdit);
+        searchBarEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                FoundItemListActivity.this.foundItemAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         mFoundItemsRef.addChildEventListener(new ChildEventListener() {
