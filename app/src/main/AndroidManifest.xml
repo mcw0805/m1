@@ -20,8 +20,9 @@
         </activity>
         <activity android:name=".Controller.RegistrationActivity" />
         <activity android:name=".Controller.LogInActivity" />
-        <activity android:name=".Controller.ProfileActivity"
-            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:name=".Controller.ProfileActivity"
+            android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".Controller.Dashboard" />
         <activity android:name=".Controller.SubmitFormActivity" />
         <activity android:name=".Controller.ResetPasswordActivity" />
@@ -36,7 +37,8 @@
         <activity android:name=".Controller.ApprovedItemListActivity" />
         <activity android:name=".Controller.ActiveUserListActivity" />
         <activity android:name=".Controller.LockedUserListActivity" />
-        <activity android:name=".Controller.BannedUserListActivity"></activity>
+        <activity android:name=".Controller.BannedUserListActivity" />
+        <activity android:name=".Controller.MyListActivity"></activity>
     </application>
 
 </manifest>
