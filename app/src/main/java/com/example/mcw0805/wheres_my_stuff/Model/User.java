@@ -3,6 +3,7 @@ package com.example.mcw0805.wheres_my_stuff.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.provider.CalendarContract;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
@@ -29,8 +30,9 @@ public class User implements Parcelable {
     private int itemCount = 0;
     private int lockAttempts = 0;
 
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final DatabaseReference userRef = database.getReference("users/" + this.uid);
+    private static final DatabaseReference dataUserRef = database.getReference("users/");
 
     public User() {
 
@@ -228,6 +230,8 @@ public class User implements Parcelable {
         lockAttemptsChild.setValue(getLockAttempts());
 
     }
+
+    public static DatabaseReference getUserRef() {return dataUserRef;}
 
     public static User buildUserObject(DataSnapshot dataSnap) {
         DataSnapshot name = dataSnap.child("name");
