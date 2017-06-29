@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.mcw0805.wheres_my_stuff.R;
@@ -16,16 +17,17 @@ import com.google.firebase.auth.FirebaseUser;
 public class Dashboard extends AppCompatActivity implements View.OnClickListener {
 
 /*
-* textviews for the various textfields on the dashboard
+* textviews/button for the various textfields/button on the dashboard
  */
     private TextView welcome;
     private TextView lostNearMe;
     private TextView foundNearMe;
     private TextView newFound;
     private TextView newLost;
-    private TextView request;
+    private TextView donate_list;
     private TextView donate;
     private TextView profile_page;
+    private Button logout_dash;
 
     /*
     * variables that will belong to each particular object
@@ -47,10 +49,11 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         foundNearMe = (TextView) findViewById(R.id.found_txt);
         newFound = (TextView) findViewById(R.id.reportFound_txt);
         newLost = (TextView) findViewById(R.id.reportLost_txt);
-        request = (TextView) findViewById(R.id.request_txt);
+        donate_list = (TextView) findViewById(R.id.donate_list);
         donate = (TextView) findViewById(R.id.donate_txt);
         profile_page = (TextView) findViewById(R.id.profile_txt);
         welcome = (TextView) findViewById(R.id.welcome);
+        logout_dash = (Button) findViewById(R.id.logout_button);
         //welcome.setText("Welcome " + name);
 
         /*
@@ -60,9 +63,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         foundNearMe.setOnClickListener(this);
         newFound.setOnClickListener(this);
         newLost.setOnClickListener(this);
-        request.setOnClickListener(this);
+        donate_list.setOnClickListener(this);
         donate.setOnClickListener(this);
         profile_page.setOnClickListener(this);
+        logout_dash.setOnClickListener(this);
 
         //connecting the user who just signed in with the dashboard that pops up
         Intent intent = getIntent();
@@ -102,8 +106,14 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         } else if (v.equals(foundNearMe)) {
             Intent intent = new Intent(this, FoundItemListActivity.class);
             Dashboard.this.startActivity(intent);
-        } else if (v.equals(request)) {
+        } else if (v.equals(donate_list)) {
             Intent intent = new Intent(this, RequestItemFormActivity.class);
+            Dashboard.this.startActivity(intent);
+        } else if (v.equals(logout_dash)) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            Dashboard.this.startActivity(intent);
+        } else if (v.equals(newFound)) { //My Submitted Items
+            Intent intent = new Intent(this, MyListActivity.class);
             Dashboard.this.startActivity(intent);
         }
     }
