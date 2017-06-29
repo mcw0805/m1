@@ -9,6 +9,7 @@ import android.widget.*;
 import android.widget.ListView;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
+import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.database.ChildEventListener;
@@ -60,6 +61,7 @@ public class FoundItemListActivity extends AppCompatActivity {
         Database reference for the found items in Firebase
      */
     private DatabaseReference mFoundItemsRef;
+    private Spinner filterSpinner;
 
 
     private final String TAG = "FoundItemListActivity";
@@ -83,6 +85,11 @@ public class FoundItemListActivity extends AppCompatActivity {
 
         //References the list of lost items in Firebase
         mFoundItemsRef = FoundItem.getFoundItemsRef();
+        filterSpinner = (Spinner) findViewById(R.id.filter_spinner);
+
+        ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
+        category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterSpinner.setAdapter(category_Adapter);
 
 
         mFoundItemsRef.addChildEventListener(new ChildEventListener() {
