@@ -1,10 +1,12 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -25,74 +27,82 @@ import com.google.firebase.auth.FirebaseUser;
  * @author Melanie Hall
  */
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener  {
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     /*
-      Instance variables for log out button/allowing user to log out.
+        Widgets for the profile activity.
     */
     private Button signOutProfileButton;
-    private ToggleButton editToggleBtn;
+    private ToggleButton editToggleButton;
     private EditText nicknameEdit;
     private TextView nicknameTextView;
+    private EditText introductionEdit;
+    private TextView introductionTextView;
     private ViewSwitcher nicknameViewSwitcher;
+    private ViewSwitcher introductionViewSwitcher;
 
+    /*
+        Firebase authorization
+     */
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
+
     private static final String TAG = "ProfileActivity";
 
-    private String nickname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        //instantiate buttons
         signOutProfileButton = (Button) findViewById(R.id.profile_logout_btn);
-        editToggleBtn = (ToggleButton) findViewById(R.id.editToggleBtn);
+        editToggleButton = (ToggleButton) findViewById(R.id.editToggleBtn);
 
+        //instantiate all the fields related to editing/viewing the nickname of the user
         nicknameEdit = (EditText) findViewById(R.id.nicknameEdit);
         nicknameTextView = (TextView) findViewById(R.id.nicknameText);
         nicknameEdit.setText(nicknameTextView.getText().toString());
 
-        nickname = nicknameTextView.getText().toString();
-
         nicknameViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcherNickname);
 
-//        CompoundButton.OnCheckedChangeListener listener =
-//                new CompoundButton.OnCheckedChangeListener() {
-//
-//                    @Override
-//                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//
-//                    }
-//                };
+        //instantiate all the fields related to editing/viewing the intro/bio of the user
+        introductionEdit = (EditText) findViewById(R.id.introductionEdit);
+        introductionTextView = (TextView) findViewById(R.id.introductionText);
 
+        introductionViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcherIntroduction);
+
+        //listeners for the buttons
         signOutProfileButton.setOnClickListener(this);
-        //editToggleBtn.setOnCheckedChangeListener(listener);
+        editToggleButton.setOnClickListener(this);
 
-
-
-
-        editToggleBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        editToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String newNickname = nicknameEdit.getText().toString();
-                if (isChecked) { //edit is clicked (i.e. button is "on")
-                        nicknameViewSwitcher.showPrevious(); //shows EditText
+                String newIntro = introductionEdit.getText().toString();
 
-                        nicknameTextView.setText(newNickname);
+                if (isChecked) { //edit is clicked (i.e. button is "on")
+                    nicknameViewSwitcher.showPrevious(); //shows EditText
+                    nicknameTextView.setText(newNickname);
+
+                    introductionViewSwitcher.showPrevious();
+                    introductionTextView.setText(newIntro);
 
                 } else { //back to TextView
                     nicknameViewSwitcher.showNext();
                     nicknameTextView.setText(newNickname);
 
+                    introductionViewSwitcher.showNext();
+                    introductionTextView.setText(newIntro);
                 }
             }
         });
 
 
+        //Firebase authorization
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -109,9 +119,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         };
     }
 
-    /**
-     * Finds user and starts application.
-     */
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -121,9 +129,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    /**
-     * Stops application and returns to login screen.
-     */
     @Override
     protected void onStop() {
         super.onStop();
@@ -133,12 +138,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    /**
-     * onClick event that checks if user signs out.
-     * @param view checks if user signs out
-     */
+
     @Override
     public void onClick(View view) {
+
+        //sign out function
         if (view == signOutProfileButton) {
             signOut();
             Toast.makeText(getApplicationContext(),
@@ -150,16 +154,26 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             finish();
         }
 
-
-    }
-
-    private void makeEditable() {
-        if (nicknameViewSwitcher.getCurrentView() != nicknameTextView) {
-            nicknameViewSwitcher.showPrevious();
+        //hides keyboard when done editing
+        if (view == editToggleButton) {
+            if (!editToggleButton.isChecked()) {
+                hideSoftKeyboard(view);
+            }
         }
 
     }
 
+    /**
+     * Hides the soft keyboard.
+     *
+     * Called when EditText fields are not in focus.
+     *
+     * @param v view of the current focus
+     */
+    private void hideSoftKeyboard(View v){
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
 
 
     /**
