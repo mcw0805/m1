@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.mcw0805.wheres_my_stuff.R;
@@ -23,7 +22,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private TextView welcome;
     private TextView lostNearMe;
     private TextView foundNearMe;
-    private TextView newFound;
+    private TextView submitted_items;
     private TextView newLost;
     private TextView donate_list;
     private TextView donate;
@@ -48,7 +47,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
          */
         lostNearMe = (TextView) findViewById(R.id.lost_txt);
         foundNearMe = (TextView) findViewById(R.id.found_txt);
-        newFound = (TextView) findViewById(R.id.reportFound_txt);
+        submitted_items = (TextView) findViewById(R.id.reportFound_txt);
         newLost = (TextView) findViewById(R.id.reportLost_txt);
         donate_list = (TextView) findViewById(R.id.donate_list);
         donate = (TextView) findViewById(R.id.donate_txt);
@@ -62,7 +61,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
          */
         lostNearMe.setOnClickListener(this);
         foundNearMe.setOnClickListener(this);
-        newFound.setOnClickListener(this);
+        submitted_items.setOnClickListener(this);
         newLost.setOnClickListener(this);
         donate_list.setOnClickListener(this);
         donate.setOnClickListener(this);
@@ -107,20 +106,20 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         } else if (v.equals(foundNearMe)) {
             Intent intent = new Intent(this, FoundItemListActivity.class);
             Dashboard.this.startActivity(intent);
-        } else if (v.equals(donate_list)) {
-            Intent intent = new Intent(this, RequestItemFormActivity.class);
+        } else if (v.equals(donate)) {
+            Intent intent = new Intent(this, DonateItemFormActivity.class);
             Dashboard.this.startActivity(intent);
         } else if (v.equals(logout_dash)) {
             Intent intent = new Intent(this, HomeActivity.class);
             Dashboard.this.startActivity(intent);
-        } else if (v.equals(newFound)) { //My Submitted Items
+        } else if (v.equals(submitted_items)) {
             Intent intent = new Intent(this, MyListActivity.class);
             Dashboard.this.startActivity(intent);
         }
-
-        if (v == newFound) {
-            startActivity(new Intent(this, MyListActivity.class));
-        }
+        /* else if (v.equals(donate_list)) {
+            Intent intent = new Intent(this, someActivity.class;
+            Dashboard.this.startActivity(intent);
+         */
     }
 
     @Override

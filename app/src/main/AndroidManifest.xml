@@ -32,7 +32,8 @@
         <activity android:name=".Controller.FoundItemListActivity"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Controller.FoundItemDescription" />
-        <activity android:name=".Controller.RequestItemFormActivity" />
+        <activity android:name=".Controller.DonateItemFormActivity"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".Controller.AdminDashboard" />
         <activity android:name=".Controller.PendingItemListActivity" />
         <activity android:name=".Controller.ApprovedItemListActivity" />

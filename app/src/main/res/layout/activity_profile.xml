@@ -70,8 +70,7 @@
         android:layout_height="wrap_content"
         android:text="Introduction: "
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_alignBaseline="@+id/viewSwitcherIntroduction"
-        android:layout_alignBottom="@+id/viewSwitcherIntroduction"
+        android:layout_below="@+id/viewSwitcherNickname"
         android:layout_alignStart="@+id/textView8" />
 
     <ViewSwitcher
@@ -81,9 +80,9 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:ems="10"
         android:id="@+id/viewSwitcherIntroduction"
-        android:layout_below="@+id/viewSwitcherNickname"
-        android:layout_alignStart="@+id/editToggleBtn"
-        android:layout_marginTop="27dp">
+        android:layout_alignBaseline="@+id/textView9"
+        android:layout_alignBottom="@+id/textView9"
+        android:layout_alignStart="@+id/editToggleBtn">
 
         <TextView
             android:id="@+id/introductionText"

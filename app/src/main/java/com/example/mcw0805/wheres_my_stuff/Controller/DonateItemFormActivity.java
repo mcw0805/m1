@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.example.mcw0805.wheres_my_stuff.R;
 
-public class RequestItemFormActivity extends AppCompatActivity implements View.OnClickListener {
+public class DonateItemFormActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button postButton;
     private Button cancelButton;
@@ -20,7 +20,7 @@ public class RequestItemFormActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_request_item_form);
+        setContentView(R.layout.activity_donate_item_form);
 
         title_R = (EditText) findViewById(R.id.title_R);
         descript_R = (EditText) findViewById(R.id.description_R);

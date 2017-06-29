@@ -54,6 +54,7 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
     private EditText longField;
     private EditText rewardField;
     private TextView dollar;
+    private TextView category;
     private Spinner categorySpinner;
     //private Spinner stateSpinner;
     private Spinner typeSpinner;
@@ -98,6 +99,7 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         longField = (EditText) findViewById(R.id.longitude_L);
         rewardField = (EditText) findViewById(R.id.reward_L);
         dollar = (TextView) findViewById(R.id.dollar_L);
+        category = (TextView) findViewById(R.id.category_L);
         categorySpinner = (Spinner) findViewById(R.id.category_Lspinner);
         //stateSpinner = (Spinner) findViewById(R.id.state_Lspinner);
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
@@ -121,12 +123,21 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).equals(ItemType.FOUND) || parent.getItemAtPosition(position).equals(ItemType.NEED)) {
+                if (parent.getItemAtPosition(position).equals(ItemType.FOUND)) {
                     rewardField.setVisibility(View.INVISIBLE);
                     dollar.setVisibility(View.INVISIBLE);
+                    categorySpinner.setVisibility(View.VISIBLE);
+                    category.setVisibility(View.VISIBLE);
                 } else if (parent.getItemAtPosition(position).equals(ItemType.LOST)) {
                     rewardField.setVisibility(View.VISIBLE);
                     dollar.setVisibility(View.VISIBLE);
+                    categorySpinner.setVisibility(View.VISIBLE);
+                    category.setVisibility(View.VISIBLE);
+                } else if (parent.getItemAtPosition(position).equals(ItemType.NEED)) {
+                    rewardField.setVisibility(View.INVISIBLE);
+                    dollar.setVisibility(View.INVISIBLE);
+                    categorySpinner.setVisibility(View.INVISIBLE);
+                    category.setVisibility(View.INVISIBLE);
                 }
             }
 

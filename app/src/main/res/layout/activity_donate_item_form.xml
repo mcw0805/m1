@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mcw0805.wheres_my_stuff.Controller.RequestItemFormActivity">
+    android:visibility="visible"
+    tools:context="com.example.mcw0805.wheres_my_stuff.Controller.DonateItemFormActivity">
 
     <EditText
         android:id="@+id/title_R"
@@ -34,33 +35,65 @@
         android:overScrollMode="always"
         android:minLines="10" />
 
+    <TextView
+        android:id="@+id/location_L"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/description_R"
+        android:layout_below="@+id/description_R"
+        android:layout_marginTop="15dp"
+        android:text="Location"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <EditText
+        android:id="@+id/latitude_L"
+        android:layout_width="100dip"
+        android:layout_height="40dip"
+        android:ems="15"
+        android:hint="Latitude"
+        android:inputType="number|numberSigned|numberDecimal"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/location_L" />
+
+    <EditText
+        android:id="@+id/longitude_L"
+        android:layout_width="100dip"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Longitude"
+        android:inputType="number|numberSigned|numberDecimal"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:layout_alignBottom="@+id/latitude_L"
+        android:layout_alignEnd="@+id/title_R" />
+
     <Button
         android:id="@+id/post_R"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Post"
-        android:layout_marginTop="103dp"
-        android:layout_below="@+id/description_R"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignBaseline="@+id/cancel_R"
+        android:layout_alignBottom="@+id/cancel_R"
+        android:layout_toEndOf="@+id/location_L" />
 
     <Button
         android:id="@+id/cancel_R"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cancel"
-        android:layout_alignTop="@+id/post_R"
-        android:layout_alignStart="@+id/post_R"
-        android:layout_marginTop="61dp" />
+        android:layout_marginTop="92dp"
+        android:layout_below="@+id/longitude_L"
+        android:layout_toEndOf="@+id/longitude_L" />
 
     <TextView
         android:id="@+id/description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/title_R"
-        android:layout_below="@+id/title_R"
-        android:layout_marginTop="47dp"
+        android:layout_marginTop="17dp"
         android:text="Description"
         android:textSize="18sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:layout_below="@+id/title_R"
+        android:layout_alignStart="@+id/title_R" />
 
 </RelativeLayout>
