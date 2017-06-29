@@ -17,11 +17,14 @@ import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
+import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 //import model.States;
@@ -79,10 +82,14 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
     private ItemCategory inputItemCategory;
     private ItemType inputItemType;
 
+    private List<User> users;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_submission_form);
+
+        users = new ArrayList<>();
 
         //instantiate widgets
         titleField = (EditText) findViewById(R.id.title_L);
@@ -136,6 +143,7 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
         assert firebaseUser != null;
+
     }
 
     /**
@@ -209,6 +217,11 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         newItem = new FoundItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory, uid);
         incrementSubmissionCount();
+
+
+        Boolean x = users.isEmpty();         //delete this
+        Log.d("SUBMIT", x.toString());        //delete this
+
         newItem.writeToDatabase(FoundItem.getChildRef());
     }
 
@@ -241,9 +254,11 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid );
         final DatabaseReference itemCountRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid + "/itemCount");
 
+
         //final int[] uniqueNumber = {0};
 
         userRef.addChildEventListener(new ChildEventListener() {
+
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String key = dataSnapshot.getKey();
@@ -259,6 +274,74 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
                     itemCountRef.setValue(count);
 
                 }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
+
+        ///ERASE HERE
+        final DatabaseReference uref = FirebaseDatabase.getInstance().getReference("users/");
+
+        uref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnap, String s) {
+                User user = User.buildUserObject(dataSnap);
+                users.add(user);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void getUserCount() {
+        final DatabaseReference uref = FirebaseDatabase.getInstance().getReference("users/");
+
+        uref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnap, String s) {
+                User user = User.buildUserObject(dataSnap);
+                users.add(user);
+
             }
 
             @Override
