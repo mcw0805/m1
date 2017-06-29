@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-//import model.States;
+//import com.example.mcw0805.wheres_my_stuff.Model.States;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
