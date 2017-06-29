@@ -139,7 +139,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Post"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="29dp"
         android:layout_below="@+id/reward_L"
         android:layout_alignEnd="@+id/type_Lspinner" />
 
@@ -148,7 +148,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="22dp"
         android:layout_alignBaseline="@+id/postButton_L"
         android:layout_alignBottom="@+id/postButton_L"
         android:layout_toEndOf="@+id/reward_L" />

@@ -14,8 +14,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
-        android:textSize="25dp"
-        android:text="Login" />
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Login"
+        android:textSize="35dp" />
 
     <EditText
         android:id="@+id/login_username_edit"
@@ -59,10 +60,10 @@
         android:id="@+id/login_back_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:text="Back"
+        android:layout_below="@+id/forgot_pw"
         android:layout_alignStart="@+id/login_btn"
-        android:layout_marginBottom="47dp"
-        android:text="Back" />
+        android:layout_marginTop="14dp" />
 
     <TextView
         android:id="@+id/forgot_pw"
