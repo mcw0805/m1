@@ -10,7 +10,7 @@
         android:id="@+id/profile_logout_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="59dp"
+        android:layout_marginBottom="87dp"
         android:text="Log Out"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
@@ -25,43 +25,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nickname: "
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_marginEnd="12dp"
-        android:layout_below="@+id/editToggleBtn"
-        android:layout_toStartOf="@+id/textView2"
-        android:layout_marginTop="19dp" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Introduction: "
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_alignBaseline="@+id/viewSwitcherIntroduction"
-        android:layout_alignBottom="@+id/viewSwitcherIntroduction"
-        android:layout_alignStart="@+id/editToggleBtn" />
-
-    <ToggleButton
-        android:id="@+id/editToggleBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textOff="Edit"
-        android:textOn="Done"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_toStartOf="@+id/textView2"
-        android:layout_marginEnd="27dp" />
-
     <ViewSwitcher
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         android:layout_gravity="right"
+        android:layout_marginTop="21dp"
         android:id="@+id/viewSwitcherNickname"
-        android:layout_below="@+id/editToggleBtn"
+        android:layout_below="@+id/textView2"
         android:layout_toEndOf="@+id/textView8">
 
         <TextView
@@ -69,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="28dp"
             android:layout_marginLeft="0dp"
             android:layout_gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -78,10 +48,10 @@
 
         <EditText
             android:id="@+id/nicknameEdit"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:ems="10"
@@ -90,66 +60,25 @@
 
     </ViewSwitcher>
 
-    <ViewSwitcher
+    <TextView
+        android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:text="Nickname: "
+        android:layout_marginEnd="29dp"
+        android:layout_marginTop="30dp"
+        android:layout_alignTop="@+id/viewSwitcherNickname"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:ems="10"
-        android:id="@+id/viewSwitcherIntroduction"
-        android:layout_below="@+id/viewSwitcherNickname"
-        android:layout_alignStart="@+id/viewSwitcherNickname">
+        android:layout_toStartOf="@+id/textView2" />
 
-        <TextView
-            android:id="@+id/introductionText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="0dp"
-            android:ems="10"
-            android:text=""
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:layout_alignStart="@+id/viewSwitcherNickname" />
-
-        <EditText
-            android:id="@+id/introductionEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:ems="10"
-            android:hint="User Introduction"
-            android:inputType="textMultiLine"
-            android:minHeight="100dp"
-            android:scrollHorizontally="false"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical"
-            android:overScrollMode="always"
-
-            android:minLines="5"
-            />
-
-    </ViewSwitcher>
-
-
-    <!--<EditText-->
-        <!--android:id="@+id/introductionEdit"-->
-        <!--android:layout_width="350dp"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:ems="10"-->
-        <!--android:inputType="textMultiLine"-->
-        <!--android:minHeight="120dp"-->
-        <!--android:layout_below="@+id/description_text"-->
-        <!--android:layout_alignStart="@+id/description_text"-->
-        <!--android:scrollHorizontally="false"-->
-        <!--android:scrollbarAlwaysDrawVerticalTrack="true"-->
-        <!--android:scrollbarStyle="insideInset"-->
-        <!--android:scrollbars="vertical"-->
-        <!--android:overScrollMode="always"-->
-        <!--android:minLines="10" />-->
-
+    <ToggleButton
+        android:id="@+id/editToggleBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="Edit"
+        android:textOn="Done"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignStart="@+id/textView8" />
 
 </RelativeLayout>
 
