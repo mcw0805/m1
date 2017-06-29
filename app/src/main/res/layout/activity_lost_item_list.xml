@@ -8,11 +8,18 @@
     android:orientation="vertical"
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.LostItemListActivity">
 
+    <Spinner
+        android:id="@+id/filter_spinner"
+        android:layout_width="110dp"
+        android:layout_height="35dp"
+        android:gravity=""
+        />
+
     <ListView
         android:id="@+id/lost_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:divider="#E30B5D"
+        android:divider="#000000"
         android:dividerHeight="1dp"
         android:listSelector="#F8F8FF" />
 
