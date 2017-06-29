@@ -3,6 +3,7 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,9 +22,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Date;
+import java.util.Map;
 
 //import model.States;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Controller for submitting the lost item.
@@ -31,6 +39,8 @@ import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
  * @author Melanie Hall, Chaewon Min, Ted Shang
  */
 public class SubmitFormActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+
+    public final static String TAG = "SubmitFormActivity";
 
     /*
         Widgets for the item form page.
@@ -126,7 +136,6 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
         assert firebaseUser != null;
-
     }
 
     /**
@@ -186,6 +195,7 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         newItem = new LostItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory, uid, reward);
         newItem.writeToDatabase(LostItem.getChildRef());
+        incrementSubmissionCount();
 
     }
 
@@ -197,7 +207,9 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
     private void submitFoundItem(Date dateTime) {
         newItem = new FoundItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory, uid);
+        //newItem.writeToDatabase(uid, FoundItem.getFoundItemsRef());
         newItem.writeToDatabase(FoundItem.getChildRef());
+        incrementSubmissionCount();
 
     }
 
@@ -220,5 +232,53 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         inputItemType = (ItemType) typeSpinner.getSelectedItem();
 
         uid = firebaseUser.getUid();
+    }
+
+    /**
+     * Gets the current user from the database and increments the count
+     * of number of items posted.
+     */
+    private void incrementSubmissionCount() {
+        final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid );
+        final DatabaseReference itemCountRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid + "/itemCount");
+
+        userRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String key = dataSnapshot.getKey();
+                String val = dataSnapshot.getValue().toString();
+
+                if (key.equals("itemCount")) {
+                    Integer count = Integer.parseInt(String.valueOf(val));
+                    Log.d(TAG, "Before incrementing- " + key + ": " + count);
+
+                    count++;
+                    Log.d(TAG, "After incrementing- " + key + ": " + count);
+
+                    itemCountRef.setValue(count);
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }
