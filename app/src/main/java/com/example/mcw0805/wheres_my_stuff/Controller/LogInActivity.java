@@ -51,6 +51,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private static final String TAG = "LoginActivity";
     private DatabaseReference mUserRef;
     private DatabaseReference mUserRef2;
+    private DatabaseReference mAdminRef;
 
     /**
      * Creates the activity and instantiates widgets
@@ -160,6 +161,44 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             final String uid = user.getUid();
+                            //check if admin first
+                            mAdminRef = FirebaseDatabase.getInstance().getReference("admin");
+                            mAdminRef.addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                    if (dataSnapshot.getKey().equals(uid)) {
+                                        //valid admin, go to admin dashboard
+                                        Intent intent = new Intent (LogInActivity.this, AdminDashboard.class);
+                                        LogInActivity.this.startActivity(intent);
+
+                                    }
+
+                                }
+
+                                @Override
+                                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+
+
+                            //else proceed to user
                             mUserRef = FirebaseDatabase.getInstance().getReference("users");
                             mUserRef2 = mUserRef.child(uid);
                             mUserRef.addChildEventListener(new ChildEventListener() {
@@ -187,7 +226,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             dialog.cancel();
                                                             finish();
-                                                            startActivity(getIntent());
+                                                            //startActivity(getIntent());
                                                         }
                                                     });
 
@@ -197,12 +236,13 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             dialog.cancel();
                                                             finish();
-                                                            startActivity(getIntent());
+                                                            //startActivity(getIntent());
                                                         }
                                                     });
 
                                             AlertDialog alert11 = builder1.create();
                                             alert11.show();
+                                            return;
                                         }
                                         //Checks if user is locked out
                                         else if (u.getLockAttempts() > 2) {
@@ -220,7 +260,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             dialog.cancel();
                                                             finish();
-                                                            startActivity(getIntent());
+                                                            //startActivity(getIntent());
                                                         }
                                                     });
 
@@ -230,12 +270,13 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                         public void onClick(DialogInterface dialog, int id) {
                                                             dialog.cancel();
                                                             finish();
-                                                            startActivity(getIntent());
+                                                            //startActivity(getIntent());
                                                         }
                                                     });
 
                                             AlertDialog alert11 = builder1.create();
                                             alert11.show();
+                                            return;
                                         } else {
                                             //Everything is fine
                                             //Reset login attempts
@@ -305,7 +346,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                             public void onClick(DialogInterface dialog, int id) {
                                                                 dialog.cancel();
                                                                 finish();
-                                                                startActivity(getIntent());
+                                                                //startActivity(getIntent());
                                                             }
                                                         });
 
@@ -315,7 +356,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                             public void onClick(DialogInterface dialog, int id) {
                                                                 dialog.cancel();
                                                                 finish();
-                                                                startActivity(getIntent());
+                                                                //startActivity(getIntent());
                                                             }
                                                         });
 
