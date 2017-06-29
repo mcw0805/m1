@@ -231,7 +231,7 @@ public class User implements Parcelable {
 
     }
 
-    public static DatabaseReference getUserRef() {return dataUserRef;}
+    public static DatabaseReference getUserRef() {return userRef;}
 
     public static User buildUserObject(DataSnapshot dataSnap) {
         DataSnapshot name = dataSnap.child("name");
