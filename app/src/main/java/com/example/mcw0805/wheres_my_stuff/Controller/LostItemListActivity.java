@@ -173,7 +173,6 @@ public class LostItemListActivity extends AppCompatActivity {
                 intent.putExtra("selectedLostItem", lostItemObjectList.get(position));
 
                 startActivity(intent);
-                finish();
             }
         });
 

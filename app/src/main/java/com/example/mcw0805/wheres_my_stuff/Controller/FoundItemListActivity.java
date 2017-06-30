@@ -176,7 +176,6 @@ public class FoundItemListActivity extends AppCompatActivity {
                 intent.putExtra("selectedFoundItem", foundItemObjectList.get(position));
 
                 startActivity(intent);
-                finish();
             }
         });
     }
