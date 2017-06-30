@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +48,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard2);
+        setContentView(R.layout.activity_dashboard);
         /*
         * sets all textviews in the view to the instances in the controller
          */
@@ -83,12 +82,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         email = intent.getStringExtra("email");
 
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
 
-        String email = null;
-        if (user != null) {
-            email = user.getEmail();
-        }
 
         //Firebase authorization
         mAuth = FirebaseAuth.getInstance();
@@ -99,6 +93,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 if (user != null) {
                     // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+
                 } else {
                     // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
@@ -107,7 +102,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         };
 
         //welcome.setText("Welcome " + email);
-        welcome.setText("Welcome " + name);
+        welcome.setText("Welcome " );
 
 
     }
@@ -116,9 +111,15 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     protected void onStart() {
         super.onStart();
         if (!isAuthListenerSet) {
-            FirebaseAuth.getInstance().addAuthStateListener(mAuthListener);
+            mAuth.addAuthStateListener(mAuthListener);
             isAuthListenerSet = true;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
