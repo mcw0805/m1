@@ -8,7 +8,6 @@ import android.widget.ListView;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
-import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -100,7 +99,7 @@ public class MyListActivity extends AppCompatActivity {
                 }
 
                 myItemAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                        R.layout.activity_list_view, R.id.textView, myItemList);
+                        R.layout.item_row_layout, R.id.textView, myItemList);
 
                 myItemListView.setAdapter(myItemAdapter);
                 myItemAdapter.notifyDataSetChanged();
