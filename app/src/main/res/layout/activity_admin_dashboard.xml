@@ -23,57 +23,64 @@
         tools:layout_editor_absoluteX="8dp">
 
         <TextView
-            android:id="@+id/activeusers"
+            android:id="@+id/profileadmin"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:textSize="28sp"
-            android:textStyle= "bold"
+            android:fontFamily="sans-serif-smallcaps"
             android:gravity="center_vertical"
-            android:text="Active Users" />
-
-        <TextView
-            android:id="@+id/bannedusers"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:text="Profile"
             android:textSize="28sp"
-            android:textStyle= "bold"
-            android:gravity="center_vertical"
-            android:text="Banned Users" />
-
-        <TextView
-            android:id="@+id/lockedusers"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:textSize="28sp"
-            android:textStyle= "bold"
-            android:gravity="center_vertical"
-            android:text="Locked Users" />
-
-        <TextView
-            android:id="@+id/approveditems"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:textSize="28sp"
-            android:textStyle= "bold"
-            android:gravity="center_vertical"
-            android:text="Approved Items" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/pendingitems"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:fontFamily="sans-serif-smallcaps"
             android:gravity="center_vertical"
             android:text="Pending Items"
             android:textSize="28sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/profileadmin"
+            android:id="@+id/approveditems"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:textSize="28sp"
-            android:textStyle= "bold"
+            android:fontFamily="sans-serif-smallcaps"
             android:gravity="center_vertical"
-            android:text="Profile" />
+            android:text="Approved Items"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/activeusers"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:gravity="center_vertical"
+            android:text="Active Users"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lockedusers"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:gravity="center_vertical"
+            android:text="Locked Users"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/bannedusers"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:gravity="center_vertical"
+            android:text="Banned Users"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
