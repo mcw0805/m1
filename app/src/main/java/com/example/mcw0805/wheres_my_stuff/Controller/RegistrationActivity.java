@@ -193,8 +193,8 @@ public class RegistrationActivity extends AppCompatActivity implements View.OnCl
         }
 
         if (v == cancelButton) {
-            finish();
             startActivity(new Intent(this, HomeActivity.class));
+            finish();
         }
     }
 //    public void register(String user, String password) {
