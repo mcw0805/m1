@@ -133,7 +133,7 @@ public class LostItemListActivity extends AppCompatActivity {
                 lostItemKeys.add(dataSnapshot.getKey());
 
                 lostItemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                        R.layout.activity_list_view, R.id.textView, lostItemList);
+                        R.layout.item_row_layout, R.id.textView, lostItemList);
                 lostItemLv.setAdapter(lostItemAdapter);
                 lostItemAdapter.notifyDataSetChanged();
 
