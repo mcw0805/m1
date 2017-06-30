@@ -1,6 +1,8 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,7 @@ import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
@@ -168,7 +171,21 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         if (v == postButton) {
 
             //initializes the fields in the form as private instance variables
-            setFieldVars();
+            if (!setFieldVars()) {
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(SubmitFormActivity.this);
+                builder1.setMessage("Invalid");
+                builder1.setCancelable(true);
+                builder1.setPositiveButton(
+                        "Ok",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog alert = builder1.create();
+                alert.show();
+                return;
+            }
 
             //get current time
             long currentTime = System.currentTimeMillis();
@@ -243,7 +260,14 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
      * Initializes the various texts/numbers from the form as instance data
      * to be used to create Item objects.
      */
-    private void setFieldVars() {
+    private boolean setFieldVars() {
+
+        boolean valid = true;
+        if (FormValidation.textEmpty(titleField)) {
+            Toast.makeText(this, "Name of the item required!", Toast.LENGTH_SHORT);
+            valid = false;
+        }
+
         inputName = titleField.getText().toString();
         inputDescription = descriptField.getText().toString();
 
@@ -258,6 +282,8 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         inputItemType = (ItemType) typeSpinner.getSelectedItem();
 
         uid = firebaseUser.getUid();
+
+        return valid;
     }
 
     /**

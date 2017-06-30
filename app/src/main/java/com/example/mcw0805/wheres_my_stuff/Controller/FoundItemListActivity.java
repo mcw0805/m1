@@ -12,13 +12,11 @@ import android.widget.ListView;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
-import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -141,7 +139,7 @@ public class FoundItemListActivity extends AppCompatActivity {
                 foundItemKeys.add(dataSnapshot.getKey());
 
                 foundItemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                        R.layout.activity_list_view, R.id.textView, foundItemList);
+                        R.layout.item_row_layout, R.id.textView, foundItemList);
                 foundItemLv.setAdapter(foundItemAdapter);
                 foundItemAdapter.notifyDataSetChanged();
             }
@@ -178,7 +176,6 @@ public class FoundItemListActivity extends AppCompatActivity {
                 intent.putExtra("selectedFoundItem", foundItemObjectList.get(position));
 
                 startActivity(intent);
-                finish();
             }
         });
     }

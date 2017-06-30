@@ -32,7 +32,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     /*
         Widgets for the profile activity.
     */
-    private Button signOutProfileButton;
     private ToggleButton editToggleButton;
     private EditText nicknameEdit;
     private TextView nicknameTextView;
@@ -57,7 +56,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_profile);
 
         //instantiate buttons
-        signOutProfileButton = (Button) findViewById(R.id.profile_logout_btn);
         editToggleButton = (ToggleButton) findViewById(R.id.editToggleBtn);
 
         //instantiate all the fields related to editing/viewing the nickname of the user
@@ -74,7 +72,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         introductionViewSwitcher = (ViewSwitcher) findViewById(R.id.viewSwitcherIntroduction);
 
         //listeners for the buttons
-        signOutProfileButton.setOnClickListener(this);
         editToggleButton.setOnClickListener(this);
 
         editToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -142,18 +139,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
 
-        //sign out function
-        if (view == signOutProfileButton) {
-            signOut();
-            Toast.makeText(getApplicationContext(),
-                    "Successfully signed out.", Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(ProfileActivity.this, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }
-
         //hides keyboard when done editing
         if (view == editToggleButton) {
             if (!editToggleButton.isChecked()) {
@@ -176,11 +161,4 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    /**
-     * Method that signs a user out.
-     */
-    private void signOut() {
-        mAuth.signOut();
-        Log.d(TAG, "signed out");
-    }
 }

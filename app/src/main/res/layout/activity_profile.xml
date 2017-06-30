@@ -127,15 +127,6 @@
         android:textOff="Edit"
         android:textOn="Done" />
 
-    <Button
-        android:id="@+id/profile_logout_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="59dp"
-        android:text="Log Out" />
-
 
     <!--<EditText-->
         <!--android:id="@+id/introductionEdit"-->

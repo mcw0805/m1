@@ -20,28 +20,40 @@
         tools:layout_editor_absoluteY="16dp" />
 
     <EditText
+        android:id="@+id/registrationName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="13dp"
+        android:ems="10"
+        android:hint="Username"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <EditText
         android:id="@+id/registrationEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/registrationName"
         android:layout_marginTop="24dp"
         android:hint="Email"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="14sp"
-        android:layout_below="@+id/registrationName"
-        android:layout_alignParentStart="true" />
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/registrationPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/registrationEmail"
         android:layout_marginTop="35dp"
         android:hint="Password"
         android:inputType="textPassword"
         android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_below="@+id/registrationEmail"
-        android:layout_alignParentStart="true" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <EditText
         android:id="@+id/registrationConfirm"
@@ -59,28 +71,28 @@
         android:id="@+id/registrationAdmin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:text="Admin?    "
         android:layout_below="@+id/registrationConfirm"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        android:text="Admin?    " />
 
     <Button
         android:id="@+id/registrationCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:layout_below="@+id/register_to_login"
         android:layout_alignEnd="@+id/register_to_login"
-        android:layout_marginTop="21dp" />
+        android:layout_below="@+id/register_to_login"
+        android:layout_marginTop="21dp"
+        android:text="Cancel" />
 
     <Button
         android:id="@+id/registrationSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Submit"
         android:layout_alignBaseline="@+id/registrationCancel"
         android:layout_alignBottom="@+id/registrationCancel"
-        android:layout_alignStart="@+id/register_to_login" />
+        android:layout_alignStart="@+id/register_to_login"
+        android:text="Submit" />
 
     <TextView
         android:id="@+id/register_to_login"
@@ -91,16 +103,5 @@
         android:layout_marginTop="22dp"
         android:text="Already have an account? Login here." />
 
-    <EditText
-        android:id="@+id/registrationName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Username"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="13dp" />
 
 </RelativeLayout>
