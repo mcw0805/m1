@@ -33,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Widgets for the profile activity.
     */
     private ToggleButton editToggleButton;
+    private Button back_button;
     private EditText nicknameEdit;
     private TextView nicknameTextView;
     private EditText introductionEdit;
@@ -57,6 +58,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //instantiate buttons
         editToggleButton = (ToggleButton) findViewById(R.id.editToggleBtn);
+        back_button = (Button) findViewById(R.id.back_button);
 
         //instantiate all the fields related to editing/viewing the nickname of the user
         nicknameEdit = (EditText) findViewById(R.id.nicknameEdit);
@@ -73,6 +75,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //listeners for the buttons
         editToggleButton.setOnClickListener(this);
+        back_button.setOnClickListener(this);
 
         editToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
@@ -138,7 +141,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-
+        if (view.equals(back_button)) {
+            Intent intent = new Intent(ProfileActivity.this, Dashboard.class);
+            ProfileActivity.this.startActivity(intent);
+        }
         //hides keyboard when done editing
         if (view == editToggleButton) {
             if (!editToggleButton.isChecked()) {

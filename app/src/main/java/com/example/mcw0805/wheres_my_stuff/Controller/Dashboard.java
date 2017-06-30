@@ -162,7 +162,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             startActivity(intent);
             finish();
 
-        } else if (v.equals(newFound)) { //My Submitted Items
+        } else if (v.equals(submitted_items)) {
             Intent intent = new Intent(this, MyListActivity.class);
             Dashboard.this.startActivity(intent);
         }

@@ -22,27 +22,29 @@
         android:id="@+id/login_username_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
         android:ems="10"
-        android:hint="Username"
+        android:fontFamily="monospace"
+        android:hint="Email"
         android:inputType="textPersonName"
         tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="122dp"
-        android:layout_marginTop="60dp"
-        android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true" />
+        tools:layout_editor_absoluteY="122dp" />
 
     <EditText
         android:id="@+id/login_pw_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/login_username_edit"
+        android:layout_below="@+id/login_username_edit"
         android:layout_marginTop="37dp"
         android:ems="10"
+        android:fontFamily="monospace"
         android:hint="Password"
         android:inputType="textPassword"
         tools:layout_editor_absoluteX="46dp"
-        tools:layout_editor_absoluteY="202dp"
-        android:layout_below="@+id/login_username_edit"
-        android:layout_alignStart="@+id/login_username_edit" />
+        tools:layout_editor_absoluteY="202dp" />
 
     <Button
         android:id="@+id/login_btn"
