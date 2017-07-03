@@ -48,6 +48,7 @@ public class LostItemListActivity extends AppCompatActivity {
      */
     private ListView lostItemLv;
     private ArrayAdapter<String> lostItemAdapter;
+    private ItemAdapter itemAdapter;
 
     /*
         Places list of text that would be shown in the ListView
@@ -62,7 +63,7 @@ public class LostItemListActivity extends AppCompatActivity {
     /*
         List of LostItem objects, which are parcelable
      */
-    private List<LostItem> lostItemObjectList;
+    private List<Item> lostItemObjectList;
 
     /*
         Map that contains the database snapshots.
@@ -132,10 +133,14 @@ public class LostItemListActivity extends AppCompatActivity {
 
                 lostItemKeys.add(dataSnapshot.getKey());
 
-                lostItemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                        R.layout.item_row_layout, R.id.textView, lostItemList);
-                lostItemLv.setAdapter(lostItemAdapter);
-                lostItemAdapter.notifyDataSetChanged();
+//                lostItemAdapter = new ArrayAdapter<>(getApplicationContext(),
+//                        R.layout.item_row_layout, R.id.textView, lostItemList);
+//                lostItemLv.setAdapter(lostItemAdapter);
+//                lostItemAdapter.notifyDataSetChanged();
+
+                itemAdapter = new ItemAdapter(getApplicationContext(), lostItemObjectList);
+                lostItemLv.setAdapter(itemAdapter);
+
 
             }
 
@@ -165,7 +170,8 @@ public class LostItemListActivity extends AppCompatActivity {
         lostItemLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lostItemAdapter.notifyDataSetChanged();
+                //lostItemAdapter.notifyDataSetChanged();
+                itemAdapter.notifyDataSetChanged();
 
                 Intent intent = new Intent(getApplicationContext(), LostItemDescriptionActivity.class);
 
@@ -175,6 +181,8 @@ public class LostItemListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
 
     }
 }

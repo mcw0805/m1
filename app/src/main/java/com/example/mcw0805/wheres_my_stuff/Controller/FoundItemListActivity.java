@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.*;
 import android.widget.ListView;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
+import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.database.ChildEventListener;
@@ -27,7 +29,7 @@ import java.util.Map;
  * Class that controls the list of the found items that the users have
  * submitted in the Firebase
  *
- * @author Chianne Connelly
+ * @author Chianne Connelly, Chaewon Min
  */
 
 public class FoundItemListActivity extends AppCompatActivity {
@@ -36,14 +38,16 @@ public class FoundItemListActivity extends AppCompatActivity {
         ListView widget and its adapter
      */
     private ListView foundItemLv;
-    private ArrayAdapter<String> foundItemAdapter;
+    private ArrayAdapter<Item> foundItemAdapter;
+    //private ItemAdapter itemAdapter;
 
     private EditText searchBarEdit;
 
     /*
         Places list of text that would be shown in the ListView
      */
-    private List<String> foundItemList;
+    //private List<String> foundItemList;
+
     /*
         List of database reference keys of found items
      */
@@ -52,7 +56,7 @@ public class FoundItemListActivity extends AppCompatActivity {
     /*
         List of FoundItem objects, which are parcelable
      */
-    private List<FoundItem> foundItemObjectList;
+    private List<Item> foundItemObjectList;
     /*
         Map that contains the database snapshots.
         Key = variable names stored in the database
@@ -83,13 +87,13 @@ public class FoundItemListActivity extends AppCompatActivity {
         foundItemObjectList = new ArrayList<>();
 
         foundItemLv = (ListView) findViewById(R.id.found_list);
-        foundItemList = new ArrayList<>();
+        //foundItemList = new ArrayList<>();
 
         //References the list of lost items in Firebase
         mFoundItemsRef = FoundItem.getFoundItemsRef();
         filterSpinner = (Spinner) findViewById(R.id.filter_spinner);
 
-        ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
+        final ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(category_Adapter);
 
@@ -103,6 +107,10 @@ public class FoundItemListActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 FoundItemListActivity.this.foundItemAdapter.getFilter().filter(s);
+                //FoundItemListActivity.this.itemAdapter.getFilter().filter(s);
+                //FoundItemListActivity.this.copyAdapter.getFilter().filter(s);
+
+
             }
 
             @Override
@@ -118,7 +126,7 @@ public class FoundItemListActivity extends AppCompatActivity {
                 Map<String, Object> item = (Map<String, Object>) dataSnapshot.getValue();
 
                 //name of the item name
-                String name = (String) item.get("name");
+                //String name = (String) item.get("name");
 
                 FoundItem foundItem = null;
                 try {
@@ -134,14 +142,26 @@ public class FoundItemListActivity extends AppCompatActivity {
                 foundMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
 
                 //List of string that would be displayed on the screen
-                foundItemList.add("(FOUND) " + name);
+                //foundItemList.add("(FOUND) " + name);
 
                 foundItemKeys.add(dataSnapshot.getKey());
 
                 foundItemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                        R.layout.item_row_layout, R.id.textView, foundItemList);
+                        R.layout.item_row_layout, R.id.textView, foundItemObjectList);
                 foundItemLv.setAdapter(foundItemAdapter);
                 foundItemAdapter.notifyDataSetChanged();
+
+
+
+//                itemAdapter = new ItemAdapter(getApplicationContext(), foundItemObjectList);
+//
+//                foundItemLv.setAdapter(itemAdapter);
+//                itemAdapter.notifyDataSetChanged();
+
+//                copyAdapter = new ItemListAdapter(getApplicationContext(),
+//                        R.layout.item_row_layout, R.id.textView, foundItemObjectList);
+//                foundItemLv.setAdapter(copyAdapter);
+//                copyAdapter.notifyDataSetChanged();
             }
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
@@ -169,11 +189,16 @@ public class FoundItemListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 foundItemAdapter.notifyDataSetChanged();
+                //itemAdapter.notifyDataSetChanged();
+                //copyAdapter.notifyDataSetChanged();
 
                 Intent intent = new Intent(getApplicationContext(), FoundItemDescription.class);
 
                 //passes the selected object to the next screen
-                intent.putExtra("selectedFoundItem", foundItemObjectList.get(position));
+                intent.putExtra("selectedFoundItem", foundItemAdapter.getItem(position));
+                //intent.putExtra("selectedFoundItem", itemAdapter.getItem(position));
+                //intent.putExtra("selectedFoundItem", copyAdapter.getItem(position));
+
 
                 startActivity(intent);
             }

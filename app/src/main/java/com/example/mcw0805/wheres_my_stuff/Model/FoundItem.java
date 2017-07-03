@@ -71,7 +71,7 @@ public class FoundItem extends Item {
 
     @Override
     public String toString() {
-        return getName() + " " + "UID: " + getUid();
+        return getName() ;
     }
 
     /**

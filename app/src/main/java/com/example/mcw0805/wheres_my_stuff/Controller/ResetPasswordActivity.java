@@ -63,8 +63,8 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (v == backBtn) {
-            finish();
             startActivity(new Intent(this, LogInActivity.class));
+            finish();
         }
 
         if (v == resetPasswordBtn) {
@@ -97,12 +97,13 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
                     Log.d(TAG, "User password updated.");
                     startActivity(new Intent(getApplicationContext(), LogInActivity.class));
                     progressDialog.dismiss();
+                    finish();
 
                 } else { //task is unsuccessful
                     Toast.makeText(getApplicationContext(),
                             "This email does not exist. Failed to send email.", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "User password not updated.");
-                    startActivity(new Intent(getApplicationContext(), ResetPasswordActivity.class));
+                    //startActivity(new Intent(getApplicationContext(), ResetPasswordActivity.class));
                 }
             }
         });

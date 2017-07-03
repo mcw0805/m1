@@ -32,9 +32,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         if (v == loginHome) {
             Intent intent = new Intent(HomeActivity.this, LogInActivity.class);
             HomeActivity.this.startActivity(intent);
+            finish();
         } else if (v == registerHome) {
             Intent intent = new Intent (HomeActivity.this, RegistrationActivity.class);
             HomeActivity.this.startActivity(intent);
+            finish();
         }
     }
 }
