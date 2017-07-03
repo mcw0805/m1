@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -91,13 +90,13 @@ public class FoundItemListActivity extends AppCompatActivity {
 
         //References the list of lost items in Firebase
         mFoundItemsRef = FoundItem.getFoundItemsRef();
-        filterSpinner = (Spinner) findViewById(R.id.filter_spinner);
+        filterSpinner = (Spinner) findViewById(R.id.filter_spinner_found);
 
         final ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(category_Adapter);
 
-        searchBarEdit = (EditText) findViewById(R.id.searchBarEdit);
+        searchBarEdit = (EditText) findViewById(R.id.searchBarEditFound);
         searchBarEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

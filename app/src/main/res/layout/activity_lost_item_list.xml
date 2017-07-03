@@ -12,12 +12,25 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:weightSum="1">
-    <Spinner
-        android:id="@+id/filter_spinner"
-        android:layout_width="110dp"
-        android:layout_height="35dp"
-        android:gravity=""
-        android:layout_weight="0.05" />
+        <EditText
+            android:id="@+id/searchBarEditLost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/filter_spinner_found"
+            android:hint="Search Lost Items"
+            android:icon="@drawable/ic_action_search"
+            android:paddingLeft="10dp"
+            android:paddingTop="0dp"
+            android:gravity="center"/>
+
+        <Spinner
+            android:id="@+id/filter_spinner_lost"
+            android:layout_width="110dp"
+            android:layout_height="35dp"
+            android:gravity=""
+            android:layout_weight="0.05" />
+
+
     </LinearLayout>
 
     <LinearLayout
