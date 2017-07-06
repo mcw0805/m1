@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controller.HomeActivity">
+        <activity android:name=".Controller.Splash_Screen"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,18 +30,21 @@
         <activity android:name=".Controller.LostItemListActivity" />
         <activity android:name=".Controller.ListView" />
         <activity android:name=".Controller.LostItemDescriptionActivity" />
-        <activity android:name=".Controller.FoundItemListActivity"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".Controller.FoundItemListActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Controller.FoundItemDescription" />
-        <activity android:name=".Controller.DonateItemFormActivity"
-            android:windowSoftInputMode="adjustNothing"/>
+        <activity
+            android:name=".Controller.DonateItemFormActivity"
+            android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".Controller.AdminDashboard" />
         <activity android:name=".Controller.PendingItemListActivity" />
         <activity android:name=".Controller.ApprovedItemListActivity" />
         <activity android:name=".Controller.ActiveUserListActivity" />
         <activity android:name=".Controller.LockedUserListActivity" />
         <activity android:name=".Controller.BannedUserListActivity" />
-        <activity android:name=".Controller.MyListActivity"></activity>
+        <activity android:name=".Controller.MyListActivity" />
+        <activity android:name=".Controller.HomeActivity"></activity>
     </application>
 
 </manifest>
