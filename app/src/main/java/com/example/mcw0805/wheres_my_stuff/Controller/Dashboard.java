@@ -1,12 +1,21 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.transition.Fade;
+import android.support.transition.Scene;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +38,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private TextView donate_list;
     private TextView donate;
     private TextView profile_page;
-    private TextView map_page;
     private Button logout_dash;
 
     /*
@@ -43,12 +51,25 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
 
+    //View stuff
+    Scene bottom;
+    Scene top;
+    View mSceneRootTop;
+    View mSceneRootBottom;
+    private android.widget.LinearLayout.LayoutParams layoutParams;
+    int x_cord;
+    int y_cord;
+    String msg;
+    //animation stuff
+    //Fade mFade;
+    //LayoutInflater inflater;
+
     private final String TAG = "Dashboard";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_dashboard_master);
         /*
         * sets all textviews in the view to the instances in the controller
          */
@@ -61,7 +82,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         profile_page = (TextView) findViewById(R.id.profile_txt);
         welcome = (TextView) findViewById(R.id.welcome);
         logout_dash = (Button) findViewById(R.id.logout_button);
-        map_page = (TextView) findViewById(R.id.map_txt);
+
         //welcome.setText("Welcome " + name);
 
         /*
@@ -75,7 +96,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         donate.setOnClickListener(this);
         profile_page.setOnClickListener(this);
         logout_dash.setOnClickListener(this);
-        map_page.setOnClickListener(this);
 
         //connecting the user who just signed in with the dashboard that pops up
         Intent intent = getIntent();
@@ -106,8 +126,107 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         //welcome.setText("Welcome " + email);
         welcome.setText("Welcome " );
 
+        // Create the scene root for the scenes in this app
+        mSceneRootTop = findViewById(R.id.scene_root_top);
+        mSceneRootBottom = findViewById(R.id.scene_root_bottom);
+
+        // Create the scenes
+        top = Scene.getSceneForLayout((ViewGroup)mSceneRootTop, R.layout.activity_dashboard_top, this);
+        bottom = Scene.getSceneForLayout((ViewGroup)mSceneRootBottom, R.layout.activity_dashboard_bottom, this);
+
+        //making the bottom view draggable
+        mSceneRootBottom.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d(msg, "Hey Im in setOnLongClickListener()");
+                ClipData.Item item = new ClipData.Item((CharSequence)v.getTag());
+                String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
+
+                ClipData dragData = new ClipData(v.getTag().toString(),mimeTypes, item);
+                View.DragShadowBuilder myShadow = new View.DragShadowBuilder(mSceneRootBottom);
+
+                v.startDrag(dragData,myShadow,null,0);
+                return true;
+            }
+        });
+        mSceneRootBottom.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                switch(event.getAction()) {
+                    case DragEvent.ACTION_DRAG_STARTED:
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_STARTED");
+                        layoutParams = (LinearLayout.LayoutParams)v.getLayoutParams();
+                        // Do nothing
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENTERED:
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENTERED");
+                        x_cord = (int) event.getX();
+                        y_cord = (int) event.getY();
+                        break;
+
+                    case DragEvent.ACTION_DRAG_EXITED :
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_EXITED");
+                        x_cord = (int) event.getX();
+                        y_cord = (int) event.getY();
+                        layoutParams.leftMargin = x_cord;
+                        layoutParams.topMargin = y_cord;
+                        v.setLayoutParams(layoutParams);
+                        break;
+
+                    case DragEvent.ACTION_DRAG_LOCATION  :
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_LOCATION");
+                        x_cord = (int) event.getX();
+                        y_cord = (int) event.getY();
+                        break;
+
+                    case DragEvent.ACTION_DRAG_ENDED   :
+                        Log.d(msg, "Action is DragEvent.ACTION_DRAG_ENDED");
+                        // Do nothing
+                        break;
+
+                    case DragEvent.ACTION_DROP:
+                        Log.d(msg, "ACTION_DROP event");
+                        // Do nothing
+                        break;
+                    default: break;
+                }
+                return true;
+            }
+        });
+        mSceneRootBottom.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    ClipData data = ClipData.newPlainText("", "");
+                    View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(mSceneRootBottom);
+
+                    mSceneRootBottom.startDrag(data, shadowBuilder, mSceneRootBottom, 0);
+                    mSceneRootBottom.setVisibility(View.INVISIBLE);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
+    
+
+        /*
+        //animation stuff!!!!!!
+        // Create the scene root for the scenes in this app
+        mSceneRoot = (ViewGroup) findViewById(R.id.scene_root);
+        // Create the scenes
+        tScene = Scene.getSceneForLayout(mSceneRoot, R.layout.activity_dashboard_bottom, this);
+        //create transition
+        mFade = new Fade(IN);
+        //apply transition
+        TransitionManager.go(tScene, mFade);
+        // Start recording changes to the view hierarchy
+        TransitionManager.beginDelayedTransition(mSceneRoot, mFade);
+        */
 
     }
+
 
     @Override
     protected void onStart() {
@@ -169,9 +288,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             Dashboard.this.startActivity(intent);
         }
 
-        if (v == map_page) {
-            startActivity(new Intent(this, MapsActivity.class));
-        }
+
         /* else if (v.equals(donate_list)) {
             Intent intent = new Intent(this, someActivity.class;
             Dashboard.this.startActivity(intent);

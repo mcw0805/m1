@@ -1,6 +1,7 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
         import android.app.ProgressDialog;
+        import android.content.Context;
         import android.content.DialogInterface;
         import android.content.Intent;
         import android.os.Bundle;
@@ -9,9 +10,17 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
         import android.support.v7.app.AppCompatActivity;
         import android.text.TextUtils;
         import android.util.Log;
+        import android.view.ViewGroup;
+        import android.view.animation.AlphaAnimation;
+        import android.view.animation.Animation;
+        import android.view.animation.AnimationSet;
+        import android.view.animation.AnimationUtils;
+        import android.view.animation.LayoutAnimationController;
+        import android.view.animation.TranslateAnimation;
         import android.widget.Button;
         import android.widget.EditText;
         import android.view.View;
+        import android.widget.LinearLayout;
         import android.widget.TextView;
         import android.widget.Toast;
 
@@ -53,6 +62,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private static final String TAG = "LoginActivity";
     private DatabaseReference mUserRef;
     private DatabaseReference mUserRef2;
+    //transition instance data:
+    AnimationSet set;
+
 
     /**
      * Creates the activity and instantiates widgets
@@ -88,6 +100,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         forgotPassword.setOnClickListener(this);
 
         progressDialog = new ProgressDialog(this);
+
     }
 
     @Override
@@ -109,6 +122,10 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         if (v == login) {
             login();
+
+            Intent i = new Intent(this, Dashboard.class);
+            startActivity(i);
+            overridePendingTransition(R.transition.fade_in, R.transition.fade_out);
 
         }
 
