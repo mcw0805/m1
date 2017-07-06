@@ -6,11 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.MyListActivity">
 
-    <set xmlns:android="http://schemas.android.com/apk/res/android" android:interpolator="@android:anim/accelerate_interpolator">
-        <translate android:fromXDelta="100%p" android:toXDelta="0" android:duration="150" />
-    </set>
-
-
     <ListView
         android:id="@+id/my_list"
         android:layout_width="fill_parent"

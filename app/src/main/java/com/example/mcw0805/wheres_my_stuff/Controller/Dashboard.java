@@ -2,10 +2,14 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.transition.Fade;
+import android.support.transition.Scene;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,12 +47,20 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
 
+    //animation stuff
+    Scene bottom;
+    Scene top;
+    Scene dashScene;
+    ViewGroup mSceneRoot;
+    //Fade mFade;
+    //LayoutInflater inflater;
+
     private final String TAG = "Dashboard";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
+        setContentView(R.layout.activity_dashboard_master);
         /*
         * sets all textviews in the view to the instances in the controller
          */
@@ -104,6 +116,25 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         //welcome.setText("Welcome " + email);
         welcome.setText("Welcome " );
 
+        // Create the scene root for the scenes in this app
+        mSceneRoot = (ViewGroup) findViewById(R.id.scene_root);
+        // Create the scenes
+        top = Scene.getSceneForLayout(mSceneRoot, R.layout.activity_dashboard_top, this);
+        bottom = Scene.getSceneForLayout(mSceneRoot, R.layout.activity_dashboard_bottom, this);
+
+        /*
+        //animation stuff!!!!!!
+        // Create the scene root for the scenes in this app
+        mSceneRoot = (ViewGroup) findViewById(R.id.scene_root);
+        // Create the scenes
+        tScene = Scene.getSceneForLayout(mSceneRoot, R.layout.activity_dashboard_bottom, this);
+        //create transition
+        mFade = new Fade(IN);
+        //apply transition
+        TransitionManager.go(tScene, mFade);
+        // Start recording changes to the view hierarchy
+        TransitionManager.beginDelayedTransition(mSceneRoot, mFade);
+        */
 
     }
 
