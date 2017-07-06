@@ -34,6 +34,15 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'com.android.support:design:25.3.1'
+    compile 'com.google.android.gms:play-services-maps:11.0.0'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        /*com.android.support:.*?:26.0.0-alpha1*/
+        if (details.requested.group == 'com.android.support' && details.requested.version == '26.0.0-alpha1') {
+            details.useVersion '25.3.1'
+        }
+    }
+}

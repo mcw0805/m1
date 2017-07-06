@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Where\'s My Stuff</string>
     <string name="title_activity_admin_dashboard">AdminDashboard</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

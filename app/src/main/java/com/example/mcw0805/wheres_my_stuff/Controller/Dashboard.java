@@ -9,10 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.example.mcw0805.wheres_my_stuff.R;
 /* Created by Chianne Connelly
 * version 1.0
  */
@@ -30,6 +29,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private TextView donate_list;
     private TextView donate;
     private TextView profile_page;
+    private TextView map_page;
     private Button logout_dash;
 
     /*
@@ -61,6 +61,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         profile_page = (TextView) findViewById(R.id.profile_txt);
         welcome = (TextView) findViewById(R.id.welcome);
         logout_dash = (Button) findViewById(R.id.logout_button);
+        map_page = (TextView) findViewById(R.id.map_txt);
         //welcome.setText("Welcome " + name);
 
         /*
@@ -74,6 +75,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         donate.setOnClickListener(this);
         profile_page.setOnClickListener(this);
         logout_dash.setOnClickListener(this);
+        map_page.setOnClickListener(this);
 
         //connecting the user who just signed in with the dashboard that pops up
         Intent intent = getIntent();
@@ -165,6 +167,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         } else if (v.equals(submitted_items)) {
             Intent intent = new Intent(this, MyListActivity.class);
             Dashboard.this.startActivity(intent);
+        }
+
+        if (v == map_page) {
+            startActivity(new Intent(this, MapsActivity.class));
         }
         /* else if (v.equals(donate_list)) {
             Intent intent = new Intent(this, someActivity.class;
