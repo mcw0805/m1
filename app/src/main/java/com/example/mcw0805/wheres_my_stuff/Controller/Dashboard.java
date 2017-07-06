@@ -7,6 +7,7 @@ import android.support.transition.Scene;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,11 +48,13 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
 
-    //animation stuff
+    //View stuff
     Scene bottom;
     Scene top;
-    Scene dashScene;
-    ViewGroup mSceneRoot;
+    ViewGroup mSceneRootTop;
+    ViewGroup mSceneRootBottom;
+    DragEvent bottomDrag;
+    //animation stuff
     //Fade mFade;
     //LayoutInflater inflater;
 
@@ -117,10 +120,14 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         welcome.setText("Welcome " );
 
         // Create the scene root for the scenes in this app
-        mSceneRoot = (ViewGroup) findViewById(R.id.scene_root);
+        mSceneRootTop = (ViewGroup) findViewById(R.id.scene_root_top);
+        mSceneRootBottom = (ViewGroup) findViewById(R.id.scene_root_bottom);
+
         // Create the scenes
-        top = Scene.getSceneForLayout(mSceneRoot, R.layout.activity_dashboard_top, this);
-        bottom = Scene.getSceneForLayout(mSceneRoot, R.layout.activity_dashboard_bottom, this);
+        top = Scene.getSceneForLayout(mSceneRootTop, R.layout.activity_dashboard_top, this);
+        bottom = Scene.getSceneForLayout(mSceneRootBottom, R.layout.activity_dashboard_bottom, this);
+
+    
 
         /*
         //animation stuff!!!!!!
