@@ -170,9 +170,11 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                     for (DataSnapshot user : dataSnapshot.getChildren()) {
                                         User u = User.buildUserObject(user);
                                         if (u!= null) {
+                                            Log.d(TAG, Boolean.toString(u.getIsBanned()));
                                             if (u.getUid().equals(uid)) {
                                                 if (u.getIsBanned()) {
                                                     //If banned ALERT
+                                                    Log.d(TAG, "signInWithEmail:banned");
                                                     AlertDialog.Builder builder1 = new AlertDialog.Builder(LogInActivity.this);
                                                     builder1.setMessage("Your account has been BANNED for violating ToS. Please contact support ");
                                                     builder1.setCancelable(true);
@@ -234,15 +236,16 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                     AlertDialog alert11 = builder1.create();
                                                     alert11.show();
                                                     return;
+                                                } else {
+                                                    //Everything is fine
+                                                    //Reset login attempts
+                                                    DatabaseReference mLoginAttempts = mUserRef2.child("lockAttempts");
+                                                    mLoginAttempts.setValue(Integer.valueOf(0));
+                                                    //advance to next screen
+                                                    Intent intent = new Intent(LogInActivity.this, Dashboard.class);
+                                                    LogInActivity.this.startActivity(intent);
+                                                    return;
                                                 }
-                                                //Everything is fine
-                                                //Reset login attempts
-                                                DatabaseReference mLoginAttempts = mUserRef2.child("lockAttempts");
-                                                mLoginAttempts.setValue(Integer.valueOf(0));
-                                                //advance to next screen
-                                                Intent intent = new Intent(LogInActivity.this, Dashboard.class);
-                                                LogInActivity.this.startActivity(intent);
-                                                return;
                                             }
                                         }
                                     }

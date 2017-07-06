@@ -244,8 +244,8 @@ public class User implements Parcelable {
 
         String _name = (String) name.getValue();
         String _email = (String) email.getValue();
-        Boolean _isLocked = Boolean.getBoolean(locked.getValue().toString());
-        Boolean _isBanned =  Boolean.getBoolean(banned.getValue().toString());
+        Boolean _isLocked = Boolean.valueOf(locked.getValue().toString());
+        Boolean _isBanned =  Boolean.valueOf(banned.getValue().toString());
         String _uid = (String) uid.getValue();
         int _itemCount = Integer.parseInt(String.valueOf(itemCount.getValue()));
         int _lockAttempts = Integer.parseInt(String.valueOf(lockAttempts.getValue()));
