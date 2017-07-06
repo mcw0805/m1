@@ -28,10 +28,10 @@ import java.util.List;
 
 public class ItemAdapter extends BaseAdapter implements Filterable {
 
-
-
     private final Context mContext;
     private final Object mLock = new Object();
+    private ItemFilter itemFilter;
+
 
     private List<Item> list;
 
@@ -43,33 +43,25 @@ public class ItemAdapter extends BaseAdapter implements Filterable {
 
     public ItemAdapter(@NonNull Context context, List<Item> itemList) {
         this.list = itemList;
-        //this.fList = this.list;
+        this.fList = this.list;
         this.mContext = context;
+        getFilter();
     }
-
-
-    public void add(@Nullable Item object) {
-        synchronized (mLock) {
-            if (mOriginalVals != null) {
-                mOriginalVals.add(object);
-            } else {
-                list.add(object);
-            }
-        }
-        if (mNotifyOnChange) notifyDataSetChanged();
-    }
-
 
     @Override
     public int getCount() {
-        return list.size();
+        return fList.size();
     }
 
     @Override
     public Item getItem(int pos) {
-        return this.list.get(pos);
+        return this.fList.get(pos);
 
     }
+
+//    static class ViewHolder {
+//        TextView itemName;
+//    }
 
     @Override
     public long getItemId(int position) {
@@ -78,6 +70,7 @@ public class ItemAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public View getView(int position, View contextView, ViewGroup parent) {
+
 
         View v = View.inflate(mContext, R.layout.item_row_layout, null);
 
@@ -92,50 +85,59 @@ public class ItemAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public Filter getFilter() {
-        return new Filter() {
+        if (itemFilter == null) {
+            itemFilter = new ItemFilter();
+        }
 
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                final FilterResults results = new FilterResults();
+        return itemFilter;
+    }
 
-                if (mOriginalVals == null) {
-                    synchronized (mLock) {
-                        mOriginalVals = new ArrayList<>(list);
-                    }
+    private class ItemFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            final FilterResults results = new FilterResults();
+
+            if (mOriginalVals == null) {
+                synchronized (mLock) {
+                    mOriginalVals = new ArrayList<>(list);
+                }
+            }
+
+            if (constraint == null || constraint.length() == 0) {
+
+                final ArrayList<Item> itemArrayList;
+                synchronized (mLock) {
+                    itemArrayList = new ArrayList<>(list);
                 }
 
-                if (constraint == null || constraint.length() == 0) {
+                results.values = itemArrayList;
+                results.count = itemArrayList.size();
 
-                    final ArrayList<Item> itemArrayList;
-                    synchronized (mLock) {
-                        itemArrayList = new ArrayList<>(list);
+            } else {
+                final ArrayList<Item> values;
+                synchronized (mLock) {
+                    values = new ArrayList<>(list);
+                }
+
+                final int count = values.size();
+                final ArrayList<Item> newValues = new ArrayList<>();
+
+                for (int i = 0; i < count; i++) {
+                    final Item val = values.get(i);
+                    final String valText = val.getName();
+
+                    if (valText.toLowerCase().contains(constraint.toString())) {
+                        newValues.add(val);
                     }
-                    results.values = itemArrayList;
-                    results.count = itemArrayList.size();
-                } else {
-                    final ArrayList<Item> values;
-                    synchronized (mLock) {
-                        values = new ArrayList<>(list);
-                    }
-
-                    final int count = values.size();
-                    final ArrayList<Item> newValues = new ArrayList<>();
-
-                    for (int i = 0; i < count; i++) {
-                        final Item val = values.get(i);
-                        final String valText = val.getName();
-
-                        if (valText.toLowerCase().contains(constraint.toString())) {
-                            newValues.add(val);
-                        }
-
-                    }
-                    results.values = newValues;
-                    results.count = newValues.size();
-                    Log.d("ADAPT", newValues.size() + "");
-
 
                 }
+                results.values = newValues;
+                results.count = newValues.size();
+                Log.d("ADAPT", newValues.size() + "");
+
+
+            }
 
 //                if (constraint == null || constraint.length() == 0) {
 //                    results.values = list;
@@ -160,30 +162,26 @@ public class ItemAdapter extends BaseAdapter implements Filterable {
 //                    results.count = filteredList.size();
 //                }
 
-                return results;
+            return results;
 
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+
+            fList = (List<Item>) results.values;
+            if (results.count > 0) {
+                notifyDataSetChanged();
+            } else {
+                notifyDataSetInvalidated();
             }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-
-
-
-                list = (List<Item>) results.values;
-                if (results.count > 0) {
-                    notifyDataSetChanged();
-                } else {
-                    notifyDataSetInvalidated();
-                }
 
 //                fList = (ArrayList<Item>) results.values;
 //                notifyDataSetChanged();
 
-            }
-        };
+        }
     }
 
-    public void refresh(List<Item> newList) {
-        list = newList;
-    }
+
 }
