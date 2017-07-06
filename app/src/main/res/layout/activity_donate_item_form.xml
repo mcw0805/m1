@@ -7,6 +7,10 @@
     android:visibility="visible"
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.DonateItemFormActivity">
 
+    <set xmlns:android="http://schemas.android.com/apk/res/android" android:interpolator="@android:anim/accelerate_interpolator">
+        <translate android:fromXDelta="100%p" android:toXDelta="0" android:duration="150" />
+    </set>
+
     <EditText
         android:id="@+id/title_R"
         android:layout_width="wrap_content"
