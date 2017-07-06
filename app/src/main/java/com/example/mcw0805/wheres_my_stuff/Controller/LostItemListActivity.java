@@ -1,23 +1,21 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
-<<<<<<< HEAD
-=======
+
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.transition.Scene;
->>>>>>> Trnsitions
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-<<<<<<< HEAD
-=======
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
->>>>>>> Trnsitions
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -209,11 +207,6 @@ public class LostItemListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-<<<<<<< HEAD
 
-
-
-=======
->>>>>>> Trnsitions
     }
 }
