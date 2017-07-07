@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ViewFlipper;
 
 import com.example.mcw0805.wheres_my_stuff.R;
 
@@ -14,6 +17,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     //create the buttons on the home page
     private Button loginHome;
     private Button registerHome;
+
+    private Animation Fade_in, Fade_out;
+    private ViewFlipper viewFlipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +31,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
         loginHome.setOnClickListener(this);
         registerHome.setOnClickListener(this);
+
+        viewFlipper = (ViewFlipper) this.findViewById(R.id.backgroundViewFlipper);
+        Fade_in = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+        Fade_out = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
+
+        viewFlipper.setInAnimation(Fade_in);
+        viewFlipper.setOutAnimation(Fade_out);
+
+        //Sets auto flipping.
+        viewFlipper.setAutoStart(true);
+        viewFlipper.setFlipInterval(5000);
+        viewFlipper.startFlipping();
     }
 
     @Override
