@@ -80,6 +80,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         /*
         * sets all textviews in the view to the instances in the controller
          */
+
         lostNearMe = (TextView) findViewById(R.id.lost_txt);
         foundNearMe = (TextView) findViewById(R.id.found_txt);
         submitted_items = (TextView) findViewById(R.id.reportFound_txt);
@@ -142,8 +143,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         mSceneRootBottom = findViewById(R.id.scene_root_bottom);
 
         // Create the scenes
-        top = Scene.getSceneForLayout((ViewGroup)mSceneRootTop, R.layout.activity_dashboard_top, this);
-        bottom = Scene.getSceneForLayout((ViewGroup)mSceneRootBottom, R.layout.activity_dashboard_bottom, this);
+        //top = Scene.getSceneForLayout((ViewGroup)mSceneRootTop, R.layout.activity_dashboard_top, this);
+        //bottom = Scene.getSceneForLayout((ViewGroup)mSceneRootBottom, R.layout.activity_dashboard_bottom, this);
 
         //making the bottom view draggable
         mSceneRootBottom.setOnLongClickListener(new View.OnLongClickListener() {
