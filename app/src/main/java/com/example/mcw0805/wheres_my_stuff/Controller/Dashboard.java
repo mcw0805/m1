@@ -18,6 +18,13 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.mcw0805.wheres_my_stuff.R;
@@ -25,8 +32,8 @@ import com.example.mcw0805.wheres_my_stuff.R;
 * version 1.0
  */
 
-public class Dashboard extends AppCompatActivity implements View.OnClickListener {
-
+public class Dashboard extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
+    private GoogleMap mMap;
     /*
     * textviews/button for the various textfields/button on the dashboard
      */
@@ -102,6 +109,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         currentUserId = intent.getStringExtra("currentUserId");
         name = intent.getStringExtra("name");
         email = intent.getStringExtra("email");
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -306,5 +317,16 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private void signOut() {
         mAuth.signOut();
         Log.d(TAG, "signed out");
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng gt = new LatLng(33.7773728, -84.3981109);
+        mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gt, 17));
     }
 }

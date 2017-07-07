@@ -22,7 +22,7 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            tools:context="com.example.mcw0805.wheres_my_stuff.Controller.MapsActivity" />
+             />
 
     <FrameLayout
         android:id="@+id/scene_root_bottom"

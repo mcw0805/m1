@@ -51,6 +51,7 @@
         <activity android:name=".Controller.LockedUserListActivity" />
         <activity android:name=".Controller.BannedUserListActivity" />
         <activity android:name=".Controller.MyListActivity" />
+        <activity android:name=".Controller.HomeActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -73,7 +74,7 @@
         <!--<uses-library-->
             <!--android:name="com.google.android.maps"-->
             <!--android:required="false" />-->
-        <activity android:name=".Controller.HomeActivity"></activity>
+
     </application>
 
 </manifest>
