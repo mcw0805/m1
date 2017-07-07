@@ -27,7 +27,7 @@
 
     <FrameLayout
         android:id="@+id/scene_root_bottom"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp">
         <include layout="@layout/activity_dashboard_bottom"/>
