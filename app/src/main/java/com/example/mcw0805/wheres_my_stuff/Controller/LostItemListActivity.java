@@ -83,6 +83,7 @@ public class LostItemListActivity extends AppCompatActivity {
     private DatabaseReference mLostItemsRef;
     private Spinner filterSpinner;
 
+    private ItemCategory itemCategory;
     private final String TAG = "LostItemListActivity";
 
     @Override
@@ -207,6 +208,39 @@ public class LostItemListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                lostItemAdapter = new ArrayAdapter<Item>(getApplicationContext(),
+                        R.layout.item_row_layout, R.id.textView,
+                        filterByType((ItemCategory) filterSpinner.getSelectedItem()));
+                lostItemLv.setAdapter(lostItemAdapter);
+                lostItemAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    private List<Item> filterByType(ItemCategory cat) {
+
+        if (cat == ItemCategory.NOTHING_SELECTED) {
+            return lostItemObjectList;
+        }
+
+        List<Item> filteredItemList = new ArrayList<>();
+        for (Item li : lostItemObjectList) {
+            if (li.getCategory() == cat) {
+                filteredItemList.add(li);
+            }
+        }
+
+        return filteredItemList;
 
     }
 }

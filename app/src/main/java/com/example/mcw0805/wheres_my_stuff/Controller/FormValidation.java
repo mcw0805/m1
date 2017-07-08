@@ -3,17 +3,29 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.text.TextUtils;
 import android.widget.EditText;
 
+import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
+
 /**
  * Created by mcw0805 on 6/29/17.
  */
 
 public class FormValidation {
 
-    public static boolean textEmpty(EditText text) {
-        assert text != null;
+    public static boolean textEmpty(EditText... editTexts) {
+        assert editTexts != null;
 
-        return (TextUtils.isEmpty(text.getText().toString()));
+        for (EditText t : editTexts) {
+            if (TextUtils.isEmpty(t.getText().toString())) {
+                return true;
+            }
+        }
 
+        return false;
+
+    }
+
+    public static boolean categoryNothingSelected(ItemCategory inputItemCategory) {
+        return inputItemCategory == ItemCategory.NOTHING_SELECTED;
     }
 
     public static boolean isValidInteger(EditText text) {

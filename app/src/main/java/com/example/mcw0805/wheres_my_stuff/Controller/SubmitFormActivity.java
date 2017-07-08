@@ -116,7 +116,6 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(category_Adapter);
-
         ArrayAdapter<ItemType> type_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemType.values());
         type_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(type_Adapter);
@@ -263,13 +262,22 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
     private boolean setFieldVars() {
 
         boolean valid = true;
-        if (FormValidation.textEmpty(titleField)) {
-            Toast.makeText(this, "Name of the item required!", Toast.LENGTH_SHORT);
+//        if (FormValidation.textEmpty(titleField)) {
+//            Toast.makeText(this, "Name of the item required!", Toast.LENGTH_SHORT);
+//            valid = false;
+//        }
+
+        if (FormValidation.textEmpty(new EditText[] {titleField, descriptField })) {
             valid = false;
         }
 
         inputName = titleField.getText().toString();
         inputDescription = descriptField.getText().toString();
+
+        inputItemType = (ItemType) typeSpinner.getSelectedItem();
+
+        inputItemCategory = (ItemCategory) categorySpinner.getSelectedItem();
+        if (FormValidation.categoryNothingSelected(inputItemCategory)) { valid = false; }
 
         try {
             inputLatitude = Double.parseDouble(latField.getText().toString());
@@ -278,8 +286,6 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
             throw new IllegalArgumentException("Enter Valid latitude and longitude");
         }
 
-        inputItemCategory = (ItemCategory) categorySpinner.getSelectedItem();
-        inputItemType = (ItemType) typeSpinner.getSelectedItem();
 
         uid = firebaseUser.getUid();
 
@@ -292,7 +298,7 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
      */
     private void incrementSubmissionCount() {
         final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid );
-        final DatabaseReference itemCountRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid + "/itemCount");
+        final DatabaseReference itemCountRef = userRef.child("itemCount");
 
 
         //final int[] uniqueNumber = {0};

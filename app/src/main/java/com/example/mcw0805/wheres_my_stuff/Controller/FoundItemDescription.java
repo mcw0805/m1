@@ -1,6 +1,7 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
+
+import java.text.DateFormat;
 
 /**
  * Class that controls the description of the found items that the user
@@ -25,6 +28,7 @@ public class FoundItemDescription extends AppCompatActivity {
     private TextView category;
     private TextView location;
     private TextView type;
+    private TextView date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,9 @@ public class FoundItemDescription extends AppCompatActivity {
         location = (TextView) findViewById(R.id.item_location);
         location.setText("temp");
         type = (TextView) findViewById(R.id.item_type);
-        type.setText("Found");
+        type.setText(FoundItem.getType().toString());
+        date = (TextView) findViewById(R.id.found_post_date);
+        DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
+        date.setText(df.format(selected.getDate()));
     }
 }

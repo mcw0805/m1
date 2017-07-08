@@ -35,7 +35,6 @@
         <activity android:name=".Controller.SubmitFormActivity" />
         <activity android:name=".Controller.ResetPasswordActivity" />
         <activity android:name=".Controller.LostItemListActivity" />
-        <activity android:name=".Controller.ListView" />
         <activity android:name=".Controller.LostItemDescriptionActivity" />
         <activity
             android:name=".Controller.FoundItemListActivity"

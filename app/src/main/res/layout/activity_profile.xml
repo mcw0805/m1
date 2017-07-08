@@ -36,8 +36,8 @@
         android:layout_gravity="right"
         android:layout_alignBaseline="@+id/textView8"
         android:layout_alignBottom="@+id/textView8"
-        android:layout_alignStart="@+id/textView2">
-
+        android:layout_alignStart="@+id/textView2"
+        >
         <TextView
             android:id="@+id/nicknameText"
             android:layout_width="wrap_content"
@@ -49,7 +49,7 @@
             android:ems="10"
             android:text=""
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
+        <requestFocus/>
         <EditText
             android:id="@+id/nicknameEdit"
             android:layout_width="wrap_content"
@@ -63,6 +63,7 @@
             android:inputType="textPersonName"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
+
     </ViewSwitcher>
 
     <TextView
@@ -71,9 +72,9 @@
         android:layout_height="wrap_content"
         android:text="Introduction: "
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="26dp"
         android:layout_below="@+id/viewSwitcherNickname"
-        android:layout_alignStart="@+id/textView8"
-        android:layout_marginTop="26dp" />
+        android:layout_toStartOf="@+id/viewSwitcherNickname" />
 
     <ViewSwitcher
         android:layout_width="wrap_content"
@@ -122,20 +123,41 @@
         android:id="@+id/editToggleBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/profile_logout_btn"
-        android:layout_alignStart="@+id/profile_logout_btn"
-        android:layout_marginBottom="18dp"
         android:checked="false"
         android:textOff="Edit"
-        android:textOn="Done" />
+        android:textOn="Done"
+        android:layout_above="@+id/textView8"
+        android:layout_alignStart="@+id/textView9" />
 
     <Button
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginBottom="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textView8"
+        android:layout_below="@+id/viewSwitcherIntroduction"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginTop="22dp"
+        android:text="Number of Item Submissions:" />
+
+    <TextView
+        android:id="@+id/num_items_posted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_alignBaseline="@+id/textView5"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_toEndOf="@+id/textView5"
+        android:layout_marginStart="30dp" />
 
 
     <!--<EditText-->
