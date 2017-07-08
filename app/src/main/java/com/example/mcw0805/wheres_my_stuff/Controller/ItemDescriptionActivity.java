@@ -30,6 +30,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
     private TextView type;
     private TextView reward;
     private TextView date;
+    private TextView status;
 
     private TextView rewardLabel;
 
@@ -58,6 +59,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
          */
         name = (TextView) findViewById(R.id.item_name);
         description = (TextView) findViewById(R.id.item_description);
+        status = (TextView) findViewById(R.id.item_curr_status);
         category = (TextView) findViewById(R.id.item_category);
         location = (TextView) findViewById(R.id.item_location);
         type = (TextView) findViewById(R.id.item_type);
@@ -70,22 +72,35 @@ public class ItemDescriptionActivity extends AppCompatActivity {
     if (selectedLostItem != null) {
         name.setText("" + selectedLostItem.getName());
         description.setText("" + selectedLostItem.getDescription());
-        category.setText(selectedLostItem.getCategory().toString().toLowerCase());
+        category.setText(selectedLostItem.getCategory().toString());
         location.setText("temp");
         type.setText(selectedLostItem.getItemType().toString());
         DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
         date.setText(df.format(selectedLostItem.getDate()));
         reward.setText("$" + selectedLostItem.getReward());
+
+        if (selectedLostItem.getIsOpen()) {
+            status.setText("Open");
+        } else {
+            status.setText("Closed");
+        }
+
     } else if (selectedFoundItem != null) {
         name.setText("" + selectedFoundItem.getName());
         description.setText("" + selectedFoundItem.getDescription());
-        category.setText("" + selectedFoundItem.getCategory().toString().toLowerCase());
+        category.setText("" + selectedFoundItem.getCategory().toString());
         location.setText("temp");
         type.setText(selectedFoundItem.getItemType().toString());
         DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
         date.setText(df.format(selectedFoundItem.getDate()));
         reward.setVisibility(View.INVISIBLE);
         rewardLabel.setVisibility(View.INVISIBLE);
+
+        if (selectedFoundItem.getIsOpen()) {
+            status.setText("Open");
+        } else {
+            status.setText("Closed");
+        }
 
     }
 

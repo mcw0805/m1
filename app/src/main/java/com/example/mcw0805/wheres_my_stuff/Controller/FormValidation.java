@@ -6,11 +6,19 @@ import android.widget.EditText;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 
 /**
- * Created by mcw0805 on 6/29/17.
+ * A class dedicated to ensure that certain fields are valid in a form before submission.
+ *
+ * @author Chaewon Min
  */
 
 public class FormValidation {
 
+    /**
+     * Checks whether user-inputs in EditText widgets are empty.
+     *
+     * @param editTexts array of EditText fields that the app should check for
+     * @return whether the any of the EditText widget contains empty string
+     */
     public static boolean textEmpty(EditText... editTexts) {
         assert editTexts != null;
 
@@ -24,16 +32,36 @@ public class FormValidation {
 
     }
 
+    /**
+     * Checks whether user-input in an EditText widget is empty.
+     *
+     * @param editText array of EditText fields that the app should check for
+     * @return whether the EditText contains any string
+     */
     public static boolean textEmpty(EditText editText) {
         assert editText != null;
 
         return TextUtils.isEmpty(editText.getText().toString());
     }
 
+    /**
+     * Checks whether an ItemCategory is selected.
+     * <p>
+     * If it is KEEPSAKE, HEIRLOOM, or MISC, it should return true. Otherwise, false.
+     *
+     * @param inputItemCategory category of an item
+     * @return whether a valid item category was selected
+     */
     public static boolean categoryNothingSelected(ItemCategory inputItemCategory) {
         return inputItemCategory == ItemCategory.NOTHING_SELECTED;
     }
 
+    /**
+     * Checks whether the input in an EditText is an integer.
+     *
+     * @param text the user-input in the EditText widget
+     * @return whether the input is an integer
+     */
     public static boolean isValidInteger(EditText text) {
         assert text != null;
 
@@ -82,8 +110,6 @@ public class FormValidation {
         }
         return isValid;
     }
-
-
 
 
 }

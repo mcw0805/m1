@@ -83,6 +83,7 @@ public class SubmitFormActivity extends AppCompatActivity
     private String inputName;
     private String inputDescription;
     private String uid;
+    private String name;
     private double inputLatitude;
     private double inputLongitude;
     private ItemCategory inputItemCategory;

@@ -81,7 +81,7 @@ public class ItemListViewActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lost_item_list);
+        setContentView(R.layout.activity_item_list);
 
         itemMap = new LinkedHashMap<>();
         itemKeys = new ArrayList<>();
@@ -94,10 +94,9 @@ public class ItemListViewActivity extends AppCompatActivity {
         filterSpinner.setAdapter(category_Adapter);
 
 
-        itemsLv = (ListView) findViewById(R.id.lost_list);
-        //lostItemList = new ArrayList<>();
+        itemsLv = (ListView) findViewById(R.id.item_listView);
 
-        searchBarEdit = (EditText) findViewById(R.id.searchBarEditLost);
+        searchBarEdit = (EditText) findViewById(R.id.searchBarEdit);
         searchBarEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -117,13 +116,15 @@ public class ItemListViewActivity extends AppCompatActivity {
         });
 
 
-
         if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
             itemsRef = LostItem.getLostItemsRef();
         } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
             itemsRef = FoundItem.getFoundItemsRef();
         }
 
+        if (itemsRef != null) {
+            itemsRef.orderByChild("date-time");
+        }
 
         //References the list of lost items in Firebase
         itemsRef.addChildEventListener(new ChildEventListener() {
@@ -147,18 +148,11 @@ public class ItemListViewActivity extends AppCompatActivity {
                     //adds the built object to the list
                     itemObjectList.add(polymorphicItem);
 
-                    //puts the unique item key and all of its stored attributes
                     itemMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
 
-                    //List of string that would be displayed on the screen
-                    //lostItemList.add("(LOST) " + name);
-
+                    //puts the unique item key and all of its stored attributes
                     itemKeys.add(dataSnapshot.getKey());
 
-                    itemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                            R.layout.item_row_layout, R.id.textView, itemObjectList);
-                    itemsLv.setAdapter(itemAdapter);
-                    itemAdapter.notifyDataSetChanged();
                 } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
                     try {
                         polymorphicItem = FoundItem.buildFoundItemObject(dataSnapshot);
@@ -170,22 +164,18 @@ public class ItemListViewActivity extends AppCompatActivity {
                     //adds the built object to the list
                     itemObjectList.add(polymorphicItem);
 
-                    //puts the unique item key and all of its stored attributes
                     itemMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
 
-                    //List of string that would be displayed on the screen
-                    //lostItemList.add("(LOST) " + name);
-
+                    //puts the unique item key and all of its stored attributes
                     itemKeys.add(dataSnapshot.getKey());
 
-                    itemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                            R.layout.item_row_layout, R.id.textView, itemObjectList);
-                    itemsLv.setAdapter(itemAdapter);
-                    itemAdapter.notifyDataSetChanged();
-                }
-//                itemAdapter = new ItemAdapter(getApplicationContext(), itemObjectList);
-//                itemsLv.setAdapter(itemAdapter);
 
+                }
+
+                itemAdapter = new ArrayAdapter<>(getApplicationContext(),
+                        R.layout.item_row_layout, R.id.textView, itemObjectList);
+                itemsLv.setAdapter(itemAdapter);
+                itemAdapter.notifyDataSetChanged();
 
             }
 
@@ -229,6 +219,7 @@ public class ItemListViewActivity extends AppCompatActivity {
             }
         });
 
+
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -259,6 +250,7 @@ public class ItemListViewActivity extends AppCompatActivity {
                 filteredItemList.add(li);
             }
         }
+
 
         return filteredItemList;
 

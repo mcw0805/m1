@@ -31,7 +31,7 @@ import java.util.Map;
 /**
  * Controller for showing a user's profile page.
  *
- * @author Melanie Hall
+ * @author Melanie Hall, Chaewon Min
  */
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {

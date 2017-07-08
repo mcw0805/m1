@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.mcw0805.wheres_my_stuff.Controller.MyEditableItemActivity">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        >
+
+        <ToggleButton
+            android:id="@+id/edit_item_ToggleBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:textOff="Edit"
+            android:textOn="Done" />
+
+    </LinearLayout>
+
+
+    <!--item name-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/my_item_name_label"
+            android:layout_width="98dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:text="Name:  "
+            android:textSize="15sp" />
+
+        <ViewSwitcher
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/my_item_name_text"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:layout_toRightOf="@+id/my_item_name_label"
+                android:gravity="left"
+                android:text="" />
+
+            <EditText
+                android:id="@+id/my_item_name_edit"
+                android:layout_width="fill_parent"
+                android:layout_height="20dp"
+                android:layout_toRightOf="@+id/my_item_name_label"
+                android:gravity="left"
+                android:text="" />
+
+
+        </ViewSwitcher>
+
+    </LinearLayout>
+
+    <!--item description label-->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/my_item_description_label"
+            android:layout_width="98dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:text="Description:  "
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <!--item description content-->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/my_item_description_edit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:ems="10"
+            android:hint="Item description"
+            android:inputType="textMultiLine"
+            android:minHeight="100dp"
+            android:minLines="5"
+            android:overScrollMode="always"
+            android:scrollHorizontally="false"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+    <!--item status-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/my_item_stat_label"
+            android:layout_width="98dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:text="Status:  "
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/my_item_stat_text"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/my_item_stat_label"
+            android:gravity="left"
+            android:text="" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/my_item_stat_text" />
+    </LinearLayout>
+
+    <!--item category-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:orientation="horizontal">
+
+        <ViewSwitcher
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/my_item_cat_label"
+                android:layout_width="98dp"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:gravity="right"
+                android:text="Category:  "
+                android:textSize="15sp" />
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </Spinner>
+        </ViewSwitcher>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/my_item_loc_label"
+            android:layout_width="98dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:text="Location:  "
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/my_item_loc_text"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/my_item_loc_label"
+            android:gravity="left"
+            android:text="temporary" />
+    </LinearLayout>
+
+
+</LinearLayout>

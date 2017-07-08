@@ -139,7 +139,17 @@ public class LostItem extends Item {
 
     @Override
     public String toString() {
-        return getName();
+
+        String display =  "(LOST) " + getName() + "-- Status: ";
+
+        if (isOpen) {
+            display += "OPEN";
+        } else {
+            display += "CLOSED";
+
+        }
+
+        return display;
     }
 
     @Override

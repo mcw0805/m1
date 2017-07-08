@@ -71,7 +71,17 @@ public class FoundItem extends Item {
 
     @Override
     public String toString() {
-        return getName() ;
+
+        String display =  "(FOUND) " + getName() + "-- Status: ";
+
+        if (isOpen) {
+            display += "OPEN";
+        } else {
+            display += "CLOSED";
+
+        }
+
+        return display;
     }
 
     /**
