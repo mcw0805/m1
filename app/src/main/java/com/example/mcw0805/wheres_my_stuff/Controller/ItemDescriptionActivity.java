@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
-import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 
@@ -17,7 +16,7 @@ import java.text.DateFormat;
  * Class that controls the description of the lost items that the user
  * selected from the list
  *
- * @author Chianne Connelly
+ * @author Chianne Connelly, Chaewon Min
  */
 public class ItemDescriptionActivity extends AppCompatActivity {
 
@@ -38,7 +37,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lost_item_description);
+        setContentView(R.layout.activity_item_description);
 
         Intent intent = getIntent();
 
