@@ -24,6 +24,12 @@ public class FormValidation {
 
     }
 
+    public static boolean textEmpty(EditText editText) {
+        assert editText != null;
+
+        return TextUtils.isEmpty(editText.getText().toString());
+    }
+
     public static boolean categoryNothingSelected(ItemCategory inputItemCategory) {
         return inputItemCategory == ItemCategory.NOTHING_SELECTED;
     }

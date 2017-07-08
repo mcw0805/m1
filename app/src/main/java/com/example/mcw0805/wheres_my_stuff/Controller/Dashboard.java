@@ -1,22 +1,15 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
-import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.transition.Fade;
 import android.support.transition.Scene;
 import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.DragEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -196,15 +189,17 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             Intent intent = new Intent(this, SubmitFormActivity.class);
             Dashboard.this.startActivity(intent);
         } else if (v.equals(lostNearMe)) {
-            Intent intent = new Intent(this, LostItemListActivity.class);
+            Intent intent = new Intent(this, ItemListViewActivity.class);
+            intent.putExtra("DashboardClikedListType", "LostItemListView");
+            Dashboard.this.startActivity(intent);
+        } else if (v.equals(foundNearMe)) {
+            Intent intent = new Intent(this, ItemListViewActivity.class);
+            intent.putExtra("DashboardClikedListType", "FoundItemListView");
             Dashboard.this.startActivity(intent);
         } else if (v.equals(profile_page)) {
             Intent intent = new Intent(this, ProfileActivity.class);
             Dashboard.this.startActivity(intent);
-        } else if (v.equals(foundNearMe)) {
-            Intent intent = new Intent(this, FoundItemListActivity.class);
-            Dashboard.this.startActivity(intent);
-        } else if (v.equals(donate)) {
+        }  else if (v.equals(donate)) {
             Intent intent = new Intent(this, DonateItemFormActivity.class);
             Dashboard.this.startActivity(intent);
         } else if (v.equals(logout_dash)) {

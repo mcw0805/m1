@@ -31,6 +31,7 @@ public class LostItem extends Item {
     private static final DatabaseReference lostItemsRef = database.getReference("posts/lost-items/");
     private static final DatabaseReference childRef = lostItemsRef.child(lostItemsRef.push().getKey());
 
+
     /**
      * Creates the LostItem object and increments the count.
      */
@@ -111,9 +112,11 @@ public class LostItem extends Item {
      *
      * @return type of the item
      */
-    public static ItemType getItemType() {
+    public ItemType getItemType() {
         return type;
     }
+
+
 
     /**
      * Gets the database reference to the lost-items root in Firebase.

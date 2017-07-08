@@ -29,6 +29,7 @@ import java.util.Map;
  * submitted in the Firebase
  *
  * @author Chianne Connelly, Chaewon Min
+ * @versionas As of 7/8, it is outdated. This is disconnected from other classes.
  */
 
 public class FoundItemListActivity extends AppCompatActivity {
@@ -151,7 +152,6 @@ public class FoundItemListActivity extends AppCompatActivity {
                 foundItemAdapter.notifyDataSetChanged();
 
 
-
 //                itemAdapter = new ItemAdapter(getApplicationContext(), foundItemObjectList);
 //
 //                foundItemLv.setAdapter(itemAdapter);
@@ -162,6 +162,7 @@ public class FoundItemListActivity extends AppCompatActivity {
 //                foundItemLv.setAdapter(copyAdapter);
 //                copyAdapter.notifyDataSetChanged();
             }
+
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 

@@ -2,29 +2,20 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
 
-import android.graphics.Color;
-import android.os.Parcelable;
-import android.support.transition.Scene;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
@@ -45,46 +36,42 @@ import java.util.Map;
  *
  * @author Chaewon Min, Melanie Hall
  */
-public class LostItemListActivity extends AppCompatActivity {
+public class ItemListViewActivity extends AppCompatActivity {
 
     /*
         ListView widget and its adapter
      */
-    private ListView lostItemLv;
-    private ArrayAdapter<Item> lostItemAdapter;
-    private ItemAdapter itemAdapter;
+    private ListView itemsLv;
+    private ArrayAdapter<Item> itemAdapter;
+    //private ItemAdapter itemAdapter;
 
     private EditText searchBarEdit;
-    /*
-        Places list of text that would be shown in the ListView
-     */
-    //private List<String> lostItemList;
 
     /*
         List of database reference keys of lost items
      */
-    private List<String> lostItemKeys;
+    private List<String> itemKeys;
 
     /*
         List of LostItem objects, which are parcelable
      */
-    private List<Item> lostItemObjectList;
+    private List<Item> itemObjectList;
 
     /*
         Map that contains the database snapshots.
         Key = variable names stored in the database
         Value = corresponding values for each of the variables
      */
-    private Map<String, Object> lostMap;
+    private Map<String, Object> itemMap;
 
     /*
         Database reference for the lost items in Firebase
      */
-    private DatabaseReference mLostItemsRef;
+    private DatabaseReference itemsRef;
+
     private Spinner filterSpinner;
 
-    private ItemCategory itemCategory;
-    private final String TAG = "LostItemListActivity";
+    private final String TAG = "ItemListActivity";
 
     @Override
     protected void onStart() {
@@ -96,9 +83,9 @@ public class LostItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lost_item_list);
 
-        lostMap = new LinkedHashMap<>();
-        lostItemKeys = new ArrayList<>();
-        lostItemObjectList = new ArrayList<>();
+        itemMap = new LinkedHashMap<>();
+        itemKeys = new ArrayList<>();
+        itemObjectList = new ArrayList<>();
 
         //spinner for filtering
         filterSpinner = (Spinner) findViewById(R.id.filter_spinner_lost);
@@ -107,7 +94,7 @@ public class LostItemListActivity extends AppCompatActivity {
         filterSpinner.setAdapter(category_Adapter);
 
 
-        lostItemLv = (ListView) findViewById(R.id.lost_list);
+        itemsLv = (ListView) findViewById(R.id.lost_list);
         //lostItemList = new ArrayList<>();
 
         searchBarEdit = (EditText) findViewById(R.id.searchBarEditLost);
@@ -119,7 +106,7 @@ public class LostItemListActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                LostItemListActivity.this.lostItemAdapter.getFilter().filter(s);
+                ItemListViewActivity.this.itemAdapter.getFilter().filter(s);
 
             }
 
@@ -130,10 +117,16 @@ public class LostItemListActivity extends AppCompatActivity {
         });
 
 
-        //References the list of lost items in Firebase
-        mLostItemsRef = LostItem.getLostItemsRef();
 
-        mLostItemsRef.addChildEventListener(new ChildEventListener() {
+        if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
+            itemsRef = LostItem.getLostItemsRef();
+        } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
+            itemsRef = FoundItem.getFoundItemsRef();
+        }
+
+
+        //References the list of lost items in Firebase
+        itemsRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map<String, Object> item = (Map<String, Object>) dataSnapshot.getValue();
@@ -141,32 +134,57 @@ public class LostItemListActivity extends AppCompatActivity {
                 //name of the item name
                 String name = (String) item.get("name");
 
-                LostItem lostItem = null;
-                try {
-                    lostItem = LostItem.buildLostItemObject(dataSnapshot);
-                } catch (NullPointerException e) {
-                    Log.d(TAG, "NullPointerException is caught.");
-                    e.printStackTrace();
+                Item polymorphicItem = null;
+                if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
+
+                    try {
+                        polymorphicItem = LostItem.buildLostItemObject(dataSnapshot);
+                    } catch (NullPointerException e) {
+                        Log.d(TAG, "NullPointerException is caught.");
+                        e.printStackTrace();
+                    }
+
+                    //adds the built object to the list
+                    itemObjectList.add(polymorphicItem);
+
+                    //puts the unique item key and all of its stored attributes
+                    itemMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
+
+                    //List of string that would be displayed on the screen
+                    //lostItemList.add("(LOST) " + name);
+
+                    itemKeys.add(dataSnapshot.getKey());
+
+                    itemAdapter = new ArrayAdapter<>(getApplicationContext(),
+                            R.layout.item_row_layout, R.id.textView, itemObjectList);
+                    itemsLv.setAdapter(itemAdapter);
+                    itemAdapter.notifyDataSetChanged();
+                } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
+                    try {
+                        polymorphicItem = FoundItem.buildFoundItemObject(dataSnapshot);
+                    } catch (NullPointerException e) {
+                        Log.d(TAG, "NullPointerException is caught.");
+                        e.printStackTrace();
+                    }
+
+                    //adds the built object to the list
+                    itemObjectList.add(polymorphicItem);
+
+                    //puts the unique item key and all of its stored attributes
+                    itemMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
+
+                    //List of string that would be displayed on the screen
+                    //lostItemList.add("(LOST) " + name);
+
+                    itemKeys.add(dataSnapshot.getKey());
+
+                    itemAdapter = new ArrayAdapter<>(getApplicationContext(),
+                            R.layout.item_row_layout, R.id.textView, itemObjectList);
+                    itemsLv.setAdapter(itemAdapter);
+                    itemAdapter.notifyDataSetChanged();
                 }
-
-                //adds the built object to the list
-                lostItemObjectList.add(lostItem);
-
-                //puts the unique item key and all of its stored attributes
-                lostMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
-
-                //List of string that would be displayed on the screen
-                //lostItemList.add("(LOST) " + name);
-
-                lostItemKeys.add(dataSnapshot.getKey());
-
-                lostItemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                        R.layout.item_row_layout, R.id.textView, lostItemObjectList);
-                lostItemLv.setAdapter(lostItemAdapter);
-                lostItemAdapter.notifyDataSetChanged();
-
-//                itemAdapter = new ItemAdapter(getApplicationContext(), lostItemObjectList);
-//                lostItemLv.setAdapter(itemAdapter);
+//                itemAdapter = new ItemAdapter(getApplicationContext(), itemObjectList);
+//                itemsLv.setAdapter(itemAdapter);
 
 
             }
@@ -194,16 +212,18 @@ public class LostItemListActivity extends AppCompatActivity {
 
 
         //when some lost item in the list view is clicked
-        lostItemLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        itemsLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                lostItemAdapter.notifyDataSetChanged();
+                itemAdapter.notifyDataSetChanged();
                 //itemAdapter.notifyDataSetChanged();
 
-                Intent intent = new Intent(getApplicationContext(), LostItemDescriptionActivity.class);
-
-                //passes the selected object to the next screen
-                intent.putExtra("selectedLostItem", lostItemAdapter.getItem(position));
+                Intent intent = new Intent(getApplicationContext(), ItemDescriptionActivity.class);
+                if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
+                    intent.putExtra("selectedLostItem", itemAdapter.getItem(position));
+                } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
+                    intent.putExtra("selectedFoundItem", itemAdapter.getItem(position));
+                }
 
                 startActivity(intent);
             }
@@ -212,11 +232,11 @@ public class LostItemListActivity extends AppCompatActivity {
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                lostItemAdapter = new ArrayAdapter<Item>(getApplicationContext(),
+                itemAdapter = new ArrayAdapter<>(getApplicationContext(),
                         R.layout.item_row_layout, R.id.textView,
                         filterByType((ItemCategory) filterSpinner.getSelectedItem()));
-                lostItemLv.setAdapter(lostItemAdapter);
-                lostItemAdapter.notifyDataSetChanged();
+                itemsLv.setAdapter(itemAdapter);
+                itemAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -230,11 +250,11 @@ public class LostItemListActivity extends AppCompatActivity {
     private List<Item> filterByType(ItemCategory cat) {
 
         if (cat == ItemCategory.NOTHING_SELECTED) {
-            return lostItemObjectList;
+            return itemObjectList;
         }
 
         List<Item> filteredItemList = new ArrayList<>();
-        for (Item li : lostItemObjectList) {
+        for (Item li : itemObjectList) {
             if (li.getCategory() == cat) {
                 filteredItemList.add(li);
             }

@@ -57,7 +57,7 @@ public class FoundItem extends Item {
         return count;
     }
 
-    public static ItemType getType() {
+    public ItemType getItemType() {
         return type;
     }
 

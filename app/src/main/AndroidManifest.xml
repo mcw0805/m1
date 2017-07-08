@@ -34,8 +34,8 @@
         <activity android:name=".Controller.Dashboard" />
         <activity android:name=".Controller.SubmitFormActivity" />
         <activity android:name=".Controller.ResetPasswordActivity" />
-        <activity android:name=".Controller.LostItemListActivity" />
-        <activity android:name=".Controller.LostItemDescriptionActivity" />
+        <activity android:name=".Controller.ItemListViewActivity" />
+        <activity android:name=".Controller.ItemDescriptionActivity" />
         <activity
             android:name=".Controller.FoundItemListActivity"
             android:windowSoftInputMode="stateHidden" />

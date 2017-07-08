@@ -4,5 +4,6 @@
     <color name="colorPrimaryDark">#307D7E</color>
     <color name="colorAccent">#000000</color>
     <color name="primary_text_material_dark">#fcfcfc</color>
+    <color name="requiredFieldStar">#ff0000</color>
 
 </resources>

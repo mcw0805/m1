@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
+import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 
@@ -17,6 +18,7 @@ import java.text.DateFormat;
  * selected from the list
  *
  * @author Chianne Connelly
+ * @versionAs of 7/8, it is outdated. This is disconnected from other classes.
  */
 public class FoundItemDescription extends AppCompatActivity {
     
@@ -50,7 +52,7 @@ public class FoundItemDescription extends AppCompatActivity {
         location = (TextView) findViewById(R.id.item_location);
         location.setText("temp");
         type = (TextView) findViewById(R.id.item_type);
-        type.setText(FoundItem.getType().toString());
+        type.setText(ItemType.FOUND.toString());
         date = (TextView) findViewById(R.id.found_post_date);
         DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
         date.setText(df.format(selected.getDate()));

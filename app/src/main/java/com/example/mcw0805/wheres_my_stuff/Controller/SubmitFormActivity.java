@@ -44,7 +44,8 @@ import com.google.firebase.database.ValueEventListener;
  *
  * @author Melanie Hall, Chaewon Min, Ted Shang
  */
-public class SubmitFormActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class SubmitFormActivity extends AppCompatActivity
+        implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     public final static String TAG = "SubmitFormActivity";
 
@@ -59,10 +60,11 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
     private TextView dollar;
     private TextView category;
     private Spinner categorySpinner;
-    //private Spinner stateSpinner;
     private Spinner typeSpinner;
     private Button backButton;
     private Button postButton;
+    //private Spinner stateSpinner;
+
 
     /*
         Item object that would be created from the form.
@@ -116,6 +118,7 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(category_Adapter);
+
         ArrayAdapter<ItemType> type_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemType.values());
         type_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(type_Adapter);
@@ -125,17 +128,17 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position).equals(ItemType.FOUND)) {
+                if (parent.getItemAtPosition(position).equals(ItemType.FOUND)) { //found
                     rewardField.setVisibility(View.INVISIBLE);
                     dollar.setVisibility(View.INVISIBLE);
                     categorySpinner.setVisibility(View.VISIBLE);
                     category.setVisibility(View.VISIBLE);
-                } else if (parent.getItemAtPosition(position).equals(ItemType.LOST)) {
+                } else if (parent.getItemAtPosition(position).equals(ItemType.LOST)) { //lost
                     rewardField.setVisibility(View.VISIBLE);
                     dollar.setVisibility(View.VISIBLE);
                     categorySpinner.setVisibility(View.VISIBLE);
                     category.setVisibility(View.VISIBLE);
-                } else if (parent.getItemAtPosition(position).equals(ItemType.NEED)) {
+                } else if (parent.getItemAtPosition(position).equals(ItemType.NEED)) { //need
                     rewardField.setVisibility(View.INVISIBLE);
                     dollar.setVisibility(View.INVISIBLE);
                     categorySpinner.setVisibility(View.INVISIBLE);
@@ -262,10 +265,6 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
     private boolean setFieldVars() {
 
         boolean valid = true;
-//        if (FormValidation.textEmpty(titleField)) {
-//            Toast.makeText(this, "Name of the item required!", Toast.LENGTH_SHORT);
-//            valid = false;
-//        }
 
         if (FormValidation.textEmpty(new EditText[] {titleField, descriptField })) {
             valid = false;
@@ -277,7 +276,13 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         inputItemType = (ItemType) typeSpinner.getSelectedItem();
 
         inputItemCategory = (ItemCategory) categorySpinner.getSelectedItem();
-        if (FormValidation.categoryNothingSelected(inputItemCategory)) { valid = false; }
+        if (FormValidation.categoryNothingSelected(inputItemCategory)
+                || typeSpinner.getVisibility() == View.INVISIBLE) {
+            valid = false;
+            if (!valid) {
+                Log.w(TAG, "Item category: Nothing selected");
+            }
+        }
 
         try {
             inputLatitude = Double.parseDouble(latField.getText().toString());
@@ -288,6 +293,16 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
 
 
         uid = firebaseUser.getUid();
+
+
+        if (rewardField.getVisibility() == View.VISIBLE && !FormValidation.isValidInteger(rewardField)) {
+                valid = false;
+
+            if (!valid) {
+                Log.w(TAG, "Reward must be an integer and cannot be empty.");
+            }
+
+        }
 
         return valid;
     }
@@ -300,9 +315,6 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
         final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid );
         final DatabaseReference itemCountRef = userRef.child("itemCount");
 
-
-        //final int[] uniqueNumber = {0};
-
         userRef.addChildEventListener(new ChildEventListener() {
 
             @Override
@@ -312,10 +324,10 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
 
                 if (key.equals("itemCount")) {
                     Integer count = Integer.parseInt(String.valueOf(val));
-                    Log.d(TAG, "Before incrementing- " + key + ": " + count);
+                    Log.i(TAG, "Before incrementing- " + key + ": " + count);
 
                     count++;
-                    Log.d(TAG, "After incrementing- " + key + ": " + count);
+                    Log.i(TAG, "After incrementing- " + key + ": " + count);
 
                     itemCountRef.setValue(count);
 
@@ -347,40 +359,6 @@ public class SubmitFormActivity extends AppCompatActivity implements AdapterView
 
     }
 
-    private void getUserCount() {
-        final DatabaseReference uref = FirebaseDatabase.getInstance().getReference("users/");
-
-        uref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnap, String s) {
-                User user = User.buildUserObject(dataSnap);
-                users.add(user);
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-    }
 
 
 }
