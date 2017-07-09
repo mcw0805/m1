@@ -74,12 +74,7 @@ public class FoundItem extends Item {
 
         String display =  "(FOUND) " + getName() + "-- Status: ";
 
-        if (isOpen) {
-            display += "OPEN";
-        } else {
-            display += "CLOSED";
-
-        }
+        display += isOpen ? "OPEN" : "CLOSED" ;
 
         return display;
     }

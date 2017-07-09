@@ -155,6 +155,10 @@ public class Item implements Parcelable {
         this.category = category;
     }
 
+    public String getStatusString() {
+        return isOpen ? "open" : "closed";
+    }
+
     public void writeToDatabase(DatabaseReference childRef) {
 
         DatabaseReference dateChild = childRef.child("date-time");

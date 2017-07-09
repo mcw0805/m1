@@ -42,7 +42,9 @@ public class MyListActivity extends AppCompatActivity {
     /*
         List of database reference keys of lost items
      */
-    private List<String> lostItemKeys;
+    private ArrayList<String> myItemLostKeys;
+    private ArrayList<String> myItemFoundKeys;
+    private ArrayList<String> myItemKeys;
 
     /*
         List of LostItem objects, which are parcelable
@@ -104,13 +106,16 @@ public class MyListActivity extends AppCompatActivity {
         myItemObjectList = new ArrayList<>();
         myItemListView = (ListView) findViewById(R.id.item_listView);
 
+        myItemLostKeys = new ArrayList<>();
+        myItemFoundKeys = new ArrayList<>();
+        myItemKeys = new ArrayList<>();
+
         mLostItemRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map<String, Object> item = (Map<String, Object>) dataSnapshot.getValue();
 
-                //name of the item name
-                String name = (String) item.get("name");
+
 
                 String pushKey = dataSnapshot.getKey().toString();
                 String[] parts = pushKey.split("---");
@@ -119,6 +124,8 @@ public class MyListActivity extends AppCompatActivity {
                 if (itemUser.equals(uid)) {
                     LostItem lostItem = LostItem.buildLostItemObject(dataSnapshot);
                     myItemObjectList.add(lostItem);
+                    myItemLostKeys.add(pushKey);
+                    myItemKeys.add(pushKey);
                 }
             }
 
@@ -149,8 +156,7 @@ public class MyListActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map<String, Object> item = (Map<String, Object>) dataSnapshot.getValue();
 
-                //name of the item name
-                String name = (String) item.get("name");
+
 
                 String pushKey = dataSnapshot.getKey().toString();
                 String[] parts = pushKey.split("---");
@@ -159,6 +165,8 @@ public class MyListActivity extends AppCompatActivity {
                 if (itemUser.equals(uid)) {
                     FoundItem foundItem = FoundItem.buildFoundItemObject(dataSnapshot);
                     myItemObjectList.add(foundItem);
+                    myItemFoundKeys.add(pushKey);
+                    myItemKeys.add(pushKey);
                 }
             }
 
@@ -192,6 +200,15 @@ public class MyListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), MyEditableItemActivity.class);
+                intent.putExtra("selectedObjKey", myItemKeys.get(position));
+                if (myItemAdapter.getItem(position) instanceof LostItem) {
+                    intent.putExtra("selectedLostItem", myItemAdapter.getItem(position));
+//                    intent.putExtra("selectedLostKey", myItemLostKeys.get(position));
+                } else if (myItemAdapter.getItem(position) instanceof FoundItem) {
+                    intent.putExtra("selectedFoundItem", myItemAdapter.getItem(position));
+//                    intent.putExtra("selectedFoundKey", myItemFoundKeys.get(position));
+                }
+
                 startActivity(intent);
             }
         });

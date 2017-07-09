@@ -5,15 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.MyEditableItemActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-
         >
-
         <ToggleButton
             android:id="@+id/edit_item_ToggleBtn"
             android:layout_width="wrap_content"
@@ -28,7 +28,7 @@
     <!--item name-->
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="20dp"
+        android:layout_height="40dp"
         android:orientation="horizontal">
 
         <TextView
@@ -36,30 +36,34 @@
             android:layout_width="98dp"
             android:layout_height="20dp"
             android:layout_alignParentLeft="true"
-            android:gravity="right"
+            android:layout_gravity="center_horizontal"
+            android:gravity="end"
             android:text="Name:  "
             android:textSize="15sp" />
 
         <ViewSwitcher
+            android:id="@+id/my_item_name_viewSwitcher"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+           >
 
             <TextView
                 android:id="@+id/my_item_name_text"
                 android:layout_width="fill_parent"
                 android:layout_height="20dp"
-                android:layout_toRightOf="@+id/my_item_name_label"
                 android:gravity="left"
                 android:text="" />
 
             <EditText
                 android:id="@+id/my_item_name_edit"
-                android:layout_width="fill_parent"
-                android:layout_height="20dp"
-                android:layout_toRightOf="@+id/my_item_name_label"
-                android:gravity="left"
-                android:text="" />
-
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:maxLines="1"
+                android:paddingTop="0dp"
+                android:paddingBottom="8dp"
+                android:textSize="15sp"
+                android:hint="Edit name of item" />
 
         </ViewSwitcher>
 
@@ -87,26 +91,37 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/my_item_description_edit"
+        <ViewSwitcher
+            android:id="@+id/my_item_description_viewSwitcher"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center_horizontal"
-            android:ems="10"
-            android:hint="Item description"
-            android:inputType="textMultiLine"
-            android:minHeight="100dp"
-            android:minLines="5"
-            android:overScrollMode="always"
-            android:scrollHorizontally="false"
-            android:scrollbarAlwaysDrawVerticalTrack="true"
-            android:scrollbarStyle="insideInset"
-            android:scrollbars="vertical" />
+            android:layout_height="wrap_content">
 
+
+            <TextView
+                android:id="@+id/my_item_description_text"
+                android:layout_marginLeft="20dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/my_item_description_edit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:ems="10"
+                android:hint="Enter the item description"
+                android:inputType="textMultiLine"
+                android:minHeight="100dp"
+                android:minLines="5"
+                android:overScrollMode="always"
+                android:scrollHorizontally="false"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:textSize="15sp" />
+        </ViewSwitcher>
     </LinearLayout>
 
     <!--item status-->
@@ -133,10 +148,36 @@
             android:text="" />
 
         <Switch
+            android:id="@+id/my_item_status_switch"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/my_item_stat_text" />
+            android:layout_toRightOf="@+id/my_item_stat_text"
+/>
+    </LinearLayout>
+
+    <!--item type: found, lost, or need?-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/my_item_type_label"
+            android:layout_width="98dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:text="Type:  "
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/my_item_type_text"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/my_item_type_label"
+            android:gravity="left"
+            android:text="" />
     </LinearLayout>
 
     <!--item category-->
@@ -145,19 +186,28 @@
         android:layout_height="25dp"
         android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/my_item_cat_label"
+            android:layout_width="98dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:text="Category:  "
+            android:textSize="15sp" />
+
         <ViewSwitcher
+            android:id="@+id/my_item_category_viewSwitcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
             <TextView
-                android:id="@+id/my_item_cat_label"
+                android:id="@+id/my_item_cat_text"
                 android:layout_width="98dp"
                 android:layout_height="20dp"
-                android:layout_alignParentLeft="true"
-                android:gravity="right"
-                android:text="Category:  "
                 android:textSize="15sp" />
 
             <Spinner
+                android:id="@+id/my_item_cat_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -166,6 +216,7 @@
 
     </LinearLayout>
 
+    <!--item location-->
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="25dp"
@@ -189,5 +240,70 @@
             android:text="temporary" />
     </LinearLayout>
 
+    <!--item submission date-->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/my_item_posted_date_label"
+            android:layout_width="98dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="right"
+            android:text="Date posted:  "
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/my_item_post_date_text"
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@+id/my_item_posted_date_label"
+            android:gravity="left"
+            android:text="" />
+    </LinearLayout>
+
+    <!--item reward-->
+    <LinearLayout
+        android:id="@+id/reward_lin_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/my_item_reward_label"
+            android:layout_width="98dp"
+            android:layout_height="20dp"
+            android:gravity="right"
+            android:text="Reward:  "
+            android:textSize="15sp" />
+
+        <ViewSwitcher
+            android:id="@+id/my_item_reward_viewSwitcher"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/my_item_reward_text"
+                android:layout_width="150dp"
+                android:layout_height="20dp"
+                android:layout_toRightOf="@+id/my_item_reward_label"
+                android:gravity="left"
+                android:text="" />
+
+            <EditText
+                android:id="@+id/my_item_reward_edit"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:hint="Edit reward of your lost item"
+                android:maxLines="1"
+                android:paddingBottom="8dp"
+                android:paddingTop="0dp"
+                android:textSize="15sp" />
+        </ViewSwitcher>
+
+    </LinearLayout>
 
 </LinearLayout>

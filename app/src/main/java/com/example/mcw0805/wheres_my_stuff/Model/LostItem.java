@@ -142,12 +142,7 @@ public class LostItem extends Item {
 
         String display =  "(LOST) " + getName() + "-- Status: ";
 
-        if (isOpen) {
-            display += "OPEN";
-        } else {
-            display += "CLOSED";
-
-        }
+        display += isOpen ? "OPEN" : "CLOSED" ;
 
         return display;
     }
