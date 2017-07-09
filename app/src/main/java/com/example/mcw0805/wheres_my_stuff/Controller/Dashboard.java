@@ -3,6 +3,8 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.transition.Scene;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -131,26 +133,11 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
         // Create the scene root (VIEWS) for the scenes in this app
         mSceneRootTop = findViewById(R.id.scene_root_top);
-        mSceneRootBottom = findViewById(R.id.scene_root_bottom);
+        //mSceneRootBottom = findViewById(R.id.scene_root_bottom);
 
         // Create the scenes
         top = Scene.getSceneForLayout((ViewGroup)mSceneRootTop, R.layout.activity_dashboard_top, this);
-        bottom = Scene.getSceneForLayout((ViewGroup)mSceneRootBottom, R.layout.activity_dashboard_bottom, this);
-    
-
-        /*
-        //animation stuff!!!!!!
-        // Create the scene root for the scenes in this app
-        mSceneRoot = (ViewGroup) findViewById(R.id.scene_root);
-        // Create the scenes
-        tScene = Scene.getSceneForLayout(mSceneRoot, R.layout.activity_dashboard_bottom, this);
-        //create transition
-        mFade = new Fade(IN);
-        //apply transition
-        TransitionManager.go(tScene, mFade);
-        // Start recording changes to the view hierarchy
-        TransitionManager.beginDelayedTransition(mSceneRoot, mFade);
-        */
+        //bottom = Scene.getSceneForLayout((ViewGroup)mSceneRootBottom, R.layout.activity_dashboard_bottom, this);
 
     }
 
