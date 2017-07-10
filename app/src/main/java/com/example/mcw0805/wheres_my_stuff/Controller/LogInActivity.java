@@ -123,10 +123,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         if (v == login) {
             login();
 
-            Intent i = new Intent(this, Dashboard.class);
-            startActivity(i);
-            overridePendingTransition(R.transition.fade_in, R.transition.fade_out);
-
         }
 
         if (v == back) {
@@ -155,13 +151,16 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         if (TextUtils.isEmpty(username)) {
             //email is empty
+            Log.d(TAG, "email is empty");
 
             Toast.makeText(this, "Please enter an email address", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "toast created");
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
             //password is empty
+            Log.d(TAG, "password is empty");
             Toast.makeText(this, "Please enter a password", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -261,6 +260,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                     //advance to next screen
                                                     Intent intent = new Intent(LogInActivity.this, Dashboard.class);
                                                     LogInActivity.this.startActivity(intent);
+                                                    overridePendingTransition(R.transition.fade_in, R.transition.fade_out);
                                                     return;
                                                 }
                                             }
