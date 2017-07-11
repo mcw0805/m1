@@ -6,4 +6,12 @@
     android:layout_height="match_parent"
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.BannedUserListActivity">
 
+    <ListView
+        android:id="@+id/banned_user_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:divider="#E30B5D"
+        android:dividerHeight="1dp"
+        android:listSelector="#F8F8FF" />
+
 </android.support.constraint.ConstraintLayout>

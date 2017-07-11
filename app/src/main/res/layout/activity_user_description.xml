@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mcw0805.wheres_my_stuff.Controller.UserDescriptionActivity"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout"
+        app:layout_constraintRight_toLeftOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+
+    <TextView
+        android:id="@+id/userOverView"
+        android:layout_width="124dp"
+        android:layout_height="30dp"
+        android:text="User Overview"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/userOverviewName"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="43dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="41dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/userOverviewName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name:"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/userOverViewEmail"
+        app:layout_constraintBaseline_toBaselineOf="@+id/userOvName"
+        tools:layout_constraintBaseline_creator="1" />
+
+    <TextView
+        android:id="@+id/userOverViewEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email:"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/userOverviewItem"
+        app:layout_constraintBaseline_toBaselineOf="@+id/UserOvEmail"
+        tools:layout_constraintBaseline_creator="1" />
+
+    <TextView
+        android:id="@+id/userOverviewItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Count:"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintRight_toRightOf="@+id/userOverviewLock"
+        app:layout_constraintBaseline_toBaselineOf="@+id/UserOvIC"
+        tools:layout_constraintBaseline_creator="1" />
+
+    <TextView
+        android:id="@+id/userOverviewUid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UID:"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/userOverviewItem"
+        app:layout_constraintBaseline_toBaselineOf="@+id/UserOvUID"
+        tools:layout_constraintBaseline_creator="1" />
+
+    <TextView
+        android:id="@+id/userOverviewLock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lock Attempts:"
+        android:layout_marginStart="19dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/userOvLA"
+        tools:layout_constraintBaseline_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/userOverviewLockS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lock Status:"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintRight_toRightOf="@+id/userOverviewLock"
+        app:layout_constraintTop_toBottomOf="@+id/userOverviewLock" />
+
+    <TextView
+        android:id="@+id/userOverViewBannedS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Banned Status:"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintRight_toRightOf="@+id/userOverviewLockS"
+        app:layout_constraintTop_toBottomOf="@+id/userOverviewLockS" />
+
+    <TextView
+        android:id="@+id/userOvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Namecanbeprettylong"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginTop="115dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/userOverviewName" />
+
+    <TextView
+        android:id="@+id/UserOvEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="EMAILcanbeprettylong"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/userOverviewName"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toRightOf="@+id/userOverviewItem" />
+
+    <TextView
+        android:id="@+id/UserOvIC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="IC"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/userOverViewEmail"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toRightOf="@+id/userOverviewItem" />
+
+    <TextView
+        android:id="@+id/UserOvUID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UIDcanbe prettylong"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/userOverviewItem"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toRightOf="@+id/userOverviewItem" />
+
+    <TextView
+        android:id="@+id/userOvLA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LA"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/UserOvUID"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toRightOf="@+id/userOverviewLock" />
+
+    <TextView
+        android:id="@+id/UserOVLS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LS"
+        tools:layout_constraintTop_creator="1"
+        app:layout_constraintTop_toBottomOf="@+id/userOverviewLock"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toRightOf="@+id/userOverviewLock" />
+
+    <TextView
+        android:id="@+id/userOvBS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="BS"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintRight_toRightOf="@+id/userOvLA"
+        android:layout_marginTop="17dp"
+        app:layout_constraintTop_toBottomOf="@+id/userOvLA"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/userOvLA" />
+
+    <CheckBox
+        android:id="@+id/changeBan"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:text="Change Ban Status"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="@+id/changeLock"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/changeLock"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/changeLock"
+        android:layout_width="159dp"
+        android:layout_height="26dp"
+        android:text="Change Lock Status"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/confirmButton"
+        android:layout_marginStart="77dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/changeBan"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="11dp"
+        app:layout_constraintLeft_toLeftOf="@+id/userOverViewBannedS" />
+
+    <Button
+        android:id="@+id/confirmButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginEnd="35dp"
+        app:layout_constraintRight_toRightOf="@+id/changeLock"
+        android:layout_marginTop="45dp"
+        app:layout_constraintTop_toBottomOf="@+id/changeBan" />
+</android.support.constraint.ConstraintLayout>
