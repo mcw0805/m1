@@ -21,6 +21,7 @@ import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
@@ -94,6 +95,7 @@ public class SubmitFormActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_location_picker);
         setContentView(R.layout.item_submission_form);
 
         users = new ArrayList<>();
@@ -111,6 +113,12 @@ public class SubmitFormActivity extends AppCompatActivity
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
         postButton = (Button) findViewById(R.id.postButton_L);
         backButton = (Button) findViewById(R.id.backButton_L);
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        try {
+            startActivityForResult(builder.build(this), 1);
+        } catch (Exception e) {
+            Log.d("LocationPicker", e.getMessage());
+        }
 
 //        ArrayAdapter<States> state_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, States.values());
 //        state_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -313,7 +321,7 @@ public class SubmitFormActivity extends AppCompatActivity
      * of number of items posted.
      */
     private void incrementSubmissionCount() {
-        final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid );
+        final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid);
         final DatabaseReference itemCountRef = userRef.child("itemCount");
 
         userRef.addChildEventListener(new ChildEventListener() {
@@ -356,9 +364,11 @@ public class SubmitFormActivity extends AppCompatActivity
             }
 
         });
-
-
     }
+    protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
+        Log.d("SubmitForm", "place was picked");
+    }
+
 
 
 
