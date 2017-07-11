@@ -40,7 +40,7 @@
         <activity android:name=".Controller.Dashboard" />
         <activity android:name=".Controller.SubmitFormActivity" />
         <activity android:name=".Controller.ResetPasswordActivity" />
-        <activity android:name=".Controller.ItemListViewFragment" />
+        <activity android:name=".Controller.ItemListViewActivity" />
         <activity android:name=".Controller.ItemDescriptionActivity" />
         <activity
             android:name=".Controller.FoundItemListActivity"
@@ -83,7 +83,7 @@
             android:name=".Controller.dashboard_tabs"
             android:label="@string/title_activity_dashboard_tabs"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Controller.MyEditableItemActivity" />
+
         <activity android:name=".Controller.UserDescriptionActivity"></activity>
     </application>
 
