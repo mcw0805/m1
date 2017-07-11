@@ -36,7 +36,7 @@
         <activity android:name=".Controller.Dashboard" />
         <activity android:name=".Controller.SubmitFormActivity" />
         <activity android:name=".Controller.ResetPasswordActivity" />
-        <activity android:name=".Controller.ItemListViewActivity" />
+        <activity android:name=".Controller.ItemListViewFragment" />
         <activity android:name=".Controller.ItemDescriptionActivity" />
         <activity
             android:name=".Controller.FoundItemListActivity"

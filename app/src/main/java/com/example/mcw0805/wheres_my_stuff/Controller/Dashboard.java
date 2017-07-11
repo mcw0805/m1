@@ -207,11 +207,11 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             Intent intent = new Intent(this, SubmitFormActivity.class);
             Dashboard.this.startActivity(intent);
         } else if (v.equals(lostNearMe)) {
-            Intent intent = new Intent(this, ItemListViewActivity.class);
+            Intent intent = new Intent(this, ItemListViewFragment.class);
             intent.putExtra("DashboardClikedListType", "LostItemListView");
             Dashboard.this.startActivity(intent);
         } else if (v.equals(foundNearMe)) {
-            Intent intent = new Intent(this, ItemListViewActivity.class);
+            Intent intent = new Intent(this, ItemListViewFragment.class);
             intent.putExtra("DashboardClikedListType", "FoundItemListView");
             Dashboard.this.startActivity(intent);
         } else if (v.equals(profile_page)) {
