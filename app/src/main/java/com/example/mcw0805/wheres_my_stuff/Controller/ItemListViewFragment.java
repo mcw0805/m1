@@ -2,13 +2,15 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
 
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -36,7 +38,7 @@ import java.util.Map;
  *
  * @author Chaewon Min, Melanie Hall
  */
-public class ItemListViewActivity extends AppCompatActivity {
+public class ItemListViewFragment extends Fragment {
 
     /*
         ListView widget and its adapter
@@ -71,32 +73,31 @@ public class ItemListViewActivity extends AppCompatActivity {
 
     private Spinner filterSpinner;
 
-    private final String TAG = "ItemListActivity";
+    private final String TAG = "ItemListFragment";
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_list);
+    public View onCreate(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_item_list,container, false);
 
         itemMap = new LinkedHashMap<>();
         itemKeys = new ArrayList<>();
         itemObjectList = new ArrayList<>();
 
         //spinner for filtering
-        filterSpinner = (Spinner) findViewById(R.id.filter_spinner_lost);
-        ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
+        filterSpinner = (Spinner) getView().findViewById(R.id.filter_spinner_lost);
+        ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(category_Adapter);
 
 
-        itemsLv = (ListView) findViewById(R.id.item_listView);
+        itemsLv = (ListView) getView().findViewById(R.id.item_listView);
 
-        searchBarEdit = (EditText) findViewById(R.id.searchBarEdit);
+        searchBarEdit = (EditText) getView().findViewById(R.id.searchBarEdit);
         searchBarEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,7 +106,7 @@ public class ItemListViewActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ItemListViewActivity.this.itemAdapter.getFilter().filter(s);
+                ItemListViewFragment.this.itemAdapter.getFilter().filter(s);
 
             }
 
@@ -116,9 +117,9 @@ public class ItemListViewActivity extends AppCompatActivity {
         });
 
 
-        if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
+        if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
             itemsRef = LostItem.getLostItemsRef();
-        } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
+        } else if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
             itemsRef = FoundItem.getFoundItemsRef();
         }
 
@@ -136,7 +137,7 @@ public class ItemListViewActivity extends AppCompatActivity {
                 String name = (String) item.get("name");
 
                 Item polymorphicItem = null;
-                if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
+                if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
 
                     try {
                         polymorphicItem = LostItem.buildLostItemObject(dataSnapshot);
@@ -153,7 +154,7 @@ public class ItemListViewActivity extends AppCompatActivity {
                     //puts the unique item key and all of its stored attributes
                     itemKeys.add(dataSnapshot.getKey());
 
-                } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
+                } else if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
                     try {
                         polymorphicItem = FoundItem.buildFoundItemObject(dataSnapshot);
                     } catch (NullPointerException e) {
@@ -172,7 +173,7 @@ public class ItemListViewActivity extends AppCompatActivity {
 
                 }
 
-                itemAdapter = new ArrayAdapter<>(getApplicationContext(),
+                itemAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                         R.layout.item_row_layout, R.id.textView, itemObjectList);
                 itemsLv.setAdapter(itemAdapter);
                 itemAdapter.notifyDataSetChanged();
@@ -208,10 +209,10 @@ public class ItemListViewActivity extends AppCompatActivity {
                 itemAdapter.notifyDataSetChanged();
                 //itemAdapter.notifyDataSetChanged();
 
-                Intent intent = new Intent(getApplicationContext(), ItemDescriptionActivity.class);
-                if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), ItemDescriptionActivity.class);
+                if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
                     intent.putExtra("selectedLostItem", itemAdapter.getItem(position));
-                } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
+                } else if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
                     intent.putExtra("selectedFoundItem", itemAdapter.getItem(position));
                 }
 
@@ -223,7 +224,7 @@ public class ItemListViewActivity extends AppCompatActivity {
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                itemAdapter = new ArrayAdapter<>(getApplicationContext(),
+                itemAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                         R.layout.item_row_layout, R.id.textView,
                         filterByType((ItemCategory) filterSpinner.getSelectedItem()));
                 itemsLv.setAdapter(itemAdapter);
@@ -235,6 +236,7 @@ public class ItemListViewActivity extends AppCompatActivity {
 
             }
         });
+        return view;
 
     }
 

@@ -1,11 +1,13 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MyListActivity extends AppCompatActivity {
+public class MyListFragment extends Fragment {
 
     /*
     ListView widget and its adapter
@@ -74,12 +76,11 @@ public class MyListActivity extends AppCompatActivity {
     private DatabaseReference userRef = User.getUserRef();
     private String currUserUID;
 
-    private final String TAG = "MyListItemActivity";
+    private final String TAG = "MyListItemFragment";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_item_list);
+    public View onCreate(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_my_list,container, false);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -104,7 +105,7 @@ public class MyListActivity extends AppCompatActivity {
 
         myItemList = new ArrayList<>();
         myItemObjectList = new ArrayList<>();
-        myItemListView = (ListView) findViewById(R.id.item_listView);
+        myItemListView = (ListView) getView().findViewById(R.id.item_listView);
 
         myItemLostKeys = new ArrayList<>();
         myItemFoundKeys = new ArrayList<>();
@@ -191,7 +192,7 @@ public class MyListActivity extends AppCompatActivity {
             }
         });
 
-        myItemAdapter = new ArrayAdapter<>(getApplicationContext(),
+        myItemAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                 R.layout.item_row_layout, R.id.textView, myItemObjectList);
         myItemListView.setAdapter(myItemAdapter);
         myItemAdapter.notifyDataSetChanged();
@@ -199,7 +200,7 @@ public class MyListActivity extends AppCompatActivity {
         myItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), MyEditableItemActivity.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), MyEditableItemActivity.class);
                 intent.putExtra("selectedObjKey", myItemKeys.get(position));
                 if (myItemAdapter.getItem(position) instanceof LostItem) {
                     intent.putExtra("selectedLostItem", myItemAdapter.getItem(position));
@@ -212,13 +213,11 @@ public class MyListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
+        return view;
     }
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         if (!isAuthListenerSet) {
             mAuth.addAuthStateListener(mAuthListener);
@@ -227,7 +226,7 @@ public class MyListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);

@@ -1,12 +1,15 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.ListView;
 
@@ -32,7 +35,7 @@ import java.util.Map;
  * @versionas As of 7/8, it is outdated. This is disconnected from other classes.
  */
 
-public class FoundItemListActivity extends AppCompatActivity {
+public class FoundItemListFragment extends Fragment {
 
     /*
         ListView widget and its adapter
@@ -70,34 +73,33 @@ public class FoundItemListActivity extends AppCompatActivity {
     private Spinner filterSpinner;
 
 
-    private final String TAG = "FoundItemListActivity";
+    private final String TAG = "FoundItemListFragment";
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_found_item_list);
+    public View onCreate(LayoutInflater inflater, ViewGroup container,
+                         Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_found_item_list,container, false);
 
         foundMap = new LinkedHashMap<>();
         foundItemKeys = new ArrayList<>();
         foundItemObjectList = new ArrayList<>();
 
-        foundItemLv = (ListView) findViewById(R.id.found_list);
+        foundItemLv = (ListView) getView().findViewById(R.id.found_list);
         //foundItemList = new ArrayList<>();
 
         //References the list of lost items in Firebase
         mFoundItemsRef = FoundItem.getFoundItemsRef();
-        filterSpinner = (Spinner) findViewById(R.id.filter_spinner_found);
+        filterSpinner = (Spinner) getView().findViewById(R.id.filter_spinner_found);
 
-        final ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
+        final ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(category_Adapter);
 
-        searchBarEdit = (EditText) findViewById(R.id.searchBarEditFound);
+        searchBarEdit = (EditText) getView().findViewById(R.id.searchBarEditFound);
         searchBarEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,7 +108,7 @@ public class FoundItemListActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                FoundItemListActivity.this.foundItemAdapter.getFilter().filter(s);
+                FoundItemListFragment.this.foundItemAdapter.getFilter().filter(s);
                 //FoundItemListActivity.this.itemAdapter.getFilter().filter(s);
                 //FoundItemListActivity.this.copyAdapter.getFilter().filter(s);
 
@@ -146,7 +148,7 @@ public class FoundItemListActivity extends AppCompatActivity {
 
                 foundItemKeys.add(dataSnapshot.getKey());
 
-                foundItemAdapter = new ArrayAdapter<>(getApplicationContext(),
+                foundItemAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                         R.layout.item_row_layout, R.id.textView, foundItemObjectList);
                 foundItemLv.setAdapter(foundItemAdapter);
                 foundItemAdapter.notifyDataSetChanged();
@@ -192,16 +194,16 @@ public class FoundItemListActivity extends AppCompatActivity {
                 //itemAdapter.notifyDataSetChanged();
                 //copyAdapter.notifyDataSetChanged();
 
-                Intent intent = new Intent(getApplicationContext(), FoundItemDescription.class);
+                Intent intent = new Intent(getActivity().getApplicationContext(), FoundItemDescription.class);
 
                 //passes the selected object to the next screen
                 intent.putExtra("selectedFoundItem", foundItemAdapter.getItem(position));
                 //intent.putExtra("selectedFoundItem", itemAdapter.getItem(position));
                 //intent.putExtra("selectedFoundItem", copyAdapter.getItem(position));
 
-
                 startActivity(intent);
             }
         });
+        return view;
     }
 }
