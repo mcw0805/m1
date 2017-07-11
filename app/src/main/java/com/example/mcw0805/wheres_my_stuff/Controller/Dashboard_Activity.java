@@ -26,13 +26,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class Dashboard_Activity extends AppCompatActivity implements OnMapReadyCallback {
+public class Dashboard_Activity extends AppCompatActivity {
 
     private static final String TAG = "dashboard_tabs";
 
     private SectionsPageAdapter mSectionsPageAdapter;
     private ViewPager mViewPager;
-    private GoogleMap mMap;
+    //private GoogleMap mMap;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,14 +60,14 @@ public class Dashboard_Activity extends AppCompatActivity implements OnMapReadyC
         viewPager.setAdapter(adapter);
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng gt = new LatLng(33.7773728, -84.3981109);
-        mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gt, 17));
-    }
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//        mMap = googleMap;
+//
+//        // Add a marker in Sydney and move the camera
+//        LatLng gt = new LatLng(33.7773728, -84.3981109);
+//        mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gt, 17));
+//    }
 }
