@@ -21,6 +21,7 @@ import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
@@ -64,6 +65,7 @@ public class SubmitFormActivity extends AppCompatActivity
     private Spinner typeSpinner;
     private Button backButton;
     private Button postButton;
+    private Button locationButton;
     //private Spinner stateSpinner;
 
 
@@ -91,6 +93,7 @@ public class SubmitFormActivity extends AppCompatActivity
     private ItemType inputItemType;
 
     private List<User> users;
+    private static final int PLACE_PICKER_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +106,8 @@ public class SubmitFormActivity extends AppCompatActivity
         //instantiate widgets
         titleField = (EditText) findViewById(R.id.title_L);
         descriptField = (EditText) findViewById(R.id.description_L);
+
+        locationButton = (Button) findViewById(R.id.placeButton);
         latField = (EditText) findViewById(R.id.latitude_L);
         longField = (EditText) findViewById(R.id.longitude_L);
         rewardField = (EditText) findViewById(R.id.reward_L);
@@ -113,12 +118,12 @@ public class SubmitFormActivity extends AppCompatActivity
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
         postButton = (Button) findViewById(R.id.postButton_L);
         backButton = (Button) findViewById(R.id.backButton_L);
-        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-        try {
-            startActivityForResult(builder.build(this), 1);
-        } catch (Exception e) {
-            Log.d("LocationPicker", e.getMessage());
-        }
+//        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//        try {
+//            startActivityForResult(builder.build(this), 1);
+//        } catch (Exception e) {
+//            Log.d("LocationPicker", e.getMessage());
+//        }
 
 //        ArrayAdapter<States> state_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, States.values());
 //        state_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -163,6 +168,14 @@ public class SubmitFormActivity extends AppCompatActivity
         //set listener for the buttons
         postButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
+        locationButton.setOnClickListener((e) -> {
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            try {
+                startActivityForResult(builder.build(this), 1);
+            } catch (Exception ex) {
+                Log.d("LocationPicker", ex.getMessage());
+            }
+        });
 
         //set Firebase authorization and get current user who is logged in
         mAuth = FirebaseAuth.getInstance();

@@ -62,45 +62,11 @@
         android:layout_alignStart="@+id/category_L" />
 
     <TextView
-        android:id="@+id/location_L"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/category_Lspinner"
-        android:layout_below="@+id/category_Lspinner"
-        android:layout_marginTop="14dp"
-        android:text="Location"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
-
-    <EditText
-        android:id="@+id/latitude_L"
-        android:layout_width="100dip"
-        android:layout_height="40dip"
-        android:layout_alignStart="@+id/location_L"
-        android:layout_below="@+id/location_L"
-        android:layout_marginTop="5dp"
-        android:ems="15"
-        android:hint="Latitude"
-        android:inputType="number|numberSigned|numberDecimal"
-        android:textAppearance="@style/TextAppearance.AppCompat" />
-
-    <EditText
-        android:id="@+id/longitude_L"
-        android:layout_width="100dip"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Longitude"
-        android:inputType="number|numberSigned|numberDecimal"
-        android:textAppearance="@style/TextAppearance.AppCompat"
-        android:layout_alignBaseline="@+id/latitude_L"
-        android:layout_alignBottom="@+id/latitude_L"
-        android:layout_alignEnd="@+id/title_L" />
-
-    <TextView
         android:id="@+id/type_L"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/latitude_L"
-        android:layout_below="@+id/latitude_L"
+        android:layout_alignStart="@+id/placeButton"
+        android:layout_below="@+id/placeButton"
         android:layout_marginTop="29dp"
         android:text="Type"
         android:textAppearance="@style/TextAppearance.AppCompat" />
@@ -192,5 +158,15 @@
         android:layout_alignTop="@+id/dollar_L"
         android:textColor="@color/requiredFieldStar"
         android:text="*" />
+
+    <Button
+        android:id="@+id/placeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick Location"
+        android:layout_alignStart="@+id/category_Lspinner"
+        android:layout_below="@+id/category_Lspinner"
+        android:layout_marginTop="14dp"
+        android:layout_alignEnd="@+id/textView6" />
 
 </RelativeLayout>
