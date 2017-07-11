@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_wms6"
+    android:background="@drawable/home_wms3"
     android:scaleType="centerCrop"
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.HomeActivity">
 
@@ -22,7 +22,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/home_wms1"/>
+                android:src="@drawable/home_wms3"/>
 
             <ImageView
                 android:id="@+id/background_2"
@@ -36,28 +36,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/home_wms3" />
-
-            <ImageView
-                android:id="@+id/background_4"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/home_wms4" />
-
-            <ImageView
-                android:id="@+id/background_5"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/home_wms5" />
-
-            <ImageView
-                android:id="@+id/background_6"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/home_wms6" />
+                android:src="@drawable/home_wms1" />
         </ViewFlipper>
     </LinearLayout>
 

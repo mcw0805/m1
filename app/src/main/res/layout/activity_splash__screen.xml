@@ -8,8 +8,9 @@
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.Splash_Screen">
     
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
         android:src="@drawable/ic_launcher_wms"/>
 
 </RelativeLayout>
