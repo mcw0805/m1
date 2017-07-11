@@ -203,16 +203,16 @@
         android:id="@+id/changeLock"
         android:layout_width="159dp"
         android:layout_height="26dp"
-        android:text="Change Lock Status"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/confirmButton"
+        android:layout_marginBottom="11dp"
         android:layout_marginStart="77dp"
         android:layout_marginTop="8dp"
+        android:text="Unlock User"
+        app:layout_constraintBottom_toTopOf="@+id/confirmButton"
+        app:layout_constraintLeft_toLeftOf="@+id/userOverViewBannedS"
         app:layout_constraintTop_toBottomOf="@+id/changeBan"
+        tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="11dp"
-        app:layout_constraintLeft_toLeftOf="@+id/userOverViewBannedS" />
+        tools:layout_constraintTop_creator="1" />
 
     <Button
         android:id="@+id/confirmButton"

@@ -259,5 +259,8 @@ public class User implements Parcelable {
     public void addCount() {
         this.itemCount++;
     }
+    public String toString() {
+        return "Name: " + this.name;
+    }
 
 }

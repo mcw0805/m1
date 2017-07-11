@@ -1,8 +1,11 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -24,7 +27,7 @@ import java.util.Map;
 public class ActiveUserListActivity extends AppCompatActivity {
     // widget and adapter
     private android.widget.ListView activeUserLv;
-    private ArrayAdapter<String> activeUserAdapter;
+    private ArrayAdapter<User> activeUserAdapter;
 
     // List of text to show in the list view
     private List<String> activeUserList;
@@ -78,18 +81,18 @@ public class ActiveUserListActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 //adds the built object to the list
-                if (!(newUser.getIsBanned())) {
+                if (!(newUser.getIsBanned()) && !(newUser.getIsLocked())) {
                     activeUserObjectList.add(newUser);
                     //puts the unique item key and all of its stored attributes
                     userMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
 
                     //List of string that would be displayed on the screen
-                    activeUserList.add("(Active) " + name);
+                    //activeUserList.add("(Active) " + name);
 
                     activeUserKeys.add(dataSnapshot.getKey());
 
-                    activeUserAdapter = new ArrayAdapter<>(getApplicationContext(),
-                            R.layout.item_row_layout, R.id.textView, activeUserList);
+                    activeUserAdapter = new ArrayAdapter<User>(getApplicationContext(),
+                            R.layout.item_row_layout, R.id.textView, activeUserObjectList);
                     activeUserLv.setAdapter(activeUserAdapter);
                     activeUserAdapter.notifyDataSetChanged();
                 }
@@ -113,6 +116,15 @@ public class ActiveUserListActivity extends AppCompatActivity {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+        activeUserLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                activeUserAdapter.notifyDataSetChanged();
+                Intent intent = new Intent(getApplicationContext(), UserDescriptionActivity.class);
+                intent.putExtra("UserObj", activeUserAdapter.getItem(position));
+                startActivity(intent);
             }
         });
     }
