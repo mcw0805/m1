@@ -69,8 +69,8 @@ public class MyListFragment extends Fragment {
     /*
     Firebase authorization
  */
-    private FirebaseAuth mAuth;
-    private FirebaseUser currUser;
+    //private FirebaseAuth mAuth;
+    //private FirebaseUser currUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
     private DatabaseReference userRef = User.getUserRef();
@@ -78,11 +78,12 @@ public class MyListFragment extends Fragment {
 
     private final String TAG = "MyListItemFragment";
 
-    public View onCreate(LayoutInflater inflater, ViewGroup container,
-                         Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_my_list,container, false);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_item_list,container, false);
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -98,14 +99,19 @@ public class MyListFragment extends Fragment {
             }
         };
 
-        currUser = mAuth.getCurrentUser();
+        FirebaseUser currUser = mAuth.getCurrentUser();
         currUserUID = currUser.getUid();
 
         final String uid = currUser.getUid();
+        if (currUser != null) {
+            Log.d("TESTMYLIST", currUserUID);
+        } else {
+            Log.d("TESTMYLIST", "null");
+        }
 
         myItemList = new ArrayList<>();
         myItemObjectList = new ArrayList<>();
-        myItemListView = (ListView) getView().findViewById(R.id.item_listView);
+        myItemListView = (ListView) view.findViewById(R.id.item_listView);
 
         myItemLostKeys = new ArrayList<>();
         myItemFoundKeys = new ArrayList<>();
@@ -192,7 +198,7 @@ public class MyListFragment extends Fragment {
             }
         });
 
-        myItemAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+        myItemAdapter = new ArrayAdapter<>(getActivity(),
                 R.layout.item_row_layout, R.id.textView, myItemObjectList);
         myItemListView.setAdapter(myItemAdapter);
         myItemAdapter.notifyDataSetChanged();
@@ -200,7 +206,7 @@ public class MyListFragment extends Fragment {
         myItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), MyEditableItemActivity.class);
+                Intent intent = new Intent(getActivity(), MyEditableItemActivity.class);
                 intent.putExtra("selectedObjKey", myItemKeys.get(position));
                 if (myItemAdapter.getItem(position) instanceof LostItem) {
                     intent.putExtra("selectedLostItem", myItemAdapter.getItem(position));
@@ -216,21 +222,21 @@ public class MyListFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!isAuthListenerSet) {
-            mAuth.addAuthStateListener(mAuthListener);
-            isAuthListenerSet = true;
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-            isAuthListenerSet = false;
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        if (!isAuthListenerSet) {
+//            mAuth.addAuthStateListener(mAuthListener);
+//            isAuthListenerSet = true;
+//        }
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (mAuthListener != null) {
+//            mAuth.removeAuthStateListener(mAuthListener);
+//            isAuthListenerSet = false;
+//        }
+//    }
 }

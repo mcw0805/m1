@@ -14,12 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.mcw0805.wheres_my_stuff.R;
@@ -207,11 +202,11 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             Intent intent = new Intent(this, SubmitFormActivity.class);
             Dashboard.this.startActivity(intent);
         } else if (v.equals(lostNearMe)) {
-            Intent intent = new Intent(this, ItemListViewFragment.class);
+            Intent intent = new Intent(this, ItemListViewActivity.class);
             intent.putExtra("DashboardClikedListType", "LostItemListView");
             Dashboard.this.startActivity(intent);
         } else if (v.equals(foundNearMe)) {
-            Intent intent = new Intent(this, ItemListViewFragment.class);
+            Intent intent = new Intent(this, ItemListViewActivity.class);
             intent.putExtra("DashboardClikedListType", "FoundItemListView");
             Dashboard.this.startActivity(intent);
         } else if (v.equals(profile_page)) {

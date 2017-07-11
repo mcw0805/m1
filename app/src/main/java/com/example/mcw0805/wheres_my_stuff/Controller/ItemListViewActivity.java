@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,7 +39,7 @@ import java.util.Map;
  *
  * @author Chaewon Min, Melanie Hall
  */
-public class ItemListViewFragment extends Fragment {
+public class ItemListViewActivity extends AppCompatActivity {
 
     /*
         ListView widget and its adapter
@@ -73,31 +74,32 @@ public class ItemListViewFragment extends Fragment {
 
     private Spinner filterSpinner;
 
-    private final String TAG = "ItemListFragment";
+    private final String TAG = "ItemListActivity";
 
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
     }
 
-    public View onCreate(LayoutInflater inflater, ViewGroup container,
-                         Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_test,container, false);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_item_list);
 
         itemMap = new LinkedHashMap<>();
         itemKeys = new ArrayList<>();
         itemObjectList = new ArrayList<>();
 
         //spinner for filtering
-        filterSpinner = (Spinner) getView().findViewById(R.id.filter_spinner_lost);
-        ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, ItemCategory.values());
+        filterSpinner = (Spinner) findViewById(R.id.filter_spinner_lost);
+        ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(category_Adapter);
 
 
-        itemsLv = (ListView) getView().findViewById(R.id.item_listView);
+        itemsLv = (ListView) findViewById(R.id.item_listView);
 
-        searchBarEdit = (EditText) getView().findViewById(R.id.searchBarEdit);
+        searchBarEdit = (EditText) findViewById(R.id.searchBarEdit);
         searchBarEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -106,7 +108,7 @@ public class ItemListViewFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ItemListViewFragment.this.itemAdapter.getFilter().filter(s);
+                ItemListViewActivity.this.itemAdapter.getFilter().filter(s);
 
             }
 
@@ -117,9 +119,9 @@ public class ItemListViewFragment extends Fragment {
         });
 
 
-        if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
+        if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
             itemsRef = LostItem.getLostItemsRef();
-        } else if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
+        } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
             itemsRef = FoundItem.getFoundItemsRef();
         }
 
@@ -137,7 +139,7 @@ public class ItemListViewFragment extends Fragment {
                 String name = (String) item.get("name");
 
                 Item polymorphicItem = null;
-                if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
+                if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
 
                     try {
                         polymorphicItem = LostItem.buildLostItemObject(dataSnapshot);
@@ -154,7 +156,7 @@ public class ItemListViewFragment extends Fragment {
                     //puts the unique item key and all of its stored attributes
                     itemKeys.add(dataSnapshot.getKey());
 
-                } else if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
+                } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
                     try {
                         polymorphicItem = FoundItem.buildFoundItemObject(dataSnapshot);
                     } catch (NullPointerException e) {
@@ -173,7 +175,7 @@ public class ItemListViewFragment extends Fragment {
 
                 }
 
-                itemAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                itemAdapter = new ArrayAdapter<>(getApplicationContext(),
                         R.layout.item_row_layout, R.id.textView, itemObjectList);
                 itemsLv.setAdapter(itemAdapter);
                 itemAdapter.notifyDataSetChanged();
@@ -209,10 +211,10 @@ public class ItemListViewFragment extends Fragment {
                 itemAdapter.notifyDataSetChanged();
                 //itemAdapter.notifyDataSetChanged();
 
-                Intent intent = new Intent(getActivity().getApplicationContext(), ItemDescriptionActivity.class);
-                if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
+                Intent intent = new Intent(getApplicationContext(), ItemDescriptionActivity.class);
+                if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
                     intent.putExtra("selectedLostItem", itemAdapter.getItem(position));
-                } else if (getActivity().getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
+                } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
                     intent.putExtra("selectedFoundItem", itemAdapter.getItem(position));
                 }
 
@@ -224,7 +226,7 @@ public class ItemListViewFragment extends Fragment {
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                itemAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                itemAdapter = new ArrayAdapter<>(getApplicationContext(),
                         R.layout.item_row_layout, R.id.textView,
                         filterByType((ItemCategory) filterSpinner.getSelectedItem()));
                 itemsLv.setAdapter(itemAdapter);
@@ -236,7 +238,6 @@ public class ItemListViewFragment extends Fragment {
 
             }
         });
-        return view;
 
     }
 
