@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
@@ -30,6 +31,10 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
     private CheckBox ban;
     private CheckBox lock;
     private Button confirm;
+    private Button cancel;
+    private boolean banChange;
+    private boolean unbanChange;
+    private boolean lockChange;
     User user;
 
 
@@ -52,6 +57,7 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
         ban = (CheckBox) findViewById(R.id.changeBan);
         lock = (CheckBox) findViewById(R.id.changeLock);
         confirm = (Button) findViewById(R.id.confirmButton);
+        cancel = (Button) findViewById(R.id.adminCanel);
 
         name.setText("" + user.getName());
         email.setText("" + user.getEmail());
@@ -62,15 +68,28 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
         uid.setText("" + user.getUid());
 
         confirm.setOnClickListener(this);
+        cancel.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
         if (v == confirm) {
+            String unlocked = "User will be unlocked";
+            String unbanned = "User will be unbanned";
+            String banned = "User will be banned";
+            String mainText = "Are you sure you wish to make changes to this user?";
+            if (ban.isChecked() && user.getIsBanned()) {
+                mainText = mainText + "\n" + unbanned;
+            } else {
+                mainText = mainText + "\n" + banned;
+            }
+            if (lock.isChecked()) {
+                mainText = mainText + "\n" + unlocked;
+            }
             //Alert admin if they want to make changes
             AlertDialog.Builder builder1 = new AlertDialog.Builder(UserDescriptionActivity.this);
-            builder1.setMessage("Are you sure you wish to make changes to this user?");
+            builder1.setMessage(mainText);
             builder1.setCancelable(true);
 
             builder1.setPositiveButton(
@@ -92,17 +111,32 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
                             if(ban.isChecked()) {
                                 if (user.getIsBanned()) {
                                     user.setBanned(false);
+                                    unbanChange = true;
                                 } else {
                                     user.setBanned(true);
+                                    banChange = true;
                                 }
                             }
                             if (lock.isChecked()) {
                                 if (user.getIsLocked()) {
+                                    lockChange = true;
                                     user.setLocked(false);
                                     user.setLockAttempts(0);
                                 }
                             }
                             user.writeToDatabase();
+                            if (lockChange) {
+                                Toast.makeText(getApplicationContext(),
+                                        "User has been unlocked", Toast.LENGTH_SHORT).show();
+                            }
+                            if (banChange) {
+                                Toast.makeText(getApplicationContext(),
+                                        "User has been banned", Toast.LENGTH_SHORT).show();
+                            }
+                            if (unbanChange) {
+                                Toast.makeText(getApplicationContext(),
+                                        "User has been unbanned", Toast.LENGTH_SHORT).show();
+                            }
                             Intent intent = new Intent(UserDescriptionActivity.this, AdminDashboard.class);
                             startActivity(intent);
                         }
@@ -112,6 +146,12 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
             alert11.show();
             return;
 
+        }
+        else if (v == cancel) {
+            Toast.makeText(getApplicationContext(),
+                    "No Changes Made", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(UserDescriptionActivity.this, AdminDashboard.class);
+            startActivity(intent);
         }
     }
 }

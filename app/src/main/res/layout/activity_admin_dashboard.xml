@@ -33,26 +33,6 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/pendingitems"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center_vertical"
-            android:text="Pending Items"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/approveditems"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center_vertical"
-            android:text="Approved Items"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/activeusers"
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -81,6 +61,12 @@
             android:text="Banned Users"
             android:textSize="28sp"
             android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/admin_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log Out" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
