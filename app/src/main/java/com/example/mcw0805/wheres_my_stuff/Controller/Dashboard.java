@@ -27,7 +27,7 @@ import com.example.mcw0805.wheres_my_stuff.R;
 * version 1.0
  */
 
-public class Dashboard extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
+public class Dashboard extends AppCompatActivity implements View.OnClickListener {
     private GoogleMap mMap;
     /*
     * textviews/button for the various textfields/button on the dashboard
@@ -111,9 +111,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         name = intent.getStringExtra("name");
         email = intent.getStringExtra("email");
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map);
+//        mapFragment.getMapAsync(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -255,14 +255,14 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         Log.d(TAG, "signed out");
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng gt = new LatLng(33.7773728, -84.3981109);
-        mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gt, 17));
-    }
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//        mMap = googleMap;
+//
+//        // Add a marker in Sydney and move the camera
+//        LatLng gt = new LatLng(33.7773728, -84.3981109);
+//        mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gt, 17));
+//    }
 }
