@@ -36,9 +36,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private TextView donate;
     private TextView profile_page;
     private Button logout_dash;
-    private SlidingUpPanelLayout slidingLayout;
-    //For testing purposes
-    private TextView textView;
+    //private SlidingUpPanelLayout slidingLayout;
 
     /*
     * variables that will belong to each particular object
@@ -80,9 +78,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         profile_page = (TextView) findViewById(R.id.profile_txt);
         welcome = (TextView) findViewById(R.id.welcome);
         logout_dash = (Button) findViewById(R.id.logout_button);
-        slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        //Testing
-        textView = (TextView) findViewById(R.id.text);
+        //slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 
         //welcome.setText("Welcome " + name);
 
@@ -97,7 +93,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         donate.setOnClickListener(this);
         profile_page.setOnClickListener(this);
         logout_dash.setOnClickListener(this);
-        slidingLayout.setPanelSlideListener(onSlideListener());
+        //slidingLayout.setPanelSlideListener(onSlideListener());
 
 
         //connecting the user who just signed in with the dashboard that pops up
@@ -143,29 +139,29 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     }
 
-    private SlidingUpPanelLayout.PanelSlideListener onSlideListener() {
-        return new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View view, float v) {
-            }
-
-            @Override
-            public void onPanelCollapsed(View view) {
-            }
-
-            @Override
-            public void onPanelExpanded(View view) {
-            }
-
-            @Override
-            public void onPanelAnchored(View view) {
-            }
-
-            @Override
-            public void onPanelHidden(View view) {
-            }
-        };
-    }
+//    private SlidingUpPanelLayout.PanelSlideListener onSlideListener() {
+//        return new SlidingUpPanelLayout.PanelSlideListener() {
+//            @Override
+//            public void onPanelSlide(View view, float v) {
+//            }
+//
+//            @Override
+//            public void onPanelCollapsed(View view) {
+//            }
+//
+//            @Override
+//            public void onPanelExpanded(View view) {
+//            }
+//
+//            @Override
+//            public void onPanelAnchored(View view) {
+//            }
+//
+//            @Override
+//            public void onPanelHidden(View view) {
+//            }
+//        };
+//    }
 
 
     @Override
