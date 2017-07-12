@@ -189,6 +189,11 @@ public class LostItem extends Item {
                 itemOwner, itemReward, itemOpenStat);
 
     }
+
+    /**
+     * Creates a string description of the object so that the google maps pin can put all the information down
+     * @return String description
+     */
     public String description() {
         String end = "Lost Item: " + this.name + " \n Category: "
                 + this.category + "\n Description: " + this.description  + "\n Status: "

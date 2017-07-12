@@ -278,6 +278,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         //Pull data from database
         final DatabaseReference foundItems = FoundItem.getFoundItemsRef();
         DatabaseReference lostItems = LostItem.getLostItemsRef();
+        //adds all found items
         foundItems.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -315,6 +316,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
             }
         });
+        //adds all lost items
         lostItems.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -350,6 +352,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
             }
         });
+        //formats the info window when clicking a pin
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
             @Override
@@ -380,8 +383,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 return info;
             }
         });
-
-        // Add a marker in Sydney and move the camera
+        
         LatLng gt = new LatLng(33.7773728, -84.3981109);
         mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
