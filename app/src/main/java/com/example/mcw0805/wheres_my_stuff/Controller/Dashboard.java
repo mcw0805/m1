@@ -72,7 +72,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
-
+    private ChildEventListener lostListen;
+    private ChildEventListener foundListen;
     //View stuff
     Scene bottom;
     Scene top;
@@ -220,6 +221,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
+        LostItem.getLostItemsRef().removeEventListener(lostListen);
+        FoundItem.getFoundItemsRef().removeEventListener(foundListen);
         if (v.equals(newLost)) {
             Intent intent = new Intent(this, SubmitFormActivity.class);
             Dashboard.this.startActivity(intent);
@@ -279,7 +282,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         final DatabaseReference foundItems = FoundItem.getFoundItemsRef();
         DatabaseReference lostItems = LostItem.getLostItemsRef();
         //adds all found items
-        foundItems.addChildEventListener(new ChildEventListener() {
+        foundListen = foundItems.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 FoundItem f = null;
@@ -317,7 +320,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             }
         });
         //adds all lost items
-        lostItems.addChildEventListener(new ChildEventListener() {
+        lostListen =lostItems.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 LostItem l = null;
@@ -383,7 +386,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                 return info;
             }
         });
-        
+
         LatLng gt = new LatLng(33.7773728, -84.3981109);
         mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
