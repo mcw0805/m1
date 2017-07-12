@@ -1,18 +1,35 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.transition.Scene;
 import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mcw0805.wheres_my_stuff.Model.DonationItem;
+import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
+import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,8 +44,8 @@ import com.example.mcw0805.wheres_my_stuff.R;
 * version 1.0
  */
 
-public class Dashboard extends AppCompatActivity implements View.OnClickListener {
-    //private GoogleMap mMap;
+public class Dashboard extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
+    private GoogleMap mMap;
     /*
     * textviews/button for the various textfields/button on the dashboard
      */
@@ -111,9 +128,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         name = intent.getStringExtra("name");
         email = intent.getStringExtra("email");
 
-        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-        //        .findFragmentById(R.id.map);
-        //mapFragment.getMapAsync(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -254,15 +271,120 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         mAuth.signOut();
         Log.d(TAG, "signed out");
     }
-//
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        mMap = googleMap;
-//
-//        // Add a marker in Sydney and move the camera
-//        LatLng gt = new LatLng(33.7773728, -84.3981109);
-//        mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
-//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gt, 17));
-//    }
+
+    @Override
+        public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        //Pull data from database
+        final DatabaseReference foundItems = FoundItem.getFoundItemsRef();
+        DatabaseReference lostItems = LostItem.getLostItemsRef();
+        foundItems.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                FoundItem f = null;
+                try {
+                    f = FoundItem.buildFoundItemObject(dataSnapshot);
+                } catch (NullPointerException e) {
+                    Log.d(TAG, "NullPointerException is caught.");
+                    e.printStackTrace();
+                }
+                LatLng lItem = new LatLng(f.getLatitude(), f.getLongitude());
+                String display = "Found Item:";
+                mMap.addMarker(new MarkerOptions().position(lItem).title(f.description())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                Log.d(TAG, "added found item");
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lostItems.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                LostItem l = null;
+                try {
+                    l = LostItem.buildLostItemObject(dataSnapshot);
+                } catch (NullPointerException e) {
+                    Log.d(TAG, "NullPointerException is caught.");
+                    e.printStackTrace();
+                }
+                LatLng lItem = new LatLng(l.getLatitude(), l.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(lItem).title(l.description()));
+                Log.d(TAG, "added lost item");
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                Context mContext = getApplicationContext();
+
+                LinearLayout info = new LinearLayout(mContext);
+                info.setOrientation(LinearLayout.VERTICAL);
+
+                TextView title = new TextView(mContext);
+                title.setTextColor(Color.BLACK);
+                title.setGravity(Gravity.CENTER);
+                title.setTypeface(null, Typeface.BOLD);
+                title.setText(marker.getTitle());
+
+                TextView snippet = new TextView(mContext);
+                snippet.setTextColor(Color.GRAY);
+                snippet.setText(marker.getSnippet());
+
+                info.addView(title);
+                info.addView(snippet);
+
+                return info;
+            }
+        });
+
+        // Add a marker in Sydney and move the camera
+        LatLng gt = new LatLng(33.7773728, -84.3981109);
+        mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
+        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gt, 17));
+    }
 }

@@ -189,6 +189,12 @@ public class LostItem extends Item {
                 itemOwner, itemReward, itemOpenStat);
 
     }
+    public String description() {
+        String end = "Lost Item: " + this.name + " \n Category: "
+                + this.category + "\n Description: " + this.description  + "\n Status: "
+                + this.getStatusString() + "\n Reward: $" + this.reward;
+        return end;
+    }
 
 //
 //    public static LostItem buildLostItem(DataSnapshot dataSnap) {
