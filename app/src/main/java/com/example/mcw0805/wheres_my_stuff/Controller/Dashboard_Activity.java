@@ -32,7 +32,8 @@ public class Dashboard_Activity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MyListFragment(), "My Submitted Items");
+        //adapter.addFragment(new MyListFragment(), "My Submitted Items");
+        adapter.addFragment(new SubmitFormFragment(), "Report a New Item");
         //adapter.addFragment(new BlankFragment(), "Lost Items Near Me");
 //        adapter.addFragment(new ItemListViewActivity(), "Lost Items Near Me");
 //        adapter.addFragment(new FoundItemListFragment(), "Found Items Near Me");
@@ -40,7 +41,7 @@ public class Dashboard_Activity extends AppCompatActivity {
 //        adapter.addFragment(new DonateItemFormFragment(), "Donate Items");
 //        //adapter.addFragment(new DonationListFragment(), "List of Donations");
         adapter.addFragment(new BlankFragment(), "FOUND TEST");
-//        adapter.addFragment(new ProfileFragment(), "Profile");
+        adapter.addFragment(new ProfileFragment(), "Profile");
         viewPager.setAdapter(adapter);
     }
 

@@ -263,7 +263,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                     //advance to next screen
                                                     Intent intent = new Intent(LogInActivity.this, Dashboard_Activity.class);
                                                     LogInActivity.this.startActivity(intent);
-                                                    overridePendingTransition(R.transition.fade_in, R.transition.fade_out);
+                                                    //overridePendingTransition(R.transition.fade_in, R.transition.fade_out);
                                                     return;
                                                 }
                                             }

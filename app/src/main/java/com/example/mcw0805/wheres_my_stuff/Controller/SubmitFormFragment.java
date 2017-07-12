@@ -90,25 +90,25 @@ public class SubmitFormFragment extends Fragment
 
     private List<User> users;
 
-    public View onCreate(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                          Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.item_submission_form,container, false);
 
         users = new ArrayList<>();
 
         //instantiate widgets
-        titleField = (EditText) getView().findViewById(R.id.title_L);
-        descriptField = (EditText) getView().findViewById(R.id.description_L);
-        latField = (EditText) getView().findViewById(R.id.latitude_L);
-        longField = (EditText) getView().findViewById(R.id.longitude_L);
-        rewardField = (EditText) getView().findViewById(R.id.reward_L);
-        dollar = (TextView) getView().findViewById(R.id.dollar_L);
-        category = (TextView) getView().findViewById(R.id.category_L);
-        categorySpinner = (Spinner) getView().findViewById(R.id.category_Lspinner);
+        titleField = (EditText) view.findViewById(R.id.title_L);
+        descriptField = (EditText) view.findViewById(R.id.description_L);
+        latField = (EditText) view.findViewById(R.id.latitude_L);
+        longField = (EditText) view.findViewById(R.id.longitude_L);
+        rewardField = (EditText) view.findViewById(R.id.reward_L);
+        dollar = (TextView) view.findViewById(R.id.dollar_L);
+        category = (TextView) view.findViewById(R.id.category_L);
+        categorySpinner = (Spinner) view.findViewById(R.id.category_Lspinner);
         //stateSpinner = (Spinner) findViewById(R.id.state_Lspinner);
-        typeSpinner = (Spinner) getView().findViewById(R.id.type_Lspinner);
-        postButton = (Button) getView().findViewById(R.id.postButton_L);
-        backButton = (Button) getView().findViewById(R.id.backButton_L);
+        typeSpinner = (Spinner) view.findViewById(R.id.type_Lspinner);
+        postButton = (Button) view.findViewById(R.id.postButton_L);
+        backButton = (Button) view.findViewById(R.id.backButton_L);
 
 //        ArrayAdapter<States> state_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, States.values());
 //        state_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -80,24 +80,25 @@ public class ItemListViewFragment extends Fragment {
         super.onStart();
     }
 
-    public View onCreate(LayoutInflater inflater, ViewGroup container,
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                          Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list,container, false);
+        View view = inflater.inflate(R.layout.activity_item_list,container, false);
 
         itemMap = new LinkedHashMap<>();
         itemKeys = new ArrayList<>();
         itemObjectList = new ArrayList<>();
 
         //spinner for filtering
-        filterSpinner = (Spinner) getView().findViewById(R.id.filter_spinner_lost);
+        filterSpinner = (Spinner) view.findViewById(R.id.filter_spinner_lost);
         ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         filterSpinner.setAdapter(category_Adapter);
 
 
-        itemsLv = (ListView) getView().findViewById(R.id.item_listView);
+        itemsLv = (ListView) view.findViewById(R.id.item_listView);
 
-        searchBarEdit = (EditText) getView().findViewById(R.id.searchBarEdit);
+        searchBarEdit = (EditText) view.findViewById(R.id.searchBarEdit);
         searchBarEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

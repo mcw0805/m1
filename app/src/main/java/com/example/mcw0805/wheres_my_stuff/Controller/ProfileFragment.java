@@ -64,8 +64,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "ProfileFragment";
 
-
-    public View onCreate(LayoutInflater inflater, ViewGroup container,
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                          Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_profile,container, false);
 
@@ -90,20 +90,20 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         currUserUID = currUser.getUid();
 
         //instantiate buttons
-        editToggleButton = (ToggleButton) getView().findViewById(R.id.editToggleBtn);
-        back_button = (Button) getView().findViewById(R.id.back_button);
+        editToggleButton = (ToggleButton) view.findViewById(R.id.editToggleBtn);
+        back_button = (Button) view.findViewById(R.id.back_button);
         //instantiate all the fields related to editing/viewing the nickname of the user
-        nicknameEdit = (EditText) getView().findViewById(R.id.nicknameEdit);
-        nicknameTextView = (TextView) getView().findViewById(R.id.nicknameText);
-        nicknameViewSwitcher = (ViewSwitcher) getView().findViewById(R.id.viewSwitcherNickname);
+        nicknameEdit = (EditText) view.findViewById(R.id.nicknameEdit);
+        nicknameTextView = (TextView) view.findViewById(R.id.nicknameText);
+        nicknameViewSwitcher = (ViewSwitcher) view.findViewById(R.id.viewSwitcherNickname);
 
         //instantiate all the fields related to editing/viewing the intro/bio of the user
-        introductionEdit = (EditText) getView().findViewById(R.id.introductionEdit);
-        introductionTextView = (TextView) getView().findViewById(R.id.introductionText);
+        introductionEdit = (EditText) view.findViewById(R.id.introductionEdit);
+        introductionTextView = (TextView) view.findViewById(R.id.introductionText);
 
-        introductionViewSwitcher = (ViewSwitcher) getView().findViewById(R.id.viewSwitcherIntroduction);
+        introductionViewSwitcher = (ViewSwitcher) view.findViewById(R.id.viewSwitcherIntroduction);
 
-        numberSubmissionTextView = (TextView) getView().findViewById(R.id.num_items_posted);
+        numberSubmissionTextView = (TextView) view.findViewById(R.id.num_items_posted);
 
         //listeners for the buttons
         editToggleButton.setOnClickListener(this);
