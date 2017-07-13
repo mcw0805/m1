@@ -21,6 +21,9 @@ import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
@@ -63,6 +66,9 @@ public class SubmitFormActivity extends AppCompatActivity
     private Spinner typeSpinner;
     private Button backButton;
     private Button postButton;
+    private Button locationButton;
+    private EditText locationText;
+    private Place place;
     //private Spinner stateSpinner;
 
 
@@ -90,17 +96,20 @@ public class SubmitFormActivity extends AppCompatActivity
     private ItemType inputItemType;
 
     private List<User> users;
+    private static final int PLACE_PICKER_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_location_picker);
         setContentView(R.layout.item_submission_form);
 
         users = new ArrayList<>();
-
         //instantiate widgets
         titleField = (EditText) findViewById(R.id.title_L);
         descriptField = (EditText) findViewById(R.id.description_L);
+        locationText = (EditText) findViewById(R.id.address); // adrdess box
+//        locationButton = (Button) findViewById(R.id.placeButton);
         latField = (EditText) findViewById(R.id.latitude_L);
         longField = (EditText) findViewById(R.id.longitude_L);
         rewardField = (EditText) findViewById(R.id.reward_L);
@@ -111,6 +120,12 @@ public class SubmitFormActivity extends AppCompatActivity
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
         postButton = (Button) findViewById(R.id.postButton_L);
         backButton = (Button) findViewById(R.id.backButton_L);
+//        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//        try {
+//            startActivityForResult(builder.build(this), 1);
+//        } catch (Exception e) {
+//            Log.d("LocationPicker", e.getMessage());
+//        }
 
 //        ArrayAdapter<States> state_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, States.values());
 //        state_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -124,6 +139,12 @@ public class SubmitFormActivity extends AppCompatActivity
         type_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(type_Adapter);
 
+        locationText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startPlacePicker();
+            }
+        });
 
         //reward field is visible only if LOST is selected from the typeSpinner
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -155,6 +176,14 @@ public class SubmitFormActivity extends AppCompatActivity
         //set listener for the buttons
         postButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
+//        locationButton.setOnClickListener((e) -> {
+//            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+//            try {
+//                startActivityForResult(builder.build(this), 1);
+//            } catch (Exception ex) {
+//                Log.d("LocationPicker", ex.getMessage());
+//            }
+//        });
 
         //set Firebase authorization and get current user who is logged in
         mAuth = FirebaseAuth.getInstance();
@@ -285,14 +314,6 @@ public class SubmitFormActivity extends AppCompatActivity
             }
         }
 
-        try {
-            inputLatitude = Double.parseDouble(latField.getText().toString());
-            inputLongitude = Double.parseDouble(longField.getText().toString());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Enter Valid latitude and longitude");
-        }
-
-
         uid = firebaseUser.getUid();
 
 
@@ -305,6 +326,10 @@ public class SubmitFormActivity extends AppCompatActivity
 
         }
 
+        if (inputLongitude == 0 && inputLatitude == 0) {
+            valid = false;
+        }
+
         return valid;
     }
 
@@ -313,7 +338,7 @@ public class SubmitFormActivity extends AppCompatActivity
      * of number of items posted.
      */
     private void incrementSubmissionCount() {
-        final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid );
+        final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid);
         final DatabaseReference itemCountRef = userRef.child("itemCount");
 
         userRef.addChildEventListener(new ChildEventListener() {
@@ -356,10 +381,30 @@ public class SubmitFormActivity extends AppCompatActivity
             }
 
         });
-
-
     }
 
+    private void startPlacePicker() {
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+        try {
+            startActivityForResult(builder.build(this), 1);
+        } catch (Exception ex) {
+            Log.d("LocationPicker", ex.getMessage());
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                place = PlacePicker.getPlace(data, this);
+                String toastMsg = String.format("Place: %s", place.getName());
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+                locationText.setText(place.getAddress());
+                LatLng tempLoc = place.getLatLng();
+                inputLatitude = tempLoc.latitude;
+                inputLongitude = tempLoc.longitude;
+            }
+        }
+    }
 
 
 }
