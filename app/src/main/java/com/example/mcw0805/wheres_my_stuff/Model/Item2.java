@@ -3,32 +3,25 @@ package com.example.mcw0805.wheres_my_stuff.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
 
-/**
- * Created by jordan on 6/20/17.
- */
-//6/22/17 Changed cateogry to string for testing purposes
-//6/25/17 category is back to enum, temporarily made it Item not abstract
 
-public class Item implements Parcelable {
+public class Item2 implements Parcelable {
     protected String name;
     protected String description;
-    protected Date date;
+    protected long date;
     protected double longitude;
     protected double latitude;
     protected ItemCategory category;
     protected String uid;
     protected boolean isOpen;
 
-    public Item() {}
+    public Item2() {}
 
-    public Item(String name, String description, Date date, double longitude,
-                double latitude, ItemCategory category, String uid, boolean isOpen) {
+    public Item2(String name, String description, long date, double longitude,
+                 double latitude, ItemCategory category, String uid, boolean isOpen) {
         this.name = name;
         this.description = description;
         this.date = date;
@@ -39,8 +32,8 @@ public class Item implements Parcelable {
         this.isOpen = isOpen;
     }
 
-    public Item(String name, String description, Date date, double longitude,
-                double latitude, ItemCategory category, String uid) {
+    public Item2(String name, String description, long date, double longitude,
+                 double latitude, ItemCategory category, String uid) {
         this.name = name;
         this.description = description;
         this.date = date;
@@ -51,10 +44,10 @@ public class Item implements Parcelable {
         this.isOpen = true;
     }
 
-    protected Item(Parcel in) {
+    protected Item2(Parcel in) {
         name = in.readString();
         description = in.readString();
-        date = new Date(in.readLong());
+        date = in.readLong();
         latitude = in.readDouble();
         longitude = in.readDouble();
         category = ItemCategory.valueOf(in.readString().toString());
@@ -66,7 +59,7 @@ public class Item implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeLong(date.getTime());
+        dest.writeLong(date);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
         dest.writeString(category.getType());
@@ -79,15 +72,15 @@ public class Item implements Parcelable {
         return 0;
     }
 
-    public static final Creator<Item> CREATOR = new Creator<Item>() {
+    public static final Creator<Item2> CREATOR = new Creator<Item2>() {
         @Override
-        public Item createFromParcel(Parcel in) {
-            return new Item(in);
+        public Item2 createFromParcel(Parcel in) {
+            return new Item2(in);
         }
 
         @Override
-        public Item[] newArray(int size) {
-            return new Item[size];
+        public Item2[] newArray(int size) {
+            return new Item2[size];
         }
     };
 
@@ -125,11 +118,11 @@ public class Item implements Parcelable {
         this.description = description;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -161,10 +154,10 @@ public class Item implements Parcelable {
         return isOpen ? "open" : "closed";
     }
 
-    public Task writeToDatabase(DatabaseReference childRef) {
+    public void writeToDatabase(DatabaseReference childRef) {
 
-        DatabaseReference dateChild = childRef.child("date-time");
-        dateChild.setValue(getDate().getTime());
+        DatabaseReference dateChild = childRef.child("date");
+        dateChild.setValue(getDate());
 
         DatabaseReference nameChild = childRef.child("name");
         nameChild.setValue(getName());
@@ -185,7 +178,9 @@ public class Item implements Parcelable {
         uidChild.setValue(getUid());
 
         DatabaseReference isOpenChild = childRef.child("isOpen");
-        return isOpenChild.setValue(getIsOpen());
+        isOpenChild.setValue(getIsOpen());
+        //childRef.setValue(this);
+
     }
 
 

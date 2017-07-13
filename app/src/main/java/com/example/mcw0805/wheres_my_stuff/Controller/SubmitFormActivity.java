@@ -17,8 +17,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mcw0805.wheres_my_stuff.Model.DonationItem;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
+import com.example.mcw0805.wheres_my_stuff.Model.Item2;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
@@ -156,8 +158,8 @@ public class SubmitFormActivity extends AppCompatActivity
                 } else if (parent.getItemAtPosition(position).equals(ItemType.NEED)) { //need
                     rewardField.setVisibility(View.INVISIBLE);
                     dollar.setVisibility(View.INVISIBLE);
-                    categorySpinner.setVisibility(View.INVISIBLE);
-                    category.setVisibility(View.INVISIBLE);
+                    //categorySpinner.setVisibility(View.INVISIBLE);
+                    //category.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -219,23 +221,9 @@ public class SubmitFormActivity extends AppCompatActivity
                     }
                 });
             } else if (inputItemType == ItemType.FOUND) {
-//                submitFoundItem(dateTime).continueWith(new Continuation() {
-//                     @Override
-//                     public Object then(@NonNull Task task) throws Exception {
-//                            Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
-//                            Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
-//                            startActivity(submitPostIntent);
-//                            return new Integer(1);
-//                         }
-//                    }
-                submitFoundItem(dateTime).addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
-                        Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
-                        startActivity(submitPostIntent);
-                    }
-                });
+                submitFoundItem(dateTime);
+            } else if (inputItemType == ItemType.NEED) {
+                submitNeedItem(currentTime);
             }
 
 
@@ -294,6 +282,12 @@ public class SubmitFormActivity extends AppCompatActivity
         DatabaseReference child = FoundItem.getFoundItemsRef().child(uid + "--" + FoundItem.getFoundItemsRef().push().getKey());
         return newItem.writeToDatabase(child);
 
+    }
+
+    private void submitNeedItem(long dateTime) {
+        Item2 newItem = new DonationItem(inputName, inputDescription, dateTime, inputLongitude, inputLatitude, inputItemCategory, uid);
+        DatabaseReference child = DonationItem.getDonationRef().child(uid + "--" + DonationItem.getDonationRef().push().getKey());
+        newItem.writeToDatabase(child);
     }
 
     /**

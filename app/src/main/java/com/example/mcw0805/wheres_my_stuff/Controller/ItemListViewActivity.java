@@ -15,15 +15,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.mcw0805.wheres_my_stuff.Model.DonationItem;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
+import com.example.mcw0805.wheres_my_stuff.Model.Item2;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -126,8 +128,7 @@ public class ItemListViewActivity extends AppCompatActivity {
             itemsRef.orderByChild("date-time");
         }
 
-        //References the list of lost items in Firebase
-        itemsRef.addChildEventListener(new ChildEventListener() {
+        itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map<String, Object> item = (Map<String, Object>) dataSnapshot.getValue();
@@ -174,26 +175,6 @@ public class ItemListViewActivity extends AppCompatActivity {
 
                 }
 
-                itemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                        R.layout.item_row_layout, R.id.textView, itemObjectList);
-                itemsLv.setAdapter(itemAdapter);
-                itemAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
@@ -201,6 +182,80 @@ public class ItemListViewActivity extends AppCompatActivity {
 
             }
         });
+
+        //References the list of lost items in Firebase
+//        itemsRef.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                Map<String, Object> item = (Map<String, Object>) dataSnapshot.getValue();
+//
+//                //name of the item name
+//                String name = (String) item.get("name");
+//
+//                Item polymorphicItem = null;
+//                if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
+//
+//                    try {
+//                        polymorphicItem = LostItem.buildLostItemObject(dataSnapshot);
+//                    } catch (NullPointerException e) {
+//                        Log.d(TAG, "NullPointerException is caught.");
+//                        e.printStackTrace();
+//                    }
+//
+//                    //adds the built object to the list
+//                    itemObjectList.add(polymorphicItem);
+//
+//                    itemMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
+//
+//                    //puts the unique item key and all of its stored attributes
+//                    itemKeys.add(dataSnapshot.getKey());
+//
+//                } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
+//                    try {
+//                        polymorphicItem = FoundItem.buildFoundItemObject(dataSnapshot);
+//                    } catch (NullPointerException e) {
+//                        Log.d(TAG, "NullPointerException is caught.");
+//                        e.printStackTrace();
+//                    }
+//
+//                    //adds the built object to the list
+//                    itemObjectList.add(polymorphicItem);
+//
+//                    itemMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
+//
+//                    //puts the unique item key and all of its stored attributes
+//                    itemKeys.add(dataSnapshot.getKey());
+//
+//
+//                }
+//
+//                itemAdapter = new ArrayAdapter<>(getApplicationContext(),
+//                        R.layout.item_row_layout, R.id.textView, itemObjectList);
+//                itemsLv.setAdapter(itemAdapter);
+//                itemAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
         //when some lost item in the list view is clicked
@@ -257,4 +312,58 @@ public class ItemListViewActivity extends AppCompatActivity {
         return filteredItemList;
 
     }
+
+
+
+    private void getFoundUpdate(DataSnapshot snapshot) {
+        for (DataSnapshot ds : snapshot.getChildren()) {
+            Item item = new FoundItem();
+            item.setName(ds.getValue(Item.class).getName());
+            item.setDescription(ds.getValue(Item.class).getDescription());
+            item.setIsOpen(ds.getValue(Item.class).getIsOpen());
+            item.setCategory(ds.getValue(Item.class).getCategory());
+            item.setLatitude(ds.getValue(Item.class).getLatitude());
+            item.setLongitude(ds.getValue(Item.class).getLongitude());
+            item.setDate(ds.getValue(Item.class).getDate());
+            item.setUid(ds.getValue(Item.class).getUid());
+
+            itemObjectList.add(item);
+        }
+
+        if (itemObjectList.size() > 0) {
+            itemAdapter = new ArrayAdapter<>(getApplicationContext(),
+                    R.layout.item_row_layout, R.id.textView, itemObjectList);
+            itemsLv.setAdapter(itemAdapter);
+        } else {
+            Log.w(TAG, "NO DATA");
+        }
+    }
+
+    private void getLostUpdate(DataSnapshot snapshot) {
+        for (DataSnapshot ds : snapshot.getChildren()) {
+            LostItem item = new LostItem();
+            item.setName(ds.getValue(Item.class).getName());
+            item.setDescription(ds.getValue(Item.class).getDescription());
+            item.setIsOpen(ds.getValue(Item.class).getIsOpen());
+            item.setCategory(ds.getValue(Item.class).getCategory());
+            item.setLatitude(ds.getValue(Item.class).getLatitude());
+            item.setLongitude(ds.getValue(Item.class).getLongitude());
+            item.setDate(ds.getValue(Item.class).getDate());
+            item.setUid(ds.getValue(Item.class).getUid());
+            item.setReward(ds.getValue(LostItem.class).getReward());
+
+            itemObjectList.add(item);
+        }
+
+        if (itemObjectList.size() > 0) {
+            itemAdapter = new ArrayAdapter<>(getApplicationContext(),
+                    R.layout.item_row_layout, R.id.textView, itemObjectList);
+            itemsLv.setAdapter(itemAdapter);
+        } else {
+            Log.w(TAG, "NO DATA");
+        }
+    }
+
+
+
 }

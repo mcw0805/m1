@@ -6,12 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.mcw0805.wheres_my_stuff.Model.DonationItem;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 
 import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Class that controls the description of the found items that the user
@@ -39,7 +41,7 @@ public class FoundItemDescription extends AppCompatActivity {
 
         Intent intent = getIntent();
         //get found item that was passed to this class from the FoundItemListActivity
-        FoundItem selected =intent.getParcelableExtra("selectedFoundItem");
+        DonationItem selected =intent.getParcelableExtra("selectedFoundItem");
         /*
         * sets all of the textViews that are specific to each object
          */
@@ -52,9 +54,10 @@ public class FoundItemDescription extends AppCompatActivity {
         location = (TextView) findViewById(R.id.item_location);
         location.setText("temp");
         type = (TextView) findViewById(R.id.item_type);
-        type.setText(ItemType.FOUND.toString());
+        type.setText(ItemType.NEED.toString());
         date = (TextView) findViewById(R.id.found_post_date);
         DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
-        date.setText(df.format(selected.getDate()));
+        Date dateobj = new Date(selected.getDate());
+        date.setText(df.format(dateobj));
     }
 }

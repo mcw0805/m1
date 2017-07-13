@@ -74,6 +74,6 @@
         android:text="My Submitted Items"
         android:textSize="16sp"
         android:textStyle="bold" />
-
+    
 
 </RelativeLayout>
