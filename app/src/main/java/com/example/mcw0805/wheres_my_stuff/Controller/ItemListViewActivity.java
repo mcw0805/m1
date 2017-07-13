@@ -136,7 +136,8 @@ public class ItemListViewActivity extends AppCompatActivity {
                 String name = (String) item.get("name");
 
                 Item polymorphicItem = null;
-                if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView")) {
+                if (getIntent().getStringExtra("DashboardClikedListType").equals("LostItemListView") &&
+                        dataSnapshot != null) {
 
                     try {
                         polymorphicItem = LostItem.buildLostItemObject(dataSnapshot);
@@ -153,7 +154,8 @@ public class ItemListViewActivity extends AppCompatActivity {
                     //puts the unique item key and all of its stored attributes
                     itemKeys.add(dataSnapshot.getKey());
 
-                } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")) {
+                } else if (getIntent().getStringExtra("DashboardClikedListType").equals("FoundItemListView")
+                        && dataSnapshot != null) {
                     try {
                         polymorphicItem = FoundItem.buildFoundItemObject(dataSnapshot);
                     } catch (NullPointerException e) {

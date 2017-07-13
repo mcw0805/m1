@@ -3,6 +3,7 @@ package com.example.mcw0805.wheres_my_stuff.Model;
 import android.os.Parcel;
 import android.util.Log;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -148,11 +149,11 @@ public class LostItem extends Item {
     }
 
     @Override
-    public void writeToDatabase(DatabaseReference childRef) {
+    public Task writeToDatabase(DatabaseReference childRef) {
         super.writeToDatabase(childRef);
 
         DatabaseReference rewardChild = childRef.child("reward");
-        rewardChild.setValue(getReward());
+        return rewardChild.setValue(getReward());
 
     }
 

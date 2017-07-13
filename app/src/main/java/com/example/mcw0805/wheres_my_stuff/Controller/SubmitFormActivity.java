@@ -3,6 +3,7 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,9 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
@@ -205,16 +209,35 @@ public class SubmitFormActivity extends AppCompatActivity
             Date dateTime = new Date(currentTime);
 
             if (inputItemType == ItemType.LOST) {
-                submitLostItem(dateTime);
+                submitLostItem(dateTime).addOnSuccessListener(new OnSuccessListener() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
+                        Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
+                        startActivity(submitPostIntent);
+                    }
+                });
             } else if (inputItemType == ItemType.FOUND) {
-                submitFoundItem(dateTime);
+//                submitFoundItem(dateTime).continueWith(new Continuation() {
+//                     @Override
+//                     public Object then(@NonNull Task task) throws Exception {
+//                            Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
+//                            Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
+//                            startActivity(submitPostIntent);
+//                            return new Integer(1);
+//                         }
+//                    }
+                submitFoundItem(dateTime).addOnSuccessListener(new OnSuccessListener() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
+                        Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
+                        startActivity(submitPostIntent);
+                    }
+                });
             }
 
-            Toast.makeText(this, "Post Added!", Toast.LENGTH_LONG).show();
-            Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
 
-            startActivity(submitPostIntent);
-            finish();
         }
 
         if (v == backButton) {
@@ -241,7 +264,7 @@ public class SubmitFormActivity extends AppCompatActivity
      *
      * @param dateTime current date-time
      */
-    private void submitLostItem(Date dateTime) {
+    private Task submitLostItem(Date dateTime) {
 
         int reward = Integer.parseInt(rewardField.getText().toString());
 
@@ -250,7 +273,7 @@ public class SubmitFormActivity extends AppCompatActivity
         incrementSubmissionCount();
         DatabaseReference child = LostItem.getLostItemsRef().child(uid + "--" + LostItem.getLostItemsRef().push().getKey());
         //newItem.writeToDatabase(LostItem.getChildRef());
-        newItem.writeToDatabase(child);
+        return newItem.writeToDatabase(child);
     }
 
     /**
@@ -258,7 +281,7 @@ public class SubmitFormActivity extends AppCompatActivity
      *
      * @param dateTime current date-time
      */
-    private void submitFoundItem(Date dateTime) {
+    private Task submitFoundItem(Date dateTime) {
         newItem = new FoundItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory, uid);
         incrementSubmissionCount();
@@ -268,7 +291,7 @@ public class SubmitFormActivity extends AppCompatActivity
         Log.d("SUBMIT", x.toString());        //delete this
 
         DatabaseReference child = FoundItem.getFoundItemsRef().child(uid + "--" + FoundItem.getFoundItemsRef().push().getKey());
-        newItem.writeToDatabase(child);
+        return newItem.writeToDatabase(child);
 
     }
 

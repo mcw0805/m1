@@ -3,6 +3,7 @@ package com.example.mcw0805.wheres_my_stuff.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -159,7 +160,7 @@ public class Item implements Parcelable {
         return isOpen ? "open" : "closed";
     }
 
-    public void writeToDatabase(DatabaseReference childRef) {
+    public Task writeToDatabase(DatabaseReference childRef) {
 
         DatabaseReference dateChild = childRef.child("date-time");
         dateChild.setValue(getDate().getTime());
@@ -183,9 +184,7 @@ public class Item implements Parcelable {
         uidChild.setValue(getUid());
 
         DatabaseReference isOpenChild = childRef.child("isOpen");
-        isOpenChild.setValue(getIsOpen());
-
-
+        return isOpenChild.setValue(getIsOpen());
     }
 
 
