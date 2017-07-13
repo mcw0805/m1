@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.mcw0805.wheres_my_stuff.Model.DonationItem;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
@@ -39,7 +40,7 @@ public class FoundItemDescription extends AppCompatActivity {
 
         Intent intent = getIntent();
         //get found item that was passed to this class from the FoundItemListActivity
-        FoundItem selected =intent.getParcelableExtra("selectedFoundItem");
+        DonationItem selected =intent.getParcelableExtra("selectedFoundItem");
         /*
         * sets all of the textViews that are specific to each object
          */

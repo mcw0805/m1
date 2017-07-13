@@ -82,7 +82,7 @@
         android:text="My Submitted Items"
         android:textSize="16sp"
         android:textStyle="bold" />
-
+    
 
     <Button
         android:id="@+id/logout_button"

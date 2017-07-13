@@ -10,14 +10,15 @@ import android.view.View;
 import android.widget.*;
 import android.widget.ListView;
 
-import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
-import com.example.mcw0805.wheres_my_stuff.Model.Item;
+import com.example.mcw0805.wheres_my_stuff.Model.DonationItem;
+import com.example.mcw0805.wheres_my_stuff.Model.Item2;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.R;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -37,8 +38,8 @@ public class FoundItemListActivity extends AppCompatActivity {
     /*
         ListView widget and its adapter
      */
-    private ListView foundItemLv;
-    private ArrayAdapter<Item> foundItemAdapter;
+    private ListView donationItemLv;
+    private ArrayAdapter<Item2> donationItemAdapter;
     //private ItemAdapter itemAdapter;
 
     private EditText searchBarEdit;
@@ -56,7 +57,7 @@ public class FoundItemListActivity extends AppCompatActivity {
     /*
         List of FoundItem objects, which are parcelable
      */
-    private List<Item> foundItemObjectList;
+    private List<Item2> donationObjectList;
     /*
         Map that contains the database snapshots.
         Key = variable names stored in the database
@@ -66,7 +67,7 @@ public class FoundItemListActivity extends AppCompatActivity {
     /*
         Database reference for the found items in Firebase
      */
-    private DatabaseReference mFoundItemsRef;
+    private DatabaseReference donateRef;
     private Spinner filterSpinner;
 
 
@@ -84,13 +85,13 @@ public class FoundItemListActivity extends AppCompatActivity {
 
         foundMap = new LinkedHashMap<>();
         foundItemKeys = new ArrayList<>();
-        foundItemObjectList = new ArrayList<>();
+        donationObjectList = new ArrayList<>();
 
-        foundItemLv = (ListView) findViewById(R.id.found_list);
+        donationItemLv = (ListView) findViewById(R.id.found_list);
         //foundItemList = new ArrayList<>();
 
         //References the list of lost items in Firebase
-        mFoundItemsRef = FoundItem.getFoundItemsRef();
+        donateRef = DonationItem.getDonationRef();
         filterSpinner = (Spinner) findViewById(R.id.filter_spinner_found);
 
         final ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
@@ -106,11 +107,7 @@ public class FoundItemListActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                FoundItemListActivity.this.foundItemAdapter.getFilter().filter(s);
-                //FoundItemListActivity.this.itemAdapter.getFilter().filter(s);
-                //FoundItemListActivity.this.copyAdapter.getFilter().filter(s);
-
-
+                FoundItemListActivity.this.donationItemAdapter.getFilter().filter(s);
             }
 
             @Override
@@ -119,63 +116,11 @@ public class FoundItemListActivity extends AppCompatActivity {
             }
         });
 
-
-        mFoundItemsRef.addChildEventListener(new ChildEventListener() {
+        donateRef = DonationItem.getDonationRef();
+        donateRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map<String, Object> item = (Map<String, Object>) dataSnapshot.getValue();
-
-                //name of the item name
-                //String name = (String) item.get("name");
-
-                FoundItem foundItem = null;
-                try {
-                    foundItem = FoundItem.buildFoundItemObject(dataSnapshot);
-                } catch (NullPointerException e) {
-                    Log.d(TAG, "NullPointerException is caught.");
-                    e.printStackTrace();
-                }
-                //adds the built object to the list
-                foundItemObjectList.add(foundItem);
-
-                //puts the unique item key and all of its stored attributes
-                foundMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
-
-                //List of string that would be displayed on the screen
-                //foundItemList.add("(FOUND) " + name);
-
-                foundItemKeys.add(dataSnapshot.getKey());
-
-                foundItemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                        R.layout.item_row_layout, R.id.textView, foundItemObjectList);
-                foundItemLv.setAdapter(foundItemAdapter);
-                foundItemAdapter.notifyDataSetChanged();
-
-
-//                itemAdapter = new ItemAdapter(getApplicationContext(), foundItemObjectList);
-//
-//                foundItemLv.setAdapter(itemAdapter);
-//                itemAdapter.notifyDataSetChanged();
-
-//                copyAdapter = new ItemListAdapter(getApplicationContext(),
-//                        R.layout.item_row_layout, R.id.textView, foundItemObjectList);
-//                foundItemLv.setAdapter(copyAdapter);
-//                copyAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                getNeedItemUpdate(dataSnapshot);
             }
 
             @Override
@@ -184,24 +129,45 @@ public class FoundItemListActivity extends AppCompatActivity {
             }
         });
 
+
         //when some found item in the list view is clicked
-        foundItemLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        donationItemLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                foundItemAdapter.notifyDataSetChanged();
-                //itemAdapter.notifyDataSetChanged();
-                //copyAdapter.notifyDataSetChanged();
+                donationItemAdapter.notifyDataSetChanged();
 
                 Intent intent = new Intent(getApplicationContext(), FoundItemDescription.class);
 
-                //passes the selected object to the next screen
-                intent.putExtra("selectedFoundItem", foundItemAdapter.getItem(position));
-                //intent.putExtra("selectedFoundItem", itemAdapter.getItem(position));
-                //intent.putExtra("selectedFoundItem", copyAdapter.getItem(position));
+                intent.putExtra("selectedFoundItem", donationItemAdapter.getItem(position));
 
 
                 startActivity(intent);
             }
         });
+    }
+
+
+    private void getNeedItemUpdate(DataSnapshot snapshot) {
+        for (DataSnapshot ds : snapshot.getChildren()) {
+            Item2 item = new DonationItem();
+            item.setName(ds.getValue(Item2.class).getName());
+            item.setDescription(ds.getValue(Item2.class).getDescription());
+            item.setIsOpen(ds.getValue(Item2.class).getIsOpen());
+            item.setCategory(ds.getValue(Item2.class).getCategory());
+            item.setLatitude(ds.getValue(Item2.class).getLatitude());
+            item.setLongitude(ds.getValue(Item2.class).getLongitude());
+            item.setDate(ds.getValue(Item2.class).getDate());
+            item.setUid(ds.getValue(Item2.class).getUid());
+
+            donationObjectList.add(item);
+        }
+
+        if (donationObjectList.size() > 0) {
+            donationItemAdapter = new ArrayAdapter<>(getApplicationContext(),
+                    R.layout.item_row_layout, R.id.textView, donationObjectList);
+            donationItemLv.setAdapter(donationItemAdapter);
+        } else {
+            Log.w(TAG, "NO DATA");
+        }
     }
 }

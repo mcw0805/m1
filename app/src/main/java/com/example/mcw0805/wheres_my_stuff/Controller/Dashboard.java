@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.mcw0805.wheres_my_stuff.Model.DonationItem;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
+import com.example.mcw0805.wheres_my_stuff.Model.Item2;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
@@ -257,10 +259,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         }
 
 
-        /* else if (v.equals(donate_list)) {
-            Intent intent = new Intent(this, someActivity.class;
-            Dashboard.this.startActivity(intent);
-         */
+        if ( v == donate_list) {
+            startActivity(new Intent(this, FoundItemListActivity.class));
+        }
+
     }
 
     @Override
@@ -282,6 +284,22 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         //Pull data from database
         final DatabaseReference foundItems = FoundItem.getFoundItemsRef();
         DatabaseReference lostItems = LostItem.getLostItemsRef();
+
+        DatabaseReference needItem = DonationItem.getDonationRef();
+        needItem.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                getNeedItemUpdate(dataSnapshot);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
         //adds all found items
         foundListen = foundItems.addChildEventListener(new ChildEventListener() {
             @Override
@@ -394,5 +412,26 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
         //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gt, 17));
+    }
+
+    private void getNeedItemUpdate(DataSnapshot snapshot) {
+        for (DataSnapshot ds : snapshot.getChildren()) {
+            Item2 item = new DonationItem();
+            item.setName(ds.getValue(Item2.class).getName());
+            item.setDescription(ds.getValue(Item2.class).getDescription());
+            item.setIsOpen(ds.getValue(Item2.class).getIsOpen());
+            item.setCategory(ds.getValue(Item2.class).getCategory());
+            item.setLatitude(ds.getValue(Item2.class).getLatitude());
+            item.setLongitude(ds.getValue(Item2.class).getLongitude());
+            item.setDate(ds.getValue(Item2.class).getDate());
+            item.setUid(ds.getValue(Item2.class).getUid());
+
+            LatLng lItem = new LatLng(item.getLatitude(), item.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(lItem).title(((DonationItem) item).getDescription())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
+            Log.d(TAG, "added needed item");
+        }
+
+
     }
 }

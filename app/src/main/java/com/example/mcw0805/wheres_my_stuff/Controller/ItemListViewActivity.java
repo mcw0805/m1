@@ -15,8 +15,10 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.mcw0805.wheres_my_stuff.Model.DonationItem;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
+import com.example.mcw0805.wheres_my_stuff.Model.Item2;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
@@ -273,6 +275,8 @@ public class ItemListViewActivity extends AppCompatActivity {
 
     }
 
+
+
     private void getFoundUpdate(DataSnapshot snapshot) {
         for (DataSnapshot ds : snapshot.getChildren()) {
             Item item = new FoundItem();
@@ -321,5 +325,7 @@ public class ItemListViewActivity extends AppCompatActivity {
             Log.w(TAG, "NO DATA");
         }
     }
+
+
 
 }
