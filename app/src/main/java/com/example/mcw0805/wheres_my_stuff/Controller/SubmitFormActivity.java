@@ -224,6 +224,10 @@ public class SubmitFormActivity extends AppCompatActivity
                 submitFoundItem(dateTime);
             } else if (inputItemType == ItemType.NEED) {
                 submitNeedItem(currentTime);
+                Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
+                Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
+                startActivity(submitPostIntent);
+                finish();
             }
 
 

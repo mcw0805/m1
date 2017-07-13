@@ -50,9 +50,9 @@ public class Dash_Bottom_Fragment extends Fragment implements View.OnClickListen
         newLost = (TextView) rootView.findViewById(R.id.reportLost_txt);
         donate_list = (TextView) rootView.findViewById(R.id.donate_list);
         donate = (TextView) rootView.findViewById(R.id.donate_txt);
-        profile_page = (TextView) rootView.findViewById(R.id.profile_txt);
+        //profile_page = (TextView) rootView.findViewById(R.id.profile_txt);
         welcome = (TextView) rootView.findViewById(R.id.welcome);
-        logout_dash = (Button) rootView.findViewById(R.id.logout_button);
+        //logout_dash = (Button) rootView.findViewById(R.id.logout_button);
 
         lostNearMe.setOnClickListener(this);
         foundNearMe.setOnClickListener(this);
@@ -60,8 +60,8 @@ public class Dash_Bottom_Fragment extends Fragment implements View.OnClickListen
         newLost.setOnClickListener(this);
         donate_list.setOnClickListener(this);
         donate.setOnClickListener(this);
-        profile_page.setOnClickListener(this);
-        logout_dash.setOnClickListener(this);
+        //profile_page.setOnClickListener(this);
+        //logout_dash.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
 
 

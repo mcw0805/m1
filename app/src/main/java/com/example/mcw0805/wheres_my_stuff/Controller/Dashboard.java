@@ -2,6 +2,7 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
@@ -23,7 +24,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.mcw0805.wheres_my_stuff.Model.DonationItem;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item2;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
@@ -33,6 +36,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -105,7 +109,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         * sets all textviews in the view to the instances in the controller
          */
 
-<<<<<<< Updated upstream
+
         lostNearMe = (TextView) findViewById(R.id.lost_txt);
         foundNearMe = (TextView) findViewById(R.id.found_txt);
         submitted_items = (TextView) findViewById(R.id.reportFound_txt);
@@ -116,12 +120,12 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         //Testing
         textView = (TextView) findViewById(R.id.text);
-=======
+
 //        lostNearMe = (TextView) findViewById(R.id.lost_txt);
 //        foundNearMe = (TextView) findViewById(R.id.found_txt);
 //        submitted_items = (TextView) findViewById(R.id.reportFound_txt);
 //        newLost = (TextView) findViewById(R.id.reportLost_txt);
-//        donate_list = (TextView) findViewById(R.id.donate_list);
+        donate_list = (TextView) findViewById(R.id.donate_list);
 //        donate = (TextView) findViewById(R.id.donate_txt);
 //        profile_page = (TextView) findViewById(R.id.profile_txt);
 //        welcome = (TextView) findViewById(R.id.welcome);
@@ -129,14 +133,14 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 //        slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
 //        //Testing
 //        textView = (TextView) findViewById(R.id.text);
->>>>>>> Stashed changes
+
 
         //welcome.setText("Welcome " + name);
 
         /*
         * tells the clickListener that an action will occur in this class
          */
-<<<<<<< Updated upstream
+
         lostNearMe.setOnClickListener(this);
         foundNearMe.setOnClickListener(this);
         submitted_items.setOnClickListener(this);
@@ -146,7 +150,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         //profile_page.setOnClickListener(this);
         //logout_dash.setOnClickListener(this);
         slidingLayout.setPanelSlideListener(onSlideListener());
-=======
+
 //        lostNearMe.setOnClickListener(this);
 //        foundNearMe.setOnClickListener(this);
 //        submitted_items.setOnClickListener(this);
@@ -156,7 +160,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 //        profile_page.setOnClickListener(this);
 //        logout_dash.setOnClickListener(this);
 //        slidingLayout.setPanelSlideListener(onSlideListener());
->>>>>>> Stashed changes
+
 
 
         //connecting the user who just signed in with the dashboard that pops up
@@ -190,11 +194,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         };
 
         //welcome.setText("Welcome " + email);
-<<<<<<< Updated upstream
-        welcome.setText("Welcome ");
-=======
+
         //welcome.setText("Welcome " );
->>>>>>> Stashed changes
+
 
         // Create the scene root (VIEWS) for the scenes in this app
         mSceneRootTop = findViewById(R.id.scene_root_top);
@@ -206,7 +208,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     }
 
-<<<<<<< Updated upstream
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -232,9 +234,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
         return super.onOptionsItemSelected(item);
     }
-=======
 
->>>>>>> Stashed changes
 
     private SlidingUpPanelLayout.PanelSlideListener onSlideListener() {
         return new SlidingUpPanelLayout.PanelSlideListener() {
@@ -293,7 +293,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         LostItem.getLostItemsRef().removeEventListener(lostListen);
         FoundItem.getFoundItemsRef().removeEventListener(foundListen);
-<<<<<<< Updated upstream
+
 //        FoundItem.getFoundItemsRef().removeEventListener(foundListen);
         if (v.equals(newLost)) {
             Intent intent = new Intent(this, SubmitFormActivity.class);
@@ -326,7 +326,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             Intent intent = new Intent(this, MyListActivity.class);
             Dashboard.this.startActivity(intent);
         }
-=======
+
 //        if (v.equals(newLost)) {
 //            Intent intent = new Intent(this, SubmitFormActivity.class);
 //            Dashboard.this.startActivity(intent);
@@ -358,7 +358,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 //            Intent intent = new Intent(this, MyListActivity.class);
 //            Dashboard.this.startActivity(intent);
 //        }
->>>>>>> Stashed changes
+
 
 
         if ( v == donate_list) {
@@ -372,13 +372,13 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         moveTaskToBack(true);
     }
 
-//    /**
-//     * Method that signs a user out.
-//     */
-//    private void signOut() {
-//        mAuth.signOut();
-//        Log.d(TAG, "signed out");
-//    }
+    /**
+     * Method that signs a user out.
+     */
+    private void signOut() {
+        mAuth.signOut();
+        Log.d(TAG, "signed out");
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
