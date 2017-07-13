@@ -1,12 +1,15 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.transition.Scene;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+
 import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,9 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.mcw0805.wheres_my_stuff.Model.DonationItem;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -30,8 +31,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -88,14 +87,23 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     private final String TAG = "Dashboard";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_master);
+
+        FragmentManager mgr = getSupportFragmentManager();
+        FragmentTransaction transaction = mgr.beginTransaction();
+        Dash_Bottom_Fragment frag = new Dash_Bottom_Fragment();
+        transaction.add(R.id.dash_bottom, frag);
+        transaction.commit();
+
         /*
         * sets all textviews in the view to the instances in the controller
          */
 
+<<<<<<< Updated upstream
         lostNearMe = (TextView) findViewById(R.id.lost_txt);
         foundNearMe = (TextView) findViewById(R.id.found_txt);
         submitted_items = (TextView) findViewById(R.id.reportFound_txt);
@@ -106,12 +114,27 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         //Testing
         textView = (TextView) findViewById(R.id.text);
+=======
+//        lostNearMe = (TextView) findViewById(R.id.lost_txt);
+//        foundNearMe = (TextView) findViewById(R.id.found_txt);
+//        submitted_items = (TextView) findViewById(R.id.reportFound_txt);
+//        newLost = (TextView) findViewById(R.id.reportLost_txt);
+//        donate_list = (TextView) findViewById(R.id.donate_list);
+//        donate = (TextView) findViewById(R.id.donate_txt);
+//        profile_page = (TextView) findViewById(R.id.profile_txt);
+//        welcome = (TextView) findViewById(R.id.welcome);
+//        logout_dash = (Button) findViewById(R.id.logout_button);
+//        slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+//        //Testing
+//        textView = (TextView) findViewById(R.id.text);
+>>>>>>> Stashed changes
 
         //welcome.setText("Welcome " + name);
 
         /*
         * tells the clickListener that an action will occur in this class
          */
+<<<<<<< Updated upstream
         lostNearMe.setOnClickListener(this);
         foundNearMe.setOnClickListener(this);
         submitted_items.setOnClickListener(this);
@@ -121,13 +144,24 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         //profile_page.setOnClickListener(this);
         //logout_dash.setOnClickListener(this);
         slidingLayout.setPanelSlideListener(onSlideListener());
+=======
+//        lostNearMe.setOnClickListener(this);
+//        foundNearMe.setOnClickListener(this);
+//        submitted_items.setOnClickListener(this);
+//        newLost.setOnClickListener(this);
+//        donate_list.setOnClickListener(this);
+//        donate.setOnClickListener(this);
+//        profile_page.setOnClickListener(this);
+//        logout_dash.setOnClickListener(this);
+//        slidingLayout.setPanelSlideListener(onSlideListener());
+>>>>>>> Stashed changes
 
 
         //connecting the user who just signed in with the dashboard that pops up
-        Intent intent = getIntent();
-        currentUserId = intent.getStringExtra("currentUserId");
-        name = intent.getStringExtra("name");
-        email = intent.getStringExtra("email");
+//        Intent intent = getIntent();
+//        currentUserId = intent.getStringExtra("currentUserId");
+//        name = intent.getStringExtra("name");
+//        email = intent.getStringExtra("email");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -154,7 +188,11 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         };
 
         //welcome.setText("Welcome " + email);
+<<<<<<< Updated upstream
         welcome.setText("Welcome ");
+=======
+        //welcome.setText("Welcome " );
+>>>>>>> Stashed changes
 
         // Create the scene root (VIEWS) for the scenes in this app
         mSceneRootTop = findViewById(R.id.scene_root_top);
@@ -166,6 +204,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
     }
 
+<<<<<<< Updated upstream
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -191,6 +230,9 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
         return super.onOptionsItemSelected(item);
     }
+=======
+
+>>>>>>> Stashed changes
 
     private SlidingUpPanelLayout.PanelSlideListener onSlideListener() {
         return new SlidingUpPanelLayout.PanelSlideListener() {
@@ -249,6 +291,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         LostItem.getLostItemsRef().removeEventListener(lostListen);
         FoundItem.getFoundItemsRef().removeEventListener(foundListen);
+<<<<<<< Updated upstream
 //        FoundItem.getFoundItemsRef().removeEventListener(foundListen);
         if (v.equals(newLost)) {
             Intent intent = new Intent(this, SubmitFormActivity.class);
@@ -281,6 +324,39 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             Intent intent = new Intent(this, MyListActivity.class);
             Dashboard.this.startActivity(intent);
         }
+=======
+//        if (v.equals(newLost)) {
+//            Intent intent = new Intent(this, SubmitFormActivity.class);
+//            Dashboard.this.startActivity(intent);
+//        } else if (v.equals(lostNearMe)) {
+//            Intent intent = new Intent(this, ItemListViewActivity.class);
+//            intent.putExtra("DashboardClikedListType", "LostItemListView");
+//            Dashboard.this.startActivity(intent);
+//        } else if (v.equals(foundNearMe)) {
+//            Intent intent = new Intent(this, ItemListViewActivity.class);
+//            intent.putExtra("DashboardClikedListType", "FoundItemListView");
+//            Dashboard.this.startActivity(intent);
+//        } else if (v.equals(profile_page)) {
+//            Intent intent = new Intent(this, ProfileActivity.class);
+//            Dashboard.this.startActivity(intent);
+//        }  else if (v.equals(donate)) {
+//            Intent intent = new Intent(this, DonateItemFormActivity.class);
+//            Dashboard.this.startActivity(intent);
+//        } else if (v.equals(logout_dash)) {
+//            signOut();
+//            Toast.makeText(getApplicationContext(),
+//                    "Successfully signed out.", Toast.LENGTH_SHORT).show();
+//
+//            Intent intent = new Intent(Dashboard.this, HomeActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            startActivity(intent);
+//            finish();
+//
+//        } else if (v.equals(submitted_items)) {
+//            Intent intent = new Intent(this, MyListActivity.class);
+//            Dashboard.this.startActivity(intent);
+//        }
+>>>>>>> Stashed changes
 
 
         /* else if (v.equals(donate_list)) {
@@ -294,13 +370,13 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         moveTaskToBack(true);
     }
 
-    /**
-     * Method that signs a user out.
-     */
-    private void signOut() {
-        mAuth.signOut();
-        Log.d(TAG, "signed out");
-    }
+//    /**
+//     * Method that signs a user out.
+//     */
+//    private void signOut() {
+//        mAuth.signOut();
+//        Log.d(TAG, "signed out");
+//    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -359,6 +435,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
                     Log.d(TAG, "NullPointerException is caught.");
                     e.printStackTrace();
                 }
+                assert (l != null);
                 LatLng lItem = new LatLng(l.getLatitude(), l.getLongitude());
                 mMap.addMarker(new MarkerOptions().position(lItem).title(l.description()));
                 Log.d(TAG, "added lost item");
