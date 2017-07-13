@@ -279,7 +279,7 @@ public class SubmitFormActivity extends AppCompatActivity
     private void submitNeedItem(long dateTime) {
         Item2 newItem = new DonationItem(inputName, inputDescription, dateTime, inputLongitude, inputLatitude, inputItemCategory, uid);
         DatabaseReference child = DonationItem.getDonationRef().child(uid + "--" + DonationItem.getDonationRef().push().getKey());
-        child.setValue(newItem);
+        newItem.writeToDatabase(child);
     }
 
     /**

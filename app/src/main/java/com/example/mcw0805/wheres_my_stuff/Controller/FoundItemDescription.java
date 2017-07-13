@@ -13,6 +13,7 @@ import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 
 import java.text.DateFormat;
+import java.util.Date;
 
 /**
  * Class that controls the description of the found items that the user
@@ -53,9 +54,10 @@ public class FoundItemDescription extends AppCompatActivity {
         location = (TextView) findViewById(R.id.item_location);
         location.setText("temp");
         type = (TextView) findViewById(R.id.item_type);
-        type.setText(ItemType.FOUND.toString());
+        type.setText(ItemType.NEED.toString());
         date = (TextView) findViewById(R.id.found_post_date);
         DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
-        date.setText(df.format(selected.getDate()));
+        Date dateobj = new Date(selected.getDate());
+        date.setText(df.format(dateobj));
     }
 }

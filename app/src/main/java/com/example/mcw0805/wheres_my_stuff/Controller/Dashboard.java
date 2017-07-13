@@ -427,11 +427,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             item.setUid(ds.getValue(Item2.class).getUid());
 
             LatLng lItem = new LatLng(item.getLatitude(), item.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(lItem).title(((DonationItem) item).getDescription())
+            mMap.addMarker(new MarkerOptions().position(lItem).title(((DonationItem) item).description())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
             Log.d(TAG, "added needed item");
         }
-
 
     }
 }

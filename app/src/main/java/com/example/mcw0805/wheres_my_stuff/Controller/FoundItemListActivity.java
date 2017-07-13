@@ -120,7 +120,15 @@ public class FoundItemListActivity extends AppCompatActivity {
         donateRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                getNeedItemUpdate(dataSnapshot);
+                //getNeedItemUpdate(dataSnapshot);
+                DonationItem.getObjectListFromDB(dataSnapshot, donationObjectList);
+                if (donationObjectList.size() > 0) {
+                    donationItemAdapter = new ArrayAdapter<>(getApplicationContext(),
+                            R.layout.item_row_layout, R.id.textView, donationObjectList);
+                    donationItemLv.setAdapter(donationItemAdapter);
+                } else {
+                    Log.w(TAG, "NO DATA");
+                }
             }
 
             @Override
@@ -144,6 +152,8 @@ public class FoundItemListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
     }
 
 

@@ -3,8 +3,11 @@ package com.example.mcw0805.wheres_my_stuff.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.List;
 
 /**
  * Created by jordan on 6/20/17.
@@ -98,4 +101,28 @@ public class DonationItem extends Item2 {
                 + this.getStatusString();
         return end;
     }
+
+
+    public static void getObjectListFromDB(DataSnapshot dataSnapshot, List<Item2> item2List) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            Item2 item = new DonationItem();
+            item.setName(ds.getValue(Item2.class).getName());
+            item.setDescription(ds.getValue(Item2.class).getDescription());
+            item.setIsOpen(ds.getValue(Item2.class).getIsOpen());
+            item.setCategory(ds.getValue(Item2.class).getCategory());
+            item.setLatitude(ds.getValue(Item2.class).getLatitude());
+            item.setLongitude(ds.getValue(Item2.class).getLongitude());
+            item.setDate(ds.getValue(Item2.class).getDate());
+            item.setUid(ds.getValue(Item2.class).getUid());
+
+            item2List.add(item);
+        }
+
+
+    }
+
+
+
+
+
 }
