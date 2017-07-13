@@ -42,21 +42,20 @@
                 <include layout="@layout/activity_dashboard_top"/>
             </FrameLayout>
 
-<<<<<<< Updated upstream
-            <fragment android:name="com.example.mcw0805.wheres_my_stuff.Controller.Dash_Bottom_Fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dash_bottom"
-                android:layout_marginTop="350dp"
-                tools:layout="@layout/activity_dashboard_bottom" />
-=======
+
+            <!--<fragment android:name="com.example.mcw0805.wheres_my_stuff.Controller.Dash_Bottom_Fragment"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/dash_bottom"-->
+                <!--android:layout_marginTop="350dp"-->
+                <!--tools:layout="@layout/activity_dashboard_bottom" />-->
+
             <!--<fragment android:name="com.example.mcw0805.wheres_my_stuff.Controller.Dash_Bottom_Fragment"-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:id="@+id/dash_bottom"-->
                 <!--android:layout_marginTop="300dp"-->
                 <!--tools:layout="@layout/activity_dashboard_bottom" />-->
->>>>>>> Stashed changes
 
         </RelativeLayout>
 
