@@ -29,6 +29,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -209,9 +210,9 @@ public class SubmitFormActivity extends AppCompatActivity
             Date dateTime = new Date(currentTime);
 
             if (inputItemType == ItemType.LOST) {
-                submitLostItem(dateTime).addOnSuccessListener(new OnSuccessListener() {
+                submitLostItem(dateTime).addOnCompleteListener(new OnCompleteListener() {
                     @Override
-                    public void onSuccess(Object o) {
+                    public void onComplete(@NonNull Task task) {
                         Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
                         Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
                         startActivity(submitPostIntent);
@@ -227,9 +228,9 @@ public class SubmitFormActivity extends AppCompatActivity
 //                            return new Integer(1);
 //                         }
 //                    }
-                submitFoundItem(dateTime).addOnSuccessListener(new OnSuccessListener() {
+                submitFoundItem(dateTime).addOnCompleteListener(new OnCompleteListener() {
                     @Override
-                    public void onSuccess(Object o) {
+                    public void onComplete(@NonNull Task task) {
                         Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
                         Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
                         startActivity(submitPostIntent);
