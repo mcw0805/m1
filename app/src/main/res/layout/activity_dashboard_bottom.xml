@@ -9,84 +9,86 @@
     <TextView
         android:id="@+id/profile_txt"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="30dp"
         android:fontFamily="sans-serif-smallcaps"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:text="Profile"
-        android:textSize="28sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/reportLost_txt"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="30dp"
         android:layout_below="@id/profile_txt"
         android:fontFamily="sans-serif-smallcaps"
-        android:gravity="center_vertical"
-        android:text="Submit New Item Form"
-        android:textSize="28sp"
+        android:gravity="center"
+        android:text="Submit New Item"
+        android:textSize="16sp"
         android:textStyle="bold" />
+
 
     <TextView
         android:id="@+id/lost_txt"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="30dp"
         android:layout_below="@id/reportLost_txt"
         android:fontFamily="sans-serif-smallcaps"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:text="Lost Items Near Me"
-        android:textSize="28sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/found_txt"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="30dp"
         android:layout_below="@id/lost_txt"
         android:fontFamily="sans-serif-smallcaps"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:text="Found Items Near Me"
-        android:textSize="28sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/donate_txt"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="30dp"
         android:layout_below="@id/found_txt"
         android:fontFamily="sans-serif-smallcaps"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:text="Donate Items"
-        android:textSize="28sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/donate_list"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="30dp"
         android:layout_below="@id/donate_txt"
         android:fontFamily="sans-serif-smallcaps"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:text="List of Donations"
-        android:textSize="28sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/reportFound_txt"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="30dp"
         android:layout_below="@id/donate_list"
         android:fontFamily="sans-serif-smallcaps"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:text="My Submitted Items"
-        android:textSize="28sp"
+        android:textSize="16sp"
         android:textStyle="bold" />
 
 
     <Button
         android:id="@+id/logout_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_centerInParent="true"
         android:layout_below="@id/reportFound_txt"
         android:text="Log Out" />
 
