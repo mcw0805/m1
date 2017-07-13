@@ -1,8 +1,11 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,7 +13,10 @@ import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 
+import java.io.IOException;
 import java.text.DateFormat;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Class that controls the description of the lost items that the user
@@ -34,6 +40,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
 
     private TextView rewardLabel;
 
+    private Geocoder geocoder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +48,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_description);
 
         Intent intent = getIntent();
-
+        geocoder = new Geocoder(this, Locale.getDefault());
 
         LostItem selectedLostItem = null;
         FoundItem selectedFoundItem = null;
@@ -68,44 +75,78 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         rewardLabel = (TextView) findViewById(R.id.item_rew);
 
 
+        if (selectedLostItem != null) {
+            name.setText("" + selectedLostItem.getName());
+            description.setText("" + selectedLostItem.getDescription());
+            category.setText(selectedLostItem.getCategory().toString());
+            location.setText("temp");
+            type.setText(selectedLostItem.getItemType().toString());
+            DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
+            date.setText(df.format(selectedLostItem.getDate()));
+            reward.setText("$" + selectedLostItem.getReward());
 
-    if (selectedLostItem != null) {
-        name.setText("" + selectedLostItem.getName());
-        description.setText("" + selectedLostItem.getDescription());
-        category.setText(selectedLostItem.getCategory().toString());
-        location.setText("temp");
-        type.setText(selectedLostItem.getItemType().toString());
-        DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
-        date.setText(df.format(selectedLostItem.getDate()));
-        reward.setText("$" + selectedLostItem.getReward());
+            if (selectedLostItem.getIsOpen()) {
+                status.setText("Open");
+            } else {
+                status.setText("Closed");
+            }
 
-        if (selectedLostItem.getIsOpen()) {
-            status.setText("Open");
-        } else {
-            status.setText("Closed");
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(selectedLostItem.getLatitude(), selectedLostItem.getLongitude(), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            location.setText(getLocationString(addresses.get(0)));
+
+        } else if (selectedFoundItem != null) {
+            name.setText("" + selectedFoundItem.getName());
+            description.setText("" + selectedFoundItem.getDescription());
+            category.setText("" + selectedFoundItem.getCategory().toString());
+            type.setText(selectedFoundItem.getItemType().toString());
+            DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
+            date.setText(df.format(selectedFoundItem.getDate()));
+            reward.setVisibility(View.INVISIBLE);
+            rewardLabel.setVisibility(View.INVISIBLE);
+
+            if (selectedFoundItem.getIsOpen()) {
+                status.setText("Open");
+            } else {
+                status.setText("Closed");
+            }
+
+            List<Address> addresses = null;
+            try {
+                addresses = geocoder.getFromLocation(selectedFoundItem.getLatitude(), selectedFoundItem.getLongitude(), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            location.setText(getLocationString(addresses.get(0)));
+
         }
 
-    } else if (selectedFoundItem != null) {
-        name.setText("" + selectedFoundItem.getName());
-        description.setText("" + selectedFoundItem.getDescription());
-        category.setText("" + selectedFoundItem.getCategory().toString());
-        location.setText("temp");
-        type.setText(selectedFoundItem.getItemType().toString());
-        DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
-        date.setText(df.format(selectedFoundItem.getDate()));
-        reward.setVisibility(View.INVISIBLE);
-        rewardLabel.setVisibility(View.INVISIBLE);
 
-        if (selectedFoundItem.getIsOpen()) {
-            status.setText("Open");
-        } else {
-            status.setText("Closed");
+    }
+
+    private String getLocationString(Address address) {
+        assert (address != null);
+        String loc = "";
+        if (address.getLocality() != null) {
+            loc += address.getLocality();
+        } else if (address.getAdminArea() != null) {
+            loc += address.getAdminArea();
         }
+
+        loc += "\nLatitude: " + address.getLatitude()
+                + "\nLongitude: " + address.getLongitude();
+
+        return loc;
 
     }
 
 
-    }
 
 //    private void setFields(Item item) {
 //

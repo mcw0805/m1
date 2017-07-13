@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by jordan on 6/20/17.
  */
-//6/22/17 Changed cateogry to string for testing purposes
+//6/22/17 Changed category to string for testing purposes
 public class FoundItem extends Item {
 
     private static int count;

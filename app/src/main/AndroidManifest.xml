@@ -50,8 +50,6 @@
             android:name=".Controller.DonateItemFormActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".Controller.AdminDashboard" />
-        <activity android:name=".Controller.PendingItemListActivity" />
-        <activity android:name=".Controller.ApprovedItemListActivity" />
         <activity android:name=".Controller.ActiveUserListActivity" />
         <activity android:name=".Controller.LockedUserListActivity" />
         <activity android:name=".Controller.BannedUserListActivity" />
@@ -70,10 +68,13 @@
             android:name=".Controller.MapsActivity"
             android:label="@string/title_activity_maps" />
 
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBWI3tP5zOd8Q_7uyPJzeHWtlehIKFW26k" />
+        <!--<meta-data-->
+            <!--android:name="com.google.android.maps.v2.API_KEY"-->
+            <!--android:value="AIzaSyBWI3tP5zOd8Q_7uyPJzeHWtlehIKFW26k" />-->
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBWI3tP5zOd8Q_7uyPJzeHWtlehIKFW26k" />
 
          <!--<uses-library -->
          <!--android:name="com.google.android.maps" -->

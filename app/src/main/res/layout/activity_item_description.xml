@@ -93,7 +93,6 @@
             android:id="@+id/item_curr_status"
             android:layout_width="150dp"
             android:layout_height="20dp"
-            android:layout_toRightOf="@+id/item_poster"
             android:gravity="left"
             android:text="" />
     </LinearLayout>
@@ -148,7 +147,7 @@
     <!--item location-->
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="20dp"
+        android:layout_height="70dp"
         android:orientation="horizontal">
 
         <TextView
@@ -162,11 +161,13 @@
 
         <TextView
             android:id="@+id/item_location"
-            android:layout_width="150dp"
-            android:layout_height="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/item_loc"
             android:gravity="left" />
     </LinearLayout>
+
+
 
 
     <!--item submission date-->

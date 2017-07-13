@@ -1,5 +1,6 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -21,6 +22,8 @@ import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
@@ -98,6 +101,7 @@ public class SubmitFormActivity extends AppCompatActivity
     private List<User> users;
     private static final int PLACE_PICKER_REQUEST = 1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,16 +124,7 @@ public class SubmitFormActivity extends AppCompatActivity
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
         postButton = (Button) findViewById(R.id.postButton_L);
         backButton = (Button) findViewById(R.id.backButton_L);
-//        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-//        try {
-//            startActivityForResult(builder.build(this), 1);
-//        } catch (Exception e) {
-//            Log.d("LocationPicker", e.getMessage());
-//        }
 
-//        ArrayAdapter<States> state_Adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, States.values());
-//        state_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        stateSpinner.setAdapter(state_Adapter);
 
         ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -138,13 +133,6 @@ public class SubmitFormActivity extends AppCompatActivity
         ArrayAdapter<ItemType> type_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemType.values());
         type_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(type_Adapter);
-
-        locationText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startPlacePicker();
-            }
-        });
 
         //reward field is visible only if LOST is selected from the typeSpinner
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -176,14 +164,7 @@ public class SubmitFormActivity extends AppCompatActivity
         //set listener for the buttons
         postButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
-//        locationButton.setOnClickListener((e) -> {
-//            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-//            try {
-//                startActivityForResult(builder.build(this), 1);
-//            } catch (Exception ex) {
-//                Log.d("LocationPicker", ex.getMessage());
-//            }
-//        });
+        locationText.setOnClickListener(this);
 
         //set Firebase authorization and get current user who is logged in
         mAuth = FirebaseAuth.getInstance();
@@ -239,6 +220,10 @@ public class SubmitFormActivity extends AppCompatActivity
         if (v == backButton) {
             startActivity(new Intent(this, Dashboard.class));
         }
+
+        if (v == locationText) {
+            startPlacePicker();
+        }
     }
 
     @Override
@@ -266,7 +251,6 @@ public class SubmitFormActivity extends AppCompatActivity
         DatabaseReference child = LostItem.getLostItemsRef().child(uid + "--" + LostItem.getLostItemsRef().push().getKey());
         //newItem.writeToDatabase(LostItem.getChildRef());
         newItem.writeToDatabase(child);
-
     }
 
     /**
@@ -284,8 +268,8 @@ public class SubmitFormActivity extends AppCompatActivity
         Log.d("SUBMIT", x.toString());        //delete this
 
         DatabaseReference child = FoundItem.getFoundItemsRef().child(uid + "--" + FoundItem.getFoundItemsRef().push().getKey());
-        //newItem.writeToDatabase(FoundItem.getChildRef());
         newItem.writeToDatabase(child);
+
     }
 
     /**
@@ -385,17 +369,22 @@ public class SubmitFormActivity extends AppCompatActivity
 
     private void startPlacePicker() {
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
         try {
-            startActivityForResult(builder.build(this), 1);
-        } catch (Exception ex) {
-            Log.d("LocationPicker", ex.getMessage());
+            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
         }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                place = PlacePicker.getPlace(data, this);
+                //Place place = PlacePicker.getPlace(data, this);
+                Place place = PlacePicker.getPlace(getApplicationContext(), data);
                 String toastMsg = String.format("Place: %s", place.getName());
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
                 locationText.setText(place.getAddress());

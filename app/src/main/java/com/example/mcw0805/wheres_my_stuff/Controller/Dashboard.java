@@ -154,14 +154,14 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         };
 
         //welcome.setText("Welcome " + email);
-        welcome.setText("Welcome " );
+        welcome.setText("Welcome ");
 
         // Create the scene root (VIEWS) for the scenes in this app
         mSceneRootTop = findViewById(R.id.scene_root_top);
         //mSceneRootBottom = findViewById(R.id.scene_root_bottom);
 
         // Create the scenes
-        top = Scene.getSceneForLayout((ViewGroup)mSceneRootTop, R.layout.activity_dashboard_top, this);
+        top = Scene.getSceneForLayout((ViewGroup) mSceneRootTop, R.layout.activity_dashboard_top, this);
         //bottom = Scene.getSceneForLayout((ViewGroup)mSceneRootBottom, R.layout.activity_dashboard_bottom, this);
 
     }
@@ -223,6 +223,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     public void onClick(View v) {
         LostItem.getLostItemsRef().removeEventListener(lostListen);
         FoundItem.getFoundItemsRef().removeEventListener(foundListen);
+//        FoundItem.getFoundItemsRef().removeEventListener(foundListen);
         if (v.equals(newLost)) {
             Intent intent = new Intent(this, SubmitFormActivity.class);
             Dashboard.this.startActivity(intent);
@@ -237,7 +238,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         } else if (v.equals(profile_page)) {
             Intent intent = new Intent(this, ProfileActivity.class);
             Dashboard.this.startActivity(intent);
-        }  else if (v.equals(donate)) {
+        } else if (v.equals(donate)) {
             Intent intent = new Intent(this, DonateItemFormActivity.class);
             Dashboard.this.startActivity(intent);
         } else if (v.equals(logout_dash)) {
@@ -276,7 +277,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     }
 
     @Override
-        public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //Pull data from database
         final DatabaseReference foundItems = FoundItem.getFoundItemsRef();
@@ -319,8 +320,10 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
             }
         });
+
+
         //adds all lost items
-        lostListen =lostItems.addChildEventListener(new ChildEventListener() {
+        lostListen = lostItems.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 LostItem l = null;
