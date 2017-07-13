@@ -24,6 +24,7 @@ public class Item implements Parcelable {
     protected String uid;
     protected boolean isOpen;
 
+    public Item() {}
 
     public Item(String name, String description, Date date, double longitude,
                 double latitude, ItemCategory category, String uid, boolean isOpen) {

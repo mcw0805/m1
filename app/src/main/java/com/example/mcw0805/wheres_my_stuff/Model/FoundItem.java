@@ -21,6 +21,10 @@ public class FoundItem extends Item {
     private static final DatabaseReference foundItemsRef = database.getReference("posts/found-items/");
     private static final DatabaseReference childRef = foundItemsRef.child(foundItemsRef.push().getKey());
 
+    public FoundItem() {
+        super();
+    }
+
     public FoundItem(String name, String description, Date date, double longitude,
                     double latitude, ItemCategory category, String uid) {
         super(name, description, date, longitude, latitude, category, uid);

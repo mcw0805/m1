@@ -31,6 +31,9 @@ public class LostItem extends Item {
     private static final DatabaseReference lostItemsRef = database.getReference("posts/lost-items/");
     private static final DatabaseReference childRef = lostItemsRef.child(lostItemsRef.push().getKey());
 
+    public LostItem() {
+        super();
+    }
 
     /**
      * Creates the LostItem object and increments the count.
