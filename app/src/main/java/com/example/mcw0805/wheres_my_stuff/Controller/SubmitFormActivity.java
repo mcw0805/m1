@@ -101,7 +101,7 @@ public class SubmitFormActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location_picker);
+        //setContentView(R.layout.activity_location_picker);
         setContentView(R.layout.item_submission_form);
 
         users = new ArrayList<>();
