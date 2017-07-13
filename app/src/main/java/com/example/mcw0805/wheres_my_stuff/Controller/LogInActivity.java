@@ -122,7 +122,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         if (v == login) {
             login();
-            Intent intent = new Intent(LogInActivity.this, Dashboard_Activity.class);
+            Intent intent = new Intent(LogInActivity.this, Dashboard.class);
             LogInActivity.this.startActivity(intent);
             overridePendingTransition(R.transition.fade_in, R.transition.fade_out);
 
