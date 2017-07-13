@@ -100,9 +100,7 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         newLost = (TextView) findViewById(R.id.reportLost_txt);
         donate_list = (TextView) findViewById(R.id.donate_list);
         donate = (TextView) findViewById(R.id.donate_txt);
-        profile_page = (TextView) findViewById(R.id.profile_txt);
         welcome = (TextView) findViewById(R.id.welcome);
-        logout_dash = (Button) findViewById(R.id.logout_button);
         slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         //Testing
         textView = (TextView) findViewById(R.id.text);
@@ -118,8 +116,8 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         newLost.setOnClickListener(this);
         donate_list.setOnClickListener(this);
         donate.setOnClickListener(this);
-        profile_page.setOnClickListener(this);
-        logout_dash.setOnClickListener(this);
+        //profile_page.setOnClickListener(this);
+        //logout_dash.setOnClickListener(this);
         slidingLayout.setPanelSlideListener(onSlideListener());
 
 
