@@ -271,7 +271,7 @@ public class SubmitFormActivity extends AppCompatActivity
 
         newItem = new LostItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory, uid, reward);
-        incrementSubmissionCount();
+//        incrementSubmissionCount();
         DatabaseReference child = LostItem.getLostItemsRef().child(uid + "--" + LostItem.getLostItemsRef().push().getKey());
         //newItem.writeToDatabase(LostItem.getChildRef());
         return newItem.writeToDatabase(child);
@@ -285,7 +285,7 @@ public class SubmitFormActivity extends AppCompatActivity
     private Task submitFoundItem(Date dateTime) {
         newItem = new FoundItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory, uid);
-        incrementSubmissionCount();
+//        incrementSubmissionCount();
 
 
         Boolean x = users.isEmpty();         //delete this
@@ -348,6 +348,7 @@ public class SubmitFormActivity extends AppCompatActivity
     private void incrementSubmissionCount() {
         final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid);
         final DatabaseReference itemCountRef = userRef.child("itemCount");
+        final Task t;
 
         userRef.addChildEventListener(new ChildEventListener() {
 

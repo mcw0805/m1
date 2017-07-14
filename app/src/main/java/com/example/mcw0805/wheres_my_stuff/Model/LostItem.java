@@ -11,6 +11,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.Date;
 import java.util.Map;
 
+import static com.google.android.gms.tasks.Tasks.whenAll;
+
 /**
  * Represents the model for the lost item.
  *
@@ -150,11 +152,9 @@ public class LostItem extends Item {
 
     @Override
     public Task writeToDatabase(DatabaseReference childRef) {
-        super.writeToDatabase(childRef);
-
+        Task t = super.writeToDatabase(childRef);
         DatabaseReference rewardChild = childRef.child("reward");
-        return rewardChild.setValue(getReward());
-
+        return whenAll(t, rewardChild.setValue(getReward()));
     }
 
     /**
