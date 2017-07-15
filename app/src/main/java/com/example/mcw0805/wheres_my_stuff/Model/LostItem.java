@@ -172,7 +172,7 @@ public class LostItem extends Item {
         DataSnapshot reward = dataSnap.child("reward");
         DataSnapshot uid = dataSnap.child("uid");
         DataSnapshot category = dataSnap.child("category");
-        DataSnapshot date = dataSnap.child("date-time");
+        DataSnapshot date = dataSnap.child("date");
 
         String itemName = (String) name.getValue();
         String itemDesc = (String) description.getValue();

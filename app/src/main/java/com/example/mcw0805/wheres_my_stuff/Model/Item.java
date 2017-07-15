@@ -167,7 +167,7 @@ public class Item implements Parcelable {
 
     public Task writeToDatabase(DatabaseReference childRef) {
         // add an array of tasks
-        DatabaseReference dateChild = childRef.child("date-time");
+        DatabaseReference dateChild = childRef.child("date");
         DatabaseReference nameChild = childRef.child("name");
         DatabaseReference descriptionChild = childRef.child("description");
         DatabaseReference latitudeChild = childRef.child("latitude");
