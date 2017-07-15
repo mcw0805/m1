@@ -21,13 +21,13 @@ public class FoundItem extends Item {
     private static final DatabaseReference foundItemsRef = database.getReference("posts/found-items/");
     private static final DatabaseReference childRef = foundItemsRef.child(foundItemsRef.push().getKey());
 
-    public FoundItem(String name, String description, Date date, double longitude,
+    public FoundItem(String name, String description, long date, double longitude,
                     double latitude, ItemCategory category, String uid) {
         super(name, description, date, longitude, latitude, category, uid);
         count++;
     }
 
-    public FoundItem(String name, String description, Date date, double longitude,
+    public FoundItem(String name, String description, long date, double longitude,
                  double latitude, ItemCategory category, String uid, boolean isOpen) {
         super(name, description, date, longitude, latitude, category, uid, isOpen);
     }
@@ -103,7 +103,7 @@ public class FoundItem extends Item {
         boolean itemOpenStat = (Boolean) isOpen.getValue();
         String itemOwner = (String) uid.getValue();
         ItemCategory itemCat = ItemCategory.valueOf((String) category.getValue());
-        Date dateTime = new Date((long) date.getValue());
+        long dateTime = (long) date.getValue();
 
         return new FoundItem(itemName, itemDesc, dateTime, itemLong, itemLat, itemCat,
                 itemOwner, itemOpenStat);

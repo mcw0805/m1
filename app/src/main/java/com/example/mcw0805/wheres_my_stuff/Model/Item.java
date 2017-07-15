@@ -23,7 +23,7 @@ import static com.google.android.gms.tasks.Tasks.whenAll;
 public class Item implements Parcelable {
     protected String name;
     protected String description;
-    protected Date date;
+    protected long date;
     protected double longitude;
     protected double latitude;
     protected ItemCategory category;
@@ -31,7 +31,7 @@ public class Item implements Parcelable {
     protected boolean isOpen;
 
 
-    public Item(String name, String description, Date date, double longitude,
+    public Item(String name, String description, long date, double longitude,
                 double latitude, ItemCategory category, String uid, boolean isOpen) {
         this.name = name;
         this.description = description;
@@ -43,7 +43,7 @@ public class Item implements Parcelable {
         this.isOpen = isOpen;
     }
 
-    public Item(String name, String description, Date date, double longitude,
+    public Item(String name, String description, long date, double longitude,
                 double latitude, ItemCategory category, String uid) {
         this.name = name;
         this.description = description;
@@ -58,7 +58,7 @@ public class Item implements Parcelable {
     protected Item(Parcel in) {
         name = in.readString();
         description = in.readString();
-        date = new Date(in.readLong());
+        date = in.readLong();
         latitude = in.readDouble();
         longitude = in.readDouble();
         category = ItemCategory.valueOf(in.readString().toString());
@@ -70,7 +70,7 @@ public class Item implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeLong(date.getTime());
+        dest.writeLong(date);
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
         dest.writeString(category.getType());
@@ -129,11 +129,11 @@ public class Item implements Parcelable {
         this.description = description;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -178,7 +178,7 @@ public class Item implements Parcelable {
 
 
         // task thing
-        return whenAll(dateChild.setValue(getDate().getTime()),
+        return whenAll(dateChild.setValue(date),
                 nameChild.setValue(getName()),
                 isOpenChild.setValue(getIsOpen()),
                 uidChild.setValue(getUid()),

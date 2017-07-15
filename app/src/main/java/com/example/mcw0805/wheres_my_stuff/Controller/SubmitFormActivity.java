@@ -210,7 +210,7 @@ public class SubmitFormActivity extends AppCompatActivity
             Date dateTime = new Date(currentTime);
 
             if (inputItemType == ItemType.LOST) {
-                submitLostItem(dateTime).addOnCompleteListener(new OnCompleteListener() {
+                submitLostItem(currentTime).addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
@@ -228,7 +228,7 @@ public class SubmitFormActivity extends AppCompatActivity
 //                            return new Integer(1);
 //                         }
 //                    }
-                submitFoundItem(dateTime).addOnCompleteListener(new OnCompleteListener() {
+                submitFoundItem(currentTime).addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
@@ -265,7 +265,7 @@ public class SubmitFormActivity extends AppCompatActivity
      *
      * @param dateTime current date-time
      */
-    private Task submitLostItem(Date dateTime) {
+    private Task submitLostItem(long dateTime) {
 
         int reward = Integer.parseInt(rewardField.getText().toString());
 
@@ -282,7 +282,7 @@ public class SubmitFormActivity extends AppCompatActivity
      *
      * @param dateTime current date-time
      */
-    private Task submitFoundItem(Date dateTime) {
+    private Task submitFoundItem(long dateTime) {
         newItem = new FoundItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory, uid);
 //        incrementSubmissionCount();

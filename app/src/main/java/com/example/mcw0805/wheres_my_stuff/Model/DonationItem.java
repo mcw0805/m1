@@ -9,7 +9,7 @@ import java.util.Date;
 public class DonationItem extends Item {
     private static int count;
 
-    public DonationItem(String name, String description, Date date, double longitude,
+    public DonationItem(String name, String description, long date, double longitude,
                      double latitude, ItemCategory category, String uid) {
         super(name, description, date, longitude, latitude, category, uid);
         count++;

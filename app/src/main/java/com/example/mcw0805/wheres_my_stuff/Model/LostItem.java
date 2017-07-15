@@ -38,7 +38,7 @@ public class LostItem extends Item {
     /**
      * Creates the LostItem object and increments the count.
      */
-    public LostItem(String name, String description, Date date, double longitude,
+    public LostItem(String name, String description, long date, double longitude,
                     double latitude, ItemCategory category, String uid, int reward) {
         super(name, description, date, longitude, latitude, category, uid);
         this.reward = reward;
@@ -48,7 +48,7 @@ public class LostItem extends Item {
     /**
      * Creates the LostItem object. Used for building objects from the database
      */
-    public LostItem(String name, String description, Date date, double longitude,
+    public LostItem(String name, String description, long date, double longitude,
                     double latitude, ItemCategory category, String uid, int reward, boolean isOpen) {
         super(name, description, date, longitude, latitude, category, uid, isOpen);
         this.reward = reward;
@@ -184,7 +184,7 @@ public class LostItem extends Item {
         int itemReward = Integer.parseInt(String.valueOf(reward.getValue()));
         String itemOwner = (String) uid.getValue();
         ItemCategory itemCat = ItemCategory.valueOf((String) category.getValue());
-        Date dateTime = new Date((long) date.getValue());
+        long dateTime = (long) date.getValue();
 
         return new LostItem(itemName, itemDesc, dateTime, itemLong, itemLat, itemCat,
                 itemOwner, itemReward, itemOpenStat);
