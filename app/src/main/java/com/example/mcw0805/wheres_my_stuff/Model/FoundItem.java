@@ -14,7 +14,6 @@ import java.util.Date;
 //6/22/17 Changed category to string for testing purposes
 public class FoundItem extends Item {
 
-    private static int count;
     private static final ItemType type = ItemType.FOUND;
 
     private static final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -29,13 +28,12 @@ public class FoundItem extends Item {
     }
 
     public FoundItem(String name, String description, long date, double longitude,
-                    double latitude, ItemCategory category, String uid) {
+                     double latitude, ItemCategory category, String uid) {
         super(name, description, date, longitude, latitude, category, uid);
-        count++;
     }
 
     public FoundItem(String name, String description, long date, double longitude,
-                 double latitude, ItemCategory category, String uid, boolean isOpen) {
+                     double latitude, ItemCategory category, String uid, boolean isOpen) {
         super(name, description, date, longitude, latitude, category, uid, isOpen);
     }
 
@@ -60,10 +58,6 @@ public class FoundItem extends Item {
         }
     };
 
-    public int getCount() {
-        return count;
-    }
-
     public ItemType getItemType() {
         return type;
     }
@@ -79,7 +73,7 @@ public class FoundItem extends Item {
     @Override
     public String toString() {
 
-        String display =  "(" + type.toString().toUpperCase() + ") "
+        String display = "(" + type.toString().toUpperCase() + ") "
                 + getName() + "- Status: ";
 
         display += super.getStatusString();
@@ -118,42 +112,15 @@ public class FoundItem extends Item {
 
     }
 
-    private static double convertDouble(Object longValue) {
-        double result; // return value
-
-        if (longValue instanceof Long) { // Necessary due to the way Firebase stores data
-            result = ((Long) longValue).doubleValue();
-        } else if (longValue instanceof Double) {
-            result = (double) longValue;
-        } else {
-            throw new IllegalArgumentException(
-                    "Object passed in must be either a double or a long");
-        }
-
-        return result;
-    }
-
-    private static int convertInteger(Object longValue) {
-        int result; // return value
-
-        if (longValue instanceof Long) { // Necessary due to the way Firebase stores data
-            result = ((Long) longValue).intValue();
-        } else if (longValue instanceof Integer) {
-            result = (int) longValue;
-        } else {
-            throw new IllegalArgumentException(
-                    "Object passed in must be either a integer or a long");
-        }
-
-        return result;
-    }
     /**
-     * Creates a string description of the object so that the google maps pin can put all the information down
+     * Creates a string description of the object so that the google maps pin can put
+     * all the information down.
+     *
      * @return String description
      */
     public String description() {
         String end = "Found Item: " + this.name + " \n Category: "
-                + this.category + "\n Description: " + this.description  + "\n Status: "
+                + this.category + "\n Description: " + this.description + "\n Status: "
                 + this.getStatusString();
         return end;
     }

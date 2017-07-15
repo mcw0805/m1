@@ -32,22 +32,6 @@
                 android:layout_height="match_parent"
                 />
 
-            <FrameLayout
-                android:id="@+id/scene_root_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp">
-                <include layout="@layout/activity_dashboard_top"/>
-            </FrameLayout>
-
-            <fragment android:name="com.example.mcw0805.wheres_my_stuff.Controller.Dash_Bottom_Fragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/dash_bottom"
-                android:layout_marginTop="350dp"
-                tools:layout="@layout/activity_dashboard_bottom" />
 
         </RelativeLayout>
 
@@ -58,13 +42,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="#ffffff">
-            <include layout="@layout/activity_dashboard_tabs"></include>
 
-                <!--<fragment-->
-                    <!--android:id="@+id/dash_tabs"-->
-                    <!--android:name="com.example.mcw0805.wheres_my_stuff.Controller.dashboard_tabs"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content" />-->
+            <fragment android:name="com.example.mcw0805.wheres_my_stuff.Controller.DashBottomFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dash_bottom"
+                android:layout_marginTop="30dp"
+                tools:layout="@layout/activity_dashboard_bottom" />
+
+
         </LinearLayout>
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </RelativeLayout>

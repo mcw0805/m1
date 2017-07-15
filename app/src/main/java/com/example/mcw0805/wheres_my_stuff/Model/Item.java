@@ -3,14 +3,18 @@ package com.example.mcw0805.wheres_my_stuff.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import static com.google.android.gms.tasks.Tasks.whenAll;
 
@@ -191,6 +195,77 @@ public class Item implements Parcelable {
                 latitudeChild.setValue(getLatitude()),
                 longitudeChild.setValue(getLongitude())
                 );
+    }
+
+    public static void getObjectListFromDB(DataSnapshot dataSnapshot, List<Item> itemList, ItemType type) {
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            Log.i("KEY", ds.getKey());
+            Item item = ItemFactory.makeItem(type);
+            item.setName(ds.getValue(Item.class).getName());
+            item.setDescription(ds.getValue(Item.class).getDescription());
+            item.setIsOpen(ds.getValue(Item.class).getIsOpen());
+            item.setCategory(ds.getValue(Item.class).getCategory());
+            item.setLatitude(ds.getValue(Item.class).getLatitude());
+            item.setLongitude(ds.getValue(Item.class).getLongitude());
+            item.setDate(ds.getValue(Item.class).getDate());
+            item.setUid(ds.getValue(Item.class).getUid());
+
+            if (item instanceof LostItem) {
+                ((LostItem) item).setReward(ds.getValue(LostItem.class).getReward());
+            }
+
+            itemList.add(item);
+        }
+
+    }
+
+    public static void getUserObjectList(DataSnapshot dataSnapshot, List<Item> itemList,
+                                        ItemType type, String uid) {
+
+        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+            Item item = ItemFactory.makeItem(type);
+
+            String pushKey = ds.getKey().toString();
+            String[] parts = pushKey.split("---");
+            String itemUser = parts[0];
+
+            if (itemUser.equals(uid)) {
+                item.setName(ds.getValue(Item.class).getName());
+                item.setDescription(ds.getValue(Item.class).getDescription());
+                item.setIsOpen(ds.getValue(Item.class).getIsOpen());
+                item.setCategory(ds.getValue(Item.class).getCategory());
+                item.setLatitude(ds.getValue(Item.class).getLatitude());
+                item.setLongitude(ds.getValue(Item.class).getLongitude());
+                item.setDate(ds.getValue(Item.class).getDate());
+                item.setUid(ds.getValue(Item.class).getUid());
+
+                if (item instanceof LostItem) {
+                    ((LostItem) item).setReward(ds.getValue(LostItem.class).getReward());
+                }
+
+                itemList.add(item);
+            }
+
+
+        }
+
+
+
+    }
+
+    public static class ItemFactory {
+        public static Item makeItem(ItemType type) {
+            switch (type) {
+                case LOST:
+                    return new LostItem();
+                case FOUND:
+                    return new FoundItem();
+                case NEED:
+                    return new NeededItem();
+                default:
+                    throw new IllegalArgumentException("Error in type");
+            }
+        }
     }
 
 

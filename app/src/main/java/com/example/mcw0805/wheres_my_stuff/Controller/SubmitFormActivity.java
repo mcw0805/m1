@@ -77,7 +77,6 @@ public class SubmitFormActivity extends AppCompatActivity
     private Button locationButton;
     private EditText locationText;
     private Place place;
-    //private Spinner stateSpinner;
 
 
     /*
@@ -97,7 +96,6 @@ public class SubmitFormActivity extends AppCompatActivity
     private String inputName;
     private String inputDescription;
     private String uid;
-    private String name;
     private double inputLatitude;
     private double inputLongitude;
     private ItemCategory inputItemCategory;
@@ -114,18 +112,17 @@ public class SubmitFormActivity extends AppCompatActivity
         setContentView(R.layout.item_submission_form);
 
         users = new ArrayList<>();
+
         //instantiate widgets
         titleField = (EditText) findViewById(R.id.title_L);
         descriptField = (EditText) findViewById(R.id.description_L);
-        locationText = (EditText) findViewById(R.id.address); // adrdess box
-//        locationButton = (Button) findViewById(R.id.placeButton);
+        locationText = (EditText) findViewById(R.id.address); // address box
         latField = (EditText) findViewById(R.id.latitude_L);
         longField = (EditText) findViewById(R.id.longitude_L);
         rewardField = (EditText) findViewById(R.id.reward_L);
         dollar = (TextView) findViewById(R.id.dollar_L);
         category = (TextView) findViewById(R.id.category_L);
         categorySpinner = (Spinner) findViewById(R.id.category_Lspinner);
-        //stateSpinner = (Spinner) findViewById(R.id.state_Lspinner);
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
         postButton = (Button) findViewById(R.id.postButton_L);
         backButton = (Button) findViewById(R.id.backButton_L);
@@ -268,12 +265,13 @@ public class SubmitFormActivity extends AppCompatActivity
     private Task submitLostItem(long dateTime) {
 
         int reward = Integer.parseInt(rewardField.getText().toString());
-
+        String pushKey = LostItem.getLostItemsRef().push().getKey();
         newItem = new LostItem(inputName, inputDescription, dateTime,
-                inputLongitude, inputLatitude, inputItemCategory, uid, reward);
+                inputLongitude, inputLatitude, inputItemCategory,
+                pushKey, reward);
 //        incrementSubmissionCount();
-        DatabaseReference child = LostItem.getLostItemsRef().child(uid + "--" + LostItem.getLostItemsRef().push().getKey());
-        //newItem.writeToDatabase(LostItem.getChildRef());
+        DatabaseReference child = LostItem.getLostItemsRef().child(uid + "--" + pushKey);
+
         return newItem.writeToDatabase(child);
     }
 
@@ -283,15 +281,13 @@ public class SubmitFormActivity extends AppCompatActivity
      * @param dateTime current date-time
      */
     private Task submitFoundItem(long dateTime) {
+        String pushKey = FoundItem.getFoundItemsRef().push().getKey();
         newItem = new FoundItem(inputName, inputDescription, dateTime,
-                inputLongitude, inputLatitude, inputItemCategory, uid);
+                inputLongitude, inputLatitude, inputItemCategory, pushKey);
 //        incrementSubmissionCount();
 
 
-        Boolean x = users.isEmpty();         //delete this
-        Log.d("SUBMIT", x.toString());        //delete this
-
-        DatabaseReference child = FoundItem.getFoundItemsRef().child(uid + "--" + FoundItem.getFoundItemsRef().push().getKey());
+        DatabaseReference child = FoundItem.getFoundItemsRef().child(uid + "--" + pushKey);
         return newItem.writeToDatabase(child);
 
     }
@@ -408,7 +404,6 @@ public class SubmitFormActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
-                //Place place = PlacePicker.getPlace(data, this);
                 Place place = PlacePicker.getPlace(getApplicationContext(), data);
                 String toastMsg = String.format("Place: %s", place.getName());
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();

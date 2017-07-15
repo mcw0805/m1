@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
-import android.support.transition.Scene;
-import android.support.v4.widget.ViewDragHelper;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,13 +14,13 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
+import com.example.mcw0805.wheres_my_stuff.Model.Item;
+import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
@@ -28,6 +28,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,49 +39,29 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.example.mcw0805.wheres_my_stuff.R;
-/* Created by Chianne Connelly
-* version 1.0
+
+/**
+ * The main dashboard of the application when a user logs in.
+ * Displays the map and the panel to navigate to other pages.
  */
-
-public class Dashboard extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
+public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
-    /*
-    * textviews/button for the various textfields/button on the dashboard
-     */
-    private TextView welcome;
-    private TextView lostNearMe;
-    private TextView foundNearMe;
-    private TextView submitted_items;
-    private TextView newLost;
-    private TextView donate_list;
-    private TextView donate;
-    private TextView profile_page;
-    private Button logout_dash;
-    private SlidingUpPanelLayout slidingLayout;
-    //For testing purposes
-    private TextView textView;
 
-    /*
-    * variables that will belong to each particular object
-     */
-    private String currentUserId;
-    private String name;
-    private String email;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
     private ChildEventListener lostListen;
     private ChildEventListener foundListen;
-    //View stuff
-    Scene bottom;
-    Scene top;
-    View mSceneRootTop;
-    View mSceneRootBottom;
-    ViewDragHelper mDragHelper;
-    //animation stuff
-    //Fade mFade;
-    //LayoutInflater inflater;
+//    //View stuff
+//    Scene bottom;
+//    Scene top;
+//    View mSceneRootTop;
+//    View mSceneRootBottom;
+//    ViewDragHelper mDragHelper;
+//    //animation stuff
+//    //Fade mFade;
+//    //LayoutInflater inflater;
 
     private final String TAG = "Dashboard";
 
@@ -88,42 +69,13 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_master);
-        /*
-        * sets all textviews in the view to the instances in the controller
-         */
 
-        lostNearMe = (TextView) findViewById(R.id.lost_txt);
-        foundNearMe = (TextView) findViewById(R.id.found_txt);
-        submitted_items = (TextView) findViewById(R.id.reportFound_txt);
-        newLost = (TextView) findViewById(R.id.reportLost_txt);
-        donate_list = (TextView) findViewById(R.id.donate_list);
-        donate = (TextView) findViewById(R.id.donate_txt);
-        welcome = (TextView) findViewById(R.id.welcome);
-        slidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        //Testing
-        textView = (TextView) findViewById(R.id.text);
-
-        //welcome.setText("Welcome " + name);
-
-        /*
-        * tells the clickListener that an action will occur in this class
-         */
-        lostNearMe.setOnClickListener(this);
-        foundNearMe.setOnClickListener(this);
-        submitted_items.setOnClickListener(this);
-        newLost.setOnClickListener(this);
-        donate_list.setOnClickListener(this);
-        donate.setOnClickListener(this);
-        //profile_page.setOnClickListener(this);
-        //logout_dash.setOnClickListener(this);
-        slidingLayout.setPanelSlideListener(onSlideListener());
-
-
-        //connecting the user who just signed in with the dashboard that pops up
-        Intent intent = getIntent();
-        currentUserId = intent.getStringExtra("currentUserId");
-        name = intent.getStringExtra("name");
-        email = intent.getStringExtra("email");
+        //embeds the fragment onto this activity
+        FragmentManager mgr = getSupportFragmentManager();
+        FragmentTransaction transaction = mgr.beginTransaction();
+        DashBottomFragment frag = new DashBottomFragment();
+        transaction.add(R.id.dash_bottom, frag);
+        transaction.commit();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -149,15 +101,13 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             }
         };
 
-        //welcome.setText("Welcome " + email);
-        welcome.setText("Welcome ");
 
         // Create the scene root (VIEWS) for the scenes in this app
-        mSceneRootTop = findViewById(R.id.scene_root_top);
+        //mSceneRootTop = findViewById(R.id.scene_root_top);
         //mSceneRootBottom = findViewById(R.id.scene_root_bottom);
 
         // Create the scenes
-        top = Scene.getSceneForLayout((ViewGroup) mSceneRootTop, R.layout.activity_dashboard_top, this);
+        //top = Scene.getSceneForLayout((ViewGroup) mSceneRootTop, R.layout.activity_dashboard_top, this);
         //bottom = Scene.getSceneForLayout((ViewGroup)mSceneRootBottom, R.layout.activity_dashboard_bottom, this);
 
     }
@@ -181,8 +131,14 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
             Intent intent = new Intent(this, ProfileActivity.class);
             Dashboard.this.startActivity(intent);
         } else if (id == R.id.action_log_out) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            Dashboard.this.startActivity(intent);
+            signOut();
+            Toast.makeText(getApplicationContext(),
+                    "Successfully signed out.", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(Dashboard.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -241,49 +197,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     * navigates the user to the next page depending on which item they select
      */
 
-    @Override
-    public void onClick(View v) {
-        LostItem.getLostItemsRef().removeEventListener(lostListen);
-        FoundItem.getFoundItemsRef().removeEventListener(foundListen);
-//        FoundItem.getFoundItemsRef().removeEventListener(foundListen);
-        if (v.equals(newLost)) {
-            Intent intent = new Intent(this, SubmitFormActivity.class);
-            Dashboard.this.startActivity(intent);
-        } else if (v.equals(lostNearMe)) {
-            Intent intent = new Intent(this, ItemListViewActivity.class);
-            intent.putExtra("DashboardClikedListType", "LostItemListView");
-            Dashboard.this.startActivity(intent);
-        } else if (v.equals(foundNearMe)) {
-            Intent intent = new Intent(this, ItemListViewActivity.class);
-            intent.putExtra("DashboardClikedListType", "FoundItemListView");
-            Dashboard.this.startActivity(intent);
-        } else if (v.equals(profile_page)) {
-            Intent intent = new Intent(this, ProfileActivity.class);
-            Dashboard.this.startActivity(intent);
-        } else if (v.equals(donate)) {
-            Intent intent = new Intent(this, DonateItemFormActivity.class);
-            Dashboard.this.startActivity(intent);
-        } else if (v.equals(logout_dash)) {
-            signOut();
-            Toast.makeText(getApplicationContext(),
-                    "Successfully signed out.", Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(Dashboard.this, HomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-
-        } else if (v.equals(submitted_items)) {
-            Intent intent = new Intent(this, MyListActivity.class);
-            Dashboard.this.startActivity(intent);
-        }
-
-
-        /* else if (v.equals(donate_list)) {
-            Intent intent = new Intent(this, someActivity.class;
-            Dashboard.this.startActivity(intent);
-         */
-    }
 
     @Override
     public void onBackPressed() {
@@ -301,85 +214,113 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
         //Pull data from database
         final DatabaseReference foundItems = FoundItem.getFoundItemsRef();
-        DatabaseReference lostItems = LostItem.getLostItemsRef();
+
+        foundItems.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                placeItemOnMap(dataSnapshot, ItemType.FOUND);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        final DatabaseReference lostItems = LostItem.getLostItemsRef();
+        lostItems.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                placeItemOnMap(dataSnapshot, ItemType.LOST);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
         //adds all found items
-        foundListen = foundItems.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                FoundItem f = null;
-                try {
-                    f = FoundItem.buildFoundItemObject(dataSnapshot);
-                } catch (NullPointerException e) {
-                    Log.d(TAG, "NullPointerException is caught.");
-                    e.printStackTrace();
-                }
-                LatLng lItem = new LatLng(f.getLatitude(), f.getLongitude());
-                String display = "Found Item:";
-                mMap.addMarker(new MarkerOptions().position(lItem).title(f.description())
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                Log.d(TAG, "added found item");
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        //adds all lost items
-        lostListen = lostItems.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                LostItem l = null;
-                try {
-                    l = LostItem.buildLostItemObject(dataSnapshot);
-                } catch (NullPointerException e) {
-                    Log.d(TAG, "NullPointerException is caught.");
-                    e.printStackTrace();
-                }
-                LatLng lItem = new LatLng(l.getLatitude(), l.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(lItem).title(l.description()));
-                Log.d(TAG, "added lost item");
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//        foundListen = foundItems.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                FoundItem f = null;
+//                try {
+//                    f = FoundItem.buildFoundItemObject(dataSnapshot);
+//                } catch (NullPointerException e) {
+//                    Log.d(TAG, "NullPointerException is caught.");
+//                    e.printStackTrace();
+//                }
+//                LatLng lItem = new LatLng(f.getLatitude(), f.getLongitude());
+//                String display = "Found Item:";
+//                mMap.addMarker(new MarkerOptions().position(lItem).title(f.description())
+//                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+//                Log.d(TAG, "added found item");
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//
+//        //adds all lost items
+//        lostListen = lostItems.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                LostItem l = null;
+//                try {
+//                    l = LostItem.buildLostItemObject(dataSnapshot);
+//                } catch (NullPointerException e) {
+//                    Log.d(TAG, "NullPointerException is caught.");
+//                    e.printStackTrace();
+//                }
+//                LatLng lItem = new LatLng(l.getLatitude(), l.getLongitude());
+//                mMap.addMarker(new MarkerOptions().position(lItem).title(l.description()));
+//                Log.d(TAG, "added lost item");
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
         //formats the info window when clicking a pin
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
@@ -416,5 +357,57 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
         mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
         //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gt, 17));
+    }
+
+    /**
+     * Reads the database and places the markers on the proper location on the map.
+     *
+     * @param snapshot of the items in the database
+     * @param type type of the item
+     */
+    private void placeItemOnMap(DataSnapshot snapshot, ItemType type) {
+        for (DataSnapshot ds : snapshot.getChildren()) {
+            Item item = Item.ItemFactory.makeItem(type);
+            item.setName(ds.getValue(Item.class).getName());
+            item.setDescription(ds.getValue(Item.class).getDescription());
+            item.setIsOpen(ds.getValue(Item.class).getIsOpen());
+            item.setCategory(ds.getValue(Item.class).getCategory());
+            item.setLatitude(ds.getValue(Item.class).getLatitude());
+            item.setLongitude(ds.getValue(Item.class).getLongitude());
+            item.setDate(ds.getValue(Item.class).getDate());
+            item.setUid(ds.getValue(Item.class).getUid());
+
+            LatLng latLng = new LatLng(item.getLatitude(), item.getLongitude());
+            mMap.addMarker(getMarkerOptions(latLng, item, type));
+            Log.d(TAG, "added item");
+        }
+
+    }
+
+    /**
+     * Creates a marker at a particular location and sets the colors based on the item type.
+     *
+     * @param latLng latitude/longitude
+     * @param item item that is being placed on the map
+     * @param type type of the item
+     * @return
+     */
+    private MarkerOptions getMarkerOptions(LatLng latLng, Item item, ItemType type) {
+        switch (type) {
+            case LOST:
+                return new MarkerOptions().position(latLng).title(((LostItem) item).description());
+            case FOUND:
+                return new MarkerOptions().position(latLng).title(((FoundItem) item).description())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            case NEED:
+                return new MarkerOptions().position(latLng).title(((FoundItem) item).description())
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+            default:
+                return new MarkerOptions().position(new LatLng(0, 0)).title("UNKNOWN")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+
+        }
+
+
     }
 }
