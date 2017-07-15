@@ -36,6 +36,13 @@ public class LostItem extends Item {
 
 
     /**
+     * Default no-arg constructor.
+     */
+    public LostItem() {
+        super();
+    }
+
+    /**
      * Creates the LostItem object and increments the count.
      */
     public LostItem(String name, String description, long date, double longitude,
@@ -143,9 +150,10 @@ public class LostItem extends Item {
     @Override
     public String toString() {
 
-        String display =  "(LOST) " + getName() + "-- Status: ";
+        String display =  "(" + type.toString().toUpperCase() + ") "
+                + getName() + "- Status: ";
 
-        display += isOpen ? "OPEN" : "CLOSED" ;
+        display += super.getStatusString();
 
         return display;
     }
@@ -202,53 +210,5 @@ public class LostItem extends Item {
         return end;
     }
 
-//
-//    public static LostItem buildLostItem(DataSnapshot dataSnap) {
-//        Map<String, Object> map = (Map<String, Object>) dataSnap.getValue();
-//
-//        String itemName = (String) map.get("name");
-//        String itemDesc = (String) map.get("description");
-//        double itemLat = (Double) Double.parseDouble(map.get("latitude").toString());
-//        double itemLong = (Double) Double.parseDouble(map.get("longitude").toString());
-//        boolean itemOpenStat = (Boolean) Boolean.parseBoolean(map.get("isOpen").toString());
-//        int itemReward = (Integer) Integer.parseInt(map.get("reward").toString());
-//        String itemOwner = (String) map.get("uid");
-//        ItemCategory itemCat = ItemCategory.valueOf((String) map.get("category").toString());
-//        Date dateTime = new Date((Long) Long.parseLong(map.get("date-time").toString()));
-//
-//        return new LostItem(itemName, itemDesc, dateTime, itemLong, itemLat, itemCat,
-//                itemOwner, itemReward, itemOpenStat);
-//
-//    }
-//
-//    private static double convertDouble(Object longValue) {
-//        double result; // return value
-//
-//        if (longValue instanceof Long) { // Necessary due to the way Firebase stores data
-//            result = ((Long) longValue).doubleValue();
-//        } else if (longValue instanceof Double) {
-//            result = (double) longValue;
-//        } else {
-//            throw new IllegalArgumentException(
-//                    "Object passed in must be either a double or a long");
-//        }
-//
-//        return result;
-//    }
-//
-//    private static int convertInteger(Object longValue) {
-//        int result; // return value
-//
-//        if (longValue instanceof Long) { // Necessary due to the way Firebase stores data
-//            result = ((Long) longValue).intValue();
-//        } else if (longValue instanceof Integer) {
-//            result = (int) longValue;
-//        } else {
-//            throw new IllegalArgumentException(
-//                    "Object passed in must be either a integer or a long");
-//        }
-//
-//        return result;
-//    }
 
 }

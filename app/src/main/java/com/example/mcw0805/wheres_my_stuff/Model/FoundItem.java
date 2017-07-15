@@ -21,6 +21,13 @@ public class FoundItem extends Item {
     private static final DatabaseReference foundItemsRef = database.getReference("posts/found-items/");
     private static final DatabaseReference childRef = foundItemsRef.child(foundItemsRef.push().getKey());
 
+    /**
+     * Default no-arg constructor.
+     */
+    public FoundItem() {
+        super();
+    }
+
     public FoundItem(String name, String description, long date, double longitude,
                     double latitude, ItemCategory category, String uid) {
         super(name, description, date, longitude, latitude, category, uid);
@@ -72,9 +79,10 @@ public class FoundItem extends Item {
     @Override
     public String toString() {
 
-        String display =  "(FOUND) " + getName() + "-- Status: ";
+        String display =  "(" + type.toString().toUpperCase() + ") "
+                + getName() + "- Status: ";
 
-        display += isOpen ? "OPEN" : "CLOSED" ;
+        display += super.getStatusString();
 
         return display;
     }

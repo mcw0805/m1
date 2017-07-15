@@ -30,6 +30,10 @@ public class Item implements Parcelable {
     protected String uid;
     protected boolean isOpen;
 
+    /**
+     * Default no-arg constructor.
+     */
+    public Item() {}
 
     public Item(String name, String description, long date, double longitude,
                 double latitude, ItemCategory category, String uid, boolean isOpen) {
@@ -162,7 +166,7 @@ public class Item implements Parcelable {
     }
 
     public String getStatusString() {
-        return isOpen ? "open" : "closed";
+        return isOpen ? "OPEN" : "RESOLVED";
     }
 
     public Task writeToDatabase(DatabaseReference childRef) {
