@@ -262,6 +262,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                     Intent intent = new Intent(LogInActivity.this, Dashboard.class);
                                                     LogInActivity.this.startActivity(intent);
                                                     overridePendingTransition(R.transition.fade_in, R.transition.fade_out);
+                                                    finish();
                                                     return;
                                                 }
                                             }
@@ -270,6 +271,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                     //otherwise we have an admin and can proceed to AdminDashboard
                                     Intent intent = new Intent(LogInActivity.this, AdminDashboard.class);
                                     LogInActivity.this.startActivity(intent);
+                                    finish();
 
                                 }
 

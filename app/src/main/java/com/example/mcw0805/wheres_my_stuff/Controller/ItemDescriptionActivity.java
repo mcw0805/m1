@@ -42,6 +42,8 @@ public class ItemDescriptionActivity extends AppCompatActivity {
 
     private Geocoder geocoder;
 
+    private String itemOwnerUid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,8 @@ public class ItemDescriptionActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         geocoder = new Geocoder(this, Locale.getDefault());
+
+        itemOwnerUid = intent.getStringExtra("itemOwnerUid");
 
         LostItem selectedLostItem = null;
         FoundItem selectedFoundItem = null;
@@ -145,6 +149,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         return loc;
 
     }
+
 
 
 

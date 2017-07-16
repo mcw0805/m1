@@ -1,6 +1,5 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -33,15 +32,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-//import com.example.mcw0805.wheres_my_stuff.Model.States;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -65,8 +61,6 @@ public class SubmitFormActivity extends AppCompatActivity
      */
     private EditText titleField;
     private EditText descriptField;
-    private EditText latField;
-    private EditText longField;
     private EditText rewardField;
     private TextView dollar;
     private TextView category;
@@ -74,7 +68,6 @@ public class SubmitFormActivity extends AppCompatActivity
     private Spinner typeSpinner;
     private Button backButton;
     private Button postButton;
-    private Button locationButton;
     private EditText locationText;
     private Place place;
 
@@ -108,17 +101,14 @@ public class SubmitFormActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_location_picker);
         setContentView(R.layout.item_submission_form);
 
         users = new ArrayList<>();
 
-        //instantiate widgets
+        /* instantiate widgets */
         titleField = (EditText) findViewById(R.id.title_L);
         descriptField = (EditText) findViewById(R.id.description_L);
         locationText = (EditText) findViewById(R.id.address); // address box
-        latField = (EditText) findViewById(R.id.latitude_L);
-        longField = (EditText) findViewById(R.id.longitude_L);
         rewardField = (EditText) findViewById(R.id.reward_L);
         dollar = (TextView) findViewById(R.id.dollar_L);
         category = (TextView) findViewById(R.id.category_L);
@@ -128,15 +118,17 @@ public class SubmitFormActivity extends AppCompatActivity
         backButton = (Button) findViewById(R.id.backButton_L);
 
 
-        ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
+        ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, ItemCategory.values());
         category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(category_Adapter);
 
-        ArrayAdapter<ItemType> type_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemType.values());
+        ArrayAdapter<ItemType> type_Adapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, ItemType.values());
         type_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeSpinner.setAdapter(type_Adapter);
 
-        //reward field is visible only if LOST is selected from the typeSpinner
+        /* reward field is visible only if LOST is selected from the typeSpinner */
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -150,7 +142,8 @@ public class SubmitFormActivity extends AppCompatActivity
                     dollar.setVisibility(View.VISIBLE);
                     categorySpinner.setVisibility(View.VISIBLE);
                     category.setVisibility(View.VISIBLE);
-                } else if (parent.getItemAtPosition(position).equals(ItemType.NEED)) { //need
+                } else if (parent.getItemAtPosition(position).equals(ItemType.NEED) //need
+                        || parent.getItemAtPosition(position).equals(ItemType.DONATION)) { //donation
                     rewardField.setVisibility(View.INVISIBLE);
                     dollar.setVisibility(View.INVISIBLE);
                     categorySpinner.setVisibility(View.INVISIBLE);
@@ -161,14 +154,17 @@ public class SubmitFormActivity extends AppCompatActivity
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
+
         });
 
-        //set listener for the buttons
+        titleField.clearFocus();
+
+        /* set listener for the buttons */
         postButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
         locationText.setOnClickListener(this);
 
-        //set Firebase authorization and get current user who is logged in
+        /* set Firebase authorization and get current user who is logged in */
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = mAuth.getCurrentUser();
         assert firebaseUser != null;
@@ -204,7 +200,6 @@ public class SubmitFormActivity extends AppCompatActivity
 
             //get current time
             long currentTime = System.currentTimeMillis();
-            Date dateTime = new Date(currentTime);
 
             if (inputItemType == ItemType.LOST) {
                 submitLostItem(currentTime).addOnCompleteListener(new OnCompleteListener() {
@@ -269,7 +264,7 @@ public class SubmitFormActivity extends AppCompatActivity
         newItem = new LostItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory,
                 pushKey, reward);
-//        incrementSubmissionCount();
+        incrementSubmissionCount();
         DatabaseReference child = LostItem.getLostItemsRef().child(uid + "--" + pushKey);
 
         return newItem.writeToDatabase(child);
@@ -284,7 +279,7 @@ public class SubmitFormActivity extends AppCompatActivity
         String pushKey = FoundItem.getFoundItemsRef().push().getKey();
         newItem = new FoundItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory, pushKey);
-//        incrementSubmissionCount();
+        incrementSubmissionCount();
 
 
         DatabaseReference child = FoundItem.getFoundItemsRef().child(uid + "--" + pushKey);
@@ -300,7 +295,7 @@ public class SubmitFormActivity extends AppCompatActivity
 
         boolean valid = true;
 
-        if (FormValidation.textEmpty(new EditText[] {titleField, descriptField })) {
+        if (FormValidation.textEmpty(new EditText[]{titleField, descriptField})) {
             valid = false;
         }
 
@@ -322,7 +317,7 @@ public class SubmitFormActivity extends AppCompatActivity
 
 
         if (rewardField.getVisibility() == View.VISIBLE && !FormValidation.isValidInteger(rewardField)) {
-                valid = false;
+            valid = false;
 
             if (!valid) {
                 Log.w(TAG, "Reward must be an integer and cannot be empty.");
@@ -342,14 +337,12 @@ public class SubmitFormActivity extends AppCompatActivity
      * of number of items posted.
      */
     private void incrementSubmissionCount() {
-        final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users/" + this.uid);
-        final DatabaseReference itemCountRef = userRef.child("itemCount");
-        final Task t;
+        final DatabaseReference itemCountRef = FirebaseDatabase.getInstance()
+                .getReference("users/" + this.uid).child("itemCount");
 
-        userRef.addChildEventListener(new ChildEventListener() {
-
+        itemCountRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 String key = dataSnapshot.getKey();
                 String val = dataSnapshot.getValue().toString();
 
@@ -366,26 +359,11 @@ public class SubmitFormActivity extends AppCompatActivity
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-
         });
+
     }
 
     private void startPlacePicker() {

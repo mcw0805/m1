@@ -1,8 +1,10 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -168,8 +170,37 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         if (view == back_button) {
-            Intent intent = new Intent(ProfileActivity.this, Dashboard.class);
-            ProfileActivity.this.startActivity(intent);
+
+            if (!editToggleButton.isChecked()) {
+                startActivity(new Intent(ProfileActivity.this, Dashboard.class));
+                finish();
+            } else {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProfileActivity.this);
+                dialogBuilder.setMessage("Are you sure you want to cancel your edits?");
+                dialogBuilder.setCancelable(true);
+
+                dialogBuilder.setPositiveButton(
+                        "No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+                dialogBuilder.setNegativeButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                                startActivity(new Intent(ProfileActivity.this, Dashboard.class));
+                                finish();
+                            }
+                        });
+
+                AlertDialog alert11 = dialogBuilder.create();
+                alert11.show();
+            }
+
         }
         //hides keyboard when done editing
         if (view == editToggleButton) {

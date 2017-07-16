@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.android.gms.tasks.Tasks.whenAll;
 
@@ -197,9 +198,15 @@ public class Item implements Parcelable {
                 );
     }
 
-    public static void getObjectListFromDB(DataSnapshot dataSnapshot, List<Item> itemList, ItemType type) {
+    public static void getObjectListFromDB(DataSnapshot dataSnapshot, List<Item> itemList,
+                                           ItemType type, Map<Integer, String> itemUserMap) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Log.i("KEY", ds.getKey());
+
+            String pushKey = ds.getKey().toString();
+            String[] parts = pushKey.split("--");
+            String itemUser = parts[0];
+
             Item item = ItemFactory.makeItem(type);
             item.setName(ds.getValue(Item.class).getName());
             item.setDescription(ds.getValue(Item.class).getDescription());
@@ -214,7 +221,9 @@ public class Item implements Parcelable {
                 ((LostItem) item).setReward(ds.getValue(LostItem.class).getReward());
             }
 
+            itemUserMap.put(itemList.size(), itemUser);
             itemList.add(item);
+
         }
 
     }
@@ -226,7 +235,7 @@ public class Item implements Parcelable {
             Item item = ItemFactory.makeItem(type);
 
             String pushKey = ds.getKey().toString();
-            String[] parts = pushKey.split("---");
+            String[] parts = pushKey.split("--");
             String itemUser = parts[0];
 
             if (itemUser.equals(uid)) {
@@ -245,14 +254,13 @@ public class Item implements Parcelable {
 
                 itemList.add(item);
             }
-
-
         }
-
-
 
     }
 
+    /**
+     * Inner factory class that generates different types of Item objects.
+     */
     public static class ItemFactory {
         public static Item makeItem(ItemType type) {
             switch (type) {
@@ -262,6 +270,8 @@ public class Item implements Parcelable {
                     return new FoundItem();
                 case NEED:
                     return new NeededItem();
+                case DONATION:
+                    return new Item();
                 default:
                     throw new IllegalArgumentException("Error in type");
             }

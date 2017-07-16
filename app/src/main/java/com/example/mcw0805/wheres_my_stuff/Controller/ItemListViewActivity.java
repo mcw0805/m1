@@ -27,7 +27,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class that controls the list of the lost items that the users have
@@ -51,6 +53,8 @@ public class ItemListViewActivity extends AppCompatActivity {
      */
     private List<Item> itemObjectList;
 
+    private Map<Integer, String> itemUserMap;
+
 
     /*
         Database reference for the lost items in Firebase
@@ -65,6 +69,7 @@ public class ItemListViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_list);
 
         itemObjectList = new ArrayList<>();
+        itemUserMap = new LinkedHashMap<>();
 
         //spinner for filtering
         filterSpinner = (Spinner) findViewById(R.id.filter_spinner_lost);
@@ -113,7 +118,7 @@ public class ItemListViewActivity extends AppCompatActivity {
         itemsRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Item.getObjectListFromDB(dataSnapshot, itemObjectList, currentType);
+                Item.getObjectListFromDB(dataSnapshot, itemObjectList, currentType, itemUserMap);
                 if (itemObjectList.size() > 0) {
                     itemAdapter = new ArrayAdapter<>(getApplicationContext(),
                             R.layout.item_row_layout, R.id.textView, itemObjectList);
@@ -136,6 +141,8 @@ public class ItemListViewActivity extends AppCompatActivity {
                 itemAdapter.notifyDataSetChanged();
 
                 Intent intent = new Intent(getApplicationContext(), ItemDescriptionActivity.class);
+                intent.putExtra("itemOwnerUid", itemUserMap.get(position));
+
                 if (getIntent().getStringExtra("DashboardClickedListType").equals("LostItemListView")) {
                     intent.putExtra("selectedLostItem", itemAdapter.getItem(position));
                 } else if (getIntent().getStringExtra("DashboardClickedListType").equals("FoundItemListView")) {

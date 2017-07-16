@@ -38,9 +38,11 @@
             android:name=".Controller.ProfileActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".Controller.Dashboard" />
-        <activity android:name=".Controller.SubmitFormActivity" />
+        <activity android:name=".Controller.SubmitFormActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Controller.ResetPasswordActivity" />
-        <activity android:name=".Controller.ItemListViewActivity" />
+        <activity android:name=".Controller.ItemListViewActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Controller.ItemDescriptionActivity" />
         <activity
             android:name=".Controller.FoundItemListActivity"
@@ -53,7 +55,8 @@
         <activity android:name=".Controller.ActiveUserListActivity" />
         <activity android:name=".Controller.LockedUserListActivity" />
         <activity android:name=".Controller.BannedUserListActivity" />
-        <activity android:name=".Controller.MyListActivity" />
+        <activity android:name=".Controller.MyListActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Controller.HomeActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

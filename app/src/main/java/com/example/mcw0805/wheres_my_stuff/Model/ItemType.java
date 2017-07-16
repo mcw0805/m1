@@ -7,7 +7,7 @@ package com.example.mcw0805.wheres_my_stuff.Model;
  */
 
 public enum ItemType {
-    LOST("Lost"), FOUND ("Found"), NEED ("Need");
+    LOST("Lost"), FOUND ("Found"), NEED ("Need"), DONATION("Donation");
 
     private final String itemType;
 
