@@ -90,8 +90,7 @@ public class ItemListViewActivity extends AppCompatActivity {
 
         /* filtering based on the text typed */
         searchBarEdit.addTextChangedListener(new TextWatcher() {
-            private String original;
-            private ItemAdapter temp;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 Log.i(TAG, "Before change: " + s.toString());
@@ -100,8 +99,6 @@ public class ItemListViewActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before, int count) {
-
-                original = s.toString();
                 itemAdapter.getFilter().filter(s, new Filter.FilterListener() {
                     @Override
                     public void onFilterComplete(int count) {
@@ -112,10 +109,13 @@ public class ItemListViewActivity extends AppCompatActivity {
                 });
 
                 itemAdapter.notifyDataSetChanged();
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                Log.i(TAG, "After text change: " + s.toString());
+
             }
 
         });

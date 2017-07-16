@@ -28,6 +28,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     private List<Item> filtered;
     private ItemFilter itemFilter;
     private final Object mLock = new Object();
+    private int len;
 
     public ItemAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Item> newItems) {
         super(context, resource, newItems);
@@ -102,6 +103,15 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         protected FilterResults performFiltering(CharSequence constraint) {
             final FilterResults results = new FilterResults();
 
+            if (len != 0 && len > constraint.length()) {
+                items.clear();
+                items.addAll(originalItems);
+                len = constraint.length();
+
+            }
+
+            len = constraint.length();
+
             if (originalItems == null) {
                 synchronized (this) {
                     originalItems = new ArrayList<>(items);
@@ -169,14 +179,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
             }//end synchronized
         }
-    }
-
-    public List<Item> getFilteredItem() {
-        return  filtered;
-    }
-
-    public void resetFilter() {
-        itemFilter = null;
     }
 
 
