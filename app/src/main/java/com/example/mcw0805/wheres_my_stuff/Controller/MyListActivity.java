@@ -32,12 +32,17 @@ import java.util.Map;
 public class MyListActivity extends AppCompatActivity {
 
     /*
-    ListView widget and its adapter
- */
+        ListView widget and its adapter
+     */
     private ListView myItemListView;
     private ArrayAdapter<Item> myItemAdapter;
 
+    /*
+        Map that contains the item position in the ListView and the database push key
+        for this particular user.
+     */
     private Map<Integer, String> itemUserMap = new HashMap<>();
+
     /*
         List of LostItem objects, which are parcelable
      */
@@ -51,8 +56,8 @@ public class MyListActivity extends AppCompatActivity {
     private final DatabaseReference mLostItemRef = LostItem.getLostItemsRef();
 
     /*
-    Firebase authorization
- */
+        Firebase authorization
+    */
     private FirebaseAuth mAuth;
     private FirebaseUser currUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -128,7 +133,7 @@ public class MyListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MyEditableItemActivity.class);
 
                 intent.putExtra("selected", myItemAdapter.getItem(position));
-                intent.putExtra("itemOwnerUid", itemUserMap.get(position));
+                intent.putExtra("userItemPushKey", itemUserMap.get(position));
                 startActivity(intent);
 
                 Intent editIntent = getIntent();
@@ -137,7 +142,6 @@ public class MyListActivity extends AppCompatActivity {
                 }
             }
         });
-
 
 
     }

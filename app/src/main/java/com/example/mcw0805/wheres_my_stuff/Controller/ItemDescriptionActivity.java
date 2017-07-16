@@ -13,7 +13,12 @@ import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
+import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -39,6 +44,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
     private TextView reward;
     private TextView date;
     private TextView status;
+    private TextView posterNickname;
 
     private TextView rewardLabel;
 
@@ -56,17 +62,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         geocoder = new Geocoder(this, Locale.getDefault());
 
         itemOwnerUid = intent.getStringExtra("itemOwnerUid");
-
-//        LostItem selectedLostItem = null;
-//        FoundItem selectedFoundItem = null;
-//        if (intent.getParcelableExtra("selectedLostItem") != null
-//                && intent.getParcelableExtra("selectedLostItem") instanceof LostItem) {
-//            selectedLostItem = intent.getParcelableExtra("selectedLostItem");
-//        } else if (intent.getParcelableExtra("selectedFoundItem") != null
-//                && intent.getParcelableExtra("selectedFoundItem") instanceof FoundItem) {
-//            selectedFoundItem = intent.getParcelableExtra("selectedFoundItem");
-//
-//        }
+        Log.d("OWNER", itemOwnerUid);
 
         selected = intent.getParcelableExtra("selected");
 
@@ -82,8 +78,11 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         date = (TextView) findViewById(R.id.item_post_date);
         reward = (TextView) findViewById(R.id.item_reward);
         rewardLabel = (TextView) findViewById(R.id.item_rew);
+        posterNickname = (TextView) findViewById(R.id.item_owner_name);
 
         if (selected != null) {
+            setPosterName(itemOwnerUid);
+
             name.setText("" + selected.getName());
             description.setText("" + selected.getDescription());
             category.setText(selected.getCategory().toString());
@@ -117,69 +116,6 @@ public class ItemDescriptionActivity extends AppCompatActivity {
 
         }
 
-
-//        if (selectedLostItem != null) {
-//            name.setText("" + selectedLostItem.getName());
-//            description.setText("" + selectedLostItem.getDescription());
-//            category.setText(selectedLostItem.getCategory().toString());
-//            location.setText("temp");
-//            type.setText(selectedLostItem.getItemType().toString());
-//            DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
-//            date.setText(df.format(selectedLostItem.getDate()));
-//            reward.setText("$" + selectedLostItem.getReward());
-//
-//            if (selectedLostItem.getIsOpen()) {
-//                status.setText("Open");
-//            } else {
-//                status.setText("Closed");
-//            }
-//
-//            List<Address> addresses = null;
-//            try {
-//                addresses = geocoder.getFromLocation(selectedLostItem.getLatitude(), selectedLostItem.getLongitude(), 1);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            try {
-//                location.setText(getLocationString(addresses.get(0)));
-//            } catch (IndexOutOfBoundsException e) {
-//                location.setText("Probably ain't on land");
-//            }
-//
-//        } else if (selectedFoundItem != null) {
-//            name.setText("" + selectedFoundItem.getName());
-//            description.setText("" + selectedFoundItem.getDescription());
-//            category.setText("" + selectedFoundItem.getCategory().toString());
-//            type.setText(selectedFoundItem.getItemType().toString());
-//            DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
-//            date.setText(df.format(selectedFoundItem.getDate()));
-//            reward.setVisibility(View.INVISIBLE);
-//            rewardLabel.setVisibility(View.INVISIBLE);
-//
-//            if (selectedFoundItem.getIsOpen()) {
-//                status.setText("Open");
-//            } else {
-//                status.setText("Closed");
-//            }
-//
-//            List<Address> addresses = null;
-//            try {
-//                addresses = geocoder.getFromLocation(selectedFoundItem.getLatitude(), selectedFoundItem.getLongitude(), 1);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            try {
-//                location.setText(getLocationString(addresses.get(0)));
-//            } catch (IndexOutOfBoundsException e) {
-//                location.setText("Probably ain't on land");
-//            }
-//
-//
-//        }
-
-
     }
 
     private String getLocationString(Address address) {
@@ -198,15 +134,21 @@ public class ItemDescriptionActivity extends AppCompatActivity {
 
     }
 
+    private void setPosterName(String uid) {
+        DatabaseReference userRef = User.getUserRef().child(uid).child("name");
 
-//    private void setFields(Item item) {
-//
-//        if (item instanceof LostItem) {
-//            selecetdItem = (LostItem) item;
-//
-//        } else if (item instanceof  FoundItem) {
-//            selecetdItem = (FoundItem) item;
-//        }
-//
-//    }
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                posterNickname.setText(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 }

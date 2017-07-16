@@ -151,7 +151,7 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         Intent intent = getIntent();
 
         selected = intent.getParcelableExtra("selected");
-        itemKey = intent.getStringExtra("itemOwnerUid");
+        itemKey = intent.getStringExtra("userItemPushKey");
 
         //debug stuff
         boolean x = selected == null;

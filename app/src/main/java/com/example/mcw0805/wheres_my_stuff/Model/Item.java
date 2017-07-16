@@ -221,7 +221,7 @@ public class Item implements Parcelable {
                 ((LostItem) item).setReward(ds.getValue(LostItem.class).getReward());
             }
 
-            itemUserMap.put(itemList.size(), pushKey);
+            itemUserMap.put(itemList.size(), itemUser);
             itemList.add(item);
 
         }
