@@ -221,7 +221,7 @@ public class Item implements Parcelable {
                 ((LostItem) item).setReward(ds.getValue(LostItem.class).getReward());
             }
 
-            itemUserMap.put(itemList.size(), itemUser);
+            itemUserMap.put(itemList.size(), pushKey);
             itemList.add(item);
 
         }
@@ -229,7 +229,7 @@ public class Item implements Parcelable {
     }
 
     public static void getUserObjectList(DataSnapshot dataSnapshot, List<Item> itemList,
-                                        ItemType type, String uid) {
+                                        ItemType type, String uid, Map<Integer, String> itemUserMap) {
 
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Item item = ItemFactory.makeItem(type);
@@ -251,7 +251,7 @@ public class Item implements Parcelable {
                 if (item instanceof LostItem) {
                     ((LostItem) item).setReward(ds.getValue(LostItem.class).getReward());
                 }
-
+                itemUserMap.put(itemList.size(), pushKey);
                 itemList.add(item);
             }
         }

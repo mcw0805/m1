@@ -143,16 +143,20 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
                     if (valText.toLowerCase().startsWith(prefixString)) {
                         newValues.add(val);
-                    } else {
-                        final String[] words = valText.split(" ");
-                        for (String word : words) {
-                            if (word.startsWith(prefixString)) {
-                                newValues.add(val);
-                                break;
-                            }
-                        }
                     }
 
+                    /*  if none of the things start with the constraint,
+                        it breaks down other words, if any.
+                     */
+//                    else {
+//                        final String[] words = valText.split(" ");
+//                        for (String word : words) {
+//                            if (word.startsWith(prefixString)) {
+//                                newValues.add(val);
+//                                break;
+//                            }
+//                        }
+//                    }
                 }
 
                 results.values = newValues;

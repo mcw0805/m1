@@ -1,12 +1,17 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -17,6 +22,7 @@ import android.widget.ToggleButton;
 import android.widget.ViewSwitcher;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
+import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
@@ -52,6 +58,8 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
 
     private ToggleButton editItemToggleBtn;
 
+    private Button deleteBtn;
+
     private ViewSwitcher nameViewSwitcher;
     private ViewSwitcher descViewSwitcher;
     private ViewSwitcher catViewSwitcher;
@@ -59,7 +67,11 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
 
     private LinearLayout rewardLinLayout;
 
-    private ArrayList<String> itemKeyList;
+    private ProgressDialog progressDialog;
+
+    private String itemKey;
+    private Item selected;
+
 
     /*
     Firebase authorization
@@ -69,6 +81,7 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
     private String currUserUID;
+
 
     private static final String TAG = "MyEditableItemActivity";
 
@@ -127,45 +140,42 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         editItemToggleBtn = (ToggleButton) findViewById(R.id.edit_item_ToggleBtn);
         editItemToggleBtn.setOnClickListener(this);
 
+        deleteBtn = (Button) findViewById(R.id.deleteBtn);
+        deleteBtn.setOnClickListener(this);
+        deleteBtn.setVisibility(View.GONE);
+
         rewardLinLayout = (LinearLayout) findViewById(R.id.reward_lin_layout);
 
+        progressDialog = new ProgressDialog(this);
 
         Intent intent = getIntent();
-        LostItem selectedLostItem = null;
-        FoundItem selectedFoundItem = null;
-        if (intent.getParcelableExtra("selectedLostItem") != null
-                && intent.getParcelableExtra("selectedLostItem") instanceof LostItem) {
-            selectedLostItem = intent.getParcelableExtra("selectedLostItem");
-        } else if (intent.getParcelableExtra("selectedFoundItem") != null
-                && intent.getParcelableExtra("selectedFoundItem") instanceof FoundItem) {
-            selectedFoundItem = intent.getParcelableExtra("selectedFoundItem");
 
-        }
+        selected = intent.getParcelableExtra("selected");
+        itemKey = intent.getStringExtra("itemOwnerUid");
 
-        if (selectedLostItem != null) {
-            myItemName.setText(selectedLostItem.getName());
-            myItemType.setText(selectedLostItem.getItemType().toString());
-            myItemDesc.setText(selectedLostItem.getDescription());
-            myItemCat.setText(selectedLostItem.getCategory().toString());
-            myItemStat.setText(selectedLostItem.getStatusString());
+        //debug stuff
+        boolean x = selected == null;
+        Log.d(TAG, x+"");
+        boolean yy = itemKey == null;
+        Log.d(TAG, itemKey+" MAP");
+
+        if (selected != null) {
+            myItemName.setText(selected.getName());
+            myItemDesc.setText(selected.getDescription());
+            myItemCat.setText(selected.getCategory().toString());
+            myItemStat.setText(selected.getStatusString());
 
             DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
-            myItemDate.setText(df.format(selectedLostItem.getDate()));
-            myLostItemReward.setText("$" + selectedLostItem.getReward());
+            myItemDate.setText(df.format(selected.getDate()));
+            itemStatSwitch.setChecked(selected.getIsOpen());
 
-            itemStatSwitch.setChecked(selectedLostItem.getIsOpen());
-
-
-        } else if (selectedFoundItem != null) {
-            myItemName.setText(selectedFoundItem.getName());
-            myItemType.setText(selectedFoundItem.getItemType().toString());
-            myItemDesc.setText(selectedFoundItem.getDescription());
-            myItemCat.setText(selectedFoundItem.getCategory().toString());
-            myItemStat.setText(selectedFoundItem.getStatusString());
-            itemStatSwitch.setChecked(selectedFoundItem.getIsOpen());
-            DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
-            myItemDate.setText(df.format(selectedFoundItem.getDate()));
-            rewardLinLayout.setVisibility(View.INVISIBLE);
+            if (selected instanceof LostItem) {
+                myLostItemReward.setText("$" + ((LostItem) selected).getReward());
+                myItemType.setText(((LostItem) selected).getItemType().toString());
+            } else if (selected instanceof FoundItem) {
+                rewardLinLayout.setVisibility(View.INVISIBLE);
+                myItemType.setText(((FoundItem) selected).getItemType().toString());
+            }
         }
 
         editItemToggleBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -184,12 +194,14 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                     catViewSwitcher.showPrevious();
                     itemStatSwitch.setVisibility(View.VISIBLE);
                     itemCatSpinner.setSelection(ItemCategory.valueOf(myItemCat.getText().toString()).ordinal());
+                    deleteBtn.setVisibility(View.VISIBLE);
 
                 } else {
                     nameViewSwitcher.showNext();
                     descViewSwitcher.showNext();
                     catViewSwitcher.showNext();
                     itemStatSwitch.setVisibility(View.INVISIBLE);
+                    deleteBtn.setVisibility(View.GONE);
                 }
 
             }
@@ -220,15 +232,61 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
 
+        if (v == deleteBtn) {
+
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MyEditableItemActivity.this);
+            dialogBuilder.setMessage("Are you sure you want to permanently remove your item?");
+            dialogBuilder.setCancelable(true);
+
+            dialogBuilder.setPositiveButton(
+                    "No",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            dialogBuilder.setNegativeButton(
+                    "Yes",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            delete();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    final Intent mainIntent = new Intent(getApplicationContext(), MyListActivity.class);
+                                    mainIntent.putExtra("deleted", "item deleted");
+                                    progressDialog.dismiss();
+                                    MyEditableItemActivity.this.startActivity(mainIntent);
+                                    MyEditableItemActivity.this.finish();
+                                }
+                            }, 1500);
+                        }
+                    });
+
+            AlertDialog alert11 = dialogBuilder.create();
+            alert11.show();
+
+        }
     }
 
-    private void resetEditedLostItemFields(final String name, final String description,
-                                   final String itemCat, final boolean stat) {
+    private void delete() {
+        DatabaseReference itemsRef = null;
+        progressDialog.setMessage("Please wait until your item is removed...");
+        progressDialog.show();
 
-        final DatabaseReference lostItemRef = LostItem.getLostItemsRef();
-
-
-
-
+        if (selected != null) {
+            if (selected instanceof LostItem) {
+                itemsRef = LostItem.getLostItemsRef().child(itemKey);
+                itemsRef.removeValue();
+                return;
+            } else if (selected instanceof FoundItem) {
+                itemsRef = FoundItem.getFoundItemsRef().child(itemKey);
+                itemsRef.removeValue();
+                return;
+            }
+        }
     }
+
 }

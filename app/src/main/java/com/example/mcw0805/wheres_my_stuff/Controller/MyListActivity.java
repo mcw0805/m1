@@ -37,7 +37,7 @@ public class MyListActivity extends AppCompatActivity {
     private ListView myItemListView;
     private ArrayAdapter<Item> myItemAdapter;
 
-
+    private Map<Integer, String> itemUserMap = new HashMap<>();
     /*
         List of LostItem objects, which are parcelable
      */
@@ -95,7 +95,7 @@ public class MyListActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Item.getUserObjectList(dataSnapshot, myItemObjectList,
-                        ItemType.LOST, uid);
+                        ItemType.LOST, uid, itemUserMap);
             }
 
             @Override
@@ -108,7 +108,7 @@ public class MyListActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Item.getUserObjectList(dataSnapshot, myItemObjectList,
-                        ItemType.FOUND, uid);
+                        ItemType.FOUND, uid, itemUserMap);
             }
 
             @Override
@@ -126,15 +126,15 @@ public class MyListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), MyEditableItemActivity.class);
-                if (myItemAdapter.getItem(position) instanceof LostItem) {
-                    intent.putExtra("selectedLostItem", myItemAdapter.getItem(position));
-//                    intent.putExtra("selectedLostKey", myItemLostKeys.get(position));
-                } else if (myItemAdapter.getItem(position) instanceof FoundItem) {
-                    intent.putExtra("selectedFoundItem", myItemAdapter.getItem(position));
-//                    intent.putExtra("selectedFoundKey", myItemFoundKeys.get(position));
-                }
 
+                intent.putExtra("selected", myItemAdapter.getItem(position));
+                intent.putExtra("itemOwnerUid", itemUserMap.get(position));
                 startActivity(intent);
+
+                Intent editIntent = getIntent();
+                if (editIntent != null) {
+                    finish();
+                }
             }
         });
 
