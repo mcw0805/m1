@@ -33,7 +33,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Controller.RegistrationActivity" />
-        <activity android:name=".Controller.LogInActivity" />
+        <activity android:name=".Controller.LogInActivity"
+            android:windowSoftInputMode="adjustNothing"/>
         <activity
             android:name=".Controller.ProfileActivity"
             android:windowSoftInputMode="adjustNothing" />

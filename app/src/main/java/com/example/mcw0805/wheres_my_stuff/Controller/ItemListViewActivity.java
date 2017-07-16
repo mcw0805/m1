@@ -1,7 +1,6 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,8 +11,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Spinner;
+
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
@@ -43,7 +45,8 @@ public class ItemListViewActivity extends AppCompatActivity {
          Widgets and adapters
      */
     private ListView itemsLv;
-    private ArrayAdapter<Item> itemAdapter;
+    //private ArrayAdapter<Item> itemAdapter;
+    private ItemAdapter itemAdapter;
     private Spinner filterSpinner;
     private ItemType currentType;
     private EditText searchBarEdit;
@@ -52,6 +55,7 @@ public class ItemListViewActivity extends AppCompatActivity {
         List of LostItem objects, which are parcelable
      */
     private List<Item> itemObjectList;
+    private List<Item> copyList;
 
     private Map<Integer, String> itemUserMap;
 
@@ -73,7 +77,7 @@ public class ItemListViewActivity extends AppCompatActivity {
 
         //spinner for filtering
         filterSpinner = (Spinner) findViewById(R.id.filter_spinner_lost);
-        ArrayAdapter<ItemCategory> categoryAdapter = new ArrayAdapter(this,
+        final ArrayAdapter<ItemCategory> categoryAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, ItemCategory.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -83,24 +87,39 @@ public class ItemListViewActivity extends AppCompatActivity {
 
         searchBarEdit = (EditText) findViewById(R.id.searchBarEdit);
 
+
         /* filtering based on the text typed */
         searchBarEdit.addTextChangedListener(new TextWatcher() {
+            private String original;
+            private ItemAdapter temp;
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.i(TAG, "Before change: " + s.toString());
 
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ItemListViewActivity.this.itemAdapter.getFilter().filter(s);
+            public void onTextChanged(final CharSequence s, final int start, final int before, int count) {
 
+                original = s.toString();
+                itemAdapter.getFilter().filter(s, new Filter.FilterListener() {
+                    @Override
+                    public void onFilterComplete(int count) {
+                        Log.i(TAG, "Item Count: " + count);
+                        Log.i(TAG, "Search bar current: " + searchBarEdit.getText().toString());
+
+                    }
+                });
+
+                itemAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
+
         });
+
 
         if (getIntent().getStringExtra("DashboardClickedListType").equals("LostItemListView")) {
             itemsRef = LostItem.getLostItemsRef();
@@ -119,9 +138,12 @@ public class ItemListViewActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Item.getObjectListFromDB(dataSnapshot, itemObjectList, currentType, itemUserMap);
+                copyList = new ArrayList<>(itemObjectList);
                 if (itemObjectList.size() > 0) {
-                    itemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                            R.layout.item_row_layout, R.id.textView, itemObjectList);
+//                    itemAdapter = new ArrayAdapter<>(getApplicationContext(),
+//                            R.layout.item_row_layout, R.id.textView, itemObjectList);
+                    itemAdapter = new ItemAdapter(getApplicationContext(),
+                            R.layout.item_row_layout, itemObjectList);
                     itemsLv.setAdapter(itemAdapter);
                 } else {
                     Log.w(TAG, "NO DATA");
@@ -158,9 +180,13 @@ public class ItemListViewActivity extends AppCompatActivity {
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                itemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                        R.layout.item_row_layout, R.id.textView,
+//                itemAdapter = new ArrayAdapter<>(getApplicationContext(),
+//                        R.layout.item_row_layout, R.id.textView,
+//                        filterByType((ItemCategory) filterSpinner.getSelectedItem()));
+
+                itemAdapter = new ItemAdapter(getApplicationContext(), R.layout.item_row_layout,
                         filterByType((ItemCategory) filterSpinner.getSelectedItem()));
+
                 itemsLv.setAdapter(itemAdapter);
                 itemAdapter.notifyDataSetChanged();
             }
@@ -195,4 +221,5 @@ public class ItemListViewActivity extends AppCompatActivity {
         return filteredItemList;
 
     }
+
 }

@@ -102,7 +102,11 @@ public class ItemDescriptionActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            location.setText(getLocationString(addresses.get(0)));
+            try {
+                location.setText(getLocationString(addresses.get(0)));
+            } catch (IndexOutOfBoundsException e) {
+                location.setText("Probably ain't on land");
+            }
 
         } else if (selectedFoundItem != null) {
             name.setText("" + selectedFoundItem.getName());
@@ -127,7 +131,12 @@ public class ItemDescriptionActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            location.setText(getLocationString(addresses.get(0)));
+            try {
+                location.setText(getLocationString(addresses.get(0)));
+            } catch (IndexOutOfBoundsException e) {
+                location.setText("Probably ain't on land");
+            }
+
 
         }
 

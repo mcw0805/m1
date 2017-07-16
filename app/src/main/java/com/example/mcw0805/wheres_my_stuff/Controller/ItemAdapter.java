@@ -3,81 +3,85 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
-import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
  * Created by mcw0805 on 7/3/17.
  */
 
-public class ItemAdapter extends BaseAdapter implements Filterable {
+public class ItemAdapter extends ArrayAdapter<Item> {
 
-    private final Context mContext;
-    private final Object mLock = new Object();
+    private List<Item> items;
+    private List<Item> originalItems = new ArrayList<>();
+    private List<Item> filtered;
     private ItemFilter itemFilter;
+    private final Object mLock = new Object();
 
+    public ItemAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Item> newItems) {
+        super(context, resource, newItems);
+        this.items = newItems;
+        filtered = items;
+        cloneItems(newItems);
+    }
 
-    private List<Item> list;
-
-    private ArrayList<Item> mOriginalVals;
-    private List<Item> fList;
-
-    private boolean mNotifyOnChange = true;
-
-
-    public ItemAdapter(@NonNull Context context, List<Item> itemList) {
-        this.list = itemList;
-        this.fList = this.list;
-        this.mContext = context;
-        getFilter();
+    protected void cloneItems(List<Item> itemList) {
+        for (Iterator iterator = itemList.iterator(); iterator
+                .hasNext(); ) {
+            Item i = (Item) iterator.next();
+            originalItems.add(i);
+        }
     }
 
     @Override
     public int getCount() {
-        return fList.size();
+        synchronized (mLock) {
+            return items != null ? items.size() : 0;
+        }
     }
 
     @Override
-    public Item getItem(int pos) {
-        return this.fList.get(pos);
+    public Item getItem(int item) {
+        Item i = null;
+        synchronized (mLock) {
+            i = items != null ? items.get(item) : null;
 
-    }
+        }
 
-//    static class ViewHolder {
-//        TextView itemName;
-//    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
+        return i;
     }
 
     @Override
     public View getView(int position, View contextView, ViewGroup parent) {
+        View v = contextView;
+        if (v == null) {
+            LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            v = vi.inflate(R.layout.item_row_layout, null);
+        }
 
+        Item i = null;
+        synchronized (mLock) {
+            i = items.get(position);
+        }
 
-        View v = View.inflate(mContext, R.layout.item_row_layout, null);
+        if (i != null) {
+            TextView itemName = (TextView) v.findViewById(R.id.textView);
+            if (itemName != null) {
+                itemName.setText(i.toString());
+            }
 
-        TextView itemName = (TextView) v.findViewById(R.id.textView);
-        itemName.setText(list.get(position).getName());
-
-        v.setTag(list.get(position).getName());
+        }
 
         return v;
 
@@ -98,26 +102,26 @@ public class ItemAdapter extends BaseAdapter implements Filterable {
         protected FilterResults performFiltering(CharSequence constraint) {
             final FilterResults results = new FilterResults();
 
-            if (mOriginalVals == null) {
-                synchronized (mLock) {
-                    mOriginalVals = new ArrayList<>(list);
+            if (originalItems == null) {
+                synchronized (this) {
+                    originalItems = new ArrayList<>(items);
                 }
             }
 
             if (constraint == null || constraint.length() == 0) {
 
-                final ArrayList<Item> itemArrayList;
                 synchronized (mLock) {
-                    itemArrayList = new ArrayList<>(list);
-                }
 
-                results.values = itemArrayList;
-                results.count = itemArrayList.size();
+                    results.values = originalItems;
+                    results.count = originalItems.size();
+                }
 
             } else {
                 final ArrayList<Item> values;
+                final String prefixString = constraint.toString().toLowerCase();
+
                 synchronized (mLock) {
-                    values = new ArrayList<>(list);
+                    values = new ArrayList<>(items);
                 }
 
                 final int count = values.size();
@@ -127,40 +131,23 @@ public class ItemAdapter extends BaseAdapter implements Filterable {
                     final Item val = values.get(i);
                     final String valText = val.getName();
 
-                    if (valText.toLowerCase().contains(constraint.toString())) {
+                    if (valText.toLowerCase().startsWith(prefixString)) {
                         newValues.add(val);
+                    } else {
+                        final String[] words = valText.split(" ");
+                        for (String word : words) {
+                            if (word.startsWith(prefixString)) {
+                                newValues.add(val);
+                                break;
+                            }
+                        }
                     }
 
                 }
+
                 results.values = newValues;
                 results.count = newValues.size();
-                Log.d("ADAPT", newValues.size() + "");
-
-
             }
-
-//                if (constraint == null || constraint.length() == 0) {
-//                    results.values = list;
-//                    results.count = list.size();
-//                } else {
-//                    List<Item> filteredList = new ArrayList<>();
-//
-//                    for (int i = 0; i < list.size(); i++) {
-//                        if (list.get(i).getName().toLowerCase().contains(constraint.toString())) {
-//                            if (list.get(i) instanceof FoundItem) {
-//                                FoundItem f = (FoundItem) list.get(i);
-//                                filteredList.add(f);
-//                            } else if (list.get(i) instanceof LostItem) {
-//                                LostItem l = (LostItem) list.get(i);
-//                                filteredList.add(l);
-//                            }
-//                        }
-//                    }
-//
-//                    results.values = filteredList;
-//                    Log.d("ADAPT", filteredList.size() + "");
-//                    results.count = filteredList.size();
-//                }
 
             return results;
 
@@ -168,19 +155,28 @@ public class ItemAdapter extends BaseAdapter implements Filterable {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-
-
-            fList = (List<Item>) results.values;
-            if (results.count > 0) {
+            synchronized (mLock) {
+                filtered = (ArrayList<Item>) results.values;
+                final ArrayList<Item> localItems = (ArrayList<Item>) results.values;
                 notifyDataSetChanged();
-            } else {
-                notifyDataSetInvalidated();
-            }
+                clear();
+                //Add the items back in
+                for (Iterator iterator = localItems.iterator(); iterator
+                        .hasNext(); ) {
+                    Item i = (Item) iterator.next();
+                    add(i);
+                }
 
-//                fList = (ArrayList<Item>) results.values;
-//                notifyDataSetChanged();
-
+            }//end synchronized
         }
+    }
+
+    public List<Item> getFilteredItem() {
+        return  filtered;
+    }
+
+    public void resetFilter() {
+        itemFilter = null;
     }
 
 
