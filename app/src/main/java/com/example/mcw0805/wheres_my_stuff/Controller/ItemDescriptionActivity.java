@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
+import com.example.mcw0805.wheres_my_stuff.Model.Item;
+import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 
@@ -43,6 +45,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
     private Geocoder geocoder;
 
     private String itemOwnerUid;
+    private Item selected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +57,18 @@ public class ItemDescriptionActivity extends AppCompatActivity {
 
         itemOwnerUid = intent.getStringExtra("itemOwnerUid");
 
-        LostItem selectedLostItem = null;
-        FoundItem selectedFoundItem = null;
-        if (intent.getParcelableExtra("selectedLostItem") != null
-                && intent.getParcelableExtra("selectedLostItem") instanceof LostItem) {
-            selectedLostItem = intent.getParcelableExtra("selectedLostItem");
-        } else if (intent.getParcelableExtra("selectedFoundItem") != null
-                && intent.getParcelableExtra("selectedFoundItem") instanceof FoundItem) {
-            selectedFoundItem = intent.getParcelableExtra("selectedFoundItem");
+//        LostItem selectedLostItem = null;
+//        FoundItem selectedFoundItem = null;
+//        if (intent.getParcelableExtra("selectedLostItem") != null
+//                && intent.getParcelableExtra("selectedLostItem") instanceof LostItem) {
+//            selectedLostItem = intent.getParcelableExtra("selectedLostItem");
+//        } else if (intent.getParcelableExtra("selectedFoundItem") != null
+//                && intent.getParcelableExtra("selectedFoundItem") instanceof FoundItem) {
+//            selectedFoundItem = intent.getParcelableExtra("selectedFoundItem");
+//
+//        }
 
-        }
+        selected = intent.getParcelableExtra("selected");
 
         /*
         * sets all of the textViews that are specific to each object
@@ -78,26 +83,28 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         reward = (TextView) findViewById(R.id.item_reward);
         rewardLabel = (TextView) findViewById(R.id.item_rew);
 
-
-        if (selectedLostItem != null) {
-            name.setText("" + selectedLostItem.getName());
-            description.setText("" + selectedLostItem.getDescription());
-            category.setText(selectedLostItem.getCategory().toString());
+        if (selected != null) {
+            name.setText("" + selected.getName());
+            description.setText("" + selected.getDescription());
+            category.setText(selected.getCategory().toString());
+            status.setText(selected.getStatusString());
             location.setText("temp");
-            type.setText(selectedLostItem.getItemType().toString());
             DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
-            date.setText(df.format(selectedLostItem.getDate()));
-            reward.setText("$" + selectedLostItem.getReward());
+            date.setText(df.format(selected.getDate()));
 
-            if (selectedLostItem.getIsOpen()) {
-                status.setText("Open");
-            } else {
-                status.setText("Closed");
+            if (selected instanceof LostItem) {
+                LostItem li = (LostItem) selected;
+                type.setText(li.getItemType().toString());
+                reward.setText("$" + li.getReward());
+            } else if (selected instanceof FoundItem) {
+                type.setText(((FoundItem) selected).getItemType().toString());
+                reward.setVisibility(View.INVISIBLE);
+                rewardLabel.setVisibility(View.INVISIBLE);
             }
 
             List<Address> addresses = null;
             try {
-                addresses = geocoder.getFromLocation(selectedLostItem.getLatitude(), selectedLostItem.getLongitude(), 1);
+                addresses = geocoder.getFromLocation(selected.getLatitude(), selected.getLongitude(), 1);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -107,38 +114,70 @@ public class ItemDescriptionActivity extends AppCompatActivity {
             } catch (IndexOutOfBoundsException e) {
                 location.setText("Probably ain't on land");
             }
-
-        } else if (selectedFoundItem != null) {
-            name.setText("" + selectedFoundItem.getName());
-            description.setText("" + selectedFoundItem.getDescription());
-            category.setText("" + selectedFoundItem.getCategory().toString());
-            type.setText(selectedFoundItem.getItemType().toString());
-            DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
-            date.setText(df.format(selectedFoundItem.getDate()));
-            reward.setVisibility(View.INVISIBLE);
-            rewardLabel.setVisibility(View.INVISIBLE);
-
-            if (selectedFoundItem.getIsOpen()) {
-                status.setText("Open");
-            } else {
-                status.setText("Closed");
-            }
-
-            List<Address> addresses = null;
-            try {
-                addresses = geocoder.getFromLocation(selectedFoundItem.getLatitude(), selectedFoundItem.getLongitude(), 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                location.setText(getLocationString(addresses.get(0)));
-            } catch (IndexOutOfBoundsException e) {
-                location.setText("Probably ain't on land");
-            }
-
 
         }
+
+
+//        if (selectedLostItem != null) {
+//            name.setText("" + selectedLostItem.getName());
+//            description.setText("" + selectedLostItem.getDescription());
+//            category.setText(selectedLostItem.getCategory().toString());
+//            location.setText("temp");
+//            type.setText(selectedLostItem.getItemType().toString());
+//            DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
+//            date.setText(df.format(selectedLostItem.getDate()));
+//            reward.setText("$" + selectedLostItem.getReward());
+//
+//            if (selectedLostItem.getIsOpen()) {
+//                status.setText("Open");
+//            } else {
+//                status.setText("Closed");
+//            }
+//
+//            List<Address> addresses = null;
+//            try {
+//                addresses = geocoder.getFromLocation(selectedLostItem.getLatitude(), selectedLostItem.getLongitude(), 1);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            try {
+//                location.setText(getLocationString(addresses.get(0)));
+//            } catch (IndexOutOfBoundsException e) {
+//                location.setText("Probably ain't on land");
+//            }
+//
+//        } else if (selectedFoundItem != null) {
+//            name.setText("" + selectedFoundItem.getName());
+//            description.setText("" + selectedFoundItem.getDescription());
+//            category.setText("" + selectedFoundItem.getCategory().toString());
+//            type.setText(selectedFoundItem.getItemType().toString());
+//            DateFormat df = new java.text.SimpleDateFormat("yyyy MMMM dd hh:mm aaa");
+//            date.setText(df.format(selectedFoundItem.getDate()));
+//            reward.setVisibility(View.INVISIBLE);
+//            rewardLabel.setVisibility(View.INVISIBLE);
+//
+//            if (selectedFoundItem.getIsOpen()) {
+//                status.setText("Open");
+//            } else {
+//                status.setText("Closed");
+//            }
+//
+//            List<Address> addresses = null;
+//            try {
+//                addresses = geocoder.getFromLocation(selectedFoundItem.getLatitude(), selectedFoundItem.getLongitude(), 1);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            try {
+//                location.setText(getLocationString(addresses.get(0)));
+//            } catch (IndexOutOfBoundsException e) {
+//                location.setText("Probably ain't on land");
+//            }
+//
+//
+//        }
 
 
     }
@@ -158,8 +197,6 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         return loc;
 
     }
-
-
 
 
 //    private void setFields(Item item) {

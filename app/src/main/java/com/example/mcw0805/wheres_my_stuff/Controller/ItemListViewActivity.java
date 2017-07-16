@@ -138,6 +138,7 @@ public class ItemListViewActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Item.getObjectListFromDB(dataSnapshot, itemObjectList, currentType, itemUserMap);
+
                 copyList = new ArrayList<>(itemObjectList);
                 if (itemObjectList.size() > 0) {
 //                    itemAdapter = new ArrayAdapter<>(getApplicationContext(),
@@ -164,12 +165,7 @@ public class ItemListViewActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), ItemDescriptionActivity.class);
                 intent.putExtra("itemOwnerUid", itemUserMap.get(position));
-
-                if (getIntent().getStringExtra("DashboardClickedListType").equals("LostItemListView")) {
-                    intent.putExtra("selectedLostItem", itemAdapter.getItem(position));
-                } else if (getIntent().getStringExtra("DashboardClickedListType").equals("FoundItemListView")) {
-                    intent.putExtra("selectedFoundItem", itemAdapter.getItem(position));
-                }
+                intent.putExtra("selected", itemAdapter.getItem(position));
 
                 startActivity(intent);
             }
