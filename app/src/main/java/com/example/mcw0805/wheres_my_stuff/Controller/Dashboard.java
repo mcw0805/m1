@@ -22,6 +22,7 @@ import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
+import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.firebase.database.ChildEventListener;
@@ -242,6 +243,19 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
 
             }
         });
+        final DatabaseReference neededItems = NeededItem.getNeededItemsRef();
+        neededItems.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                placeItemOnMap(dataSnapshot, ItemType.NEED);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
 
         //adds all found items
@@ -403,7 +417,7 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
                 return new MarkerOptions().position(latLng).title(((FoundItem) item).description())
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
             case NEED:
-                return new MarkerOptions().position(latLng).title(((FoundItem) item).description())
+                return new MarkerOptions().position(latLng).title(((NeededItem) item).description())
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
             default:
                 return new MarkerOptions().position(new LatLng(0, 0)).title("UNKNOWN")
