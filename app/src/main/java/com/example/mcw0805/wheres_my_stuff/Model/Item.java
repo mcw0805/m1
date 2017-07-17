@@ -277,6 +277,16 @@ public class Item implements Parcelable {
             }
         }
     }
+    @Override
+    public String toString() {
+
+        String display =  "(" + ItemType.DONATION.toString().toUpperCase() + ") "
+                + getName() + "- Status: ";
+
+        display += getStatusString();
+
+        return display;
+    }
 
 
 }

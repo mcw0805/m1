@@ -14,6 +14,7 @@ import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
+import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +23,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -54,6 +56,8 @@ public class MyListActivity extends AppCompatActivity {
      */
     private final DatabaseReference mFoundItemRef = FoundItem.getFoundItemsRef();
     private final DatabaseReference mLostItemRef = LostItem.getLostItemsRef();
+    private final DatabaseReference mNeededItemRef = NeededItem.getNeededItemsRef();
+    private final DatabaseReference mDonatedItemRef = FirebaseDatabase.getInstance().getReference("posts/donation-items");
 
     /*
         Firebase authorization
@@ -114,6 +118,32 @@ public class MyListActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Item.getUserObjectList(dataSnapshot, myItemObjectList,
                         ItemType.FOUND, uid, itemUserMap);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mNeededItemRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Item.getUserObjectList(dataSnapshot, myItemObjectList,
+                        ItemType.NEED, uid, itemUserMap);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        mDonatedItemRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Item.getUserObjectList(dataSnapshot, myItemObjectList,
+                        ItemType.DONATION, uid, itemUserMap);
             }
 
             @Override
