@@ -314,7 +314,7 @@ public class SubmitFormActivity extends AppCompatActivity
     private Task submitNeedItem (long dateTime) {
         String pushKey = NeededItem.getNeededItemsRef().push().getKey();
         newItem = new NeededItem(inputName, inputDescription, dateTime,
-                inputLongitude, inputLatitude, inputItemCategory, pushKey);
+                inputLongitude, inputLatitude, ItemCategory.MISC, pushKey);
         incrementSubmissionCount();
         DatabaseReference child = NeededItem.getNeededItemsRef().child(uid + "--" + pushKey);
         return newItem.writeToDatabase(child);
@@ -330,7 +330,7 @@ public class SubmitFormActivity extends AppCompatActivity
         DatabaseReference donationItemsRef = database.getReference("posts/donation-items/");
         String pushKey = donationItemsRef.push().getKey();
         newItem = new Item(inputName, inputDescription, dateTime,
-                inputLongitude, inputLatitude, inputItemCategory, pushKey);
+                inputLongitude, inputLatitude, ItemCategory.MISC, pushKey);
         incrementSubmissionCount();
         DatabaseReference child = donationItemsRef.child(uid + "--" + pushKey);
         return newItem.writeToDatabase(child);

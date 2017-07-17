@@ -70,6 +70,12 @@ public class DashBottomFragment extends Fragment implements View.OnClickListener
             startActivity(new Intent(getActivity(), DonateItemFormActivity.class));
         }
 
+        if (v == donate_list) {
+            Intent intent = new Intent(getActivity(), ItemListViewActivity.class);
+            intent.putExtra("DashboardClickedListType", "helpOut");
+            DashBottomFragment.this.startActivity(intent);
+        }
+
         if (v == submitted_items) {
             startActivity(new Intent(getActivity(), MyListActivity.class));
         }

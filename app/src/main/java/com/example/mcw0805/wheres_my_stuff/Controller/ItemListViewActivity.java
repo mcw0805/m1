@@ -22,6 +22,7 @@ import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
+import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -127,6 +128,9 @@ public class ItemListViewActivity extends AppCompatActivity {
         } else if (getIntent().getStringExtra("DashboardClickedListType").equals("FoundItemListView")) {
             itemsRef = FoundItem.getFoundItemsRef();
             currentType = ItemType.FOUND;
+        } else if(getIntent().getStringExtra("DashboardClickedListType").equals("helpOut")) {
+            itemsRef = NeededItem.getNeededItemsRef();
+            currentType = ItemType.NEED;
         }
 
         if (itemsRef != null) {
