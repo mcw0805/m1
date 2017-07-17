@@ -29,6 +29,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -255,6 +256,19 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
 
             }
         });
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        final DatabaseReference donatedItems = db.getReference("posts/donation-items");
+        donatedItems.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                placeItemOnMap(dataSnapshot, ItemType.DONATION);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
 
@@ -419,6 +433,10 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
             case NEED:
                 return new MarkerOptions().position(latLng).title(((NeededItem) item).description())
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+            case DONATION:
+                return new MarkerOptions().position(latLng).title("Donation: " + item.getName()
+                        + "\n Description: " + item.getDescription() + "\n Status: "
+                        + item.getStatusString()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
             default:
                 return new MarkerOptions().position(new LatLng(0, 0)).title("UNKNOWN")
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
