@@ -20,6 +20,7 @@ import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
+import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -228,6 +229,17 @@ public class SubmitFormActivity extends AppCompatActivity
                         startActivity(submitPostIntent);
                     }
                 });
+            } else if (inputItemType == ItemType.NEED) {
+                submitNeedItem(currentTime).addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
+                        Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
+                        startActivity(submitPostIntent);
+
+                    }
+                });
+
             }
 
 
@@ -283,6 +295,20 @@ public class SubmitFormActivity extends AppCompatActivity
 
 
         DatabaseReference child = FoundItem.getFoundItemsRef().child(uid + "--" + pushKey);
+        return newItem.writeToDatabase(child);
+
+    }
+    /**
+     * Method that submits need item information to the database.
+     *
+     * @param dateTime current date-time
+     */
+    private Task submitNeedItem (long dateTime) {
+        String pushKey = NeededItem.getNeededItemsRef().push().getKey();
+        newItem = new NeededItem(inputName, inputDescription, dateTime,
+                inputLongitude, inputLatitude, inputItemCategory, pushKey);
+        incrementSubmissionCount();
+        DatabaseReference child = NeededItem.getNeededItemsRef().child(uid + "--" + pushKey);
         return newItem.writeToDatabase(child);
 
     }
