@@ -3,6 +3,7 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -113,6 +114,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         back_button.setOnClickListener(this);
 
         retrieveUserInfo();
+        retrieveIntro();
         editToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -137,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         resetName(newNickname);
 
                     }
-
+                    changeIntro(newIntro);
                     introductionViewSwitcher.showNext();
                     introductionTextView.setText(newIntro);
                 }
@@ -311,6 +313,60 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         finish();
     }
+
+    /**
+     * Method to change the intro of a user
+     * @param newIntro new intro of user
+     */
+    private void changeIntro(final String newIntro) {
+        final DatabaseReference userIntro = FirebaseDatabase.getInstance().getReference("intros");
+        final DatabaseReference sUserIntro = userIntro.child(currUserUID);
+        if (newIntro != null) {
+                sUserIntro.child("intro").setValue(newIntro);
+        }
+    }
+
+    /**
+     * Method to set the profile's info
+     */
+    private void retrieveIntro() {
+        final DatabaseReference userIntro = FirebaseDatabase.getInstance().getReference("intros");
+        final DatabaseReference sUserIntro = userIntro.child(currUserUID);
+        sUserIntro.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String intro = (String) dataSnapshot.getValue();
+                if (intro != null) {
+                    introductionTextView.setText(intro);
+                    introductionEdit.setText(intro);
+
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
 
 
 }
