@@ -239,9 +239,17 @@ public class SubmitFormActivity extends AppCompatActivity
 
                     }
                 });
+            } else if (inputItemType == ItemType.DONATION) {
+                submitDonatedItem(currentTime).addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
+                        Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
+                        startActivity(submitPostIntent);
 
+                    }
+                });
             }
-
 
         }
 
@@ -312,6 +320,22 @@ public class SubmitFormActivity extends AppCompatActivity
         return newItem.writeToDatabase(child);
 
     }
+    /**
+     * Method that submits need donated information to the database.
+     *
+     * @param dateTime current date-time
+     */
+    private Task submitDonatedItem (long dateTime) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference donationItemsRef = database.getReference("posts/donation-items/");
+        String pushKey = donationItemsRef.push().getKey();
+        newItem = new Item(inputName, inputDescription, dateTime,
+                inputLongitude, inputLatitude, inputItemCategory, pushKey);
+        incrementSubmissionCount();
+        DatabaseReference child = donationItemsRef.child(uid + "--" + pushKey);
+        return newItem.writeToDatabase(child);
+    }
+
 
     /**
      * Initializes the various texts/numbers from the form as instance data
