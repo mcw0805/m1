@@ -332,7 +332,7 @@ public class SubmitFormActivity extends AppCompatActivity
 
         inputItemCategory = (ItemCategory) categorySpinner.getSelectedItem();
         if (FormValidation.categoryNothingSelected(inputItemCategory)
-                || typeSpinner.getVisibility() == View.INVISIBLE) {
+                && typeSpinner.getVisibility() == View.INVISIBLE) {
             valid = false;
             if (!valid) {
                 Log.w(TAG, "Item category: Nothing selected");
