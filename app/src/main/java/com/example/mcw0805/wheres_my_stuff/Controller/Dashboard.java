@@ -101,7 +101,6 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
             }
         };
 
-
         // Create the scene root (VIEWS) for the scenes in this app
         //mSceneRootTop = findViewById(R.id.scene_root_top);
         //mSceneRootBottom = findViewById(R.id.scene_root_bottom);
@@ -376,6 +375,10 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
             item.setLongitude(ds.getValue(Item.class).getLongitude());
             item.setDate(ds.getValue(Item.class).getDate());
             item.setUid(ds.getValue(Item.class).getUid());
+
+            if (type == ItemType.LOST) {
+                ((LostItem) item).setReward(ds.getValue(LostItem.class).getReward());
+            }
 
             LatLng latLng = new LatLng(item.getLatitude(), item.getLongitude());
             mMap.addMarker(getMarkerOptions(latLng, item, type));
