@@ -278,7 +278,7 @@ public class SubmitFormActivity extends AppCompatActivity
         String pushKey = LostItem.getLostItemsRef().push().getKey();
         newItem = new LostItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory,
-                pushKey, reward);
+                uid, reward);
         incrementSubmissionCount();
         DatabaseReference child = LostItem.getLostItemsRef().child(uid + "--" + pushKey);
 
@@ -293,7 +293,7 @@ public class SubmitFormActivity extends AppCompatActivity
     private Task submitFoundItem(long dateTime) {
         String pushKey = FoundItem.getFoundItemsRef().push().getKey();
         newItem = new FoundItem(inputName, inputDescription, dateTime,
-                inputLongitude, inputLatitude, inputItemCategory, pushKey);
+                inputLongitude, inputLatitude, inputItemCategory, uid);
         incrementSubmissionCount();
 
 
@@ -325,7 +325,7 @@ public class SubmitFormActivity extends AppCompatActivity
         DatabaseReference donationItemsRef = database.getReference("posts/donation-items/");
         String pushKey = donationItemsRef.push().getKey();
         newItem = new Item(inputName, inputDescription, dateTime,
-                inputLongitude, inputLatitude, ItemCategory.MISC, pushKey);
+                inputLongitude, inputLatitude, ItemCategory.MISC, uid);
         incrementSubmissionCount();
         DatabaseReference child = donationItemsRef.child(uid + "--" + pushKey);
         return newItem.writeToDatabase(child);

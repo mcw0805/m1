@@ -309,9 +309,7 @@ public class Item implements Parcelable {
 
         //invariant: if cat is ItemCategory.NOTHING_SELECTED, it will
         //always return the original result
-        if (cat == ItemCategory.NOTHING_SELECTED) {
-            return itemObjectList;
-        }
+
 
         //frame condition: if matching category is found,
         // then the size of filteredItemList will be increased by 1.

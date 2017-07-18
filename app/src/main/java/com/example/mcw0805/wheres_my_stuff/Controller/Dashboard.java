@@ -346,17 +346,17 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback,
     private MarkerOptions getMarkerOptions(LatLng latLng, Item item, ItemType type, String itemUser) {
         switch (type) {
         case LOST:
-            return new MarkerOptions().position(latLng).title(((LostItem) item).description() + "\nUID:" + itemUser);
+            return new MarkerOptions().position(latLng).title(((LostItem) item).description());
         case FOUND:
-            return new MarkerOptions().position(latLng).title(((FoundItem) item).description() + "\nUID:" + itemUser)
+            return new MarkerOptions().position(latLng).title(((FoundItem) item).description())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         case NEED:
-            return new MarkerOptions().position(latLng).title(((NeededItem) item).description() + "\nUID:" + itemUser)
+            return new MarkerOptions().position(latLng).title(((NeededItem) item).description() )
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         case DONATION:
             return new MarkerOptions().position(latLng).title("Donation: " + item.getName()
                     + "\n Description: " + item.getDescription() + "\n Status: "
-                    + item.getStatusString() + "\nUID:" + itemUser).icon(BitmapDescriptorFactory.defaultMarker(
+                    + item.getStatusString()).icon(BitmapDescriptorFactory.defaultMarker(
                             BitmapDescriptorFactory.HUE_GREEN));
         default:
             return new MarkerOptions().position(new LatLng(0, 0)).title("UNKNOWN")
@@ -370,10 +370,8 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     public void onInfoWindowClick(Marker marker) {
         Item item = (Item) marker.getTag();
-        String[] uidArray = marker.getTitle().split("UID:");
-        String uid = uidArray[1];
         Intent intent = new Intent(getApplicationContext(), ItemDescriptionActivity.class);
-        intent.putExtra("itemOwnerUid", uid);
+        intent.putExtra("itemOwnerUid", item.getUid());
         intent.putExtra("selected", item);
         startActivity(intent);
         return;
