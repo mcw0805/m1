@@ -56,7 +56,7 @@ public class ItemListViewActivity extends AppCompatActivity {
         List of LostItem objects, which are parcelable
      */
     private List<Item> itemObjectList;
-    private List<Item> copyList;
+    private List<Item> copyList; //debug use
 
     private Map<Integer, String> itemUserMap;
 
@@ -179,7 +179,7 @@ public class ItemListViewActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 itemAdapter = new ItemAdapter(getApplicationContext(), R.layout.item_row_layout,
-                        filterByType((ItemCategory) filterSpinner.getSelectedItem()));
+                        filterByCategory((ItemCategory) filterSpinner.getSelectedItem()));
 
                 itemsLv.setAdapter(itemAdapter);
                 itemAdapter.notifyDataSetChanged();
@@ -199,7 +199,7 @@ public class ItemListViewActivity extends AppCompatActivity {
      * @param cat category of the item
      * @return list containing the specified category
      */
-    private List<Item> filterByType(ItemCategory cat) {
+    private List<Item> filterByCategory(ItemCategory cat) {
 
         if (cat == ItemCategory.NOTHING_SELECTED) {
             return itemObjectList;

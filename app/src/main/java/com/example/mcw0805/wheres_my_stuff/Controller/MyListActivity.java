@@ -4,13 +4,20 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ListView;
+import android.widget.Spinner;
+
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
+import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
@@ -33,7 +40,9 @@ public class MyListActivity extends AppCompatActivity {
         ListView widget and its adapter
      */
     private ListView myItemListView;
-    private ArrayAdapter<Item> myItemAdapter;
+    private ItemAdapter myItemAdapter;
+    private EditText searchBarEdit;
+    private Spinner filterSpinner;
 
     /*
         Map that contains the item position in the ListView and the database push key
@@ -45,7 +54,6 @@ public class MyListActivity extends AppCompatActivity {
         List of LostItem objects, which are parcelable
      */
     private List<Item> myItemObjectList;
-
 
     /*
         Database reference for the lost items in Firebase
@@ -95,6 +103,30 @@ public class MyListActivity extends AppCompatActivity {
 
         myItemObjectList = new ArrayList<>();
         myItemListView = (ListView) findViewById(R.id.item_listView);
+
+        //spinner for filtering
+//        filterSpinner = (Spinner) findViewById(R.id.filter_spinner_lost);
+//        final ArrayAdapter<ItemType> typeAdapter = new ArrayAdapter(this,
+//                android.R.layout.simple_spinner_item, ItemType.values());
+//        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        /* filters out the ListView based on the category selected */
+//        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                myItemAdapter = new ItemAdapter(getApplicationContext(), R.layout.item_row_layout,
+//                        filterByType((ItemType) filterSpinner.getSelectedItem()));
+//
+//                myItemListView.setAdapter(myItemAdapter);
+//                myItemAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+
+        searchBarEdit = (EditText) findViewById(R.id.searchBarEdit);
 
 
         mLostItemRef.addValueEventListener(new ValueEventListener() {
@@ -149,8 +181,8 @@ public class MyListActivity extends AppCompatActivity {
             }
         });
 
-        myItemAdapter = new ArrayAdapter<>(getApplicationContext(),
-                R.layout.item_row_layout, R.id.textView, myItemObjectList);
+        myItemAdapter = new ItemAdapter(getApplicationContext(),
+                R.layout.item_row_layout,  myItemObjectList);
         myItemListView.setAdapter(myItemAdapter);
         myItemAdapter.notifyDataSetChanged();
 
@@ -163,13 +195,84 @@ public class MyListActivity extends AppCompatActivity {
                 intent.putExtra("userItemPushKey", itemUserMap.get(position));
                 startActivity(intent);
 
-                String deletedItem = getIntent().getStringExtra("deleted");
-                if (deletedItem != null) {
+                Intent intent1 = getIntent();
+                if (intent1 != null) {
                     finish();
                 }
             }
         });
 
+        /* filtering based on the text typed */
+//        searchBarEdit.addTextChangedListener(new TextWatcher() {
+//
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                Log.i(tag, "Before change: " + s.toString());
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(final CharSequence s, final int start, final int before, int count) {
+//                myItemAdapter.getFilter().filter(s, new Filter.FilterListener() {
+//                    @Override
+//                    public void onFilterComplete(int count) {
+//                        Log.i(tag, "Item Count: " + count);
+//                        Log.i(tag, "Search bar current: " + searchBarEdit.getText().toString());
+//
+//                    }
+//                });
+//
+//                myItemAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                Log.i(tag, "After text change: " + s.toString());
+//
+//            }
+//
+//        });
+
+
+    }
+
+    /**
+     * Filters the list of items based on the chosen type.
+     *
+     * @param type type of the item: Lost, Found, Needed, Donation
+     * @return list containing the specified type
+     */
+    private List<Item> filterByType(ItemType type) {
+
+        List<Item> filteredItemList = new ArrayList<>();
+        for (Item fi : myItemObjectList) {
+            switch (type) {
+                case LOST:
+                    if (fi instanceof LostItem) {
+                        filteredItemList.add(fi);
+                    }
+                    break;
+                case FOUND:
+                    if (fi instanceof FoundItem) {
+                        filteredItemList.add(fi);
+                    }
+                    break;
+                case NEED:
+                    if (fi instanceof NeededItem) {
+                        filteredItemList.add(fi);
+                    }
+                    break;
+                default:
+                    if (fi.getType() == ItemType.DONATION) {
+                        filteredItemList.add(fi);
+                    }
+            }
+
+
+        }
+
+        return filteredItemList;
 
     }
 

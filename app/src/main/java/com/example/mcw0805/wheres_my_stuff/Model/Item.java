@@ -34,7 +34,7 @@ public class Item implements Parcelable {
     protected ItemCategory category;
     protected String uid;
     protected boolean isOpen;
-    //protected final static ItemType type = ItemType.DONATION;
+    protected final static ItemType type = ItemType.DONATION;
 
     /**
      * Default no-arg constructor.
@@ -171,7 +171,7 @@ public class Item implements Parcelable {
         this.category = category;
     }
 
-    //public ItemType getType() { return type; }
+    public ItemType getType() { return type; }
 
     public String getStatusString() {
         return isOpen ? "OPEN" : "RESOLVED";
