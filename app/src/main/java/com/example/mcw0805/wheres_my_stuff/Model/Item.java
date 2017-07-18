@@ -292,5 +292,50 @@ public class Item implements Parcelable {
         return display;
     }
 
+    /**
+     * Filters the list of items based on the chosen category.
+     *
+     * @param cat category of the item
+     * @return list containing the specified category
+     */
+    public static List<Item> filterByCategory(List<Item> itemObjectList, ItemCategory cat) {
+
+        assert (itemObjectList != null);
+
+        if (cat == ItemCategory.NOTHING_SELECTED) {
+            return itemObjectList;
+        }
+
+        List<Item> filteredItemList = new ArrayList<>();
+        for (Item li : itemObjectList) {
+            if (li.getCategory() == cat) {
+                filteredItemList.add(li);
+            }
+        }
+
+        return filteredItemList;
+
+    }
+
+    /**
+     * Filters the list of items based on the chosen type.
+     *
+     * @param type type of the item: Lost, Found, Needed, Donation
+     * @return list containing the specified type
+     */
+    public static List<Item> filterByType(List<Item> itemObjectList, ItemType type) {
+
+        List<Item> filteredItemList = new ArrayList<>();
+        for (Item fi : itemObjectList) {
+            if (fi.getType() == type) {
+                filteredItemList.add(fi);
+            }
+        }
+
+        return filteredItemList;
+
+    }
+
+
 
 }

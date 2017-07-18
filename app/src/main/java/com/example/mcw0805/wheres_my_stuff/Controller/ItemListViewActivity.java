@@ -179,7 +179,8 @@ public class ItemListViewActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 itemAdapter = new ItemAdapter(getApplicationContext(), R.layout.item_row_layout,
-                        filterByCategory((ItemCategory) filterSpinner.getSelectedItem()));
+                        Item.filterByCategory(itemObjectList,
+                                (ItemCategory) filterSpinner.getSelectedItem()));
 
                 itemsLv.setAdapter(itemAdapter);
                 itemAdapter.notifyDataSetChanged();
@@ -193,27 +194,6 @@ public class ItemListViewActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Filters the list of items based on the chosen category.
-     *
-     * @param cat category of the item
-     * @return list containing the specified category
-     */
-    private List<Item> filterByCategory(ItemCategory cat) {
 
-        if (cat == ItemCategory.NOTHING_SELECTED) {
-            return itemObjectList;
-        }
-
-        List<Item> filteredItemList = new ArrayList<>();
-        for (Item li : itemObjectList) {
-            if (li.getCategory() == cat) {
-                filteredItemList.add(li);
-            }
-        }
-
-        return filteredItemList;
-
-    }
 
 }
