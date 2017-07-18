@@ -163,8 +163,8 @@ public class MyListActivity extends AppCompatActivity {
                 intent.putExtra("userItemPushKey", itemUserMap.get(position));
                 startActivity(intent);
 
-                Intent editIntent = getIntent();
-                if (editIntent != null) {
+                String deletedItem = getIntent().getStringExtra("deleted");
+                if (deletedItem != null) {
                     finish();
                 }
             }
