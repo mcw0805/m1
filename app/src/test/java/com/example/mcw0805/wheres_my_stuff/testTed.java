@@ -20,6 +20,6 @@ public class testTed {
 
     @Before
     private void setUp() {
-        
+
     }
 }
