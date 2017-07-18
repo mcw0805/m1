@@ -23,11 +23,15 @@ import android.widget.ViewSwitcher;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
+import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
+import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.DateFormat;
 
 public class MyEditableItemActivity extends AppCompatActivity implements View.OnClickListener {
@@ -272,16 +276,39 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         progressDialog.setMessage("Please wait until your item is removed...");
         progressDialog.show();
 
-        if (selected != null) {
+        try {
             if (selected instanceof LostItem) {
                 itemsRef = LostItem.getLostItemsRef().child(itemKey);
                 itemsRef.removeValue();
-                return;
             } else if (selected instanceof FoundItem) {
                 itemsRef = FoundItem.getFoundItemsRef().child(itemKey);
                 itemsRef.removeValue();
-                return;
+            } else if (selected instanceof NeededItem) {
+                itemsRef = ((NeededItem) selected).getNeededItemsRef().child(itemKey);
+                itemsRef.removeValue();
+            } else {
+                itemsRef = FirebaseDatabase.getInstance().getReference("posts/donation-items/").child(itemKey);
+                itemsRef.removeValue();
             }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Log.w(TAG, "One of the fields is null, so nothing can be retrieved from the DB.");
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MyEditableItemActivity.this);
+            dialogBuilder.setMessage("Sorry, the selected item could not be deleted. Please try refreshing.");
+            dialogBuilder.setCancelable(true);
+
+            dialogBuilder.setNegativeButton(
+                    "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                            startActivity(new Intent(getApplicationContext(), MyListActivity.class));
+                            finish();
+                        }
+                    });
+
+            AlertDialog alert11 = dialogBuilder.create();
+            alert11.show();
         }
     }
 

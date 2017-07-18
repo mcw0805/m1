@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
+import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.database.DataSnapshot;
@@ -44,6 +45,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
     private TextView posterNickname;
 
     private TextView rewardLabel;
+    private TextView catLabel;
 
     private Geocoder geocoder;
 
@@ -70,6 +72,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.item_description);
         status = (TextView) findViewById(R.id.item_curr_status);
         category = (TextView) findViewById(R.id.item_category);
+        catLabel = (TextView) findViewById(R.id.item_cat);
         location = (TextView) findViewById(R.id.item_location);
         type = (TextView) findViewById(R.id.item_type);
         date = (TextView) findViewById(R.id.item_post_date);
@@ -96,6 +99,12 @@ public class ItemDescriptionActivity extends AppCompatActivity {
                 type.setText(((FoundItem) selected).getItemType().toString());
                 reward.setVisibility(View.INVISIBLE);
                 rewardLabel.setVisibility(View.INVISIBLE);
+            } else if (selected instanceof NeededItem) {
+                type.setText(((NeededItem) selected).getItemType().toString());
+                reward.setVisibility(View.INVISIBLE);
+                rewardLabel.setVisibility(View.INVISIBLE);
+                category.setVisibility(View.GONE);
+                catLabel.setVisibility(View.GONE);
             }
 
             List<Address> addresses = null;

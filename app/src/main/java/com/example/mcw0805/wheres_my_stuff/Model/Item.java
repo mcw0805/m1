@@ -22,7 +22,7 @@ import static com.google.android.gms.tasks.Tasks.whenAll;
 /**
  * Created by jordan on 6/20/17.
  */
-//6/22/17 Changed cateogry to string for testing purposes
+//6/22/17 Changed category to string for testing purposes
 //6/25/17 category is back to enum, temporarily made it Item not abstract
 
 public class Item implements Parcelable {
@@ -34,6 +34,7 @@ public class Item implements Parcelable {
     protected ItemCategory category;
     protected String uid;
     protected boolean isOpen;
+    protected final static ItemType type = ItemType.DONATION;
 
     /**
      * Default no-arg constructor.
@@ -57,8 +58,8 @@ public class Item implements Parcelable {
         this.name = name;
         this.description = description;
         this.date = date;
-        this.longitude = longitude;
         this.latitude = latitude;
+        this.longitude = longitude;
         this.category = category;
         this.uid = uid;
         this.isOpen = true;
@@ -170,6 +171,8 @@ public class Item implements Parcelable {
         this.category = category;
     }
 
+    public ItemType getType() { return type; }
+
     public String getStatusString() {
         return isOpen ? "OPEN" : "RESOLVED";
     }
@@ -277,6 +280,7 @@ public class Item implements Parcelable {
             }
         }
     }
+
     @Override
     public String toString() {
 
