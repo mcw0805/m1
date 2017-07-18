@@ -46,16 +46,14 @@ import com.example.mcw0805.wheres_my_stuff.R;
  * The main dashboard of the application when a user logs in.
  * Displays the map and the panel to navigate to other pages.
  */
-public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
+public class Dashboard extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener {
     private GoogleMap mMap;
 
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
-    private ChildEventListener lostListen;
-    private ChildEventListener foundListen;
-
     private final String tag = "Dashboard";
 
     @Override
@@ -319,13 +317,18 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
             item.setLongitude(ds.getValue(Item.class).getLongitude());
             item.setDate(ds.getValue(Item.class).getDate());
             item.setUid(ds.getValue(Item.class).getUid());
-
+            
             if (type == ItemType.LOST) {
                 ((LostItem) item).setReward(ds.getValue(LostItem.class).getReward());
             }
 
+            String pushKey = ds.getKey().toString();
+            String[] parts = pushKey.split("--");
+            String itemUser = parts[0];
+
             LatLng latLng = new LatLng(item.getLatitude(), item.getLongitude());
-            mMap.addMarker(getMarkerOptions(latLng, item, type));
+            mMap.addMarker(getMarkerOptions(latLng, item, type, itemUser)).setTag(item);
+            mMap.setOnInfoWindowClickListener(this);
             Log.d(tag, "added item");
         }
 
@@ -337,22 +340,23 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
      * @param latLng latitude/longitude
      * @param item item that is being placed on the map
      * @param type type of the item
+     * @param itemUser user's string
      * @return marker options
      */
-    private MarkerOptions getMarkerOptions(LatLng latLng, Item item, ItemType type) {
+    private MarkerOptions getMarkerOptions(LatLng latLng, Item item, ItemType type, String itemUser) {
         switch (type) {
         case LOST:
-            return new MarkerOptions().position(latLng).title(((LostItem) item).description());
+            return new MarkerOptions().position(latLng).title(((LostItem) item).description() + "\nUID:" + itemUser);
         case FOUND:
-            return new MarkerOptions().position(latLng).title(((FoundItem) item).description())
+            return new MarkerOptions().position(latLng).title(((FoundItem) item).description() + "\nUID:" + itemUser)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         case NEED:
-            return new MarkerOptions().position(latLng).title(((NeededItem) item).description())
+            return new MarkerOptions().position(latLng).title(((NeededItem) item).description() + "\nUID:" + itemUser)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         case DONATION:
             return new MarkerOptions().position(latLng).title("Donation: " + item.getName()
                     + "\n Description: " + item.getDescription() + "\n Status: "
-                    + item.getStatusString()).icon(BitmapDescriptorFactory.defaultMarker(
+                    + item.getStatusString() + "\nUID:" + itemUser).icon(BitmapDescriptorFactory.defaultMarker(
                             BitmapDescriptorFactory.HUE_GREEN));
         default:
             return new MarkerOptions().position(new LatLng(0, 0)).title("UNKNOWN")
@@ -361,5 +365,17 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
         }
 
 
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Item item = (Item) marker.getTag();
+        String[] uidArray = marker.getTitle().split("UID:");
+        String uid = uidArray[1];
+        Intent intent = new Intent(getApplicationContext(), ItemDescriptionActivity.class);
+        intent.putExtra("itemOwnerUid", uid);
+        intent.putExtra("selected", item);
+        startActivity(intent);
+        return;
     }
 }
