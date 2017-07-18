@@ -1,12 +1,8 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
-
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.mcw0805.wheres_my_stuff.R;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,8 +13,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -47,10 +41,11 @@ public class BannedUserListActivity extends AppCompatActivity {
     private Map<String, Object> bannedMap;
     // database reference to all the users
     private DatabaseReference mUserRef;
-    private final String TAG = "BannedUserListActivity";
+    private final String tag = "BannedUserListActivity";
 
     @Override
-    protected void onStart() {super.onStart();}
+    protected void onStart() {
+        super.onStart(); }
 
 
     @Override
@@ -66,7 +61,7 @@ public class BannedUserListActivity extends AppCompatActivity {
         mUserRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map<String,Object> user = (Map<String, Object>) dataSnapshot.getValue();
+                Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();
                 // name of the user
                 String name = (String) user.get("name");
                 User newUser = User.buildUserObject(dataSnapshot);
@@ -107,11 +102,11 @@ public class BannedUserListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 bannedUserAdapter.notifyDataSetChanged();
-                Log.d(TAG, "pos 1");
+                Log.d(tag, "pos 1");
                 Intent intent = new Intent(getApplicationContext(), UserDescriptionActivity.class);
-                Log.d(TAG, "pos 2");
+                Log.d(tag, "pos 2");
                 intent.putExtra("UserObj", bannedUserAdapter.getItem(position));
-                Log.d(TAG, "pos 3");
+                Log.d(tag, "pos 3");
                 startActivity(intent);
             }
         });

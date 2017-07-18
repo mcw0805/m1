@@ -1,14 +1,12 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
-import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 
 import java.text.DateFormat;
@@ -39,7 +37,7 @@ public class FoundItemDescription extends AppCompatActivity {
 
         Intent intent = getIntent();
         //get found item that was passed to this class from the FoundItemListActivity
-        FoundItem selected =intent.getParcelableExtra("selectedFoundItem");
+        FoundItem selected = intent.getParcelableExtra("selectedFoundItem");
         /*
         * sets all of the textViews that are specific to each object
          */

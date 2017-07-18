@@ -74,6 +74,12 @@ public class FormValidation {
         return validInteger;
     }
 
+    /**
+     * Checks if field is too long
+     * @param text text to check
+     * @param maxLength the maxLength
+     * @return boolean true or false
+     */
     public static boolean fieldTooLong(EditText text, int maxLength) {
         assert text != null;
 
@@ -86,6 +92,11 @@ public class FormValidation {
         return tooLong;
     }
 
+    /**
+     * Checks if the zipcode address is valid
+     * @param zip zipcode to check
+     * @return boolean if valid or not
+     */
     public static boolean isValidZipCode(String zip) {
         boolean validZipCode = false;
         String zipCodePattern = "\\d{5}(-\\d{4})?";
@@ -96,16 +107,22 @@ public class FormValidation {
 
     }
 
+    /**
+     * checks if location is valid
+     * @param latitude latitude of location
+     * @param longitude longitude of location
+     * @return boolean if the location is valid or not
+     */
     public static boolean isValidLocation(double latitude, double longitude) {
-        final int MAX_LATITUDE = 90;
-        final int MAX_LONGITUDE = 180;
+        final int maxLatitude = 90;
+        final int maxLongitude = 180;
         boolean isValid = true;
 
-        if (Math.abs(latitude) > MAX_LATITUDE) {
+        if (Math.abs(latitude) > maxLatitude) {
             isValid = false;
         }
 
-        if (Math.abs(longitude) > MAX_LONGITUDE) {
+        if (Math.abs(longitude) > maxLongitude) {
             isValid = false;
         }
         return isValid;

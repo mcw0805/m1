@@ -1,28 +1,22 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
-
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.example.mcw0805.wheres_my_stuff.R;
 
 /**
  * @Author Ted Shang
  * @Version 1.1
  * Removed pending and approved categories as of 7/11/17
  */
-public class AdminDashboard extends AppCompatActivity implements View.OnClickListener{
+public class AdminDashboard extends AppCompatActivity implements View.OnClickListener {
     //private TextView pending;
     //private TextView approved;
     private TextView active;
@@ -70,7 +64,7 @@ public class AdminDashboard extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onClick (View v) {
+    public void onClick(View v) {
         /*//if (v.equals(pending)) {
             Intent intent = new Intent (this, PendingItemListActivity.class);
             AdminDashboard.this.startActivity(intent);
@@ -80,22 +74,18 @@ public class AdminDashboard extends AppCompatActivity implements View.OnClickLis
             AdminDashboard.this.startActivity(intent);
         }*/
         if (v.equals(active)) {
-            Intent intent = new Intent (this, ActiveUserListActivity.class);
+            Intent intent = new Intent(this, ActiveUserListActivity.class);
             AdminDashboard.this.startActivity(intent);
-        }
-        else if (v.equals(banned)) {
-            Intent intent = new Intent (this, BannedUserListActivity.class);
+        } else if (v.equals(banned)) {
+            Intent intent = new Intent(this, BannedUserListActivity.class);
             AdminDashboard.this.startActivity(intent);
-        }
-        else if (v.equals(locked)) {
-            Intent intent = new Intent (this, LockedUserListActivity.class);
+        } else if (v.equals(locked)) {
+            Intent intent = new Intent(this, LockedUserListActivity.class);
             AdminDashboard.this.startActivity(intent);
-        }
-        else if (v.equals(profile)) {
+        } else if (v.equals(profile)) {
             Intent intent = new Intent(this, ProfileActivity.class);
             AdminDashboard.this.startActivity(intent);
-        }
-        else if (v.equals(logout)) {
+        } else if (v.equals(logout)) {
             signOut();
             Toast.makeText(getApplicationContext(),
                     "Successfully signed out.", Toast.LENGTH_SHORT).show();

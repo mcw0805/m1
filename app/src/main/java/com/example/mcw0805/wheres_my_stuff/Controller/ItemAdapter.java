@@ -30,6 +30,12 @@ public class ItemAdapter extends ArrayAdapter<Item> {
     private final Object mLock = new Object();
     private int len;
 
+    /**
+     * Constructor for item adapter
+     * @param context context for the item adapter
+     * @param resource layout resources
+     * @param newItems items added to list
+     */
     public ItemAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Item> newItems) {
         super(context, resource, newItems);
         this.items = newItems;
@@ -37,9 +43,13 @@ public class ItemAdapter extends ArrayAdapter<Item> {
         cloneItems(newItems);
     }
 
+    /**
+     * clones the items to a different list
+     * @param itemList list to be cloned
+     */
     protected void cloneItems(List<Item> itemList) {
         for (Iterator iterator = itemList.iterator(); iterator
-                .hasNext(); ) {
+                .hasNext();) {
             Item i = (Item) iterator.next();
             originalItems.add(i);
         }
@@ -144,19 +154,6 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                     if (valText.toLowerCase().startsWith(prefixString)) {
                         newValues.add(val);
                     }
-
-                    /*  if none of the things start with the constraint,
-                        it breaks down other words, if any.
-                     */
-//                    else {
-//                        final String[] words = valText.split(" ");
-//                        for (String word : words) {
-//                            if (word.startsWith(prefixString)) {
-//                                newValues.add(val);
-//                                break;
-//                            }
-//                        }
-//                    }
                 }
 
                 results.values = newValues;
@@ -176,12 +173,13 @@ public class ItemAdapter extends ArrayAdapter<Item> {
                 clear();
                 //Add the items back in
                 for (Iterator iterator = localItems.iterator(); iterator
-                        .hasNext(); ) {
+                        .hasNext();) {
                     Item i = (Item) iterator.next();
                     add(i);
                 }
 
-            }//end synchronized
+            }
+            //end synchronized
         }
     }
 

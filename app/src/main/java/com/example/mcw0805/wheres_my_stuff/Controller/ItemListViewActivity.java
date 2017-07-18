@@ -66,7 +66,7 @@ public class ItemListViewActivity extends AppCompatActivity {
      */
     private DatabaseReference itemsRef;
 
-    private final String TAG = "ItemListActivity";
+    private final String tag = "ItemListActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public class ItemListViewActivity extends AppCompatActivity {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.i(TAG, "Before change: " + s.toString());
+                Log.i(tag, "Before change: " + s.toString());
 
             }
 
@@ -103,8 +103,8 @@ public class ItemListViewActivity extends AppCompatActivity {
                 itemAdapter.getFilter().filter(s, new Filter.FilterListener() {
                     @Override
                     public void onFilterComplete(int count) {
-                        Log.i(TAG, "Item Count: " + count);
-                        Log.i(TAG, "Search bar current: " + searchBarEdit.getText().toString());
+                        Log.i(tag, "Item Count: " + count);
+                        Log.i(tag, "Search bar current: " + searchBarEdit.getText().toString());
 
                     }
                 });
@@ -115,7 +115,7 @@ public class ItemListViewActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.i(TAG, "After text change: " + s.toString());
+                Log.i(tag, "After text change: " + s.toString());
 
             }
 
@@ -128,7 +128,7 @@ public class ItemListViewActivity extends AppCompatActivity {
         } else if (getIntent().getStringExtra("DashboardClickedListType").equals("FoundItemListView")) {
             itemsRef = FoundItem.getFoundItemsRef();
             currentType = ItemType.FOUND;
-        } else if(getIntent().getStringExtra("DashboardClickedListType").equals("helpOut")) {
+        } else if (getIntent().getStringExtra("DashboardClickedListType").equals("helpOut")) {
             itemsRef = NeededItem.getNeededItemsRef();
             currentType = ItemType.NEED;
         }
@@ -145,13 +145,11 @@ public class ItemListViewActivity extends AppCompatActivity {
 
                 copyList = new ArrayList<>(itemObjectList);
                 if (itemObjectList.size() > 0) {
-//                    itemAdapter = new ArrayAdapter<>(getApplicationContext(),
-//                            R.layout.item_row_layout, R.id.textView, itemObjectList);
                     itemAdapter = new ItemAdapter(getApplicationContext(),
                             R.layout.item_row_layout, itemObjectList);
                     itemsLv.setAdapter(itemAdapter);
                 } else {
-                    Log.w(TAG, "NO DATA");
+                    Log.w(tag, "NO DATA");
                 }
             }
 
@@ -180,10 +178,6 @@ public class ItemListViewActivity extends AppCompatActivity {
         filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                itemAdapter = new ArrayAdapter<>(getApplicationContext(),
-//                        R.layout.item_row_layout, R.id.textView,
-//                        filterByType((ItemCategory) filterSpinner.getSelectedItem()));
-
                 itemAdapter = new ItemAdapter(getApplicationContext(), R.layout.item_row_layout,
                         filterByType((ItemCategory) filterSpinner.getSelectedItem()));
 

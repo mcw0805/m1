@@ -1,44 +1,32 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
-
-        import android.app.ProgressDialog;
-        import android.content.Context;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.support.annotation.NonNull;
-        import android.support.v7.app.AlertDialog;
-        import android.support.v7.app.AppCompatActivity;
-        import android.text.TextUtils;
-        import android.util.Log;
-        import android.view.ViewGroup;
-        import android.view.animation.AlphaAnimation;
-        import android.view.animation.Animation;
-        import android.view.animation.AnimationSet;
-        import android.view.animation.AnimationUtils;
-        import android.view.animation.LayoutAnimationController;
-        import android.view.animation.TranslateAnimation;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.view.View;
-        import android.widget.LinearLayout;
-        import android.widget.TextView;
-        import android.widget.Toast;
-
-
-        import com.example.mcw0805.wheres_my_stuff.Model.Admin;
-        import com.example.mcw0805.wheres_my_stuff.Model.User;
-        import com.example.mcw0805.wheres_my_stuff.R;
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.auth.AuthResult;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.auth.FirebaseUser;
-        import com.google.firebase.database.ChildEventListener;
-        import com.google.firebase.database.DataSnapshot;
-        import com.google.firebase.database.DatabaseError;
-        import com.google.firebase.database.DatabaseReference;
-        import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.database.ValueEventListener;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.animation.AnimationSet;
+import android.widget.Button;
+import android.widget.EditText;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.example.mcw0805.wheres_my_stuff.Model.User;
+import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Controller for the login. Uses Firebase email password authentication.
@@ -63,12 +51,12 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private DatabaseReference mUserRef;
     private DatabaseReference mUserRef2;
     //transition instance data:
-    AnimationSet set;
+    private AnimationSet set;
 
 
     /**
      * Creates the activity and instantiates widgets
-     * @param savedInstanceState
+     * @param savedInstanceState saved instance
      */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -185,16 +173,19 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     for (DataSnapshot user : dataSnapshot.getChildren()) {
                                         User u = User.buildUserObject(user);
-                                        if (u!= null) {
+                                        if (u != null) {
                                             Log.d(TAG, Boolean.toString(u.getIsBanned()));
                                             if (u.getUid().equals(uid)) {
                                                 if (u.getIsBanned()) {
                                                     //If banned ALERT
                                                     Log.d(TAG, "signInWithEmail:banned");
-                                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(LogInActivity.this);
-                                                    builder1.setMessage("Your account has been BANNED for violating ToS. Please contact support ");
+                                                    AlertDialog.Builder builder1 =
+                                                            new AlertDialog.Builder(LogInActivity.
+                                                                    this);
+                                                    builder1.setMessage("Your account"
+                                                            + "has been BANNED for violating ToS. "
+                                                            + "Please contact support ");
                                                     builder1.setCancelable(true);
-
                                                     builder1.setPositiveButton(
                                                             "Cancel",
                                                             new DialogInterface.OnClickListener() {
@@ -218,15 +209,18 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                     AlertDialog alert11 = builder1.create();
                                                     alert11.show();
                                                     return;
-                                                }
-                                                //Checks if user is locked out
-                                                else if (u.getLockAttempts() > 2) {
+                                                    //Checks if user is locked out
+                                                } else if (u.getLockAttempts() > 2) {
                                                     //locked out set value to true
-                                                    DatabaseReference mLockedout = mUserRef2.child("locked");
+                                                    DatabaseReference mLockedout = mUserRef2.
+                                                            child("locked");
                                                     mLockedout.setValue(true);
                                                     //if locked out ALERT
-                                                    AlertDialog.Builder builder1 = new AlertDialog.Builder(LogInActivity.this);
-                                                    builder1.setMessage("Your account has been locked from too many incorrect logins. Please try later");
+                                                    AlertDialog.Builder builder1 = new AlertDialog.
+                                                            Builder(LogInActivity.this);
+                                                    builder1.setMessage("Your account has been"
+                                                            + " locked from too many incorrect"
+                                                            + " logins. Please try later");
                                                     builder1.setCancelable(true);
 
                                                     builder1.setPositiveButton(
@@ -255,13 +249,16 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                 } else {
                                                     //Everything is fine
                                                     //Reset login attempts
-                                                    DatabaseReference mLoginAttempts = mUserRef2.child("lockAttempts");
+                                                    DatabaseReference mLoginAttempts = mUserRef2.
+                                                            child("lockAttempts");
                                                     mLoginAttempts.setValue(Integer.valueOf(0));
                                                     //advance to next screen
 
-                                                    Intent intent = new Intent(LogInActivity.this, Dashboard.class);
+                                                    Intent intent = new Intent(LogInActivity.
+                                                            this, Dashboard.class);
                                                     LogInActivity.this.startActivity(intent);
-                                                    overridePendingTransition(R.transition.fade_in, R.transition.fade_out);
+                                                    overridePendingTransition(R.transition.fade_in,
+                                                            R.transition.fade_out);
                                                     finish();
                                                     return;
                                                 }
@@ -269,7 +266,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                         }
                                     }
                                     //otherwise we have an admin and can proceed to AdminDashboard
-                                    Intent intent = new Intent(LogInActivity.this, AdminDashboard.class);
+                                    Intent intent = new Intent(LogInActivity.this,
+                                            AdminDashboard.class);
                                     LogInActivity.this.startActivity(intent);
                                     finish();
 
@@ -286,7 +284,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             Toast.makeText(LogInActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             //If user exists, add an incorrect login attempt
-                            DatabaseReference allUsers = FirebaseDatabase.getInstance().getReference("users");
+                            DatabaseReference allUsers = FirebaseDatabase.getInstance().
+                                    getReference("users");
                             allUsers.addChildEventListener(new ChildEventListener() {
                                 @Override
                                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -297,11 +296,17 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                             u.writeToDatabase();
                                             if (u.getLockAttempts() > 2) {
                                                 //set value to true
-                                                DatabaseReference mLockedout = FirebaseDatabase.getInstance().getReference("users/" + u.getUid() +"/locked");
+                                                DatabaseReference mLockedout =
+                                                        FirebaseDatabase.getInstance().
+                                                                getReference("users/"
+                                                                        + u.getUid() + "/locked");
                                                 mLockedout.setValue(true);
                                                 //if locked out ALERT
-                                                AlertDialog.Builder builder1 = new AlertDialog.Builder(LogInActivity.this);
-                                                builder1.setMessage("Your account has been locked from too many incorrect logins. Please try later");
+                                                AlertDialog.Builder builder1 =
+                                                        new AlertDialog.Builder(LogInActivity.this);
+                                                builder1.setMessage("Your account "
+                                                        + "has been locked from too many "
+                                                        + "incorrect logins. Please try later");
                                                 builder1.setCancelable(true);
 
                                                 builder1.setPositiveButton(

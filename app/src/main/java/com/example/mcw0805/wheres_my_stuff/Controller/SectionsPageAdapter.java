@@ -16,11 +16,20 @@ public class SectionsPageAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
+    /**
+     * Adds the fragment to activity
+     * @param fragment fragment to be added
+     * @param title title of the fragment
+     */
     public void addFragment(Fragment fragment, String title) {
         mFragmentList.add(fragment);
         mFragmentTitleList.add(title);
     }
 
+    /**
+     * adapts the various fragments
+     * @param fm fragment manager
+     */
     public SectionsPageAdapter(FragmentManager fm) {
         super(fm);
     }

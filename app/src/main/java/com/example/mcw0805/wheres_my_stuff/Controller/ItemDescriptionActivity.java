@@ -8,10 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
-import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
@@ -19,7 +17,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.List;
@@ -118,6 +115,11 @@ public class ItemDescriptionActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Returns the string of the location
+     * @param address the lat long coordinates
+     * @return the location in string form
+     */
     private String getLocationString(Address address) {
         assert (address != null);
         String loc = "";
@@ -134,6 +136,10 @@ public class ItemDescriptionActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * sets the name with the poster's
+     * @param uid uid of the user
+     */
     private void setPosterName(String uid) {
         DatabaseReference userRef = User.getUserRef().child(uid).child("name");
 

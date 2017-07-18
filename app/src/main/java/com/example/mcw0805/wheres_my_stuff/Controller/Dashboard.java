@@ -55,17 +55,8 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
     private boolean isAuthListenerSet = false;
     private ChildEventListener lostListen;
     private ChildEventListener foundListen;
-//    //View stuff
-//    Scene bottom;
-//    Scene top;
-//    View mSceneRootTop;
-//    View mSceneRootBottom;
-//    ViewDragHelper mDragHelper;
-//    //animation stuff
-//    //Fade mFade;
-//    //LayoutInflater inflater;
 
-    private final String TAG = "Dashboard";
+    private final String tag = "Dashboard";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,11 +85,11 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Log.d(tag, "onAuthStateChanged:signed_in:" + user.getUid());
 
                 } else {
                     // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                    Log.d(tag, "onAuthStateChanged:signed_out");
                 }
             }
         };
@@ -145,6 +136,10 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Sets up the sliding pane
+     * @return the sliding pane
+     */
     private SlidingUpPanelLayout.PanelSlideListener onSlideListener() {
         return new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -209,7 +204,7 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
      */
     private void signOut() {
         mAuth.signOut();
-        Log.d(TAG, "signed out");
+        Log.d(tag, "signed out");
     }
 
     @Override
@@ -269,85 +264,6 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
 
             }
         });
-
-
-
-        //adds all found items
-//        foundListen = foundItems.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                FoundItem f = null;
-//                try {
-//                    f = FoundItem.buildFoundItemObject(dataSnapshot);
-//                } catch (NullPointerException e) {
-//                    Log.d(TAG, "NullPointerException is caught.");
-//                    e.printStackTrace();
-//                }
-//                LatLng lItem = new LatLng(f.getLatitude(), f.getLongitude());
-//                String display = "Found Item:";
-//                mMap.addMarker(new MarkerOptions().position(lItem).title(f.description())
-//                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-//                Log.d(TAG, "added found item");
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//
-//        //adds all lost items
-//        lostListen = lostItems.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                LostItem l = null;
-//                try {
-//                    l = LostItem.buildLostItemObject(dataSnapshot);
-//                } catch (NullPointerException e) {
-//                    Log.d(TAG, "NullPointerException is caught.");
-//                    e.printStackTrace();
-//                }
-//                LatLng lItem = new LatLng(l.getLatitude(), l.getLongitude());
-//                mMap.addMarker(new MarkerOptions().position(lItem).title(l.description()));
-//                Log.d(TAG, "added lost item");
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
         //formats the info window when clicking a pin
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
@@ -410,7 +326,7 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
 
             LatLng latLng = new LatLng(item.getLatitude(), item.getLongitude());
             mMap.addMarker(getMarkerOptions(latLng, item, type));
-            Log.d(TAG, "added item");
+            Log.d(tag, "added item");
         }
 
     }
@@ -421,25 +337,26 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
      * @param latLng latitude/longitude
      * @param item item that is being placed on the map
      * @param type type of the item
-     * @return
+     * @return marker options
      */
     private MarkerOptions getMarkerOptions(LatLng latLng, Item item, ItemType type) {
         switch (type) {
-            case LOST:
-                return new MarkerOptions().position(latLng).title(((LostItem) item).description());
-            case FOUND:
-                return new MarkerOptions().position(latLng).title(((FoundItem) item).description())
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-            case NEED:
-                return new MarkerOptions().position(latLng).title(((NeededItem) item).description())
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
-            case DONATION:
-                return new MarkerOptions().position(latLng).title("Donation: " + item.getName()
-                        + "\n Description: " + item.getDescription() + "\n Status: "
-                        + item.getStatusString()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-            default:
-                return new MarkerOptions().position(new LatLng(0, 0)).title("UNKNOWN")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+        case LOST:
+            return new MarkerOptions().position(latLng).title(((LostItem) item).description());
+        case FOUND:
+            return new MarkerOptions().position(latLng).title(((FoundItem) item).description())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        case NEED:
+            return new MarkerOptions().position(latLng).title(((NeededItem) item).description())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+        case DONATION:
+            return new MarkerOptions().position(latLng).title("Donation: " + item.getName()
+                    + "\n Description: " + item.getDescription() + "\n Status: "
+                    + item.getStatusString()).icon(BitmapDescriptorFactory.defaultMarker(
+                            BitmapDescriptorFactory.HUE_GREEN));
+        default:
+            return new MarkerOptions().position(new LatLng(0, 0)).title("UNKNOWN")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
 
         }
 

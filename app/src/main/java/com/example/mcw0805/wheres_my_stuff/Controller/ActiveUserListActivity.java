@@ -46,10 +46,11 @@ public class ActiveUserListActivity extends AppCompatActivity {
 
     // database reference to all the users
     private DatabaseReference mUserRef;
-    private final String TAG = "ActiveUerListActivity";
+    private final String tag = "ActiveUerListActivity";
 
     @Override
-    protected void onStart() {super.onStart();}
+    protected void onStart() {
+        super.onStart(); }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class ActiveUserListActivity extends AppCompatActivity {
                 try {
                     newUser = User.buildUserObject(dataSnapshot);
                 } catch (NullPointerException e) {
-                    Log.d(TAG, "NullPointerException is caught.");
+                    Log.d(tag, "NullPointerException is caught.");
                     e.printStackTrace();
                 }
                 //adds the built object to the list

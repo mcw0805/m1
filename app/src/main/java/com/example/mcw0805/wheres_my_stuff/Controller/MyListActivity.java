@@ -9,23 +9,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
-import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +53,8 @@ public class MyListActivity extends AppCompatActivity {
     private final DatabaseReference mFoundItemRef = FoundItem.getFoundItemsRef();
     private final DatabaseReference mLostItemRef = LostItem.getLostItemsRef();
     private final DatabaseReference mNeededItemRef = NeededItem.getNeededItemsRef();
-    private final DatabaseReference mDonatedItemRef = FirebaseDatabase.getInstance().getReference("posts/donation-items");
+    private final DatabaseReference mDonatedItemRef = FirebaseDatabase.getInstance().
+            getReference("posts/donation-items");
 
     /*
         Firebase authorization
@@ -68,7 +65,7 @@ public class MyListActivity extends AppCompatActivity {
     private boolean isAuthListenerSet = false;
     private String currUserUID;
 
-    private final String TAG = "MyListItemActivity";
+    private final String tag = "MyListItemActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,10 +80,10 @@ public class MyListActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Log.d(tag, "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                    Log.d(tag, "onAuthStateChanged:signed_out");
                 }
             }
         };

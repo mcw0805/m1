@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -18,7 +17,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Button loginHome;
     private Button registerHome;
 
-    private Animation Fade_in, Fade_out;
+    private Animation fadeIn;
+    private Animation fadeOut;
     private ViewFlipper viewFlipper;
 
     @Override
@@ -33,11 +33,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         registerHome.setOnClickListener(this);
 
         viewFlipper = (ViewFlipper) this.findViewById(R.id.backgroundViewFlipper);
-        Fade_in = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
-        Fade_out = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
+        fadeIn = AnimationUtils.loadAnimation(this, android.R.anim.fade_in);
+        fadeOut = AnimationUtils.loadAnimation(this, android.R.anim.fade_out);
 
-        viewFlipper.setInAnimation(Fade_in);
-        viewFlipper.setOutAnimation(Fade_out);
+        viewFlipper.setInAnimation(fadeIn);
+        viewFlipper.setOutAnimation(fadeOut);
 
         //Sets auto flipping.
         viewFlipper.setAutoStart(true);
@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             HomeActivity.this.startActivity(intent);
             finish();
         } else if (v == registerHome) {
-            Intent intent = new Intent (HomeActivity.this, RegistrationActivity.class);
+            Intent intent = new Intent(HomeActivity.this, RegistrationActivity.class);
             HomeActivity.this.startActivity(intent);
             finish();
         }

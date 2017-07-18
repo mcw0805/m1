@@ -1,9 +1,7 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,10 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.widget.ViewSwitcher;
-
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
-
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -28,7 +24,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.Map;
 
 /**
@@ -43,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Widgets for the profile activity.
     */
     private ToggleButton editToggleButton;
-    private Button back_button;
+    private Button backbutton;
     private EditText nicknameEdit;
     private TextView nicknameTextView;
     private EditText introductionEdit;
@@ -95,7 +90,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //instantiate buttons
         editToggleButton = (ToggleButton) findViewById(R.id.editToggleBtn);
-        back_button = (Button) findViewById(R.id.back_button);
+        backbutton = (Button) findViewById(R.id.back_button);
         //instantiate all the fields related to editing/viewing the nickname of the user
         nicknameEdit = (EditText) findViewById(R.id.nicknameEdit);
         nicknameTextView = (TextView) findViewById(R.id.nicknameText);
@@ -111,7 +106,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //listeners for the buttons
         editToggleButton.setOnClickListener(this);
-        back_button.setOnClickListener(this);
+        backbutton.setOnClickListener(this);
 
         retrieveUserInfo();
         retrieveIntro();
@@ -171,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        if (view == back_button) {
+        if (view == backbutton) {
 
             if (!editToggleButton.isChecked()) {
                 startActivity(new Intent(ProfileActivity.this, Dashboard.class));
@@ -222,10 +217,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      * @param v view of the current focus
      */
     private void hideSoftKeyboard(View v) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(
+                Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
+    /**
+     * Gets the user's info from database
+     */
     private void retrieveUserInfo() {
         userRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -267,6 +266,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    /**
+     * Reset's the user's name in the database
+     * @param newName the new name of the user
+     */
     private void resetName(final String newName) {
 
         final DatabaseReference currUserRef = userRef.child(currUserUID);
@@ -322,7 +325,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         final DatabaseReference userIntro = FirebaseDatabase.getInstance().getReference("intros");
         final DatabaseReference sUserIntro = userIntro.child(currUserUID);
         if (newIntro != null) {
-                sUserIntro.child("intro").setValue(newIntro);
+            sUserIntro.child("intro").setValue(newIntro);
         }
     }
 

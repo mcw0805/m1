@@ -7,8 +7,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
@@ -70,7 +73,7 @@ public class FoundItemListActivity extends AppCompatActivity {
     private Spinner filterSpinner;
 
 
-    private final String TAG = "FoundItemListActivity";
+    private final String tag = "FoundItemListActivity";
 
     @Override
     protected void onStart() {
@@ -93,9 +96,10 @@ public class FoundItemListActivity extends AppCompatActivity {
         mFoundItemsRef = FoundItem.getFoundItemsRef();
         filterSpinner = (Spinner) findViewById(R.id.filter_spinner_found);
 
-        final ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
-        category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        filterSpinner.setAdapter(category_Adapter);
+        final ArrayAdapter<ItemCategory> categoryAdapter =
+                new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterSpinner.setAdapter(categoryAdapter);
 
         searchBarEdit = (EditText) findViewById(R.id.searchBarEditFound);
         searchBarEdit.addTextChangedListener(new TextWatcher() {
@@ -132,7 +136,7 @@ public class FoundItemListActivity extends AppCompatActivity {
                 try {
                     foundItem = FoundItem.buildFoundItemObject(dataSnapshot);
                 } catch (NullPointerException e) {
-                    Log.d(TAG, "NullPointerException is caught.");
+                    Log.d(tag, "NullPointerException is caught.");
                     e.printStackTrace();
                 }
                 //adds the built object to the list
@@ -150,17 +154,6 @@ public class FoundItemListActivity extends AppCompatActivity {
                         R.layout.item_row_layout, R.id.textView, foundItemObjectList);
                 foundItemLv.setAdapter(foundItemAdapter);
                 foundItemAdapter.notifyDataSetChanged();
-
-
-//                itemAdapter = new ItemAdapter(getApplicationContext(), foundItemObjectList);
-//
-//                foundItemLv.setAdapter(itemAdapter);
-//                itemAdapter.notifyDataSetChanged();
-
-//                copyAdapter = new ItemListAdapter(getApplicationContext(),
-//                        R.layout.item_row_layout, R.id.textView, foundItemObjectList);
-//                foundItemLv.setAdapter(copyAdapter);
-//                copyAdapter.notifyDataSetChanged();
             }
 
             @Override

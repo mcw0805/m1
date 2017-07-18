@@ -1,5 +1,4 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -15,7 +14,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
@@ -28,19 +26,13 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,7 +47,7 @@ import com.google.firebase.database.ValueEventListener;
 public class SubmitFormActivity extends AppCompatActivity
         implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
-    public final static String TAG = "SubmitFormActivity";
+    private final String tag = "SubmitFormActivity";
 
     /*
         Widgets for the item form page.
@@ -119,15 +111,15 @@ public class SubmitFormActivity extends AppCompatActivity
         backButton = (Button) findViewById(R.id.backButton_L);
 
 
-        ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this,
+        ArrayAdapter<ItemCategory> categoryAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, ItemCategory.values());
-        category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        categorySpinner.setAdapter(category_Adapter);
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        categorySpinner.setAdapter(categoryAdapter);
 
-        ArrayAdapter<ItemType> type_Adapter = new ArrayAdapter(this,
+        ArrayAdapter<ItemType> typeAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, ItemType.values());
-        type_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        typeSpinner.setAdapter(type_Adapter);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(typeAdapter);
 
         /* reward field is visible only if LOST is selected from the typeSpinner */
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -212,15 +204,6 @@ public class SubmitFormActivity extends AppCompatActivity
                     }
                 });
             } else if (inputItemType == ItemType.FOUND) {
-//                submitFoundItem(dateTime).continueWith(new Continuation() {
-//                     @Override
-//                     public Object then(@NonNull Task task) throws Exception {
-//                            Toast.makeText(SubmitFormActivity.this, "Post Added!", Toast.LENGTH_LONG).show();
-//                            Intent submitPostIntent = new Intent(SubmitFormActivity.this, Dashboard.class);
-//                            startActivity(submitPostIntent);
-//                            return new Integer(1);
-//                         }
-//                    }
                 submitFoundItem(currentTime).addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
@@ -274,8 +257,8 @@ public class SubmitFormActivity extends AppCompatActivity
 
     /**
      * Method that submits lost item information to the database.
-     *
      * @param dateTime current date-time
+     * @return task
      */
     private Task submitLostItem(long dateTime) {
 
@@ -292,8 +275,8 @@ public class SubmitFormActivity extends AppCompatActivity
 
     /**
      * Method that submits found item information to the database.
-     *
      * @param dateTime current date-time
+     * @return task
      */
     private Task submitFoundItem(long dateTime) {
         String pushKey = FoundItem.getFoundItemsRef().push().getKey();
@@ -308,10 +291,10 @@ public class SubmitFormActivity extends AppCompatActivity
     }
     /**
      * Method that submits need item information to the database.
-     *
      * @param dateTime current date-time
+     * @return task
      */
-    private Task submitNeedItem (long dateTime) {
+    private Task submitNeedItem(long dateTime) {
         String pushKey = NeededItem.getNeededItemsRef().push().getKey();
         newItem = new NeededItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, ItemCategory.MISC, pushKey);
@@ -322,10 +305,10 @@ public class SubmitFormActivity extends AppCompatActivity
     }
     /**
      * Method that submits need donated information to the database.
-     *
      * @param dateTime current date-time
+     * @return task
      */
-    private Task submitDonatedItem (long dateTime) {
+    private Task submitDonatedItem(long dateTime) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference donationItemsRef = database.getReference("posts/donation-items/");
         String pushKey = donationItemsRef.push().getKey();
@@ -340,6 +323,7 @@ public class SubmitFormActivity extends AppCompatActivity
     /**
      * Initializes the various texts/numbers from the form as instance data
      * to be used to create Item objects.
+     * @return boolean whether or not the fields were validated
      */
     private boolean setFieldVars() {
 
@@ -359,7 +343,7 @@ public class SubmitFormActivity extends AppCompatActivity
                 && typeSpinner.getVisibility() == View.INVISIBLE) {
             valid = false;
             if (!valid) {
-                Log.w(TAG, "Item category: Nothing selected");
+                Log.w(tag, "Item category: Nothing selected");
             }
         }
 
@@ -370,7 +354,7 @@ public class SubmitFormActivity extends AppCompatActivity
             valid = false;
 
             if (!valid) {
-                Log.w(TAG, "Reward must be an integer and cannot be empty.");
+                Log.w(tag, "Reward must be an integer and cannot be empty.");
             }
 
         }
@@ -398,10 +382,10 @@ public class SubmitFormActivity extends AppCompatActivity
 
                 if (key.equals("itemCount")) {
                     Integer count = Integer.parseInt(String.valueOf(val));
-                    Log.i(TAG, "Before incrementing- " + key + ": " + count);
+                    Log.i(tag, "Before incrementing- " + key + ": " + count);
 
                     count++;
-                    Log.i(TAG, "After incrementing- " + key + ": " + count);
+                    Log.i(tag, "After incrementing- " + key + ": " + count);
 
                     itemCountRef.setValue(count);
 
@@ -416,6 +400,9 @@ public class SubmitFormActivity extends AppCompatActivity
 
     }
 
+    /**
+     * begins the placepicker task
+     */
     private void startPlacePicker() {
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
@@ -429,6 +416,12 @@ public class SubmitFormActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Fills in the address after the place selected
+     * @param requestCode request
+     * @param resultCode result
+     * @param data data
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {

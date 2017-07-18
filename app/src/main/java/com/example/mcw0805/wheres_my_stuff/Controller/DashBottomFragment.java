@@ -18,9 +18,9 @@ public class DashBottomFragment extends Fragment implements View.OnClickListener
      */
     private TextView lostNearMe;
     private TextView foundNearMe;
-    private TextView submitted_items;
+    private TextView submittedItems;
     private TextView newLost;
-    private TextView donate_list;
+    private TextView donateList;
     private TextView donate;
 
     @Override
@@ -31,17 +31,17 @@ public class DashBottomFragment extends Fragment implements View.OnClickListener
 
         lostNearMe = (TextView) rootView.findViewById(R.id.lost_txt);
         foundNearMe = (TextView) rootView.findViewById(R.id.found_txt);
-        submitted_items = (TextView) rootView.findViewById(R.id.reportFound_txt);
+        submittedItems = (TextView) rootView.findViewById(R.id.reportFound_txt);
         newLost = (TextView) rootView.findViewById(R.id.reportLost_txt);
-        donate_list = (TextView) rootView.findViewById(R.id.donate_list);
+        donateList = (TextView) rootView.findViewById(R.id.donate_list);
         donate = (TextView) rootView.findViewById(R.id.donate_txt);
 
 
         lostNearMe.setOnClickListener(this);
         foundNearMe.setOnClickListener(this);
-        submitted_items.setOnClickListener(this);
+        submittedItems.setOnClickListener(this);
         newLost.setOnClickListener(this);
-        donate_list.setOnClickListener(this);
+        donateList.setOnClickListener(this);
         donate.setOnClickListener(this);
 
         return rootView;
@@ -70,13 +70,13 @@ public class DashBottomFragment extends Fragment implements View.OnClickListener
             startActivity(new Intent(getActivity(), DonateItemFormActivity.class));
         }
 
-        if (v == donate_list) {
+        if (v == donateList) {
             Intent intent = new Intent(getActivity(), ItemListViewActivity.class);
             intent.putExtra("DashboardClickedListType", "helpOut");
             DashBottomFragment.this.startActivity(intent);
         }
 
-        if (v == submitted_items) {
+        if (v == submittedItems) {
             startActivity(new Intent(getActivity(), MyListActivity.class));
         }
     }

@@ -35,7 +35,7 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
     private boolean banChange;
     private boolean unbanChange;
     private boolean lockChange;
-    User user;
+    private User user;
 
 
     @Override
@@ -108,7 +108,7 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.cancel();
                             finish();
-                            if(ban.isChecked()) {
+                            if (ban.isChecked()) {
                                 if (user.getIsBanned()) {
                                     user.setBanned(false);
                                     unbanChange = true;
@@ -137,7 +137,8 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
                                 Toast.makeText(getApplicationContext(),
                                         "User has been unbanned", Toast.LENGTH_SHORT).show();
                             }
-                            Intent intent = new Intent(UserDescriptionActivity.this, AdminDashboard.class);
+                            Intent intent = new Intent(UserDescriptionActivity.this,
+                                    AdminDashboard.class);
                             startActivity(intent);
                         }
                     });
@@ -146,8 +147,7 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
             alert11.show();
             return;
 
-        }
-        else if (v == cancel) {
+        } else if (v == cancel) {
             Toast.makeText(getApplicationContext(),
                     "No Changes Made", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(UserDescriptionActivity.this, AdminDashboard.class);

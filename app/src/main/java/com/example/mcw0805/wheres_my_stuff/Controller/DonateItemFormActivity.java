@@ -14,16 +14,16 @@ public class DonateItemFormActivity extends AppCompatActivity implements View.On
 
     private Button postButton;
     private Button cancelButton;
-    private EditText title_R;
-    private EditText descript_R;
+    private EditText titleR;
+    private EditText descriptR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donate_item_form);
 
-        title_R = (EditText) findViewById(R.id.title_R);
-        descript_R = (EditText) findViewById(R.id.description_R);
+        titleR = (EditText) findViewById(R.id.title_R);
+        descriptR = (EditText) findViewById(R.id.description_R);
         postButton = (Button) findViewById(R.id.post_R);
         cancelButton = (Button) findViewById(R.id.cancel_R);
 

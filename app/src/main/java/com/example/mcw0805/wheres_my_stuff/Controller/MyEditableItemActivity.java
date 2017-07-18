@@ -20,23 +20,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.widget.ViewSwitcher;
-
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
-import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Map;
 
 public class MyEditableItemActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -133,9 +125,10 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         itemStatSwitch.setVisibility(View.INVISIBLE);
 
         itemCatSpinner = (Spinner) findViewById(R.id.my_item_cat_spinner);
-        ArrayAdapter<ItemCategory> category_Adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
-        category_Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        itemCatSpinner.setAdapter(category_Adapter);
+        ArrayAdapter<ItemCategory> categoryAdapter =
+                new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        itemCatSpinner.setAdapter(categoryAdapter);
 
         editItemToggleBtn = (ToggleButton) findViewById(R.id.edit_item_ToggleBtn);
         editItemToggleBtn.setOnClickListener(this);
@@ -155,9 +148,9 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
 
         //debug stuff
         boolean x = selected == null;
-        Log.d(TAG, x+"");
+        Log.d(TAG, x + "");
         boolean yy = itemKey == null;
-        Log.d(TAG, itemKey+" MAP");
+        Log.d(TAG, itemKey + " MAP");
 
         if (selected != null) {
             myItemName.setText(selected.getName());
@@ -271,6 +264,9 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         }
     }
 
+    /**
+     * Deletes the item from the database
+     */
     private void delete() {
         DatabaseReference itemsRef = null;
         progressDialog.setMessage("Please wait until your item is removed...");
