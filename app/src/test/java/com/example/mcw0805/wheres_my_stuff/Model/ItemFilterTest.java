@@ -19,7 +19,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * A test for filtering Item objects.
+ * A test for filtering Item objects by category.
  *
  * @author Chaewon Min
  */
