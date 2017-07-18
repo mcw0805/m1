@@ -4,8 +4,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
- * @Author Ted Shang
- * @Version 1.0
+ * @author Ted Shang
+ * @version 1.0
  */
 
 public class Admin {
