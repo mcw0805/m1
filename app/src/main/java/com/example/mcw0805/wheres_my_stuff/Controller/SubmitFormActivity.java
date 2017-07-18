@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
@@ -39,6 +40,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 /**
  * Controller for submitting the lost item.
  *
@@ -62,7 +65,11 @@ public class SubmitFormActivity extends AppCompatActivity
     private Button backButton;
     private Button postButton;
     private EditText locationText;
-    private Place place;
+    private TextView titleBlank;
+    private TextView descriptionBlank;
+    private TextView categoryBlank;
+    private TextView typeBlank;
+    private TextView addressBlank;
 
 
     /*
@@ -109,6 +116,10 @@ public class SubmitFormActivity extends AppCompatActivity
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
         postButton = (Button) findViewById(R.id.postButton_L);
         backButton = (Button) findViewById(R.id.backButton_L);
+        titleBlank = (TextView) findViewById(R.id.titleBlank);
+        categoryBlank = (TextView) findViewById(R.id.categoryBlank);
+        addressBlank = (TextView) findViewById(R.id.addressBlank);
+        typeBlank = (TextView) findViewById(R.id.typeBlank);
 
 
         ArrayAdapter<ItemCategory> categoryAdapter = new ArrayAdapter(this,
@@ -177,7 +188,7 @@ public class SubmitFormActivity extends AppCompatActivity
             //initializes the fields in the form as private instance variables
             if (!setFieldVars()) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(SubmitFormActivity.this);
-                builder1.setMessage("Invalid");
+                builder1.setMessage("Please fill out all required fields");
                 builder1.setCancelable(true);
                 builder1.setPositiveButton(
                         "Ok",
@@ -329,15 +340,19 @@ public class SubmitFormActivity extends AppCompatActivity
 
         boolean valid = true;
 
-        if (FormValidation.textEmpty(new EditText[]{titleField, descriptField})) {
-            valid = false;
-        }
-
         inputName = titleField.getText().toString();
+        if (inputName.length() == 0) {
+            titleBlank.setVisibility(View.VISIBLE);
+        } else {
+            titleBlank.setVisibility(View.INVISIBLE);
+        }
         inputDescription = descriptField.getText().toString();
-
+        if (inputDescription.length() == 0) {
+            descriptionBlank.setVisibility(View.VISIBLE);
+        } else {
+            descriptionBlank.setVisibility(View.INVISIBLE);
+        }
         inputItemType = (ItemType) typeSpinner.getSelectedItem();
-
         inputItemCategory = (ItemCategory) categorySpinner.getSelectedItem();
         if (FormValidation.categoryNothingSelected(inputItemCategory)
                 && typeSpinner.getVisibility() == View.INVISIBLE) {
@@ -358,9 +373,10 @@ public class SubmitFormActivity extends AppCompatActivity
             }
 
         }
-
         if (inputLongitude == 0 && inputLatitude == 0) {
-            valid = false;
+            addressBlank.setVisibility(View.VISIBLE);
+        } else {
+            addressBlank.setVisibility(View.INVISIBLE);
         }
 
         return valid;

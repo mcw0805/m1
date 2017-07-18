@@ -150,7 +150,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
      * @param uid uid of the user
      */
     private void setPosterName(String uid) {
-        DatabaseReference userRef = User.getUserRef().child(uid).child("name");
+        DatabaseReference userRef = User.getUserRef().child(uid).child("email");
 
         userRef.addValueEventListener(new ValueEventListener() {
             @Override

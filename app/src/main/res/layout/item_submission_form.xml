@@ -7,6 +7,18 @@
     android:visibility="visible"
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.SubmitFormActivity">
 
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="29dp"
+        android:text="*"
+        android:textColor="@color/requiredFieldStar"
+        android:visibility="invisible"
+        android:layout_alignBaseline="@+id/description_L"
+        android:layout_alignBottom="@+id/description_L"
+        android:layout_alignParentEnd="true"/>
+
     <EditText
         android:id="@+id/title_L"
         android:layout_width="wrap_content"
@@ -135,44 +147,47 @@
         android:layout_toEndOf="@+id/reward_L" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/titleBlank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="*"
-        android:textColor="@color/requiredFieldStar"
-        android:layout_marginStart="28dp"
         android:layout_alignBaseline="@+id/title_L"
         android:layout_alignBottom="@+id/title_L"
-        android:layout_toEndOf="@+id/title_L" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_toEndOf="@+id/title_L"
         android:text="*"
         android:textColor="@color/requiredFieldStar"
-        android:layout_marginEnd="28dp"
-        android:layout_alignBaseline="@+id/description_L"
-        android:layout_alignBottom="@+id/description_L"
-        android:layout_alignParentEnd="true" />
+        android:visibility="invisible"/>
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/categoryBlank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/category_Lspinner"
         android:layout_toEndOf="@+id/reward_L"
+        android:text="*"
         android:textColor="@color/requiredFieldStar"
-        android:text="*" />
+        android:visibility="invisible"/>
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/addressBlank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/backButton_L"
-        android:layout_alignTop="@+id/dollar_L"
+        android:layout_alignBaseline="@+id/address"
+        android:layout_alignBottom="@+id/address"
+        android:layout_toStartOf="@+id/description"
+        android:text="*"
         android:textColor="@color/requiredFieldStar"
-        android:text="*" />
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/typeBlank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/type_Lspinner"
+        android:layout_toEndOf="@+id/categoryBlank"
+        android:text="*"
+        android:textColor="@color/requiredFieldStar"
+        android:visibility="invisible"/>
 
 
 </RelativeLayout>

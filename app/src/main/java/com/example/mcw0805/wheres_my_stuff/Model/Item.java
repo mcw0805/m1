@@ -12,6 +12,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -291,6 +294,63 @@ public class Item implements Parcelable {
 
         return display;
     }
+
+    /**
+     * Filters the list of items based on the chosen category.
+     *
+     * @param cat category of the item
+     * @return filtered list containing the specified category
+     */
+    public static List<Item> filterByCategory(List<Item> itemObjectList, ItemCategory cat) {
+
+        //precondition: all of the param cannot be null
+        assert (itemObjectList != null);
+        assert (cat != null);
+
+        //invariant: if cat is ItemCategory.NOTHING_SELECTED, it will
+        //always return the original result
+        if (cat == ItemCategory.NOTHING_SELECTED) {
+            return itemObjectList;
+        }
+
+        //frame condition: if matching category is found,
+        // then the size of filteredItemList will be increased by 1.
+        List<Item> filteredItemList = new ArrayList<>();
+        for (Item li : itemObjectList) {
+            if (li.getCategory() == cat) {
+                filteredItemList.add(li);
+            }
+        }
+
+        //postcondition: filteredItemList.size() >= 0
+        //filteredItemList.size() = 0 if itemObjectList (original) did not contain the
+        //specified category
+        //otherwise, it means there has been a match, so filteredItemList.size() > 0
+        return filteredItemList;
+
+    }
+
+    /**
+     * Filters the list of items based on the chosen type.
+     *
+     * @param type type of the item: Lost, Found, Needed, Donation
+     * @return list containing the specified type
+     */
+    public static List<Item> filterByType(List<Item> itemObjectList, ItemType type) {
+
+        List<Item> filteredItemList = new ArrayList<>();
+        for (Item fi : itemObjectList) {
+            if (fi.getType() == type) {
+                filteredItemList.add(fi);
+            }
+        }
+
+        return filteredItemList;
+
+    }
+
+
+
 
 
 }

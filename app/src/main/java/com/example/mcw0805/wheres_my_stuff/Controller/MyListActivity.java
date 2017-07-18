@@ -236,46 +236,6 @@ public class MyListActivity extends AppCompatActivity {
 
 
     }
-
-    /**
-     * Filters the list of items based on the chosen type.
-     *
-     * @param type type of the item: Lost, Found, Needed, Donation
-     * @return list containing the specified type
-     */
-    private List<Item> filterByType(ItemType type) {
-
-        List<Item> filteredItemList = new ArrayList<>();
-        for (Item fi : myItemObjectList) {
-            switch (type) {
-                case LOST:
-                    if (fi instanceof LostItem) {
-                        filteredItemList.add(fi);
-                    }
-                    break;
-                case FOUND:
-                    if (fi instanceof FoundItem) {
-                        filteredItemList.add(fi);
-                    }
-                    break;
-                case NEED:
-                    if (fi instanceof NeededItem) {
-                        filteredItemList.add(fi);
-                    }
-                    break;
-                default:
-                    if (fi.getType() == ItemType.DONATION) {
-                        filteredItemList.add(fi);
-                    }
-            }
-
-
-        }
-
-        return filteredItemList;
-
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
