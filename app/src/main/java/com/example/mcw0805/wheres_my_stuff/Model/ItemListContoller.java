@@ -26,7 +26,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 /**
- * This class is used to filter items by Type and Catefory
+ * This class is used to filter items by Type and Category.
+ *
  * Created by Jordan on 6/28/2017.
  */
 

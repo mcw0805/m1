@@ -1,9 +1,8 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
 
 /**
- * Created by jordan on 6/20/17.
+ * Enum representing the categories of the item.
  */
-
 public enum ItemCategory {
     KEEPSAKE ("KEEPSAKE"),
     HEIRLOOM ("HEIRLOOM"),
@@ -23,7 +22,5 @@ public enum ItemCategory {
     public String toString() {
         return itemCategory;
     }
-
-
 
 }

@@ -43,7 +43,17 @@ public class LostItem extends Item {
     }
 
     /**
-     * Creates the LostItem object and increments the count.
+     * Constructor for instantiating a Needed.
+     * By default, it sets item open status to true.
+     *
+     * @param name        name of the item
+     * @param description description of the item
+     * @param date        date of the item
+     * @param longitude   geographical longitude
+     * @param latitude    geographical latitude
+     * @param category    category of the item
+     * @param uid         uid of the user posted
+     * @param reward      reward for finding this lost item
      */
     public LostItem(String name, String description, long date, double longitude,
                     double latitude, ItemCategory category, String uid, int reward) {
@@ -53,7 +63,18 @@ public class LostItem extends Item {
     }
 
     /**
-     * Creates the LostItem object. Used for building objects from the database
+     * Constructor for instantiating a Needed.
+     * By default, it sets item open status to true.
+     *
+     * @param name        name of the item
+     * @param description description of the item
+     * @param date        date of the item
+     * @param longitude   geographical longitude
+     * @param latitude    geographical latitude
+     * @param category    category of the item
+     * @param uid         uid of the user posted
+     * @param reward      reward for finding this lost item
+     * @param isOpen      status for the item
      */
     public LostItem(String name, String description, long date, double longitude,
                     double latitude, ItemCategory category, String uid, int reward, boolean isOpen) {
@@ -102,6 +123,7 @@ public class LostItem extends Item {
 
     /**
      * Sets the reward amount that would be given for finding the lost item.
+     *
      * @param reward amount for the LostItem
      */
     public void setReward(int reward) {
@@ -127,7 +149,6 @@ public class LostItem extends Item {
     }
 
 
-
     /**
      * Gets the database reference to the lost-items root in Firebase.
      *
@@ -150,7 +171,7 @@ public class LostItem extends Item {
     @Override
     public String toString() {
 
-        String display =  "(" + type.toString().toUpperCase() + ") "
+        String display = "(" + type.toString().toUpperCase() + ") "
                 + getName() + "- Status: ";
 
         display += super.getStatusString();
@@ -201,11 +222,12 @@ public class LostItem extends Item {
 
     /**
      * Creates a string description of the object so that the google maps pin can put all the information down
+     *
      * @return String description
      */
     public String description() {
         String end = "Lost Item: " + this.name + " \n Category: "
-                + this.category + "\n Description: " + this.description  + "\n Status: "
+                + this.category + "\n Description: " + this.description + "\n Status: "
                 + this.getStatusString() + "\n Reward: $" + this.reward;
         return end;
     }

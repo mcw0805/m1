@@ -27,26 +27,42 @@ public class FoundItem extends Item {
     }
 
     /**
-     * Constructor for instantiating a FoundItem
+     * Constructor for instantiating a FoundItem.
+     * By default, it sets item open status to true.
      *
-     * @param name name of the item
+     * @param name        name of the item
      * @param description description of the item
-     * @param date date of the item
-     * @param longitude geographical longitude
-     * @param latitude
-     * @param category
-     * @param uid
+     * @param date        date of the item
+     * @param longitude   geographical longitude
+     * @param latitude    geographical latitude
+     * @param category    category of the item
+     * @param uid         uid of the user posted
      */
     public FoundItem(String name, String description, long date, double longitude,
                      double latitude, ItemCategory category, String uid) {
         super(name, description, date, longitude, latitude, category, uid);
     }
 
+    /**
+     * Constructor for instantiating a FoundItem.
+     *
+     * @param name        name of the item
+     * @param description description of the item
+     * @param date        date of the item
+     * @param longitude   geographical longitude
+     * @param latitude    geographical latitude
+     * @param category    category of the item
+     * @param uid         uid of the user posted
+     */
     public FoundItem(String name, String description, long date, double longitude,
                      double latitude, ItemCategory category, String uid, boolean isOpen) {
         super(name, description, date, longitude, latitude, category, uid, isOpen);
     }
 
+    /**
+     * Creating the FoundItem from the Parcel.
+     * @param in Parcel object
+     */
     protected FoundItem(Parcel in) {
         super(in);
     }
