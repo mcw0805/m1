@@ -31,8 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 /**
  * Controller for the login. Uses Firebase email password authentication.
  *
- * @Author Ted Shang
- * @Version 1.3
+ * @author Ted Shang
+ * @version 1.3
  */
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -165,6 +165,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            assert user != null;
                             final String uid = user.getUid();
                             mUserRef = FirebaseDatabase.getInstance().getReference("users");
                             mUserRef2 = mUserRef.child(uid);
@@ -251,7 +252,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                                     //Reset login attempts
                                                     DatabaseReference mLoginAttempts = mUserRef2.
                                                             child("lockAttempts");
-                                                    mLoginAttempts.setValue(Integer.valueOf(0));
+                                                    mLoginAttempts.setValue(0);
                                                     //advance to next screen
 
                                                     Intent intent = new Intent(LogInActivity.
