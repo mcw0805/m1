@@ -5,7 +5,6 @@ package com.example.mcw0805.wheres_my_stuff.Model;
  */
 
 public enum ItemCategory {
-    NOTHING_SELECTED(""),
     KEEPSAKE ("KEEPSAKE"),
     HEIRLOOM ("HEIRLOOM"),
     MISC ("MISC");

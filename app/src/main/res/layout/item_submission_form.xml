@@ -8,7 +8,7 @@
     tools:context="com.example.mcw0805.wheres_my_stuff.Controller.SubmitFormActivity">
 
     <TextView
-        android:id="@+id/description"
+        android:id="@+id/descriptionBlank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="29dp"
@@ -35,8 +35,6 @@
         android:id="@+id/description_L"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_alignStart="@+id/title_L"
-        android:layout_below="@+id/title_L"
         android:ems="10"
         android:hint="Description"
         android:inputType="textMultiLine"
@@ -45,7 +43,9 @@
         android:scrollHorizontally="false"
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:scrollbarStyle="insideInset"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:layout_below="@+id/title_L"
+        android:layout_alignStart="@+id/title_L"/>
 
     <EditText
         android:id="@+id/address"
@@ -174,7 +174,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/address"
         android:layout_alignBottom="@+id/address"
-        android:layout_toStartOf="@+id/description"
+        android:layout_toStartOf="@+id/descriptionBlank"
         android:text="*"
         android:textColor="@color/requiredFieldStar"
         android:visibility="invisible"/>

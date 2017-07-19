@@ -119,6 +119,7 @@ public class SubmitFormActivity extends AppCompatActivity
         titleBlank = (TextView) findViewById(R.id.titleBlank);
         categoryBlank = (TextView) findViewById(R.id.categoryBlank);
         addressBlank = (TextView) findViewById(R.id.addressBlank);
+        descriptionBlank = (TextView) findViewById(R.id.descriptionBlank);
         typeBlank = (TextView) findViewById(R.id.typeBlank);
 
 
@@ -354,16 +355,8 @@ public class SubmitFormActivity extends AppCompatActivity
         }
         inputItemType = (ItemType) typeSpinner.getSelectedItem();
         inputItemCategory = (ItemCategory) categorySpinner.getSelectedItem();
-        if (FormValidation.categoryNothingSelected(inputItemCategory)
-                && typeSpinner.getVisibility() == View.INVISIBLE) {
-            valid = false;
-            if (!valid) {
-                Log.w(tag, "Item category: Nothing selected");
-            }
-        }
 
         uid = firebaseUser.getUid();
-
 
         if (rewardField.getVisibility() == View.VISIBLE && !FormValidation.isValidInteger(rewardField)) {
             valid = false;
