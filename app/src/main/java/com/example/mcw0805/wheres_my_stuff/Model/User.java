@@ -28,13 +28,15 @@ public class User implements Parcelable {
     private int itemCount = 0;
     private int lockAttempts = 0;
 
-    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private static final DatabaseReference userRef = database.getReference("users/");
+    private static FirebaseDatabase database;
+    private static DatabaseReference userRef;
 
     /**
      * Default constructor
      */
     public User() {
+        database = FirebaseDatabase.getInstance();
+        userRef = database.getReference("users/");
 
     }
 
@@ -46,6 +48,7 @@ public class User implements Parcelable {
      * @param id    id of the user
      */
     public User(String name, String email, String id) {
+        this();
         this.name = name;
         this.email = email;
         this.uid = id;
@@ -65,6 +68,8 @@ public class User implements Parcelable {
      * @param isBanned banned status of user
      */
     public User(String name, String email, String id, boolean isLocked, boolean isBanned, int itemCount, int lockAttempts) {
+        this();
+
         this.name = name;
         this.email = email;
         this.uid = id;
@@ -80,6 +85,8 @@ public class User implements Parcelable {
      * @param in Parcel object
      */
     protected User(Parcel in) {
+        this();
+
         name = in.readString();
         email = in.readString();
         isLocked = in.readByte() != 0;
