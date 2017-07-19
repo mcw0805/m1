@@ -1,4 +1,5 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
+
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,12 +9,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.AnimationSet;
 import android.widget.Button;
 import android.widget.EditText;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.android.gms.tasks.OnCompleteListener;

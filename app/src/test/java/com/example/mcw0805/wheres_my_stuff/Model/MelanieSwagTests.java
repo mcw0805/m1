@@ -1,7 +1,5 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
 
-import com.google.firebase.database.FirebaseDatabase;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;

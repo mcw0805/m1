@@ -1,15 +1,11 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
 
 import android.os.Parcel;
-import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.Date;
-import java.util.Map;
 
 import static com.google.android.gms.tasks.Tasks.whenAll;
 

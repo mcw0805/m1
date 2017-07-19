@@ -3,18 +3,10 @@ package com.example.mcw0805.wheres_my_stuff.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.CalendarContract;
-import android.util.Log;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * A class representing the User for this application.

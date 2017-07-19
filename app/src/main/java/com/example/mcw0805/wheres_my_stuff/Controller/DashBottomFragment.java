@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import com.example.mcw0805.wheres_my_stuff.R;
 
 public class DashBottomFragment extends Fragment implements View.OnClickListener {

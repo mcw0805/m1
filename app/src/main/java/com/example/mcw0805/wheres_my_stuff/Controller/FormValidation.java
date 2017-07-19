@@ -3,8 +3,6 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.text.TextUtils;
 import android.widget.EditText;
 
-import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
-
 /**
  * A class dedicated to ensure that certain fields are valid in a form before submission.
  *
