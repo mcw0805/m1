@@ -22,16 +22,6 @@
         tools:layout_editor_absoluteX="8dp">
 
         <TextView
-            android:id="@+id/profileadmin"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center"
-            android:text="Profile"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/activeusers"
             android:layout_width="match_parent"
             android:layout_height="60dp"

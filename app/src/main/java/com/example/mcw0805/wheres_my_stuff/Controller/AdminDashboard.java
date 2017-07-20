@@ -41,7 +41,6 @@ public class AdminDashboard extends AppCompatActivity implements View.OnClickLis
         active = (TextView) findViewById(R.id.activeusers);
         banned = (TextView) findViewById(R.id.bannedusers);
         locked = (TextView) findViewById(R.id.lockedusers);
-        profile = (TextView) findViewById(R.id.profileadmin);
         logout = (Button) findViewById(R.id.admin_logout);
 
         //Creates all listeners
@@ -50,7 +49,6 @@ public class AdminDashboard extends AppCompatActivity implements View.OnClickLis
         active.setOnClickListener(this);
         banned.setOnClickListener(this);
         locked.setOnClickListener(this);
-        profile.setOnClickListener(this);
         logout.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
 
