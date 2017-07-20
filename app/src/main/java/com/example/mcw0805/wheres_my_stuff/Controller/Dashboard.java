@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -23,39 +23,36 @@ import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
+import com.example.mcw0805.wheres_my_stuff.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.firebase.database.ChildEventListener;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.example.mcw0805.wheres_my_stuff.R;
 
 /**
  * The main dashboard of the application when a user logs in.
  * Displays the map and the panel to navigate to other pages.
  */
-public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
+public class Dashboard extends AppCompatActivity implements OnMapReadyCallback,
+        GoogleMap.OnInfoWindowClickListener {
     private GoogleMap mMap;
 
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
-    private ChildEventListener lostListen;
-    private ChildEventListener foundListen;
-
     private final String tag = "Dashboard";
 
     @Override
@@ -319,13 +316,18 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
             item.setLongitude(ds.getValue(Item.class).getLongitude());
             item.setDate(ds.getValue(Item.class).getDate());
             item.setUid(ds.getValue(Item.class).getUid());
-
+            
             if (type == ItemType.LOST) {
                 ((LostItem) item).setReward(ds.getValue(LostItem.class).getReward());
             }
 
+            String pushKey = ds.getKey().toString();
+            String[] parts = pushKey.split("--");
+            String itemUser = parts[0];
+
             LatLng latLng = new LatLng(item.getLatitude(), item.getLongitude());
-            mMap.addMarker(getMarkerOptions(latLng, item, type));
+            mMap.addMarker(getMarkerOptions(latLng, item, type, itemUser)).setTag(item);
+            mMap.setOnInfoWindowClickListener(this);
             Log.d(tag, "added item");
         }
 
@@ -337,9 +339,10 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
      * @param latLng latitude/longitude
      * @param item item that is being placed on the map
      * @param type type of the item
+     * @param itemUser user's string
      * @return marker options
      */
-    private MarkerOptions getMarkerOptions(LatLng latLng, Item item, ItemType type) {
+    private MarkerOptions getMarkerOptions(LatLng latLng, Item item, ItemType type, String itemUser) {
         switch (type) {
         case LOST:
             return new MarkerOptions().position(latLng).title(((LostItem) item).description());
@@ -347,7 +350,7 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
             return new MarkerOptions().position(latLng).title(((FoundItem) item).description())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         case NEED:
-            return new MarkerOptions().position(latLng).title(((NeededItem) item).description())
+            return new MarkerOptions().position(latLng).title(((NeededItem) item).description() )
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         case DONATION:
             return new MarkerOptions().position(latLng).title("Donation: " + item.getName()
@@ -361,5 +364,15 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback {
         }
 
 
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Item item = (Item) marker.getTag();
+        Intent intent = new Intent(getApplicationContext(), ItemDescriptionActivity.class);
+        intent.putExtra("itemOwnerUid", item.getUid());
+        intent.putExtra("selected", item);
+        startActivity(intent);
+        return;
     }
 }

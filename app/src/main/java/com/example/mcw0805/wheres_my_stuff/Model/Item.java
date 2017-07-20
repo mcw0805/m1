@@ -2,29 +2,21 @@ package com.example.mcw0805.wheres_my_stuff.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.google.android.gms.tasks.Tasks.whenAll;
 
 /**
- * Created by jordan on 6/20/17.
+ * A class representing the Item object for this application.
  */
-//6/22/17 Changed category to string for testing purposes
-//6/25/17 category is back to enum, temporarily made it Item not abstract
-
 public class Item implements Parcelable {
     protected String name;
     protected String description;
@@ -39,7 +31,8 @@ public class Item implements Parcelable {
     /**
      * Default no-arg constructor.
      */
-    public Item() {}
+    public Item() {
+    }
 
     public Item(String name, String description, long date, double longitude,
                 double latitude, ItemCategory category, String uid, boolean isOpen) {
@@ -65,6 +58,11 @@ public class Item implements Parcelable {
         this.isOpen = true;
     }
 
+    /**
+     * Creating an Item object from the Parcel
+     *
+     * @param in Parcel object
+     */
     protected Item(Parcel in) {
         name = in.readString();
         description = in.readString();
@@ -105,74 +103,166 @@ public class Item implements Parcelable {
         }
     };
 
+    /**
+     * Gets the UID for the owner of this Item.
+     *
+     * @return uid of the user
+     */
     public String getUid() {
         return uid;
     }
 
+    /**
+     * Sets the UID for the owner of this item.
+     *
+     * @param uid uid of the user
+     */
     public void setUid(String uid) {
         this.uid = uid;
     }
 
-    public boolean getIsOpen()
-    {
+    /**
+     * Gets the item status of the Item.
+     * Either it is available to view or case closed.
+     *
+     * @return status of the item
+     */
+    public boolean getIsOpen() {
         return isOpen;
     }
 
+    /**
+     * Sets the status of the Item.
+     *
+     * @param open new status of the item, where
+     *             true = open and false = resolved
+     */
     public void setIsOpen(boolean open) {
         this.isOpen = open;
     }
 
+    /**
+     * Gets the name of the Item.
+     *
+     * @return name of the Item
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name)
-    {
+    /**
+     * Sets the name of the item.
+     *
+     * @param name new name of the item
+     */
+    public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the description of the item.
+     *
+     * @return description string of the item
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Sets the description of the item.
+     *
+     * @param description new description string of the item
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
+    /**
+     * Gets the date-time of the Item.
+     *
+     * @return date-time of the posted date of the Item
+     */
     public long getDate() {
         return date;
     }
 
+    /**
+     * Sets the date-time of the Item.
+     *
+     * @param date new date-time of the Item
+     */
     public void setDate(long date) {
         this.date = date;
     }
 
+    /**
+     * Gets the geographical longitude of the Item.
+     *
+     * @return longitude of hte Item.
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * Sets the new geographical longitude of the Item.
+     *
+     * @param longitude new latitude of the Item
+     */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
+    /**
+     * Gets the geographical latitude of the Item.
+     *
+     * @return latitude of hte Item.
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Sets the new geographical latitude of the Item.
+     *
+     * @param latitude new latitude of the Item
+     */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
+    /**
+     * Gets the category for the Item.
+     *
+     * @return the category of the Item
+     */
     public ItemCategory getCategory() {
         return category;
     }
 
+    /**
+     * Sets the category of the Item.
+     *
+     * @param category new category of the Item
+     */
     public void setCategory(ItemCategory category) {
         this.category = category;
     }
 
-    public ItemType getType() { return type; }
+    /**
+     * Gets the default type for the Item object.
+     *
+     * @return type of the Item
+     */
+    public ItemType getType() {
+        return type;
+    }
 
+    /**
+     * Gets the status of the Item and puts it in literal string.
+     *
+     * @return status of the item, either open or resolved.
+     */
     public String getStatusString() {
         return isOpen ? "OPEN" : "RESOLVED";
     }
@@ -198,9 +288,21 @@ public class Item implements Parcelable {
                 descriptionChild.setValue(getDescription()),
                 latitudeChild.setValue(getLatitude()),
                 longitudeChild.setValue(getLongitude())
-                );
+        );
     }
 
+    /**
+     * Fills in a list of items for all users.
+     * <p>
+     * This method is called for different types of
+     * items stored separately in the database.
+     *
+     * @param dataSnapshot datasnapshot of the item reference
+     * @param itemList     list of items to be populated
+     * @param type         type of the item
+     * @param itemUserMap  map mapping the position of the item
+     *                     in the list to the push key in the database
+     */
     public static void getObjectListFromDB(DataSnapshot dataSnapshot, List<Item> itemList,
                                            ItemType type, Map<Integer, String> itemUserMap) {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
@@ -231,8 +333,18 @@ public class Item implements Parcelable {
 
     }
 
+    /**
+     * Fills in a list of items for a particular user.
+     *
+     * @param dataSnapshot datasnapshot of the item reference
+     * @param itemList     list of items to be populated
+     * @param type         type of the item
+     * @param uid          uid of the item owner
+     * @param itemUserMap  map mapping the position of the item
+     *                     in the list to the push key in the database
+     */
     public static void getUserObjectList(DataSnapshot dataSnapshot, List<Item> itemList,
-                                        ItemType type, String uid, Map<Integer, String> itemUserMap) {
+                                         ItemType type, String uid, Map<Integer, String> itemUserMap) {
 
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Item item = ItemFactory.makeItem(type);
@@ -284,12 +396,80 @@ public class Item implements Parcelable {
     @Override
     public String toString() {
 
-        String display =  "(" + ItemType.DONATION.toString().toUpperCase() + ") "
+        String display = "(" + ItemType.DONATION.toString().toUpperCase() + ") "
                 + getName() + "- Status: ";
 
         display += getStatusString();
 
         return display;
+    }
+
+    /**
+     * Filters the list of items based on the chosen category.
+     *
+     * @param cat category of the item
+     * @return filtered list containing the specified category
+     */
+    public static List<Item> filterByCategory(List<Item> itemObjectList, ItemCategory cat) {
+
+        //precondition: all of the param cannot be null
+        assert (itemObjectList != null);
+        assert (cat != null);
+
+        //invariant: if cat is ItemCategory.NOTHING_SELECTED, it will
+        //always return the original result
+
+
+        //frame condition: if matching category is found,
+        // then the size of filteredItemList will be increased by 1.
+        List<Item> filteredItemList = new ArrayList<>();
+        for (Item li : itemObjectList) {
+            if (li.getCategory() == cat) {
+                filteredItemList.add(li);
+            }
+        }
+
+        //postcondition: filteredItemList.size() >= 0
+        //filteredItemList.size() = 0 if itemObjectList (original) did not contain the
+        //specified category
+        //otherwise, it means there has been a match, so filteredItemList.size() > 0
+        return filteredItemList;
+
+    }
+
+    /**
+     * Filters the list of items by date
+     * @param itemObjectList original item list
+     * @param range range of time to sort
+     * @return new filtered list
+     */
+    public static List<Item> filterbyDate(List<Item> itemObjectList, long range) {
+        List<Item> filteredItemList = new ArrayList<>();
+        for (Item li: itemObjectList) {
+            if (li.getDate() - range > 0) {
+                filteredItemList.add(li);
+            }
+        }
+        return filteredItemList;
+    }
+
+    /**
+     * Filters the list of items based on the chosen type.
+     *
+     * @param type type of the item: Lost, Found, Needed, Donation
+     * @return list containing the specified type
+     */
+    public static List<Item> filterByType(List<Item> itemObjectList, ItemType type) {
+
+        List<Item> filteredItemList = new ArrayList<>();
+        for (Item fi : itemObjectList) {
+            if (fi.getType() == type) {
+                filteredItemList.add(fi);
+            }
+        }
+
+        return filteredItemList;
+
     }
 
 

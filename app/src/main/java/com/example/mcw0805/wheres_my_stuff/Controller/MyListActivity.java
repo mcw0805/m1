@@ -1,23 +1,18 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
-import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
@@ -29,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -236,46 +232,6 @@ public class MyListActivity extends AppCompatActivity {
 
 
     }
-
-    /**
-     * Filters the list of items based on the chosen type.
-     *
-     * @param type type of the item: Lost, Found, Needed, Donation
-     * @return list containing the specified type
-     */
-    private List<Item> filterByType(ItemType type) {
-
-        List<Item> filteredItemList = new ArrayList<>();
-        for (Item fi : myItemObjectList) {
-            switch (type) {
-                case LOST:
-                    if (fi instanceof LostItem) {
-                        filteredItemList.add(fi);
-                    }
-                    break;
-                case FOUND:
-                    if (fi instanceof FoundItem) {
-                        filteredItemList.add(fi);
-                    }
-                    break;
-                case NEED:
-                    if (fi instanceof NeededItem) {
-                        filteredItemList.add(fi);
-                    }
-                    break;
-                default:
-                    if (fi.getType() == ItemType.DONATION) {
-                        filteredItemList.add(fi);
-                    }
-            }
-
-
-        }
-
-        return filteredItemList;
-
-    }
-
     @Override
     protected void onStart() {
         super.onStart();

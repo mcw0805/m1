@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.mcw0805.wheres_my_stuff.Controller.AdminDashboard"
-    tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             tools:context="com.example.mcw0805.wheres_my_stuff.Controller.AdminDashboard"
+                                             tools:layout_editor_absoluteY="81dp"
+                                             tools:layout_editor_absoluteX="0dp">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -23,21 +22,11 @@
         tools:layout_editor_absoluteX="8dp">
 
         <TextView
-            android:id="@+id/profileadmin"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center_vertical"
-            android:text="Profile"
-            android:textSize="28sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/activeusers"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="Active Users"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -47,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="Locked Users"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -57,15 +46,16 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="Banned Users"
             android:textSize="28sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/admin_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
             android:text="Log Out" />
 
     </LinearLayout>

@@ -2,9 +2,9 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -57,7 +57,7 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
         ban = (CheckBox) findViewById(R.id.changeBan);
         lock = (CheckBox) findViewById(R.id.changeLock);
         confirm = (Button) findViewById(R.id.confirmButton);
-        cancel = (Button) findViewById(R.id.adminCanel);
+        cancel = (Button) findViewById(R.id.adminCancel);
 
         name.setText("" + user.getName());
         email.setText("" + user.getEmail());

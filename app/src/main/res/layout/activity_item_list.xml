@@ -31,6 +31,12 @@
             android:gravity=""
             android:layout_weight="0.05" />
 
+        <Spinner
+            android:id="@+id/filter_spinner_date"
+            android:layout_width="110dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"/>
+
 
     </LinearLayout>
 

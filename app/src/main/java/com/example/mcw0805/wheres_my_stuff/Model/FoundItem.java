@@ -6,12 +6,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Date;
-
 /**
- * Created by jordan on 6/20/17.
+ * Class representing the FoundItem.
  */
-//6/22/17 Changed category to string for testing purposes
 public class FoundItem extends Item {
 
     private static final ItemType type = ItemType.FOUND;
@@ -27,16 +24,43 @@ public class FoundItem extends Item {
         super();
     }
 
+    /**
+     * Constructor for instantiating a FoundItem.
+     * By default, it sets item open status to true.
+     *
+     * @param name        name of the item
+     * @param description description of the item
+     * @param date        date of the item
+     * @param longitude   geographical longitude
+     * @param latitude    geographical latitude
+     * @param category    category of the item
+     * @param uid         uid of the user posted
+     */
     public FoundItem(String name, String description, long date, double longitude,
                      double latitude, ItemCategory category, String uid) {
         super(name, description, date, longitude, latitude, category, uid);
     }
 
+    /**
+     * Constructor for instantiating a FoundItem.
+     *
+     * @param name        name of the item
+     * @param description description of the item
+     * @param date        date of the item
+     * @param longitude   geographical longitude
+     * @param latitude    geographical latitude
+     * @param category    category of the item
+     * @param uid         uid of the user posted
+     */
     public FoundItem(String name, String description, long date, double longitude,
                      double latitude, ItemCategory category, String uid, boolean isOpen) {
         super(name, description, date, longitude, latitude, category, uid, isOpen);
     }
 
+    /**
+     * Creating the FoundItem from the Parcel.
+     * @param in Parcel object
+     */
     protected FoundItem(Parcel in) {
         super(in);
     }
@@ -58,14 +82,29 @@ public class FoundItem extends Item {
         }
     };
 
+    /**
+     * Gets the item type of the FoundItem.
+     *
+     * @return type of the FoundItem
+     */
     public ItemType getItemType() {
         return type;
     }
 
+    /**
+     * Gets the  database reference for FoundItem in Firebase.
+     *
+     * @return found-item reference in the database
+     */
     public static DatabaseReference getFoundItemsRef() {
         return foundItemsRef;
     }
 
+    /**
+     * Gets the child reference under the found-item root.
+     *
+     * @return child reference under the found-item root
+     */
     public static DatabaseReference getChildRef() {
         return childRef;
     }

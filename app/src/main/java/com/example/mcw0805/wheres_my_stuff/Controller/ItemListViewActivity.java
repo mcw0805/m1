@@ -1,22 +1,20 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-
 import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-
+import com.example.mcw0805.wheres_my_stuff.Model.FilterDates;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
@@ -49,6 +47,7 @@ public class ItemListViewActivity extends AppCompatActivity {
     //private ArrayAdapter<Item> itemAdapter;
     private ItemAdapter itemAdapter;
     private Spinner filterSpinner;
+    private Spinner dateSpinner;
     private ItemType currentType;
     private EditText searchBarEdit;
 
@@ -81,7 +80,11 @@ public class ItemListViewActivity extends AppCompatActivity {
         final ArrayAdapter<ItemCategory> categoryAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, ItemCategory.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        //spinner for date
+        dateSpinner = (Spinner) findViewById(R.id.filter_spinner_date);
+        final ArrayAdapter<FilterDates> dateAdapter = new ArrayAdapter(
+                this, android.R.layout.simple_spinner_item, FilterDates.values());
+        dateSpinner.setAdapter(dateAdapter);
         filterSpinner.setAdapter(categoryAdapter);
 
         itemsLv = (ListView) findViewById(R.id.item_listView);
@@ -179,7 +182,8 @@ public class ItemListViewActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 itemAdapter = new ItemAdapter(getApplicationContext(), R.layout.item_row_layout,
-                        filterByCategory((ItemCategory) filterSpinner.getSelectedItem()));
+                        Item.filterByCategory(itemObjectList,
+                                (ItemCategory) filterSpinner.getSelectedItem()));
 
                 itemsLv.setAdapter(itemAdapter);
                 itemAdapter.notifyDataSetChanged();
@@ -190,30 +194,37 @@ public class ItemListViewActivity extends AppCompatActivity {
 
             }
         });
-
-    }
-
-    /**
-     * Filters the list of items based on the chosen category.
-     *
-     * @param cat category of the item
-     * @return list containing the specified category
-     */
-    private List<Item> filterByCategory(ItemCategory cat) {
-
-        if (cat == ItemCategory.NOTHING_SELECTED) {
-            return itemObjectList;
-        }
-
-        List<Item> filteredItemList = new ArrayList<>();
-        for (Item li : itemObjectList) {
-            if (li.getCategory() == cat) {
-                filteredItemList.add(li);
+        dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                FilterDates date = (FilterDates) parent.getItemAtPosition(position);
+                long current = System.currentTimeMillis();
+                long back = 0;
+                switch (date) {
+                    case  LAST30: back = 2592000000L;
+                        break;
+                    case LAST15: back = 1296000000L;
+                        break;
+                    case LASTWEEK: back = 604800000L;
+                        break;
+                    case LASTDAY: back = 86400000L;
+                }
+                long range = current - back;
+                itemAdapter = new ItemAdapter(getApplicationContext(),
+                        R.layout.item_row_layout, Item.filterbyDate(itemObjectList, range));
+                itemsLv.setAdapter(itemAdapter);
+                itemAdapter.notifyDataSetChanged();
             }
-        }
 
-        return filteredItemList;
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+
+            }
+        });
 
     }
+
+
 
 }

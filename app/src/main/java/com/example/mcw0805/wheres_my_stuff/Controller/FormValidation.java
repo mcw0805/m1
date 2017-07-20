@@ -3,8 +3,6 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.text.TextUtils;
 import android.widget.EditText;
 
-import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
-
 /**
  * A class dedicated to ensure that certain fields are valid in a form before submission.
  *
@@ -44,17 +42,17 @@ public class FormValidation {
         return TextUtils.isEmpty(editText.getText().toString());
     }
 
-    /**
-     * Checks whether an ItemCategory is selected.
-     * <p>
-     * If it is KEEPSAKE, HEIRLOOM, or MISC, it should return true. Otherwise, false.
-     *
-     * @param inputItemCategory category of an item
-     * @return whether a valid item category was selected
-     */
-    public static boolean categoryNothingSelected(ItemCategory inputItemCategory) {
-        return inputItemCategory == ItemCategory.NOTHING_SELECTED;
-    }
+//    /**
+//     * Checks whether an ItemCategory is selected.
+//     * <p>
+//     * If it is KEEPSAKE, HEIRLOOM, or MISC, it should return true. Otherwise, false.
+//     *
+//     * @param inputItemCategory category of an item
+//     * @return whether a valid item category was selected
+//     */
+//    public static boolean categoryNothingSelected(ItemCategory inputItemCategory) {
+//        return inputItemCategory == ItemCategory.NOTHING_SELECTED;
+//    }
 
     /**
      * Checks whether the input in an EditText is an integer.

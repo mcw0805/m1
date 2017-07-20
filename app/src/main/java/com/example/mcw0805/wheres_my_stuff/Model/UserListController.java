@@ -1,8 +1,9 @@
 package com.example.mcw0805.wheres_my_stuff.Model;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Jordan on 6/28/2017.
+ * @author Jordan
  */
 
 public class UserListController {
@@ -11,8 +12,8 @@ public class UserListController {
      * @param inArr an ArrayList of all the current users
      * @return an array list of users that are banned
      */
-    public static ArrayList<User> filterByBanned(ArrayList<User> inArr) {
-        ArrayList<User> outArr = new ArrayList<>();
+    public static List<User> filterByBanned(List<User> inArr) {
+        List<User> outArr = new ArrayList<>();
         for (User u : inArr) {
             if (u.getIsBanned()) {
                 outArr.add(u);
@@ -26,8 +27,8 @@ public class UserListController {
      * @param inArr an ArrayList of all the current users
      * @return an array list of users that are not banned
      */
-    public static ArrayList<User> filterByActive(ArrayList<User> inArr) {
-        ArrayList<User> outArr = new ArrayList<>();
+    public static List<User> filterByActive(List<User> inArr) {
+        List<User> outArr = new ArrayList<>();
         for (User u : inArr) {
             if (!(u.getIsBanned())) {
                 outArr.add(u);
@@ -35,14 +36,4 @@ public class UserListController {
         }
         return outArr;
     }
-//    public ArrayList<User> dateHiLow(){
-//        ArrayList<User> outArr = unsorted.sort(); // need to write a sorting algo
-//        for (User u)
-//    }
-//    public ArrayList<User> dateLowHi() {
-//
-//    }
-//    private void sort() {
-//
-//    }
 }

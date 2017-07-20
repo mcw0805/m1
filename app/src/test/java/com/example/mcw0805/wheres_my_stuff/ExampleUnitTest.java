@@ -2,7 +2,7 @@ package com.example.mcw0805.wheres_my_stuff;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

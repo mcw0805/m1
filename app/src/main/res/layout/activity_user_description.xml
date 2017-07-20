@@ -24,14 +24,16 @@
 
     <TextView
         android:id="@+id/userOverView"
-        android:layout_width="124dp"
+        android:layout_width="fill_parent"
         android:layout_height="30dp"
-        android:text="User Overview"
+        android:text="User Overview:"
+        android:textSize="20sp"
+        android:textStyle="bold"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toTopOf="@+id/userOverviewName"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="43dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:layout_constraintLeft_creator="1"
         android:layout_marginBottom="41dp"
@@ -42,74 +44,76 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name:"
+        app:layout_constraintStart_toStartOf="@+id/userOverView"
         tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="@+id/userOverViewEmail"
         app:layout_constraintBaseline_toBaselineOf="@+id/userOvName"
-        tools:layout_constraintBaseline_creator="1" />
+        tools:layout_constraintBaseline_creator="1"/>
 
     <TextView
         android:id="@+id/userOverViewEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email:"
+        app:layout_constraintStart_toStartOf="@+id/userOverviewName"
         tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="@+id/userOverviewItem"
         app:layout_constraintBaseline_toBaselineOf="@+id/UserOvEmail"
-        tools:layout_constraintBaseline_creator="1" />
+        tools:layout_constraintBaseline_creator="1"/>
 
     <TextView
         android:id="@+id/userOverviewItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Item Count:"
+        app:layout_constraintStart_toStartOf="@+id/userOverViewEmail"
         tools:layout_constraintRight_creator="1"
-        android:layout_marginEnd="2dp"
-        app:layout_constraintRight_toRightOf="@+id/userOverviewLock"
         app:layout_constraintBaseline_toBaselineOf="@+id/UserOvIC"
-        tools:layout_constraintBaseline_creator="1" />
+        tools:layout_constraintBaseline_creator="1"
+        android:layout_marginTop="3dp"/>
 
     <TextView
         android:id="@+id/userOverviewUid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="UID:"
+        app:layout_constraintStart_toStartOf="@+id/userOverviewItem"
         tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="@+id/userOverviewItem"
+        android:layout_marginTop="3dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/UserOvUID"
-        tools:layout_constraintBaseline_creator="1" />
+        tools:layout_constraintBaseline_creator="1"/>
 
     <TextView
         android:id="@+id/userOverviewLock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lock Attempts:"
-        android:layout_marginStart="19dp"
+        app:layout_constraintStart_toStartOf="@+id/userOverviewUid"
         app:layout_constraintBaseline_toBaselineOf="@+id/userOvLA"
         tools:layout_constraintBaseline_creator="1"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_marginTop="3dp"/>
 
     <TextView
         android:id="@+id/userOverviewLockS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lock Status:"
+        app:layout_constraintStart_toStartOf="@+id/userOverviewLock"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         android:layout_marginEnd="1dp"
-        app:layout_constraintRight_toRightOf="@+id/userOverviewLock"
-        app:layout_constraintTop_toBottomOf="@+id/userOverviewLock" />
+        app:layout_constraintTop_toBottomOf="@+id/userOverviewLock"
+        android:layout_marginTop="3dp"/>
 
     <TextView
         android:id="@+id/userOverViewBannedS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Banned Status:"
+        app:layout_constraintStart_toStartOf="@+id/userOverviewLockS"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintRight_toRightOf="@+id/userOverviewLockS"
-        app:layout_constraintTop_toBottomOf="@+id/userOverviewLockS" />
+        app:layout_constraintTop_toBottomOf="@+id/userOverviewLockS"
+        android:layout_marginTop="3dp"/>
 
     <TextView
         android:id="@+id/userOvName"
@@ -120,43 +124,51 @@
         android:layout_marginTop="115dp"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/userOverviewName" />
+        app:layout_constraintLeft_toRightOf="@+id/userOverviewName"
+        android:layout_marginLeft="58dp"/>
 
     <TextView
         android:id="@+id/UserOvEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="EMAILcanbeprettylong"
+        app:layout_constraintStart_toStartOf="@+id/userOvName"
         tools:layout_constraintTop_creator="1"
         app:layout_constraintTop_toBottomOf="@+id/userOverviewName"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toRightOf="@+id/userOverviewItem" />
+        app:layout_constraintLeft_toRightOf="@+id/userOverviewItem"
+        android:layout_marginTop="3dp"/>
 
     <TextView
         android:id="@+id/UserOvIC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="IC"
+        app:layout_constraintStart_toStartOf="@+id/UserOvEmail"
         tools:layout_constraintTop_creator="1"
         app:layout_constraintTop_toBottomOf="@+id/userOverViewEmail"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toRightOf="@+id/userOverviewItem" />
+        app:layout_constraintLeft_toRightOf="@+id/userOverviewItem"
+        android:layout_marginTop="3dp"/>
 
     <TextView
         android:id="@+id/UserOvUID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="UIDcanbe prettylong"
+        android:text="UIDcanbeprettylong"
+        app:layout_constraintStart_toStartOf="@+id/UserOvIC"
         tools:layout_constraintTop_creator="1"
         app:layout_constraintTop_toBottomOf="@+id/userOverviewItem"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toRightOf="@+id/userOverviewItem" />
+        app:layout_constraintLeft_toRightOf="@+id/userOverviewItem"
+        android:layout_marginTop="3dp"/>
 
     <TextView
         android:id="@+id/userOvLA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LA"
+        app:layout_constraintStart_toStartOf="@+id/UserOvUID"
         tools:layout_constraintTop_creator="1"
         app:layout_constraintTop_toBottomOf="@+id/UserOvUID"
         tools:layout_constraintLeft_creator="1"
@@ -167,23 +179,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="LS"
+        app:layout_constraintStart_toStartOf="@+id/userOvLA"
         tools:layout_constraintTop_creator="1"
         app:layout_constraintTop_toBottomOf="@+id/userOverviewLock"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toRightOf="@+id/userOverviewLock" />
+        app:layout_constraintLeft_toRightOf="@+id/userOverviewLock"
+        android:layout_marginTop="3dp"/>
 
     <TextView
         android:id="@+id/userOvBS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BS"
+        app:layout_constraintStart_toStartOf="@+id/UserOVLS"
         tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="@+id/userOvLA"
-        android:layout_marginTop="17dp"
-        app:layout_constraintTop_toBottomOf="@+id/userOvLA"
+        app:layout_constraintTop_toBottomOf="@+id/UserOVLS"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/userOvLA" />
+        app:layout_constraintLeft_toRightOf="@+id/userOverViewBannedS"
+        android:layout_marginTop="3dp"/>
 
     <CheckBox
         android:id="@+id/changeBan"
@@ -197,7 +210,9 @@
         app:layout_constraintRight_toRightOf="@+id/changeLock"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/changeLock"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintVertical_bias="0.538"/>
 
     <CheckBox
         android:id="@+id/changeLock"
@@ -212,30 +227,31 @@
         app:layout_constraintTop_toBottomOf="@+id/changeBan"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginLeft="73dp"
+        app:layout_constraintVertical_bias="0.222"/>
 
     <Button
         android:id="@+id/confirmButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Make Changes"
-        app:layout_constraintRight_toLeftOf="@+id/changeLock"
+        android:layout_width="75dp"
+        android:layout_height="48dp"
+        android:text="Edit"
+        app:layout_constraintStart_toStartOf="@+id/userOverViewBannedS"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="134dp"
-        app:layout_constraintLeft_toLeftOf="@+id/changeLock" />
+        android:layout_marginBottom="110dp"
+        />
 
     <Button
-        android:id="@+id/adminCanel"
-        android:layout_width="134dp"
+        android:id="@+id/adminCancel"
+        android:layout_width="85dp"
         android:layout_height="48dp"
         android:text="Cancel"
+        app:layout_constraintStart_toStartOf="@+id/userOverViewBannedS"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
-        android:layout_marginEnd="51dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="17dp"
-        app:layout_constraintTop_toBottomOf="@+id/changeLock" />
+        android:layout_marginTop="85dp"
+        app:layout_constraintTop_toBottomOf="@+id/changeLock"/>
+
 </android.support.constraint.ConstraintLayout>

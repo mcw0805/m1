@@ -1,10 +1,11 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
+
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,9 +15,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
+import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.example.mcw0805.wheres_my_stuff.Model.LostItem;
 import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
@@ -30,14 +33,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import java.util.ArrayList;
-import java.util.List;
-import com.example.mcw0805.wheres_my_stuff.Model.ItemType;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller for submitting the lost item.
@@ -62,7 +65,11 @@ public class SubmitFormActivity extends AppCompatActivity
     private Button backButton;
     private Button postButton;
     private EditText locationText;
-    private Place place;
+    private TextView titleBlank;
+    private TextView descriptionBlank;
+    private TextView categoryBlank;
+    private TextView typeBlank;
+    private TextView addressBlank;
 
 
     /*
@@ -109,6 +116,11 @@ public class SubmitFormActivity extends AppCompatActivity
         typeSpinner = (Spinner) findViewById(R.id.type_Lspinner);
         postButton = (Button) findViewById(R.id.postButton_L);
         backButton = (Button) findViewById(R.id.backButton_L);
+        titleBlank = (TextView) findViewById(R.id.titleBlank);
+        categoryBlank = (TextView) findViewById(R.id.categoryBlank);
+        addressBlank = (TextView) findViewById(R.id.addressBlank);
+        descriptionBlank = (TextView) findViewById(R.id.descriptionBlank);
+        typeBlank = (TextView) findViewById(R.id.typeBlank);
 
 
         ArrayAdapter<ItemCategory> categoryAdapter = new ArrayAdapter(this,
@@ -177,7 +189,7 @@ public class SubmitFormActivity extends AppCompatActivity
             //initializes the fields in the form as private instance variables
             if (!setFieldVars()) {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(SubmitFormActivity.this);
-                builder1.setMessage("Invalid");
+                builder1.setMessage("Please fill out all required fields");
                 builder1.setCancelable(true);
                 builder1.setPositiveButton(
                         "Ok",
@@ -266,7 +278,7 @@ public class SubmitFormActivity extends AppCompatActivity
         String pushKey = LostItem.getLostItemsRef().push().getKey();
         newItem = new LostItem(inputName, inputDescription, dateTime,
                 inputLongitude, inputLatitude, inputItemCategory,
-                pushKey, reward);
+                uid, reward);
         incrementSubmissionCount();
         DatabaseReference child = LostItem.getLostItemsRef().child(uid + "--" + pushKey);
 
@@ -281,7 +293,7 @@ public class SubmitFormActivity extends AppCompatActivity
     private Task submitFoundItem(long dateTime) {
         String pushKey = FoundItem.getFoundItemsRef().push().getKey();
         newItem = new FoundItem(inputName, inputDescription, dateTime,
-                inputLongitude, inputLatitude, inputItemCategory, pushKey);
+                inputLongitude, inputLatitude, inputItemCategory, uid);
         incrementSubmissionCount();
 
 
@@ -313,7 +325,7 @@ public class SubmitFormActivity extends AppCompatActivity
         DatabaseReference donationItemsRef = database.getReference("posts/donation-items/");
         String pushKey = donationItemsRef.push().getKey();
         newItem = new Item(inputName, inputDescription, dateTime,
-                inputLongitude, inputLatitude, ItemCategory.MISC, pushKey);
+                inputLongitude, inputLatitude, ItemCategory.MISC, uid);
         incrementSubmissionCount();
         DatabaseReference child = donationItemsRef.child(uid + "--" + pushKey);
         return newItem.writeToDatabase(child);
@@ -329,26 +341,25 @@ public class SubmitFormActivity extends AppCompatActivity
 
         boolean valid = true;
 
-        if (FormValidation.textEmpty(new EditText[]{titleField, descriptField})) {
-            valid = false;
-        }
-
         inputName = titleField.getText().toString();
+        if (inputName.length() == 0) {
+            titleBlank.setVisibility(View.VISIBLE);
+        } else {
+            titleBlank.setVisibility(View.INVISIBLE);
+        }
         inputDescription = descriptField.getText().toString();
-
+        if (inputDescription.length() == 0) {
+            descriptionBlank.setVisibility(View.VISIBLE);
+        } else {
+            descriptionBlank.setVisibility(View.INVISIBLE);
+        }
         inputItemType = (ItemType) typeSpinner.getSelectedItem();
-
         inputItemCategory = (ItemCategory) categorySpinner.getSelectedItem();
-        if (FormValidation.categoryNothingSelected(inputItemCategory)
-                && typeSpinner.getVisibility() == View.INVISIBLE) {
-            valid = false;
-            if (!valid) {
-                Log.w(tag, "Item category: Nothing selected");
-            }
+        if (inputItemCategory == ItemCategory.NOTHING_SELECTED) {
+            inputItemCategory = ItemCategory.MISC;
         }
 
         uid = firebaseUser.getUid();
-
 
         if (rewardField.getVisibility() == View.VISIBLE && !FormValidation.isValidInteger(rewardField)) {
             valid = false;
@@ -358,9 +369,10 @@ public class SubmitFormActivity extends AppCompatActivity
             }
 
         }
-
         if (inputLongitude == 0 && inputLatitude == 0) {
-            valid = false;
+            addressBlank.setVisibility(View.VISIBLE);
+        } else {
+            addressBlank.setVisibility(View.INVISIBLE);
         }
 
         return valid;
