@@ -57,7 +57,7 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
         ban = (CheckBox) findViewById(R.id.changeBan);
         lock = (CheckBox) findViewById(R.id.changeLock);
         confirm = (Button) findViewById(R.id.confirmButton);
-        cancel = (Button) findViewById(R.id.adminCanel);
+        cancel = (Button) findViewById(R.id.adminCancel);
 
         name.setText("" + user.getName());
         email.setText("" + user.getEmail());
