@@ -4,9 +4,10 @@ package com.example.mcw0805.wheres_my_stuff.Model;
  * Enum representing the categories of the item.
  */
 public enum ItemCategory {
-    KEEPSAKE ("KEEPSAKE"),
-    HEIRLOOM ("HEIRLOOM"),
-    MISC ("MISC");
+    NOTHING_SELECTED(""),
+    KEEPSAKE("KEEPSAKE"),
+    HEIRLOOM("HEIRLOOM"),
+    MISC("MISC");
 
     private final String itemCategory;
 

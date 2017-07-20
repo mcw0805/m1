@@ -438,6 +438,22 @@ public class Item implements Parcelable {
     }
 
     /**
+     * Filters the list of items by date
+     * @param itemObjectList original item list
+     * @param range range of time to sort
+     * @return new filtered list
+     */
+    public static List<Item> filterbyDate(List<Item> itemObjectList, long range) {
+        List<Item> filteredItemList = new ArrayList<>();
+        for (Item li: itemObjectList) {
+            if (li.getDate() - range > 0) {
+                filteredItemList.add(li);
+            }
+        }
+        return filteredItemList;
+    }
+
+    /**
      * Filters the list of items based on the chosen type.
      *
      * @param type type of the item: Lost, Found, Needed, Donation
