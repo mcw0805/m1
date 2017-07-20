@@ -14,6 +14,7 @@ import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.mcw0805.wheres_my_stuff.Model.FilterDates;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
@@ -46,6 +47,7 @@ public class ItemListViewActivity extends AppCompatActivity {
     //private ArrayAdapter<Item> itemAdapter;
     private ItemAdapter itemAdapter;
     private Spinner filterSpinner;
+    private Spinner dateSpinner;
     private ItemType currentType;
     private EditText searchBarEdit;
 
@@ -78,7 +80,11 @@ public class ItemListViewActivity extends AppCompatActivity {
         final ArrayAdapter<ItemCategory> categoryAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, ItemCategory.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        //spinner for date
+        dateSpinner = (Spinner) findViewById(R.id.filter_spinner_date);
+        final ArrayAdapter<FilterDates> dateAdapter = new ArrayAdapter(
+                this, android.R.layout.simple_spinner_item, FilterDates.values());
+        dateSpinner.setAdapter(dateAdapter);
         filterSpinner.setAdapter(categoryAdapter);
 
         itemsLv = (ListView) findViewById(R.id.item_listView);
@@ -185,6 +191,34 @@ public class ItemListViewActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                FilterDates date = (FilterDates) parent.getItemAtPosition(position);
+                long current = System.currentTimeMillis();
+                long back = 0;
+                switch (date) {
+                    case  LAST30: back = 2592000000L;
+                        break;
+                    case LAST15: back = 1296000000L;
+                        break;
+                    case LASTWEEK: back = 604800000L;
+                        break;
+                    case LASTDAY: back = 86400000L;
+                }
+                long range = current - back;
+                itemAdapter = new ItemAdapter(getApplicationContext(),
+                        R.layout.item_row_layout, Item.filterbyDate(itemObjectList, range));
+                itemsLv.setAdapter(itemAdapter);
+                itemAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
 
             }
         });

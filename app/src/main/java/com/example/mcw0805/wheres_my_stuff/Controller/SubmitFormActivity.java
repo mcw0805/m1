@@ -355,6 +355,9 @@ public class SubmitFormActivity extends AppCompatActivity
         }
         inputItemType = (ItemType) typeSpinner.getSelectedItem();
         inputItemCategory = (ItemCategory) categorySpinner.getSelectedItem();
+        if (inputItemCategory == ItemCategory.NOTHING_SELECTED) {
+            inputItemCategory = ItemCategory.MISC;
+        }
 
         uid = firebaseUser.getUid();
 
