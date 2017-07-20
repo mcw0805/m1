@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="Profile"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="Active Users"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="Locked Users"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -56,15 +56,16 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:gravity="center_vertical"
+            android:gravity="center"
             android:text="Banned Users"
             android:textSize="28sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/admin_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
             android:text="Log Out" />
 
     </LinearLayout>
