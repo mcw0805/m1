@@ -181,73 +181,11 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                             if (u.getUid().equals(uid)) {
                                                 if (u.getIsBanned()) {
                                                     //If banned ALERT
-                                                    Log.d(TAG, "signInWithEmail:banned");
-                                                    AlertDialog.Builder builder1 =
-                                                            new AlertDialog.Builder(LogInActivity.
-                                                                    this);
-                                                    builder1.setMessage("Your account"
-                                                            + "has been BANNED for violating ToS. "
-                                                            + "Please contact support ");
-                                                    builder1.setCancelable(true);
-                                                    builder1.setPositiveButton(
-                                                            "Cancel",
-                                                            new DialogInterface.OnClickListener() {
-                                                                public void onClick(DialogInterface dialog, int id) {
-                                                                    dialog.cancel();
-                                                                    finish();
-                                                                    startActivity(getIntent());
-                                                                }
-                                                            });
-
-                                                    builder1.setNegativeButton(
-                                                            "Ok",
-                                                            new DialogInterface.OnClickListener() {
-                                                                public void onClick(DialogInterface dialog, int id) {
-                                                                    dialog.cancel();
-                                                                    finish();
-                                                                    startActivity(getIntent());
-                                                                }
-                                                            });
-
-                                                    AlertDialog alert11 = builder1.create();
-                                                    alert11.show();
+                                                    bannedUser();
                                                     return;
                                                     //Checks if user is locked out
                                                 } else if (u.getLockAttempts() > 2) {
-                                                    //locked out set value to true
-                                                    DatabaseReference mLockedout = mUserRef2.
-                                                            child("locked");
-                                                    mLockedout.setValue(true);
-                                                    //if locked out ALERT
-                                                    AlertDialog.Builder builder1 = new AlertDialog.
-                                                            Builder(LogInActivity.this);
-                                                    builder1.setMessage("Your account has been"
-                                                            + " locked from too many incorrect"
-                                                            + " logins. Please try later");
-                                                    builder1.setCancelable(true);
-
-                                                    builder1.setPositiveButton(
-                                                            "Cancel",
-                                                            new DialogInterface.OnClickListener() {
-                                                                public void onClick(DialogInterface dialog, int id) {
-                                                                    dialog.cancel();
-                                                                    finish();
-                                                                    startActivity(getIntent());
-                                                                }
-                                                            });
-
-                                                    builder1.setNegativeButton(
-                                                            "Ok",
-                                                            new DialogInterface.OnClickListener() {
-                                                                public void onClick(DialogInterface dialog, int id) {
-                                                                    dialog.cancel();
-                                                                    finish();
-                                                                    startActivity(getIntent());
-                                                                }
-                                                            });
-
-                                                    AlertDialog alert11 = builder1.create();
-                                                    alert11.show();
+                                                    lockedUser();
                                                     return;
                                                 } else {
                                                     //Everything is fine
@@ -298,42 +236,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                                             u.addLockAttempts();
                                             u.writeToDatabase();
                                             if (u.getLockAttempts() > 2) {
-                                                //set value to true
-                                                DatabaseReference mLockedout =
-                                                        FirebaseDatabase.getInstance().
-                                                                getReference("users/"
-                                                                        + u.getUid() + "/locked");
-                                                mLockedout.setValue(true);
-                                                //if locked out ALERT
-                                                AlertDialog.Builder builder1 =
-                                                        new AlertDialog.Builder(LogInActivity.this);
-                                                builder1.setMessage("Your account "
-                                                        + "has been locked from too many "
-                                                        + "incorrect logins. Please try later");
-                                                builder1.setCancelable(true);
-
-                                                builder1.setPositiveButton(
-                                                        "Cancel",
-                                                        new DialogInterface.OnClickListener() {
-                                                            public void onClick(DialogInterface dialog, int id) {
-                                                                dialog.cancel();
-                                                                finish();
-                                                                startActivity(getIntent());
-                                                            }
-                                                        });
-
-                                                builder1.setNegativeButton(
-                                                        "Ok",
-                                                        new DialogInterface.OnClickListener() {
-                                                            public void onClick(DialogInterface dialog, int id) {
-                                                                dialog.cancel();
-                                                                finish();
-                                                                startActivity(getIntent());
-                                                            }
-                                                        });
-
-                                                AlertDialog alert11 = builder1.create();
-                                                alert11.show();
+                                                lockedUser();
+                                                return;
                                             }
                                         }
 
@@ -364,5 +268,83 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
+    }
+
+    /**
+     * Logic if user is banned
+     */
+    private void bannedUser() {
+        Log.d(TAG, "signInWithEmail:banned");
+        AlertDialog.Builder builder1 =
+                new AlertDialog.Builder(LogInActivity.
+                        this);
+        builder1.setMessage("Your account"
+                + "has been BANNED for violating ToS. "
+                + "Please contact support ");
+        builder1.setCancelable(true);
+        builder1.setPositiveButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                        startActivity(getIntent());
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                        startActivity(getIntent());
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+        return;
+    }
+
+    /**
+     * Logic if user is locked
+     */
+    private void lockedUser() {
+        //locked out set value to true
+        DatabaseReference mLockedout = mUserRef2.
+                child("locked");
+        mLockedout.setValue(true);
+        //if locked out ALERT
+        AlertDialog.Builder builder1 = new AlertDialog.
+                Builder(LogInActivity.this);
+        builder1.setMessage("Your account has been"
+                + " locked from too many incorrect"
+                + " logins. Please try later");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                        startActivity(getIntent());
+                    }
+                });
+
+        builder1.setNegativeButton(
+                "Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                        startActivity(getIntent());
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+        return;
     }
 }
