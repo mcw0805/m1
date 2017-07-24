@@ -5,7 +5,7 @@ package com.example.mcw0805.wheres_my_stuff.Model;
  */
 
 public enum FilterDates {
-    LAST30("LAST 30 days"),
+    LAST30("Last 30 days"),
     LAST15("Last 15 days"),
     LASTWEEK("Last week"),
     LASTDAY("Last 24 hours");

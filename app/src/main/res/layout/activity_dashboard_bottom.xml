@@ -56,9 +56,9 @@
         android:layout_below="@id/found_txt"
         android:fontFamily="sans-serif-smallcaps"
         android:gravity="center"
-        android:text="Donate Items"
+        android:text="Donated Items Near Me"
         android:textSize="28sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/donate_list"

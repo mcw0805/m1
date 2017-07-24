@@ -25,6 +25,7 @@ import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -134,6 +135,9 @@ public class ItemListViewActivity extends AppCompatActivity {
         } else if (getIntent().getStringExtra("DashboardClickedListType").equals("helpOut")) {
             itemsRef = NeededItem.getNeededItemsRef();
             currentType = ItemType.NEED;
+        } else if (getIntent().getStringExtra("DashboardClickedListType").equals("Donation")) {
+            itemsRef = FirebaseDatabase.getInstance().getReference("posts/donation-items/");
+            currentType = ItemType.DONATION;
         }
 
         if (itemsRef != null) {
