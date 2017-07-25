@@ -321,7 +321,7 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback,
                 ((LostItem) item).setReward(ds.getValue(LostItem.class).getReward());
             }
 
-            String pushKey = ds.getKey().toString();
+            String pushKey = ds.getKey();
             String[] parts = pushKey.split("--");
             String itemUser = parts[0];
 
