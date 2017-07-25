@@ -79,10 +79,6 @@
          <!--android:required="false" /> -->
 
         <activity android:name=".Controller.MyEditableItemActivity" />
-        <activity
-            android:name=".Controller.dashboard_tabs"
-            android:label="@string/title_activity_dashboard_tabs"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <activity android:name=".Controller.AdminFunctionality.UserDescriptionActivity"></activity>
     </application>
