@@ -347,4 +347,27 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         alert11.show();
         return;
     }
+
+    /**
+     * tests banned users without log and alert for testing purposes
+     * @param user a user
+     * @return true or false if operation is succesful
+     */
+    public boolean testBan(User user) {
+        if (user.getIsBanned()) {
+            return true;
+        }
+        return false;
+    }
+    /**
+     * tests locked users without log and alert for testing purposes
+     * @param user a user
+     * @return true or false if operation is successful
+     */
+    public boolean testLock(User user) {
+        if (user.getIsLocked()) {
+            return true;
+        }
+        return false;
+    }
 }
