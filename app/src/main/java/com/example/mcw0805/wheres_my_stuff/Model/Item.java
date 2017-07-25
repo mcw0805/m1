@@ -90,7 +90,7 @@ public class Item implements Parcelable {
         date = in.readLong();
         latitude = in.readDouble();
         longitude = in.readDouble();
-        category = ItemCategory.valueOf(in.readString().toString());
+        category = ItemCategory.valueOf(in.readString());
         uid = in.readString();
         isOpen = in.readByte() != 0;
     }
@@ -334,7 +334,7 @@ public class Item implements Parcelable {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Log.i("KEY", ds.getKey());
 
-            String pushKey = ds.getKey().toString();
+            String pushKey = ds.getKey();
             String[] parts = pushKey.split("--");
             String itemUser = parts[0];
 
@@ -375,7 +375,7 @@ public class Item implements Parcelable {
         for (DataSnapshot ds : dataSnapshot.getChildren()) {
             Item item = ItemFactory.makeItem(type);
 
-            String pushKey = ds.getKey().toString();
+            String pushKey = ds.getKey();
             String[] parts = pushKey.split("--");
             String itemUser = parts[0];
 
