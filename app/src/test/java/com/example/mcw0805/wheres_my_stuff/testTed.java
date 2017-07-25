@@ -1,11 +1,7 @@
 package com.example.mcw0805.wheres_my_stuff;
-
-import android.util.Log;
-
 import com.example.mcw0805.wheres_my_stuff.Controller.LogInActivity;
 import com.example.mcw0805.wheres_my_stuff.Model.User;
 
-import org.junit.Before;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -13,8 +9,13 @@ import org.mockito.Mockito;
 /**
  * Created by Ted on 7/18/2017.
  * Test the login feature with multiple users
+ * Signature: login()
+ * Preconditions: User has filled in valid fields and clicked login
+ * Postconditions: User is either authenticated and led to the dashboard,
+ * or alerted what has failed
+ * Invariants: User will try to resolve an issue or progress with the app
+ * Framing conditions: All validation is handled by Firebase
  */
-
 public class testTed {
     LogInActivity login = new LogInActivity();
 
