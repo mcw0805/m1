@@ -64,8 +64,6 @@ public class LockedUserListActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();
-                //name of user
-                String name = (String) user.get("name");
                 User newUser = User.buildUserObject(dataSnapshot);
                 if (newUser.getIsLocked()) {
                     lockedUserObjectList.add(newUser);

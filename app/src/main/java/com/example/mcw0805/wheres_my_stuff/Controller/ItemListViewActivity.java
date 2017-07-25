@@ -212,7 +212,7 @@ public class ItemListViewActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 FilterDates date = (FilterDates) parent.getItemAtPosition(position);
                 long current = System.currentTimeMillis();
-                long back = 0;
+                long back;
                 switch (date) {
                     case  LAST30: back = 2592000000L;
                         break;

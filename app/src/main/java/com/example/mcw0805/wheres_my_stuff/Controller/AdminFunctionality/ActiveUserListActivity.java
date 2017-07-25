@@ -71,9 +71,6 @@ public class ActiveUserListActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();
 
-                // name of the user
-                String name = (String) user.get("name");
-
                 User newUser = null;
                 try {
                     newUser = User.buildUserObject(dataSnapshot);

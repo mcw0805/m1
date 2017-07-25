@@ -30,7 +30,7 @@ public class CustomCategoryAdapter<T> extends ArrayAdapter<T> {
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        View v = null;
+        View v;
         if (position == hidingItemIndex) {
             TextView tv = new TextView(getContext());
             tv.setVisibility(View.GONE);

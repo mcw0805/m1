@@ -65,7 +65,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
     @Override
     public Item getItem(int item) {
-        Item i = null;
+        Item i;
         synchronized (mLock) {
             i = items != null ? items.get(item) : null;
 
@@ -82,7 +82,7 @@ public class ItemAdapter extends ArrayAdapter<Item> {
             v = vi.inflate(R.layout.item_row_layout, null);
         }
 
-        Item i = null;
+        Item i;
         synchronized (mLock) {
             i = items.get(position);
         }

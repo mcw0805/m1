@@ -127,8 +127,6 @@ public class FoundItemListActivity extends AppCompatActivity {
         mFoundItemsRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map<String, Object> item = (Map<String, Object>) dataSnapshot.getValue();
-
                 //name of the item name
                 //String name = (String) item.get("name");
 

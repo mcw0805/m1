@@ -85,7 +85,7 @@ public class FormValidation {
      * @return boolean if valid or not
      */
     public static boolean isValidZipCode(String zip) {
-        boolean validZipCode = false;
+        boolean validZipCode;
         String zipCodePattern = "\\d{5}(-\\d{4})?";
 
         validZipCode = zip.matches(zipCodePattern);
