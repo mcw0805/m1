@@ -42,17 +42,6 @@ public class FormValidation {
         return TextUtils.isEmpty(editText.getText().toString());
     }
 
-//    /**
-//     * Checks whether an ItemCategory is selected.
-//     * <p>
-//     * If it is KEEPSAKE, HEIRLOOM, or MISC, it should return true. Otherwise, false.
-//     *
-//     * @param inputItemCategory category of an item
-//     * @return whether a valid item category was selected
-//     */
-//    public static boolean categoryNothingSelected(ItemCategory inputItemCategory) {
-//        return inputItemCategory == ItemCategory.NOTHING_SELECTED;
-//    }
 
     /**
      * Checks whether the input in an EditText is an integer.

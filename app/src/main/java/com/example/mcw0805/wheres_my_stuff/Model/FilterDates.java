@@ -12,9 +12,18 @@ public enum FilterDates {
 
     private final String filterDates;
 
+    /**
+     *Constructor for filter dates
+     * @param filerDates string of the date
+     */
     FilterDates(String filerDates) {
         this.filterDates = filerDates;
     }
+
+    /**
+     * returns the date in string form
+     * @return string date
+     */
     public String getDate() {
         return filterDates;
     }

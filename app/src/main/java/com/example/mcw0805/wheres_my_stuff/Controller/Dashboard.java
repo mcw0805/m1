@@ -350,7 +350,7 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback,
             return new MarkerOptions().position(latLng).title(((FoundItem) item).description())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         case NEED:
-            return new MarkerOptions().position(latLng).title(((NeededItem) item).description() )
+            return new MarkerOptions().position(latLng).title(((NeededItem) item).description())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
         case DONATION:
             return new MarkerOptions().position(latLng).title("Donation: " + item.getName()

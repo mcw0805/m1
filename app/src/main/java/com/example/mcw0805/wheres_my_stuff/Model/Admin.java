@@ -19,6 +19,7 @@ public class Admin {
      *
      * @param name name of person
      * @param email email of person
+     * @param uid uid of person
      */
     public Admin(String name, String email, String uid) {
         _name = name;
@@ -31,27 +32,35 @@ public class Admin {
      *
      * @return name of admin
      */
-    public String getName() {return _name;}
+    public String getName() {
+        return _name;
+    }
 
     /**
      * Gets the email of the admin.
      *
      * @return email of admin
      */
-    public String getEmail() {return _email;}
+    public String getEmail() {
+        return _email;
+    }
 
     /**
      * Sets the name of the admin.
      *
      * @param name name of admin
      */
-    public void setName(String name) {_name = name;}
+    public void setName(String name) {
+        _name = name;
+    }
 
     /**
      * Sets the email of the admin
      * @param email of the admin
      */
-    public void setEmail(String email) {_email = email;}
+    public void setEmail(String email) {
+        _email = email;
+    }
 
 
     /**

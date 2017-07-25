@@ -26,7 +26,7 @@ public class Item implements Parcelable {
     protected ItemCategory category;
     protected String uid;
     protected boolean isOpen;
-    protected final static ItemType type = ItemType.DONATION;
+    protected static final ItemType type = ItemType.DONATION;
 
     /**
      * Default no-arg constructor.
@@ -34,6 +34,17 @@ public class Item implements Parcelable {
     public Item() {
     }
 
+    /**
+     * Constructor for Item
+     * @param name name of item
+     * @param description description of item
+     * @param date posted of item
+     * @param longitude location
+     * @param latitude location
+     * @param category category of item
+     * @param uid uid of user
+     * @param isOpen status of item
+     */
     public Item(String name, String description, long date, double longitude,
                 double latitude, ItemCategory category, String uid, boolean isOpen) {
         this.name = name;
@@ -267,6 +278,11 @@ public class Item implements Parcelable {
         return isOpen ? "OPEN" : "RESOLVED";
     }
 
+    /**
+     * writes the item to the database
+     * @param childRef reference of where item is
+     * @return completed task
+     */
     public Task writeToDatabase(DatabaseReference childRef) {
         // add an array of tasks
         DatabaseReference dateChild = childRef.child("date");
@@ -377,6 +393,11 @@ public class Item implements Parcelable {
      * Inner factory class that generates different types of Item objects.
      */
     public static class ItemFactory {
+        /**
+         * Creates the item
+         * @param type type of item
+         * @return built item
+         */
         public static Item makeItem(ItemType type) {
             switch (type) {
                 case LOST:

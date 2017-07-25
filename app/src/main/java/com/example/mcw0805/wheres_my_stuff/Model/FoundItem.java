@@ -51,6 +51,7 @@ public class FoundItem extends Item {
      * @param latitude    geographical latitude
      * @param category    category of the item
      * @param uid         uid of the user posted
+     * @param isOpen boolean of item status
      */
     public FoundItem(String name, String description, long date, double longitude,
                      double latitude, ItemCategory category, String uid, boolean isOpen) {
