@@ -34,7 +34,7 @@
         </activity>
         <activity android:name=".Controller.RegistrationActivity" />
         <activity android:name=".Controller.LogInActivity"
-            android:windowSoftInputMode="adjustNothing"/>
+                  android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity
             android:name=".Controller.ProfileActivity"
             android:windowSoftInputMode="adjustNothing" />
@@ -49,13 +49,11 @@
             android:name=".Controller.FoundItemListActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Controller.FoundItemDescription" />
-        <activity
-            android:name=".Controller.DonateItemFormActivity"
-            android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".Controller.AdminDashboard" />
-        <activity android:name=".Controller.ActiveUserListActivity" />
-        <activity android:name=".Controller.LockedUserListActivity" />
-        <activity android:name=".Controller.BannedUserListActivity" />
+
+        <activity android:name=".Controller.AdminFunctionality.AdminDashboard" />
+        <activity android:name=".Controller.AdminFunctionality.ActiveUserListActivity" />
+        <activity android:name=".Controller.AdminFunctionality.LockedUserListActivity" />
+        <activity android:name=".Controller.AdminFunctionality.BannedUserListActivity" />
         <activity android:name=".Controller.MyListActivity"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Controller.HomeActivity" />
@@ -81,12 +79,8 @@
          <!--android:required="false" /> -->
 
         <activity android:name=".Controller.MyEditableItemActivity" />
-        <activity
-            android:name=".Controller.dashboard_tabs"
-            android:label="@string/title_activity_dashboard_tabs"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        <activity android:name=".Controller.UserDescriptionActivity"></activity>
+        <activity android:name=".Controller.AdminFunctionality.UserDescriptionActivity"></activity>
     </application>
 
 </manifest>

@@ -14,6 +14,7 @@ import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.mcw0805.wheres_my_stuff.Controller.CustomAdapters.ItemAdapter;
 import com.example.mcw0805.wheres_my_stuff.Model.FilterDates;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
@@ -49,6 +50,7 @@ public class ItemListViewActivity extends AppCompatActivity {
     private ItemAdapter itemAdapter;
     private Spinner filterSpinner;
     private Spinner dateSpinner;
+    private Spinner statSpinner;
     private ItemType currentType;
     private EditText searchBarEdit;
 
@@ -78,15 +80,21 @@ public class ItemListViewActivity extends AppCompatActivity {
 
         //spinner for filtering
         filterSpinner = (Spinner) findViewById(R.id.filter_spinner_lost);
-        final ArrayAdapter<ItemCategory> categoryAdapter = new ArrayAdapter(this,
-                android.R.layout.simple_spinner_item, ItemCategory.values());
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterSpinner.setAdapter(new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, ItemCategory.values()));
+
         //spinner for date
         dateSpinner = (Spinner) findViewById(R.id.filter_spinner_date);
-        final ArrayAdapter<FilterDates> dateAdapter = new ArrayAdapter(
-                this, android.R.layout.simple_spinner_item, FilterDates.values());
-        dateSpinner.setAdapter(dateAdapter);
-        filterSpinner.setAdapter(categoryAdapter);
+        dateSpinner.setAdapter(new ArrayAdapter(
+                this, android.R.layout.simple_spinner_item, FilterDates.values()));
+
+        //spinner for status
+        statSpinner = (Spinner) findViewById(R.id.filter_spinner_status);
+        ArrayAdapter<CharSequence> statAdapter = ArrayAdapter.createFromResource(this,
+                R.array.stat_arr, android.R.layout.simple_spinner_item);
+        statAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        statSpinner.setAdapter(statAdapter);
+
 
         itemsLv = (ListView) findViewById(R.id.item_listView);
 
@@ -198,6 +206,7 @@ public class ItemListViewActivity extends AppCompatActivity {
 
             }
         });
+
         dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -223,6 +232,22 @@ public class ItemListViewActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+
+            }
+        });
+
+        statSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String stat = (String) parent.getItemAtPosition(position);
+                itemAdapter = new ItemAdapter(getApplicationContext(),
+                        R.layout.item_row_layout, Item.filterByStatus(itemObjectList, stat));
+                itemsLv.setAdapter(itemAdapter);
+                itemAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });

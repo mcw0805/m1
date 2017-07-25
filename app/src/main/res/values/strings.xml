@@ -7,5 +7,11 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="back">Back</string>
 
+    <string-array name="stat_arr">
+        <item></item>
+        <item>OPEN</item>
+        <item>RESOLVED</item>
+    </string-array>
+
 
 </resources>

@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 import android.widget.ViewSwitcher;
 
+import com.example.mcw0805.wheres_my_stuff.Controller.CustomAdapters.CustomCategoryAdapter;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
 import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
@@ -70,14 +70,15 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
 
 
     /*
-    Firebase authorization
- */
+        Firebase authorization
+    */
     private FirebaseAuth mAuth;
     private FirebaseUser currUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
     private String currUserUID;
 
+    private DatabaseReference itemsRef;
 
     private static final String TAG = "MyEditableItemActivity";
 
@@ -106,6 +107,7 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         currUser = mAuth.getCurrentUser();
         currUserUID = currUser.getUid();
 
+
         nameViewSwitcher = (ViewSwitcher) findViewById(R.id.my_item_name_viewSwitcher);
         descViewSwitcher = (ViewSwitcher) findViewById(R.id.my_item_description_viewSwitcher);
         catViewSwitcher = (ViewSwitcher) findViewById(R.id.my_item_category_viewSwitcher);
@@ -129,10 +131,8 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         itemStatSwitch.setVisibility(View.INVISIBLE);
 
         itemCatSpinner = (Spinner) findViewById(R.id.my_item_cat_spinner);
-        ArrayAdapter<ItemCategory> categoryAdapter =
-                new ArrayAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values());
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        itemCatSpinner.setAdapter(categoryAdapter);
+
+        itemCatSpinner.setAdapter(new CustomCategoryAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values(), 0));
 
         editItemToggleBtn = (ToggleButton) findViewById(R.id.edit_item_ToggleBtn);
         editItemToggleBtn.setOnClickListener(this);
@@ -150,11 +150,20 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         selected = intent.getParcelableExtra("selected");
         itemKey = intent.getStringExtra("userItemPushKey");
 
-        //debug stuff
-        boolean x = selected == null;
-        Log.d(TAG, x + "");
-        boolean yy = itemKey == null;
-        Log.d(TAG, itemKey + " MAP");
+
+        if (selected instanceof LostItem) {
+            itemsRef = LostItem.getLostItemsRef().child(itemKey);
+
+        } else if (selected instanceof FoundItem) {
+            itemsRef = FoundItem.getFoundItemsRef().child(itemKey);
+
+        } else if (selected instanceof NeededItem) {
+            itemsRef = ((NeededItem) selected).getNeededItemsRef().child(itemKey);
+
+        } else {
+            itemsRef = FirebaseDatabase.getInstance().getReference("posts/donation-items/").child(itemKey);
+        }
+
 
         if (selected != null) {
             myItemName.setText(selected.getName());
@@ -169,10 +178,20 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
             if (selected instanceof LostItem) {
                 myLostItemReward.setText("$" + ((LostItem) selected).getReward());
                 myItemType.setText(((LostItem) selected).getItemType().toString());
+
+                lostItemRewardEdit.setText(String.valueOf(((LostItem) selected).getReward()));
             } else if (selected instanceof FoundItem) {
                 rewardLinLayout.setVisibility(View.INVISIBLE);
                 myItemType.setText(((FoundItem) selected).getItemType().toString());
+            } else {
+                rewardLinLayout.setVisibility(View.INVISIBLE);
+                myItemType.setText(selected.getType().toString());
             }
+
+            itemNameEdit.setText(selected.getName());
+            itemDescEdit.setText(selected.getDescription());
+            itemCatSpinner.setSelection(selected.getCategory().ordinal());
+
         }
 
         editItemToggleBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -183,7 +202,7 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                 final String newItemDesc = itemDescEdit.getText().toString();
                 final String newItemCat = itemCatSpinner.getSelectedItem().toString();
                 final boolean newStat = itemStatSwitch.isChecked();
-                //final Integer newItemReward = Integer.parseInt(lostItemRewardEdit.getText().toString());
+                final String newItemReward = lostItemRewardEdit.getText().toString(); //Integer.parseInt(lostItemRewardEdit.getText().toString());
 
                 if (isChecked) { //edit mode is on
                     nameViewSwitcher.showPrevious();
@@ -193,12 +212,50 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                     itemCatSpinner.setSelection(ItemCategory.valueOf(myItemCat.getText().toString()).ordinal());
                     deleteBtn.setVisibility(View.VISIBLE);
 
+                    if (selected instanceof LostItem) {
+                        rewardViewSwitcher.showPrevious();
+                    }
+
+
                 } else {
                     nameViewSwitcher.showNext();
                     descViewSwitcher.showNext();
                     catViewSwitcher.showNext();
                     itemStatSwitch.setVisibility(View.INVISIBLE);
                     deleteBtn.setVisibility(View.GONE);
+
+                    if (selected instanceof LostItem) {
+                        rewardViewSwitcher.showNext();
+                    }
+
+                    if (!myItemName.equals(newItemName)) {
+                        resetFields(newItemName, "name");
+                        myItemName.setText(newItemName);
+
+                    }
+
+                    if (!myItemDesc.equals(newItemDesc)) {
+                        resetFields(newItemDesc, "description");
+                        myItemDesc.setText(newItemDesc);
+                    }
+
+                    if (!myItemCat.equals(newItemCat)) {
+                        resetFields(newItemCat, "category");
+                        myItemCat.setText(newItemCat);
+                    }
+
+                    if (!myLostItemReward.equals(newItemReward)) {
+                        resetFields(newItemReward, "reward");
+                        myLostItemReward.setText("$" + newItemReward);
+                    }
+
+                    if (newStat != selected.getIsOpen()) {
+                        resetFields(String.valueOf(newStat), "isOpen");
+                        selected.setIsOpen(newStat);
+                        myItemStat.setText(selected.getStatusString());
+                        itemStatSwitch.setChecked(selected.getIsOpen());
+
+                    }
                 }
 
             }
@@ -272,24 +329,12 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
      * Deletes the item from the database
      */
     private void delete() {
-        DatabaseReference itemsRef = null;
+        //DatabaseReference itemsRef = null;
         progressDialog.setMessage("Please wait until your item is removed...");
         progressDialog.show();
 
         try {
-            if (selected instanceof LostItem) {
-                itemsRef = LostItem.getLostItemsRef().child(itemKey);
-                itemsRef.removeValue();
-            } else if (selected instanceof FoundItem) {
-                itemsRef = FoundItem.getFoundItemsRef().child(itemKey);
-                itemsRef.removeValue();
-            } else if (selected instanceof NeededItem) {
-                itemsRef = ((NeededItem) selected).getNeededItemsRef().child(itemKey);
-                itemsRef.removeValue();
-            } else {
-                itemsRef = FirebaseDatabase.getInstance().getReference("posts/donation-items/").child(itemKey);
-                itemsRef.removeValue();
-            }
+            itemsRef.removeValue();
         } catch (NullPointerException e) {
             e.printStackTrace();
             Log.w(TAG, "One of the fields is null, so nothing can be retrieved from the DB.");
@@ -311,5 +356,51 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
             alert11.show();
         }
     }
+
+    private void resetFields(final String changeTo, final String fieldName) {
+        final DatabaseReference fieldRef = itemsRef.child(fieldName);
+
+        if (fieldName.equals("isOpen")) {
+            fieldRef.setValue(Boolean.parseBoolean(changeTo));
+            return;
+        }
+
+        if (selected instanceof LostItem && fieldName.equals("reward")) {
+            fieldRef.setValue(Integer.parseInt(changeTo));
+            return;
+        }
+
+        if (itemKey != null && !fieldName.equals("isOpen")) {
+            fieldRef.setValue(changeTo);
+
+        }
+
+
+
+    }
+
+//    public class CustomCategoryAdapter extends ArrayAdapter<ItemCategory> {
+//
+//        private int hidingItemIndex;
+//
+//        public CustomCategoryAdapter(Context context, int textViewResourceId, ItemCategory[] objects, int hidingItemIndex) {
+//            super(context, textViewResourceId, objects);
+//
+//            this.hidingItemIndex = hidingItemIndex;
+//        }
+//
+//        @Override
+//        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+//            View v = null;
+//            if (position == hidingItemIndex) {
+//                TextView tv = new TextView(getContext());
+//                tv.setVisibility(View.GONE);
+//                v = tv;
+//            } else {
+//                v = super.getDropDownView(position, null, parent);
+//            }
+//            return v;
+//        }
+//    }
 
 }

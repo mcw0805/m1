@@ -1,4 +1,4 @@
-package com.example.mcw0805.wheres_my_stuff.Controller;
+package com.example.mcw0805.wheres_my_stuff.Controller.CustomAdapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

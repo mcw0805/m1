@@ -3,9 +3,9 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical"
               android:layout_marginLeft="20dp"
               android:layout_marginRight="20dp"
+              android:orientation="vertical"
               tools:context="com.example.mcw0805.wheres_my_stuff.Controller.MyEditableItemActivity">
 
     <LinearLayout
@@ -13,13 +13,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
+
         <ToggleButton
             android:id="@+id/edit_item_ToggleBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="false"
             android:textOff="Edit"
-            android:textOn="Done" />
+            android:textOn="Done"/>
 
     </LinearLayout>
 
@@ -38,31 +39,31 @@
             android:layout_gravity="center_horizontal"
             android:gravity="end"
             android:text="Name:  "
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <ViewSwitcher
             android:id="@+id/my_item_name_viewSwitcher"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-           >
+            >
 
             <TextView
                 android:id="@+id/my_item_name_text"
                 android:layout_width="fill_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="" />
+                android:text=""/>
 
             <EditText
                 android:id="@+id/my_item_name_edit"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
+                android:hint="Edit name of item"
                 android:maxLines="1"
-                android:paddingTop="0dp"
                 android:paddingBottom="8dp"
-                android:textSize="15sp"
-                android:hint="Edit name of item" />
+                android:paddingTop="0dp"
+                android:textSize="15sp"/>
 
         </ViewSwitcher>
 
@@ -82,7 +83,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="right"
             android:text="Description:  "
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
     </LinearLayout>
 
@@ -100,9 +101,9 @@
 
             <TextView
                 android:id="@+id/my_item_description_text"
-                android:layout_marginLeft="20dp"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"/>
 
             <EditText
                 android:id="@+id/my_item_description_edit"
@@ -121,7 +122,7 @@
                 android:scrollbarAlwaysDrawVerticalTrack="true"
                 android:scrollbarStyle="insideInset"
                 android:scrollbars="vertical"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
         </ViewSwitcher>
     </LinearLayout>
 
@@ -138,7 +139,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="right"
             android:text="Status:  "
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/my_item_stat_text"
@@ -146,7 +147,7 @@
             android:layout_height="20dp"
             android:layout_toRightOf="@+id/my_item_stat_label"
             android:gravity="left"
-            android:text="" />
+            android:text=""/>
 
         <Switch
             android:id="@+id/my_item_status_switch"
@@ -154,7 +155,7 @@
             android:layout_height="25dp"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@+id/my_item_stat_text"
-/>
+            />
     </LinearLayout>
 
     <!--item type: found, lost, or need?-->
@@ -170,7 +171,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="right"
             android:text="Type:  "
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/my_item_type_text"
@@ -178,7 +179,7 @@
             android:layout_height="20dp"
             android:layout_toRightOf="@+id/my_item_type_label"
             android:gravity="left"
-            android:text="" />
+            android:text=""/>
     </LinearLayout>
 
     <!--item category-->
@@ -194,7 +195,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="right"
             android:text="Category:  "
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <ViewSwitcher
             android:id="@+id/my_item_category_viewSwitcher"
@@ -205,7 +206,7 @@
                 android:id="@+id/my_item_cat_text"
                 android:layout_width="98dp"
                 android:layout_height="20dp"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
 
             <Spinner
                 android:id="@+id/my_item_cat_spinner"
@@ -230,7 +231,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="right"
             android:text="Location:  "
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/my_item_loc_text"
@@ -238,7 +239,7 @@
             android:layout_height="20dp"
             android:layout_toRightOf="@+id/my_item_loc_label"
             android:gravity="left"
-            android:text="temporary" />
+            android:text="temporary"/>
     </LinearLayout>
 
     <!--item submission date-->
@@ -254,7 +255,7 @@
             android:layout_alignParentLeft="true"
             android:gravity="right"
             android:text="Date posted:  "
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/my_item_post_date_text"
@@ -262,7 +263,7 @@
             android:layout_height="20dp"
             android:layout_toRightOf="@+id/my_item_posted_date_label"
             android:gravity="left"
-            android:text="" />
+            android:text=""/>
     </LinearLayout>
 
     <!--item reward-->
@@ -278,7 +279,7 @@
             android:layout_height="20dp"
             android:gravity="right"
             android:text="Reward:  "
-            android:textSize="15sp" />
+            android:textSize="15sp"/>
 
         <ViewSwitcher
             android:id="@+id/my_item_reward_viewSwitcher"
@@ -292,7 +293,7 @@
                 android:layout_height="20dp"
                 android:layout_toRightOf="@+id/my_item_reward_label"
                 android:gravity="left"
-                android:text="" />
+                android:text=""/>
 
             <EditText
                 android:id="@+id/my_item_reward_edit"
@@ -302,21 +303,21 @@
                 android:maxLines="1"
                 android:paddingBottom="8dp"
                 android:paddingTop="0dp"
-                android:textSize="15sp" />
+                android:textSize="15sp"/>
         </ViewSwitcher>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
 
         <Button
+            android:id="@+id/deleteBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete This Item"
-            android:id="@+id/deleteBtn"/>
+            android:text="Delete This Item"/>
 
     </LinearLayout>
 

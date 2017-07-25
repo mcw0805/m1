@@ -1,9 +1,8 @@
-package com.example.mcw0805.wheres_my_stuff.Controller;
+package com.example.mcw0805.wheres_my_stuff.Controller.AdminFunctionality;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,62 +22,61 @@ import java.util.Map;
 
 /**
  * @Author Ted Shang
- * @Verion 1.0
- * Activity to see banned users and unban them if necessary
- * Model off ActiveUserListActivity.java
+ * @Version 1.0
+ * Activity to see locked users and unlock necessary
+ * Modeled off BannUserListActivity
  */
-public class BannedUserListActivity extends AppCompatActivity {
+public class LockedUserListActivity extends AppCompatActivity {
     //Widget and adapter
-    private android.widget.ListView bannedUserLv;
-    private ArrayAdapter<User> bannedUserAdapter;
+    private android.widget.ListView lockedUserLv;
+    private ArrayAdapter<User> lockedUserAdapter;
     //String representation
-    private List<String> bannedUserList;
+    private List<String> lockedUserList;
     //Key
-    private List<String> bannedUserKeys;
+    private List<String> lockedUserKeys;
     //User objects
-    private List<User> bannedUserObjectList;
+    private List<User> lockedUserObjectList;
     /*  map to contain data snapshots
     Key == database keys / variable names
     Value == the values of each variable
     */
-    private Map<String, Object> bannedMap;
+    private Map<String, Object> lockedMap;
     // database reference to all the users
     private DatabaseReference mUserRef;
-    private final String tag = "BannedUserListActivity";
+    private final String tag = "LockedUserListActivity";
 
     @Override
     protected void onStart() {
-        super.onStart(); }
-
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_banned_user_list);
-        bannedMap = new LinkedHashMap<>();
-        bannedUserKeys = new ArrayList<>();
-        bannedUserObjectList = new ArrayList<>();
-        bannedUserLv = (ListView) findViewById(R.id.banned_user_list);
-        bannedUserList = new ArrayList<>();
+        setContentView(R.layout.activity_locked_user_list);
+        lockedMap = new LinkedHashMap<>();
+        lockedUserKeys = new ArrayList<>();
+        lockedUserObjectList = new ArrayList<>();
+        lockedUserLv = (ListView) findViewById(R.id.locked_user_list);
+        lockedUserList = new ArrayList<>();
         mUserRef = User.getUserRef();
         mUserRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map<String, Object> user = (Map<String, Object>) dataSnapshot.getValue();
-                // name of the user
+                //name of user
                 String name = (String) user.get("name");
                 User newUser = User.buildUserObject(dataSnapshot);
-                if (newUser.getIsBanned()) {
-                    bannedUserObjectList.add(newUser);
-                    bannedMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
-                    //bannedUserList.add("(Banned) " + name);
-                    bannedUserKeys.add(dataSnapshot.getKey());
-                    bannedUserAdapter = new ArrayAdapter<User>(getApplicationContext(),
-                            R.layout.item_row_layout, R.id.textView, bannedUserObjectList);
-                    bannedUserLv.setAdapter(bannedUserAdapter);
-                    bannedUserAdapter.notifyDataSetChanged();
+                if (newUser.getIsLocked()) {
+                    lockedUserObjectList.add(newUser);
+                    lockedMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
+                    //lockedUserList.add("(Locked) " + name);
+                    lockedUserKeys.add(dataSnapshot.getKey());
+                    lockedUserAdapter = new ArrayAdapter<User>(getApplicationContext(),
+                            R.layout.item_row_layout, R.id.textView, lockedUserObjectList);
+                    lockedUserLv.setAdapter(lockedUserAdapter);
+                    lockedUserAdapter.notifyDataSetChanged();
                 }
-
             }
 
             @Override
@@ -101,17 +99,15 @@ public class BannedUserListActivity extends AppCompatActivity {
 
             }
         });
-        bannedUserLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lockedUserLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                bannedUserAdapter.notifyDataSetChanged();
-                Log.d(tag, "pos 1");
+                lockedUserAdapter.notifyDataSetChanged();
                 Intent intent = new Intent(getApplicationContext(), UserDescriptionActivity.class);
-                Log.d(tag, "pos 2");
-                intent.putExtra("UserObj", bannedUserAdapter.getItem(position));
-                Log.d(tag, "pos 3");
+                intent.putExtra("UserObj", lockedUserAdapter.getItem(position));
                 startActivity(intent);
             }
+
         });
     }
 }

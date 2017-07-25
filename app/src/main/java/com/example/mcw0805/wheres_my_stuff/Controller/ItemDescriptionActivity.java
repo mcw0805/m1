@@ -120,7 +120,10 @@ public class ItemDescriptionActivity extends AppCompatActivity {
                 location.setText(getLocationString(addresses.get(0)));
             } catch (IndexOutOfBoundsException e) {
                 location.setText("Probably ain't on land");
+            } catch (NullPointerException e) {
+                location.setText("Loc");
             }
+
 
         }
 
@@ -157,7 +160,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                posterNickname.setText(dataSnapshot.getValue().toString());
+                posterNickname.setText((String) dataSnapshot.getValue());
             }
 
             @Override

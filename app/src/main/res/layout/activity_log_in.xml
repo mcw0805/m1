@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
+              android:gravity="center"
+              android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:context="com.example.mcw0805.wheres_my_stuff.Controller.LogInActivity">
@@ -11,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="Login"
         android:textSize="35dp" />
@@ -22,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:fontFamily="monospace"
         android:hint="Email"
@@ -36,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/login_username_edit"
         android:layout_below="@+id/login_username_edit"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:fontFamily="monospace"
         android:hint="Password"
@@ -51,7 +57,7 @@
         android:text="Log In"
         tools:layout_editor_absoluteX="113dp"
         tools:layout_editor_absoluteY="261dp"
-        android:layout_marginTop="49dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/login_pw_edit"
         android:layout_centerHorizontal="true" />
 
@@ -73,4 +79,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="17dp"
         android:text="Forgot password?" />
-</RelativeLayout>
+</LinearLayout>
+</ScrollView>
