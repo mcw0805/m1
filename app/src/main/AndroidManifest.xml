@@ -34,7 +34,7 @@
         </activity>
         <activity android:name=".Controller.RegistrationActivity" />
         <activity android:name=".Controller.LogInActivity"
-            android:windowSoftInputMode="adjustNothing"/>
+                  android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
         <activity
             android:name=".Controller.ProfileActivity"
             android:windowSoftInputMode="adjustNothing" />
@@ -49,9 +49,7 @@
             android:name=".Controller.FoundItemListActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".Controller.FoundItemDescription" />
-        <activity
-            android:name=".Controller.DonateItemFormActivity"
-            android:windowSoftInputMode="adjustNothing" />
+
         <activity android:name=".Controller.AdminFunctionality.AdminDashboard" />
         <activity android:name=".Controller.AdminFunctionality.ActiveUserListActivity" />
         <activity android:name=".Controller.AdminFunctionality.LockedUserListActivity" />
