@@ -9,7 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 /**
  * A class representing the NeededItem.
  *
- * @authors Jordan, Ted
+ * @author Jordan, Ted
  */
 //6/22/17 Changed cateogry to string for testing purposes
 public class NeededItem extends Item {

@@ -145,7 +145,6 @@ public class UserDescriptionActivity extends AppCompatActivity implements View.O
 
             AlertDialog alert11 = builder1.create();
             alert11.show();
-            return;
 
         } else if (v == cancel) {
             Toast.makeText(getApplicationContext(),

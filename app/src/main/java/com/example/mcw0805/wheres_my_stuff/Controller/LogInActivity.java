@@ -305,7 +305,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         AlertDialog alert11 = builder1.create();
         alert11.show();
-        return;
     }
 
     /**
@@ -346,7 +345,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
         AlertDialog alert11 = builder1.create();
         alert11.show();
-        return;
     }
 
     /**
@@ -355,10 +353,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @return true or false if operation is succesful
      */
     public boolean testBan(User user) {
-        if (user.getIsBanned()) {
-            return true;
-        }
-        return false;
+        return user.getIsBanned();
     }
     /**
      * tests locked users without log and alert for testing purposes
@@ -366,9 +361,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
      * @return true or false if operation is successful
      */
     public boolean testLock(User user) {
-        if (user.getIsLocked()) {
-            return true;
-        }
-        return false;
+        return user.getIsLocked();
     }
 }

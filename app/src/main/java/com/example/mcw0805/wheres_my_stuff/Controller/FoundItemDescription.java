@@ -16,7 +16,7 @@ import java.text.DateFormat;
  * selected from the list
  *
  * @author Chianne Connelly
- * @versionAs of 7/8, it is outdated. This is disconnected from other classes.
+ * @version As of 7/8, it is outdated. This is disconnected from other classes.
  */
 public class FoundItemDescription extends AppCompatActivity {
     

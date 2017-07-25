@@ -32,7 +32,7 @@ import java.util.Map;
  * submitted in the Firebase
  *
  * @author Chianne Connelly, Chaewon Min
- * @versionas As of 7/8, it is outdated. This is disconnected from other classes.
+ * @version as As of 7/8, it is outdated. This is disconnected from other classes.
  */
 
 public class FoundItemListActivity extends AppCompatActivity {

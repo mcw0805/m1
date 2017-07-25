@@ -2,6 +2,7 @@ package com.example.mcw0805.wheres_my_stuff.Model;
 
 /**
  * Created by Ted on 7/20/2017.
+ * @author Ted
  */
 
 public enum FilterDates {

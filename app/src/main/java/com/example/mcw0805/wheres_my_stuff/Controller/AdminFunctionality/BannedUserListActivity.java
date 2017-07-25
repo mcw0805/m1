@@ -73,7 +73,7 @@ public class BannedUserListActivity extends AppCompatActivity {
                     bannedMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
                     //bannedUserList.add("(Banned) " + name);
                     bannedUserKeys.add(dataSnapshot.getKey());
-                    bannedUserAdapter = new ArrayAdapter<User>(getApplicationContext(),
+                    bannedUserAdapter = new ArrayAdapter<>(getApplicationContext(),
                             R.layout.item_row_layout, R.id.textView, bannedUserObjectList);
                     bannedUserLv.setAdapter(bannedUserAdapter);
                     bannedUserAdapter.notifyDataSetChanged();

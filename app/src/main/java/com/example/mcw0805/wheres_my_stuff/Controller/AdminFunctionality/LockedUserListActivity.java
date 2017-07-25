@@ -72,7 +72,7 @@ public class LockedUserListActivity extends AppCompatActivity {
                     lockedMap.put(dataSnapshot.getKey(), dataSnapshot.getValue());
                     //lockedUserList.add("(Locked) " + name);
                     lockedUserKeys.add(dataSnapshot.getKey());
-                    lockedUserAdapter = new ArrayAdapter<User>(getApplicationContext(),
+                    lockedUserAdapter = new ArrayAdapter<>(getApplicationContext(),
                             R.layout.item_row_layout, R.id.textView, lockedUserObjectList);
                     lockedUserLv.setAdapter(lockedUserAdapter);
                     lockedUserAdapter.notifyDataSetChanged();

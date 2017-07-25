@@ -19,6 +19,7 @@ import java.util.List;
 
 /**
  * Created by mcw0805 on 7/3/17.
+ * @author Chaewon
  */
 
 public class ItemAdapter extends ArrayAdapter<Item> {

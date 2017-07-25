@@ -421,9 +421,7 @@ public class SubmitFormActivity extends AppCompatActivity
         try {
             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
 
-        } catch (GooglePlayServicesRepairableException e) {
-            e.printStackTrace();
-        } catch (GooglePlayServicesNotAvailableException e) {
+        } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
             e.printStackTrace();
         }
     }

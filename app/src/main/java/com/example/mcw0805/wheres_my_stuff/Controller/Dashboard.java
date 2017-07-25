@@ -373,6 +373,5 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback,
         intent.putExtra("itemOwnerUid", item.getUid());
         intent.putExtra("selected", item);
         startActivity(intent);
-        return;
     }
 }

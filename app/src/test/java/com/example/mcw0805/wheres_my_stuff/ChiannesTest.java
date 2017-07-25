@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Created by Chianne on 7/18/17.
+ * @author Chianne
  */
 public class ChiannesTest {
     private double lat;

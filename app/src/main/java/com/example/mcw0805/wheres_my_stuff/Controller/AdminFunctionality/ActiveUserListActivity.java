@@ -92,7 +92,7 @@ public class ActiveUserListActivity extends AppCompatActivity {
 
                     activeUserKeys.add(dataSnapshot.getKey());
 
-                    activeUserAdapter = new ArrayAdapter<User>(getApplicationContext(),
+                    activeUserAdapter = new ArrayAdapter<>(getApplicationContext(),
                             R.layout.item_row_layout, R.id.textView, activeUserObjectList);
                     activeUserLv.setAdapter(activeUserAdapter);
                     activeUserAdapter.notifyDataSetChanged();
