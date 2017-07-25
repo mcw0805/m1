@@ -6,19 +6,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.mcw0805.wheres_my_stuff.Model.ItemCategory;
 
 /**
- * Custom ArrayAdapter for displaying the ItemCategory enum.
- *
- * Hides the first value, which represents an empty string.
+ * Custom ArrayAdapter for hiding a particular element in an array.
  *
  * @author Chaewon Min
  */
-public class CustomCategoryAdapter extends ArrayAdapter<ItemCategory> {
+public class CustomCategoryAdapter<T> extends ArrayAdapter<T> {
     private int hidingItemIndex;
 
-    public CustomCategoryAdapter(Context context, int textViewResourceId, ItemCategory[] objects, int hidingItemIndex) {
+    public CustomCategoryAdapter(Context context, int textViewResourceId, T[] objects, int hidingItemIndex) {
         super(context, textViewResourceId, objects);
 
         this.hidingItemIndex = hidingItemIndex;

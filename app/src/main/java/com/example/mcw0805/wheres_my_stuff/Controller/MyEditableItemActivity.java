@@ -202,7 +202,7 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                 final String newItemDesc = itemDescEdit.getText().toString();
                 final String newItemCat = itemCatSpinner.getSelectedItem().toString();
                 final boolean newStat = itemStatSwitch.isChecked();
-                //final Integer newItemReward = Integer.parseInt(lostItemRewardEdit.getText().toString());
+                final String newItemReward = lostItemRewardEdit.getText().toString(); //Integer.parseInt(lostItemRewardEdit.getText().toString());
 
                 if (isChecked) { //edit mode is on
                     nameViewSwitcher.showPrevious();
@@ -240,26 +240,21 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                     }
 
                     if (!myItemCat.equals(newItemCat)) {
-                        if (newItemCat.equals(ItemCategory.NOTHING_SELECTED.toString())) {
-                            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MyEditableItemActivity.this);
-                            dialogBuilder.setMessage("A category must be selected.");
-                            dialogBuilder.setCancelable(true);
-
-                            dialogBuilder.setNegativeButton(
-                                    "OK",
-                                    new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-                                            dialog.cancel();
-                                            return;
-
-                                        }
-                                    });
-
-                            AlertDialog alert11 = dialogBuilder.create();
-                            alert11.show();
-                        }
                         resetFields(newItemCat, "category");
                         myItemCat.setText(newItemCat);
+                    }
+
+                    if (!myLostItemReward.equals(newItemReward)) {
+                        resetFields(newItemReward, "reward");
+                        myLostItemReward.setText("$" + newItemReward);
+                    }
+
+                    if (newStat != selected.getIsOpen()) {
+                        resetFields(String.valueOf(newStat), "isOpen");
+                        selected.setIsOpen(newStat);
+                        myItemStat.setText(selected.getStatusString());
+                        itemStatSwitch.setChecked(selected.getIsOpen());
+
                     }
                 }
 
@@ -365,13 +360,19 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
     private void resetFields(final String changeTo, final String fieldName) {
         final DatabaseReference fieldRef = itemsRef.child(fieldName);
 
+        if (fieldName.equals("isOpen")) {
+            fieldRef.setValue(Boolean.parseBoolean(changeTo));
+            return;
+        }
 
+        if (selected instanceof LostItem && fieldName.equals("reward")) {
+            fieldRef.setValue(Integer.parseInt(changeTo));
+            return;
+        }
 
-        if (itemKey != null) {
+        if (itemKey != null && !fieldName.equals("isOpen")) {
             fieldRef.setValue(changeTo);
 
-        } else {
-            //alert dialog
         }
 
 

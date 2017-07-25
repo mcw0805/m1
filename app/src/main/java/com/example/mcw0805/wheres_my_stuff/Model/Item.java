@@ -474,5 +474,27 @@ public class Item implements Parcelable {
 
     }
 
+    /**
+     * Filters the list of items based on the status (open/resolved).
+     *
+     * @param stat stat status of the item, OPEN or RESOLVED
+     * @return list containing the specified type
+     */
+    public static List<Item> filterByStatus(List<Item> itemObjectList, String stat) {
+        List<Item> filteredItemList = new ArrayList<>();
+
+        if (stat.isEmpty()) {
+            return itemObjectList;
+        }
+
+        for (Item fi : itemObjectList) {
+            if (fi.getStatusString().equalsIgnoreCase(stat)) {
+                filteredItemList.add(fi);
+            }
+        }
+
+        return filteredItemList;
+    }
+
 
 }
