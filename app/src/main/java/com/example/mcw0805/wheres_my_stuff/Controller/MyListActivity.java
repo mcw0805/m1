@@ -100,29 +100,6 @@ public class MyListActivity extends AppCompatActivity {
 
         myItemObjectList = new ArrayList<>();
         myItemListView = (ListView) findViewById(R.id.item_listView);
-
-        //spinner for filtering
-//        filterSpinner = (Spinner) findViewById(R.id.filter_spinner_lost);
-//        final ArrayAdapter<ItemType> typeAdapter = new ArrayAdapter(this,
-//                android.R.layout.simple_spinner_item, ItemType.values());
-//        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        /* filters out the ListView based on the category selected */
-//        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                myItemAdapter = new ItemAdapter(getApplicationContext(), R.layout.item_row_layout,
-//                        filterByType((ItemType) filterSpinner.getSelectedItem()));
-//
-//                myItemListView.setAdapter(myItemAdapter);
-//                myItemAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
-
         searchBarEdit = (EditText) findViewById(R.id.searchBarEdit);
 
 

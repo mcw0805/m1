@@ -22,21 +22,38 @@ public abstract class ItemListContoller {
         return null;
     }
 
+    /**
+     * abstract class
+     * @return arraylist
+     */
     public abstract ArrayList<Item> filterByMisc();
-    public abstract ArrayList<Item> filterByKeepsake();
-    public abstract ArrayList<Item> filterByHeirloom();
-    public abstract ArrayList<Item> sortByDateHiLow();
-    public abstract ArrayList<Item> sortByDateLowHi();
-    public abstract ArrayList<Item> sortByName();
-//    public static ArrayList<Item> filterByCategory() {
-//        Query q =
-//        ArrayList<Item> outArr = new ArrayList<>();
-//        for (Item i : inArr) {
-//            if (i.getCategory() == cat) {
-//                outArr.add(i);
-//            }
-//        }
-//        return outArr;
-//    }
 
+    /**
+     * abstract class
+     * @return arraylist
+     */
+    public abstract ArrayList<Item> filterByKeepsake();
+
+    /**
+     * abstract class
+     * @return arraylist
+     */
+    public abstract ArrayList<Item> filterByHeirloom();
+
+    /**
+     * abstract class
+     * @return arraylist
+     */
+    public abstract ArrayList<Item> sortByDateHiLow();
+    /**
+     * abstract class
+     * @return arraylist
+     */
+    public abstract ArrayList<Item> sortByDateLowHi();
+
+    /**
+     * abstract class
+     * @return arraylist
+     */
+    public abstract ArrayList<Item> sortByName();
 }

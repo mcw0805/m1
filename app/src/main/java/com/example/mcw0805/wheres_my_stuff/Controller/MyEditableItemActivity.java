@@ -132,7 +132,8 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
 
         itemCatSpinner = (Spinner) findViewById(R.id.my_item_cat_spinner);
 
-        itemCatSpinner.setAdapter(new CustomCategoryAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values(), 0));
+        itemCatSpinner.setAdapter(new CustomCategoryAdapter(
+                this, android.R.layout.simple_spinner_item, ItemCategory.values(), 0));
 
         editItemToggleBtn = (ToggleButton) findViewById(R.id.edit_item_ToggleBtn);
         editItemToggleBtn.setOnClickListener(this);
@@ -202,7 +203,8 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                 final String newItemDesc = itemDescEdit.getText().toString();
                 final String newItemCat = itemCatSpinner.getSelectedItem().toString();
                 final boolean newStat = itemStatSwitch.isChecked();
-                final String newItemReward = lostItemRewardEdit.getText().toString(); //Integer.parseInt(lostItemRewardEdit.getText().toString());
+                final String newItemReward = lostItemRewardEdit.getText().
+                        toString(); //Integer.parseInt(lostItemRewardEdit.getText().toString());
 
                 if (isChecked) { //edit mode is on
                     nameViewSwitcher.showPrevious();
@@ -357,6 +359,11 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         }
     }
 
+    /**
+     * resets the item values
+     * @param changeTo what to change it to
+     * @param fieldName what to change
+     */
     private void resetFields(final String changeTo, final String fieldName) {
         final DatabaseReference fieldRef = itemsRef.child(fieldName);
 
@@ -378,29 +385,4 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
 
 
     }
-
-//    public class CustomCategoryAdapter extends ArrayAdapter<ItemCategory> {
-//
-//        private int hidingItemIndex;
-//
-//        public CustomCategoryAdapter(Context context, int textViewResourceId, ItemCategory[] objects, int hidingItemIndex) {
-//            super(context, textViewResourceId, objects);
-//
-//            this.hidingItemIndex = hidingItemIndex;
-//        }
-//
-//        @Override
-//        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-//            View v = null;
-//            if (position == hidingItemIndex) {
-//                TextView tv = new TextView(getContext());
-//                tv.setVisibility(View.GONE);
-//                v = tv;
-//            } else {
-//                v = super.getDropDownView(position, null, parent);
-//            }
-//            return v;
-//        }
-//    }
-
 }

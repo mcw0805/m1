@@ -221,6 +221,9 @@ public class ItemListViewActivity extends AppCompatActivity {
                     case LASTWEEK: back = 604800000L;
                         break;
                     case LASTDAY: back = 86400000L;
+                        break;
+                    default:
+                        back = 0L;
                 }
                 long range = current - back;
                 itemAdapter = new ItemAdapter(getApplicationContext(),

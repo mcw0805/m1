@@ -279,46 +279,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Log.d("INSIDE RESET", currUserRef.toString());
         final DatabaseReference nameRef = currUserRef.child("name");
         nameRef.setValue(newName);
-//
-//        currUserRef.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                final String key = dataSnapshot.getKey();
-//                String val = dataSnapshot.getValue().toString();
-//                if (key.equals("name")) {
-//
-//                    Log.d("INSIDE RESET", "Before reset- " + key + " " + val);
-//
-//                    nameRef.setValue(newName);
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                if (!nickname.equals(newName)) {
-//                    Log.d("INSIDE RESET", "After reset- " + newName);
-//                }
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
-//        startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-//        finish();
     }
 
     /**

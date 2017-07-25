@@ -57,6 +57,16 @@ public class Item implements Parcelable {
         this.isOpen = isOpen;
     }
 
+    /**
+     * Constructor for Item
+     * @param name name of item
+     * @param description description of item
+     * @param date posted of item
+     * @param longitude location
+     * @param latitude location
+     * @param category category of item
+     * @param uid uid of user
+     */
     public Item(String name, String description, long date, double longitude,
                 double latitude, ItemCategory category, String uid) {
         this.name = name;
@@ -388,6 +398,17 @@ public class Item implements Parcelable {
         }
 
     }
+    @Override
+    public String toString() {
+
+        String display = "(" + ItemType.DONATION.toString().toUpperCase() + ") "
+                + getName() + "- Status: ";
+
+        display += getStatusString();
+
+        return display;
+    }
+
 
     /**
      * Inner factory class that generates different types of Item objects.
@@ -412,17 +433,6 @@ public class Item implements Parcelable {
                     throw new IllegalArgumentException("Error in type");
             }
         }
-    }
-
-    @Override
-    public String toString() {
-
-        String display = "(" + ItemType.DONATION.toString().toUpperCase() + ") "
-                + getName() + "- Status: ";
-
-        display += getStatusString();
-
-        return display;
     }
 
     /**

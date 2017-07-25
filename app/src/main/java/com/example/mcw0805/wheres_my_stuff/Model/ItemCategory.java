@@ -11,10 +11,18 @@ public enum ItemCategory {
 
     private final String itemCategory;
 
+    /**
+     * constructor for enum
+     * @param itemCategory string of item category
+     */
     ItemCategory(String itemCategory) {
         this.itemCategory = itemCategory;
     }
 
+    /**
+     * returns the type of item
+     * @return string
+     */
     public String getType() {
         return itemCategory;
     }

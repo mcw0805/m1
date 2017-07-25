@@ -15,6 +15,13 @@ import android.widget.TextView;
 public class CustomCategoryAdapter<T> extends ArrayAdapter<T> {
     private int hidingItemIndex;
 
+    /**
+     * Constructor for class
+     * @param context activity
+     * @param textViewResourceId text resource
+     * @param objects which objects to adapt
+     * @param hidingItemIndex int
+     */
     public CustomCategoryAdapter(Context context, int textViewResourceId, T[] objects, int hidingItemIndex) {
         super(context, textViewResourceId, objects);
 

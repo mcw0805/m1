@@ -58,8 +58,11 @@ public class User implements Parcelable {
      * @param id       uid of user
      * @param isLocked locked status of user
      * @param isBanned banned status of user
+     * @param itemCount how many items user has posted
+     * @param lockAttempts attempts user has tried to login
      */
-    public User(String name, String email, String id, boolean isLocked, boolean isBanned, int itemCount, int lockAttempts) {
+    public User(String name, String email, String id, boolean isLocked,
+                boolean isBanned, int itemCount, int lockAttempts) {
         this();
 
         this.name = name;
@@ -128,7 +131,7 @@ public class User implements Parcelable {
     /**
      * sets the name of the user
      *
-     * @param name
+     * @param name new name of user
      */
     public void setName(String name) {
         this.name = name;
@@ -146,7 +149,7 @@ public class User implements Parcelable {
     /**
      * sets the email of the user
      *
-     * @param email
+     * @param email set email of user
      */
     public void setEmail(String email) {
         this.email = email;
@@ -164,7 +167,7 @@ public class User implements Parcelable {
     /**
      * sets the locked status of the user
      *
-     * @param locked
+     * @param locked locked status t/f
      */
     public void setLocked(boolean locked) {
         this.isLocked = locked;
@@ -182,7 +185,7 @@ public class User implements Parcelable {
     /**
      * sets the banned status of the user
      *
-     * @param banned
+     * @param banned bool t/f
      */
     public void setBanned(boolean banned) {
         this.isBanned = banned;
@@ -200,28 +203,47 @@ public class User implements Parcelable {
     /**
      * sets the uid of the user
      *
-     * @param uid
+     * @param uid of user
      */
     public void setUid(String uid) {
         this.uid = uid;
     }
 
+    /**
+     * sets item count of user
+     * @param k int
+     */
     public void setItemCount(int k) {
         itemCount = k;
     }
 
+    /**
+     * gets item count of user
+     * @return int itemcount
+     */
     public int getItemCount() {
         return itemCount;
     }
 
+    /**
+     * gets lock attempts of user
+     * @return int
+     */
     public int getLockAttempts() {
         return lockAttempts;
     }
 
+    /**
+     * sets lock attempts of user
+     * @param k int
+     */
     public void setLockAttempts(int k) {
         lockAttempts = k;
     }
 
+    /**
+     * adds a lock attempt to user
+     */
     public void addLockAttempts() {
         lockAttempts++;
     }
@@ -248,10 +270,19 @@ public class User implements Parcelable {
 
     }
 
+    /**
+     * gets userref of user
+     * @return database reference of user
+     */
     public static DatabaseReference getUserRef() {
         return userRef;
     }
 
+    /**
+     * builds the user object
+     * @param dataSnap firebase snapshot
+     * @return built user
+     */
     public static User buildUserObject(DataSnapshot dataSnap) {
         DataSnapshot name = dataSnap.child("name");
         DataSnapshot email = dataSnap.child("email");
@@ -279,6 +310,7 @@ public class User implements Parcelable {
         this.itemCount++;
     }
 
+    @Override
     public String toString() {
         return "Name: " + this.name;
     }

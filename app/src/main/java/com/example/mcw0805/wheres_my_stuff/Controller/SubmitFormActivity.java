@@ -125,7 +125,8 @@ public class SubmitFormActivity extends AppCompatActivity
 
 
 
-        categorySpinner.setAdapter(new CustomCategoryAdapter(this, android.R.layout.simple_spinner_item, ItemCategory.values(), 0));
+        categorySpinner.setAdapter(new CustomCategoryAdapter(
+                this, android.R.layout.simple_spinner_item, ItemCategory.values(), 0));
 
         ArrayAdapter<ItemType> typeAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, ItemType.values());
