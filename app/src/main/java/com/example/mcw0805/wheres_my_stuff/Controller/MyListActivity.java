@@ -176,39 +176,6 @@ public class MyListActivity extends AppCompatActivity {
             }
         });
 
-        /* filtering based on the text typed */
-//        searchBarEdit.addTextChangedListener(new TextWatcher() {
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                Log.i(tag, "Before change: " + s.toString());
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(final CharSequence s, final int start, final int before, int count) {
-//                myItemAdapter.getFilter().filter(s, new Filter.FilterListener() {
-//                    @Override
-//                    public void onFilterComplete(int count) {
-//                        Log.i(tag, "Item Count: " + count);
-//                        Log.i(tag, "Search bar current: " + searchBarEdit.getText().toString());
-//
-//                    }
-//                });
-//
-//                myItemAdapter.notifyDataSetChanged();
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                Log.i(tag, "After text change: " + s.toString());
-//
-//            }
-//
-//        });
-
-
     }
     @Override
     protected void onStart() {

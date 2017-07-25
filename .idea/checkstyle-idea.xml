@@ -3,12 +3,12 @@
   <component name="CheckStyle-IDEA">
     <option name="configuration">
       <map>
-        <entry key="active-configuration" value="LOCAL_FILE:D:/Georgia Tech 16-17/Georgia Tech Summer 2017/CS 1332/Homework/CheckStyle/CS2340-checkstyle.xml:2340" />
+        <entry key="active-configuration" value="LOCAL_FILE:$PRJ_DIR$/Checkstyle:2340" />
         <entry key="checkstyle-version" value="8.0" />
         <entry key="location-0" value="BUNDLED:(bundled):Sun Checks" />
         <entry key="location-1" value="BUNDLED:(bundled):Google Checks" />
         <entry key="location-2" value="LOCAL_FILE:D:/Georgia Tech 16-17/Georgia Tech Summer 2017/CS 1332/Homework/CheckStyle/CS1332-checkstyle.xml:1332" />
-        <entry key="location-3" value="LOCAL_FILE:D:/Georgia Tech 16-17/Georgia Tech Summer 2017/CS 1332/Homework/CheckStyle/CS2340-checkstyle.xml:2340" />
+        <entry key="location-3" value="LOCAL_FILE:$PRJ_DIR$/Checkstyle:2340" />
         <entry key="scan-before-checkin" value="false" />
         <entry key="scanscope" value="JavaOnly" />
         <entry key="suppress-errors" value="false" />

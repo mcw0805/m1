@@ -409,35 +409,9 @@ public class Item implements Parcelable {
         return display;
     }
 
-
-    /**
-     * Inner factory class that generates different types of Item objects.
-     */
-    public static class ItemFactory {
-        /**
-         * Creates the item
-         * @param type type of item
-         * @return built item
-         */
-        public static Item makeItem(ItemType type) {
-            switch (type) {
-                case LOST:
-                    return new LostItem();
-                case FOUND:
-                    return new FoundItem();
-                case NEED:
-                    return new NeededItem();
-                case DONATION:
-                    return new Item();
-                default:
-                    throw new IllegalArgumentException("Error in type");
-            }
-        }
-    }
-
     /**
      * Filters the list of items based on the chosen category.
-     *
+     *@param itemObjectList list of objects
      * @param cat category of the item
      * @return filtered list containing the specified category
      */
@@ -488,7 +462,7 @@ public class Item implements Parcelable {
 
     /**
      * Filters the list of items based on the chosen type.
-     *
+     *@param itemObjectList list of objects
      * @param type type of the item: Lost, Found, Needed, Donation
      * @return list containing the specified type
      */
@@ -507,7 +481,7 @@ public class Item implements Parcelable {
 
     /**
      * Filters the list of items based on the status (open/resolved).
-     *
+     *@param itemObjectList list of objects
      * @param stat stat status of the item, OPEN or RESOLVED
      * @return list containing the specified type
      */
@@ -525,6 +499,32 @@ public class Item implements Parcelable {
         }
 
         return filteredItemList;
+    }
+
+
+    /**
+     * Inner factory class that generates different types of Item objects.
+     */
+    public static class ItemFactory {
+        /**
+         * Creates the item
+         * @param type type of item
+         * @return built item
+         */
+        public static Item makeItem(ItemType type) {
+            switch (type) {
+                case LOST:
+                    return new LostItem();
+                case FOUND:
+                    return new FoundItem();
+                case NEED:
+                    return new NeededItem();
+                case DONATION:
+                    return new Item();
+                default:
+                    throw new IllegalArgumentException("Error in type");
+            }
+        }
     }
 
 
