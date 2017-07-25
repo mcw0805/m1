@@ -52,10 +52,10 @@
         <activity
             android:name=".Controller.DonateItemFormActivity"
             android:windowSoftInputMode="adjustNothing" />
-        <activity android:name=".Controller.AdminDashboard" />
-        <activity android:name=".Controller.ActiveUserListActivity" />
-        <activity android:name=".Controller.LockedUserListActivity" />
-        <activity android:name=".Controller.BannedUserListActivity" />
+        <activity android:name=".Controller.AdminFunctionality.AdminDashboard" />
+        <activity android:name=".Controller.AdminFunctionality.ActiveUserListActivity" />
+        <activity android:name=".Controller.AdminFunctionality.LockedUserListActivity" />
+        <activity android:name=".Controller.AdminFunctionality.BannedUserListActivity" />
         <activity android:name=".Controller.MyListActivity"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Controller.HomeActivity" />
@@ -86,7 +86,7 @@
             android:label="@string/title_activity_dashboard_tabs"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
-        <activity android:name=".Controller.UserDescriptionActivity"></activity>
+        <activity android:name=".Controller.AdminFunctionality.UserDescriptionActivity"></activity>
     </application>
 
 </manifest>

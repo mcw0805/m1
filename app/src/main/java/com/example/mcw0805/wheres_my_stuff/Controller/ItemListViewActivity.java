@@ -14,6 +14,7 @@ import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.mcw0805.wheres_my_stuff.Controller.CustomAdapters.ItemAdapter;
 import com.example.mcw0805.wheres_my_stuff.Model.FilterDates;
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
@@ -198,6 +199,7 @@ public class ItemListViewActivity extends AppCompatActivity {
 
             }
         });
+
         dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
