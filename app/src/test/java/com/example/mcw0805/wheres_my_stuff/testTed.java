@@ -19,7 +19,6 @@ import org.mockito.Mockito;
 public class testTed {
     LogInActivity login = new LogInActivity();
 
-
     @Test
     public void bannedSign() {
         User banned = Mockito.mock(User.class);
