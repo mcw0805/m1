@@ -142,11 +142,9 @@ public class ItemFilterTest {
     @Test
     public void filterNothingSelected() {
 
-//        TODO: FIX - was causing compiler errors
-//        //should return all of the items if nothing is selected
-//        List<Item> list = Item.filterByCategory(itemList, ItemCategory.NOTHING_SELECTED);
-//        assertEquals(itemList.size(), list.size());
-//        assertEquals(itemList, list);
+        List<Item> list = Item.filterByCategory(itemList, ItemCategory.NOTHING_SELECTED);
+        assertEquals(itemList.size(), list.size());
+        assertEquals(itemList, list);
 
     }
 
