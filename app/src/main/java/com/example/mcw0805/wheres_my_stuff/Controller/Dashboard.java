@@ -293,10 +293,6 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback,
             }
         });
 
-        LatLng gt = new LatLng(33.7773728, -84.3981109);
-        mMap.addMarker(new MarkerOptions().position(gt).title("Marker at Georgia Tech"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(gt));
-        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gt, 17));
     }
 
     /**
@@ -322,11 +318,12 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback,
             }
 
             String pushKey = ds.getKey();
+            item.setItemKey(pushKey);
             String[] parts = pushKey.split("--");
             String itemUser = parts[0];
 
             LatLng latLng = new LatLng(item.getLatitude(), item.getLongitude());
-            mMap.addMarker(getMarkerOptions(latLng, item, type, itemUser)).setTag(item);
+            mMap.addMarker(getMarkerOptions(latLng, item, type)).setTag(item);
             mMap.setOnInfoWindowClickListener(this);
             Log.d(tag, "added item");
         }
@@ -339,10 +336,9 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback,
      * @param latLng latitude/longitude
      * @param item item that is being placed on the map
      * @param type type of the item
-     * @param itemUser user's string
      * @return marker options
      */
-    private MarkerOptions getMarkerOptions(LatLng latLng, Item item, ItemType type, String itemUser) {
+    private MarkerOptions getMarkerOptions(LatLng latLng, Item item, ItemType type) {
         switch (type) {
         case LOST:
             return new MarkerOptions().position(latLng).title(((LostItem) item).description());
@@ -372,6 +368,7 @@ public class Dashboard extends AppCompatActivity implements OnMapReadyCallback,
         Intent intent = new Intent(getApplicationContext(), ItemDescriptionActivity.class);
         intent.putExtra("itemOwnerUid", item.getUid());
         intent.putExtra("selected", item);
+        intent.putExtra("itemKey", item.getItemKey());
         startActivity(intent);
     }
 }

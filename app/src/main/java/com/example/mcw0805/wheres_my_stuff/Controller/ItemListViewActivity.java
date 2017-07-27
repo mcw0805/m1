@@ -181,7 +181,12 @@ public class ItemListViewActivity extends AppCompatActivity {
                 itemAdapter.notifyDataSetChanged();
 
                 Intent intent = new Intent(getApplicationContext(), ItemDescriptionActivity.class);
-                intent.putExtra("itemOwnerUid", itemUserMap.get(position));
+                String[] parts = itemUserMap.get(position).split("--");
+                String itemUser = parts[0];
+
+                intent.putExtra("itemOwnerUid", itemUser);
+                intent.putExtra("itemKey", itemUserMap.get(position));
+                Log.d("TEST", itemUserMap.get(position));
                 intent.putExtra("selected", itemAdapter.getItem(position));
 
                 startActivity(intent);

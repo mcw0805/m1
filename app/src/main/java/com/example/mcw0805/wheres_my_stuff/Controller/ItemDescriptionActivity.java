@@ -1,13 +1,20 @@
 package com.example.mcw0805.wheres_my_stuff.Controller;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Paint;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mcw0805.wheres_my_stuff.Model.FoundItem;
 import com.example.mcw0805.wheres_my_stuff.Model.Item;
@@ -18,6 +25,7 @@ import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
@@ -44,31 +52,41 @@ public class ItemDescriptionActivity extends AppCompatActivity {
     private TextView reward;
     private TextView date;
     private TextView status;
-    private TextView posterNickname;
+    private TextView posterEmail;
 
     private TextView rewardLabel;
     private TextView catLabel;
+    private TextView imgLabel;
+
+    private ImageView itemImg;
 
     private Geocoder geocoder;
 
     private String itemOwnerUid;
+    private String itemKey;
     private Item selected;
+
+    private final DatabaseReference imgRef = FirebaseDatabase.getInstance().getReference("pics");
+    private final String TAG = "ItemDescriptionActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_description);
 
+
         Intent intent = getIntent();
         geocoder = new Geocoder(this, Locale.getDefault());
 
         itemOwnerUid = intent.getStringExtra("itemOwnerUid");
+        itemKey = intent.getStringExtra("itemKey");
         Log.d("OWNER", itemOwnerUid);
 
         selected = intent.getParcelableExtra("selected");
 
+        loadImage(itemKey);
         /*
-        * sets all of the textViews that are specific to each object
+             sets all of the textViews that are specific to each object
          */
         name = (TextView) findViewById(R.id.item_name);
         description = (TextView) findViewById(R.id.item_description);
@@ -80,7 +98,10 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         date = (TextView) findViewById(R.id.item_post_date);
         reward = (TextView) findViewById(R.id.item_reward);
         rewardLabel = (TextView) findViewById(R.id.item_rew);
-        posterNickname = (TextView) findViewById(R.id.item_owner_name);
+        posterEmail = (TextView) findViewById(R.id.item_owner_name);
+        imgLabel = (TextView) findViewById(R.id.item_img_label);
+        itemImg = (ImageView) findViewById(R.id.item_image_optional);
+
 
         if (selected != null) {
             setPosterName(itemOwnerUid);
@@ -107,6 +128,12 @@ public class ItemDescriptionActivity extends AppCompatActivity {
                 rewardLabel.setVisibility(View.INVISIBLE);
                 category.setVisibility(View.GONE);
                 catLabel.setVisibility(View.GONE);
+            } else {
+                type.setText(selected.getType().toString());
+                reward.setVisibility(View.INVISIBLE);
+                rewardLabel.setVisibility(View.INVISIBLE);
+                category.setVisibility(View.GONE);
+                catLabel.setVisibility(View.GONE);
             }
 
             List<Address> addresses = null;
@@ -127,10 +154,37 @@ public class ItemDescriptionActivity extends AppCompatActivity {
 
         }
 
+        posterEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String[] receiverEmail = {posterEmail.getText().toString()};
+                final String msgSubj = "Where's My Stuff- Regarding Item: " + name.getText().toString();
+
+
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setData(Uri.parse("mailto:"));
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, receiverEmail);
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, msgSubj);
+
+                emailIntent.setType("message/rfc822");
+
+                try {
+                    startActivity(Intent.createChooser(emailIntent, "Choose an email client..."));
+                    //finish();
+                    Log.i(TAG, "Email sending in progress...");
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(ItemDescriptionActivity.this,
+                            "There is no email client installed.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
     }
 
     /**
      * Returns the string of the location
+     *
      * @param address the lat long coordinates
      * @return the location in string form
      */
@@ -152,6 +206,7 @@ public class ItemDescriptionActivity extends AppCompatActivity {
 
     /**
      * sets the name with the poster's
+     *
      * @param uid uid of the user
      */
     private void setPosterName(String uid) {
@@ -160,7 +215,8 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                posterNickname.setText((String) dataSnapshot.getValue());
+                posterEmail.setText((String) dataSnapshot.getValue());
+                posterEmail.setPaintFlags(name.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             }
 
             @Override
@@ -170,5 +226,52 @@ public class ItemDescriptionActivity extends AppCompatActivity {
         });
 
     }
+
+    /**
+     * Loads the image of the item from Firebase.
+     *
+     * @param itemKey item push key in the database
+     */
+    private void loadImage(String itemKey) {
+        imgRef.child(itemKey).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    Bitmap bm = convertStringtoBitmap(dataSnapshot.getValue().toString());
+                    itemImg.setImageBitmap(bm);
+                    imgLabel.setVisibility(View.VISIBLE);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    Log.i(TAG, "No Image to upload");
+                    imgLabel.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    /**
+     * Given an encoded string of an image, it converts it to a Bitmap object.
+     *
+     * @param encodedStr encoded string of an image
+     * @return Bitmap form of the image
+     */
+    private Bitmap convertStringtoBitmap(String encodedStr) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedStr, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
 
 }

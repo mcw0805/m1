@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Controller.Splash_Screen"
+            android:name=".Controller.SplashScreen"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +34,7 @@
         </activity>
         <activity android:name=".Controller.RegistrationActivity" />
         <activity android:name=".Controller.LogInActivity"
-                  android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
+                  android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".Controller.ProfileActivity"
             android:windowSoftInputMode="adjustNothing" />
@@ -45,10 +45,6 @@
         <activity android:name=".Controller.ItemListViewActivity"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".Controller.ItemDescriptionActivity" />
-        <activity
-            android:name=".Controller.FoundItemListActivity"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".Controller.FoundItemDescription" />
 
         <activity android:name=".Controller.AdminFunctionality.AdminDashboard" />
         <activity android:name=".Controller.AdminFunctionality.ActiveUserListActivity" />

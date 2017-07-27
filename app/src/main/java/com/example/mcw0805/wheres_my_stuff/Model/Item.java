@@ -26,6 +26,7 @@ public class Item implements Parcelable {
     protected ItemCategory category;
     protected String uid;
     protected boolean isOpen;
+    protected String itemKey;
     protected static final ItemType type = ItemType.DONATION;
 
     /**
@@ -271,6 +272,24 @@ public class Item implements Parcelable {
     }
 
     /**
+     * Sets the item pushkey.
+     *
+     * @param itemKey item pushkey in the database
+     */
+    public void setItemKey(String itemKey) {
+        this.itemKey = itemKey;
+    }
+
+    /**
+     * Gets the item pushkey.
+     *
+     * @return itemKey
+     */
+    public String getItemKey() {
+        return this.itemKey;
+    }
+
+    /**
      * Gets the default type for the Item object.
      *
      * @return type of the Item
@@ -352,7 +371,7 @@ public class Item implements Parcelable {
                 ((LostItem) item).setReward(ds.getValue(LostItem.class).getReward());
             }
 
-            itemUserMap.put(itemList.size(), itemUser);
+            itemUserMap.put(itemList.size(), pushKey);
             itemList.add(item);
 
         }

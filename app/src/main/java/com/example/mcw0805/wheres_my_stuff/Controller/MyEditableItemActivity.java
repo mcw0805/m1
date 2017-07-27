@@ -3,16 +3,22 @@ package com.example.mcw0805.wheres_my_stuff.Controller;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -29,11 +35,23 @@ import com.example.mcw0805.wheres_my_stuff.Model.NeededItem;
 import com.example.mcw0805.wheres_my_stuff.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 
+/**
+ * Controller class for updating my uploaded items on the application.
+ * <p>
+ * Features include editing name, description, status, category, and reward.
+ * One can also delete this chosen item.
+ *
+ * @author Chaewon Min
+ */
 public class MyEditableItemActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView myItemName;
@@ -55,6 +73,9 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
     private ToggleButton editItemToggleBtn;
 
     private Button deleteBtn;
+    private Button uploadImgBtn;
+
+    private ImageView uploadedImg;
 
     private ViewSwitcher nameViewSwitcher;
     private ViewSwitcher descViewSwitcher;
@@ -76,9 +97,10 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
     private FirebaseUser currUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private boolean isAuthListenerSet = false;
-    private String currUserUID;
 
     private DatabaseReference itemsRef;
+    private static final int GALLERY_INTENT = 2;
+    private final DatabaseReference imgRef = FirebaseDatabase.getInstance().getReference("pics");
 
     private static final String TAG = "MyEditableItemActivity";
 
@@ -105,8 +127,6 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         };
 
         currUser = mAuth.getCurrentUser();
-        currUserUID = currUser.getUid();
-
 
         nameViewSwitcher = (ViewSwitcher) findViewById(R.id.my_item_name_viewSwitcher);
         descViewSwitcher = (ViewSwitcher) findViewById(R.id.my_item_description_viewSwitcher);
@@ -142,6 +162,12 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         deleteBtn.setOnClickListener(this);
         deleteBtn.setVisibility(View.GONE);
 
+        uploadImgBtn = (Button) findViewById(R.id.uploadImgBtn);
+        uploadImgBtn.setOnClickListener(this);
+        uploadImgBtn.setVisibility(View.GONE);
+
+        uploadedImg = (ImageView) findViewById(R.id.uploadedImg);
+
         rewardLinLayout = (LinearLayout) findViewById(R.id.reward_lin_layout);
 
         progressDialog = new ProgressDialog(this);
@@ -150,7 +176,7 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
 
         selected = intent.getParcelableExtra("selected");
         itemKey = intent.getStringExtra("userItemPushKey");
-
+        loadImage(itemKey);
 
         if (selected instanceof LostItem) {
             itemsRef = LostItem.getLostItemsRef().child(itemKey);
@@ -203,8 +229,8 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                 final String newItemDesc = itemDescEdit.getText().toString();
                 final String newItemCat = itemCatSpinner.getSelectedItem().toString();
                 final boolean newStat = itemStatSwitch.isChecked();
-                final String newItemReward = lostItemRewardEdit.getText().
-                        toString(); //Integer.parseInt(lostItemRewardEdit.getText().toString());
+                final String newItemReward = lostItemRewardEdit.getText()
+                        .toString(); //Integer.parseInt(lostItemRewardEdit.getText().toString());
 
                 if (isChecked) { //edit mode is on
                     nameViewSwitcher.showPrevious();
@@ -213,6 +239,7 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                     itemStatSwitch.setVisibility(View.VISIBLE);
                     itemCatSpinner.setSelection(ItemCategory.valueOf(myItemCat.getText().toString()).ordinal());
                     deleteBtn.setVisibility(View.VISIBLE);
+                    uploadImgBtn.setVisibility(View.VISIBLE);
 
                     if (selected instanceof LostItem) {
                         rewardViewSwitcher.showPrevious();
@@ -225,6 +252,7 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                     catViewSwitcher.showNext();
                     itemStatSwitch.setVisibility(View.INVISIBLE);
                     deleteBtn.setVisibility(View.GONE);
+                    uploadImgBtn.setVisibility(View.GONE);
 
                     if (selected instanceof LostItem) {
                         rewardViewSwitcher.showNext();
@@ -325,13 +353,49 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
             alert11.show();
 
         }
+
+        if (v == uploadImgBtn) {
+            Intent uploadIntent = new Intent(Intent.ACTION_GET_CONTENT);
+            uploadIntent.setType("image/*");
+            startActivityForResult(uploadIntent, GALLERY_INTENT);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
+            Uri uri = data.getData();
+            try {
+                //getting image from gallery
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+
+                //Setting image to ImageView
+                final int THUMBNAIL_SIZE = 256;
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                imgRef.child(itemKey).setValue(imageString);
+
+                //decode base64 string to image
+                imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                uploadedImg.setImageBitmap(decodedImage);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
-     * Deletes the item from the database
+     * Deletes the item from the database.
      */
     private void delete() {
-        //DatabaseReference itemsRef = null;
         progressDialog.setMessage("Please wait until your item is removed...");
         progressDialog.show();
 
@@ -360,8 +424,9 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
     }
 
     /**
-     * resets the item values
-     * @param changeTo what to change it to
+     * Resets the item values
+     *
+     * @param changeTo  what to change it to
      * @param fieldName what to change
      */
     private void resetFields(final String changeTo, final String fieldName) {
@@ -382,7 +447,51 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
 
         }
 
+    }
+
+    /**
+     * Loads the image of the item from Firebase.
+     *
+     * @param itemKey item push key in the database
+     */
+    private void loadImage(String itemKey) {
+        imgRef.child(itemKey).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    Bitmap bm = convertStringtoBitmap(dataSnapshot.getValue().toString());
+                    uploadedImg.setImageBitmap(bm);
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    Log.i(TAG, "No Image to upload");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
     }
+
+    /**
+     * Given an encoded string of an image, it converts it to a Bitmap object.
+     *
+     * @param encodedStr encoded string of an image
+     * @return Bitmap form of the image
+     */
+    private Bitmap convertStringtoBitmap(String encodedStr) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedStr, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
+
 }

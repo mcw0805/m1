@@ -6,12 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.mcw0805.wheres_my_stuff.R;
 
-public class Splash_Screen extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash__screen);
+        setContentView(R.layout.activity_splash_screen);
         Thread myThread = new Thread() {
             @Override
             public void run() {
