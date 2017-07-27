@@ -74,6 +74,7 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
 
     private Button deleteBtn;
     private Button uploadImgBtn;
+    private Button takePicBtn;
 
     private ImageView uploadedImg;
 
@@ -99,8 +100,10 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
     private boolean isAuthListenerSet = false;
 
     private DatabaseReference itemsRef;
-    private static final int GALLERY_INTENT = 2;
     private final DatabaseReference imgRef = FirebaseDatabase.getInstance().getReference("pics");
+
+    private static final int CAMERA_REQUEST = 1;
+    private static final int GALLERY_INTENT = 2;
 
     private static final String TAG = "MyEditableItemActivity";
 
@@ -165,6 +168,10 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
         uploadImgBtn = (Button) findViewById(R.id.uploadImgBtn);
         uploadImgBtn.setOnClickListener(this);
         uploadImgBtn.setVisibility(View.GONE);
+
+        takePicBtn = (Button) findViewById(R.id.takePicBtn);
+        takePicBtn.setOnClickListener(this);
+        takePicBtn.setVisibility(View.GONE);
 
         uploadedImg = (ImageView) findViewById(R.id.uploadedImg);
 
@@ -240,6 +247,7 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                     itemCatSpinner.setSelection(ItemCategory.valueOf(myItemCat.getText().toString()).ordinal());
                     deleteBtn.setVisibility(View.VISIBLE);
                     uploadImgBtn.setVisibility(View.VISIBLE);
+                    takePicBtn.setVisibility(View.VISIBLE);
 
                     if (selected instanceof LostItem) {
                         rewardViewSwitcher.showPrevious();
@@ -253,6 +261,7 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                     itemStatSwitch.setVisibility(View.INVISIBLE);
                     deleteBtn.setVisibility(View.GONE);
                     uploadImgBtn.setVisibility(View.GONE);
+                    takePicBtn.setVisibility(View.GONE);
 
                     if (selected instanceof LostItem) {
                         rewardViewSwitcher.showNext();
@@ -359,13 +368,18 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
             uploadIntent.setType("image/*");
             startActivityForResult(uploadIntent, GALLERY_INTENT);
         }
+
+        if (v == takePicBtn) {
+            Intent takePicIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            startActivityForResult(takePicIntent, CAMERA_REQUEST);
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
+        if (requestCode == GALLERY_INTENT  && resultCode == RESULT_OK) {
             Uri uri = data.getData();
             try {
                 //getting image from gallery
@@ -390,6 +404,29 @@ public class MyEditableItemActivity extends AppCompatActivity implements View.On
                 e.printStackTrace();
             }
         }
+
+        if (requestCode == CAMERA_REQUEST  && resultCode == RESULT_OK) {
+            try {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                imgRef.child(itemKey).setValue(imageString);
+
+                //decode base64 string to image
+                imageBytes = Base64.decode(imageString, Base64.DEFAULT);
+                Bitmap decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                uploadedImg.setImageBitmap(decodedImage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+
     }
 
     /**

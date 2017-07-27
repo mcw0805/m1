@@ -346,6 +346,12 @@
                 android:layout_height="wrap_content"
                 android:text="UPLOAD IMAGE"
                 />
+            <Button
+                android:id="@+id/takePicBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TAKE A PICTURE"
+                />
 
         </LinearLayout>
 
